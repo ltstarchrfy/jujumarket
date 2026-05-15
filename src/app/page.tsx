@@ -444,38 +444,16 @@ export default function AstuteApp() {
   const musicNodesRef = useRef<OscillatorNode[]>([]);
   const gainNodeRef = useRef<GainNode | null>(null);
 
-  // ─── Click Sound (raden.pw style — clean crisp "tik") ──────────────────────
+  // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
+  const clickAudioRef = useRef<HTMLAudioElement | null>(null);
   const playClickSound = useCallback(() => {
     try {
-      const ctx = audioContextRef.current || new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-      audioContextRef.current = ctx;
-      if (ctx.state === "suspended") ctx.resume();
-
-      // Main tone: triangle wave for clean, soft "tik"
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(900, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(450, ctx.currentTime + 0.035);
-      gain.gain.setValueAtTime(0.07, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.08);
-
-      // Sub click: tiny sine pop for body
-      const sub = ctx.createOscillator();
-      const subGain = ctx.createGain();
-      sub.connect(subGain);
-      subGain.connect(ctx.destination);
-      sub.type = "sine";
-      sub.frequency.setValueAtTime(220, ctx.currentTime);
-      sub.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.025);
-      subGain.gain.setValueAtTime(0.04, ctx.currentTime);
-      subGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-      sub.start(ctx.currentTime);
-      sub.stop(ctx.currentTime + 0.05);
+      if (!clickAudioRef.current) {
+        clickAudioRef.current = new Audio("/click.mp3");
+        clickAudioRef.current.volume = 0.4;
+      }
+      clickAudioRef.current.currentTime = 0;
+      clickAudioRef.current.play().catch(() => {});
     } catch {}
   }, []);
 
