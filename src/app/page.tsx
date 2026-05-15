@@ -268,7 +268,7 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
 // ─── Download Button ─────────────────────────────────────────────────────────
 
 function DownloadButton({ theme, icon, text, onClick, style }: {
-  theme: "blue" | "cyan" | "green" | "purple" | "amber" | "red";
+  theme: "blue" | "cyan" | "green" | "purple" | "amber" | "red" | "seller";
   icon: React.ReactNode; text: string; onClick: () => void; style?: React.CSSProperties;
 }) {
   const gradients: Record<string, React.CSSProperties> = {
@@ -278,6 +278,7 @@ function DownloadButton({ theme, icon, text, onClick, style }: {
     purple: { background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 6px 24px rgba(168,85,247,0.2)" },
     amber: { background: "linear-gradient(135deg,#92400e,#f59e0b)", boxShadow: "0 6px 24px rgba(245,158,11,0.2)" },
     red: { background: "linear-gradient(135deg,#991b1b,#ef4444)", boxShadow: "0 6px 24px rgba(239,68,68,0.2)" },
+    seller: { background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)", boxShadow: "0 6px 24px rgba(37,99,235,0.3)" },
   };
 
   return (
@@ -889,9 +890,9 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="blue" icon={<Download className="w-5 h-5" />} text="DOWNLOAD APK v53" onClick={() => handleDownload("ASTUTE OB53 APK")} />
-            <DownloadButton theme="blue" icon={<FileArchive className="w-5 h-5" />} text="DOWNLOAD OBB DATA" onClick={() => handleDownload("ASTUTE OB53 OBB")}
-              style={{ background: "linear-gradient(135deg,#1e3a5f,#2563eb)", boxShadow: "0 6px 24px rgba(37,99,235,0.2)" }} />
+            <DownloadButton theme="seller" icon={<Download className="w-5 h-5" />} text="FF ASTUTE 64 BIT" onClick={() => handleDownload("FF ASTUTE 64 BIT")} />
+            <DownloadButton theme="seller" icon={<Download className="w-5 h-5" />} text="FF ASTUTE 32 BIT" onClick={() => handleDownload("FF ASTUTE 32 BIT")} />
+            <DownloadButton theme="seller" icon={<FileArchive className="w-5 h-5" />} text="JSON ASTUTE" onClick={() => handleDownload("JSON ASTUTE")} />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
@@ -930,7 +931,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="cyan" icon={<Download className="w-5 h-5" />} text="DOWNLOAD PANEL v2.4" onClick={() => handleDownload("Panel ASTUTE")} />
+            <DownloadButton theme="seller" icon={<Download className="w-5 h-5" />} text="DOWNLOAD PANEL v2.4" onClick={() => handleDownload("Panel ASTUTE")} />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
@@ -969,7 +970,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="green" icon={<Download className="w-5 h-5" />} text="DOWNLOAD VERIF TOOL" onClick={() => handleDownload("Verif Manual Tool")} />
+            <DownloadButton theme="seller" icon={<Download className="w-5 h-5" />} text="DOWNLOAD VERIF TOOL" onClick={() => handleDownload("Verif Manual Tool")} />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
@@ -1008,7 +1009,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="purple" icon={<DiscordIcon className="w-5 h-5" />} text="JOIN DISCORD" onClick={() => handleDownload("Discord Invite")} />
+            <DownloadButton theme="seller" icon={<DiscordIcon className="w-5 h-5" />} text="JOIN DISCORD" onClick={() => handleDownload("Discord Invite")} />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
@@ -1047,7 +1048,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="amber" icon={<PlayCircle className="w-5 h-5" />} text="TONTON TUTORIAL" onClick={() => handleDownload("Video Tutorial")} />
+            <DownloadButton theme="seller" icon={<PlayCircle className="w-5 h-5" />} text="TONTON TUTORIAL" onClick={() => handleDownload("Video Tutorial")} />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
