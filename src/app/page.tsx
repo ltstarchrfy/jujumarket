@@ -1070,7 +1070,7 @@ export default function AstuteApp() {
           </Reveal>
           <Reveal delay={280}>
             <div className="flex flex-col gap-3 mb-8">
-              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB 53" desc="Main APK" highlight newBadge onClick={() => goPage("download")} />
+              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB 53" desc="Main APK" newBadge onClick={() => goPage("download")} />
               <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
             </div>
