@@ -11,9 +11,7 @@ import {
   ArrowLeft,
   Download,
   FileArchive,
-  ChevronRight,
   X,
-  Menu,
   AlertTriangle,
   Info,
 } from "lucide-react";
@@ -59,8 +57,7 @@ function ParticleCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let w = 0,
-      h = 0;
+    let w = 0, h = 0;
 
     function resize() {
       if (!canvas) return;
@@ -110,22 +107,8 @@ function ParticleCanvas() {
       if (p.type === 0) {
         ctx.beginPath();
         ctx.moveTo(0, -p.size);
-        ctx.bezierCurveTo(
-          p.size * 0.8,
-          -p.size * 0.5,
-          p.size * 0.8,
-          p.size * 0.5,
-          0,
-          p.size
-        );
-        ctx.bezierCurveTo(
-          -p.size * 0.8,
-          p.size * 0.5,
-          -p.size * 0.8,
-          -p.size * 0.5,
-          0,
-          -p.size
-        );
+        ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.5, p.size * 0.8, p.size * 0.5, 0, p.size);
+        ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.8, -p.size * 0.5, 0, -p.size);
         ctx.fillStyle = `rgba(${p.color},1)`;
         ctx.fill();
       } else if (p.type === 1) {
@@ -137,22 +120,10 @@ function ParticleCanvas() {
         const s = p.size * 0.6;
         ctx.strokeStyle = `rgba(${p.color},1)`;
         ctx.lineWidth = 0.8;
-        ctx.beginPath();
-        ctx.moveTo(-s, 0);
-        ctx.lineTo(s, 0);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(0, -s);
-        ctx.lineTo(0, s);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(-s * 0.6, -s * 0.6);
-        ctx.lineTo(s * 0.6, s * 0.6);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(s * 0.6, -s * 0.6);
-        ctx.lineTo(-s * 0.6, s * 0.6);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(-s, 0); ctx.lineTo(s, 0); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, -s); ctx.lineTo(0, s); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(-s * 0.6, -s * 0.6); ctx.lineTo(s * 0.6, s * 0.6); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(s * 0.6, -s * 0.6); ctx.lineTo(-s * 0.6, s * 0.6); ctx.stroke();
       }
       ctx.globalAlpha = 1;
       ctx.restore();
@@ -163,19 +134,15 @@ function ParticleCanvas() {
       ctx.clearRect(0, 0, w, h);
       timeRef.current++;
       const t = timeRef.current;
-
       for (const p of particlesRef.current) {
         p.y += p.speedY;
-        p.x +=
-          p.speedX +
-          Math.sin(t * p.swaySpeed + p.swayOffset) * p.swayAmp * 0.3;
+        p.x += p.speedX + Math.sin(t * p.swaySpeed + p.swayOffset) * p.swayAmp * 0.3;
         p.rotation += p.rotSpeed;
         if (p.y > h + 20) Object.assign(p, createParticle(false));
         if (p.x < -20) p.x = w + 20;
         if (p.x > w + 20) p.x = -20;
         drawParticle(p, t);
       }
-
       animRef.current = requestAnimationFrame(loop);
     }
     loop();
@@ -186,21 +153,15 @@ function ParticleCanvas() {
     };
   }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 z-[1] pointer-events-none"
-      aria-hidden="true"
-    />
-  );
+  return <canvas ref={canvasRef} className="fixed inset-0 z-[1] pointer-events-none" aria-hidden="true" />;
 }
 
-// ─── Toast Component ─────────────────────────────────────────────────────────
+// ─── Toast ────────────────────────────────────────────────────────────────────
 
 function Toast({ message, visible }: { message: string; visible: boolean }) {
   return (
     <div
-      className={`fixed bottom-6 left-1/2 z-[200] font-mono text-xs font-bold px-5 py-2.5 rounded-xl border transition-all duration-500 ease-out pointer-events-none will-change-transform ${
+      className={`fixed bottom-6 left-1/2 z-[200] font-mono text-xs font-bold px-5 py-2.5 rounded-xl border pointer-events-none will-change-transform ${
         visible
           ? "translate-x-[-50%] translate-y-0 opacity-100"
           : "translate-x-[-50%] translate-y-20 opacity-0"
@@ -210,6 +171,7 @@ function Toast({ message, visible }: { message: string; visible: boolean }) {
         borderColor: "var(--ast-border2)",
         color: "var(--ast-blue-l)",
         boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+        transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.55s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
       ⬇ {message}
@@ -219,25 +181,14 @@ function Toast({ message, visible }: { message: string; visible: boolean }) {
 
 // ─── Status Bar ──────────────────────────────────────────────────────────────
 
-function StatusBar({
-  dotColor,
-  label,
-  value,
-  valueColor,
-  live = false,
-}: {
-  dotColor: string;
-  label: string;
-  value: string;
-  valueColor: string;
-  live?: boolean;
+function StatusBar({ dotColor, label, value, valueColor, live = false }: {
+  dotColor: string; label: string; value: string; valueColor: string; live?: boolean;
 }) {
   const dotStyles: Record<string, React.CSSProperties> = {
     green: { background: "var(--ast-green)", boxShadow: "0 0 8px rgba(34,197,94,0.5)" },
     blue: { background: "var(--ast-blue)", boxShadow: "0 0 6px rgba(37,99,235,0.4)" },
     cyan: { background: "var(--ast-cyan)", boxShadow: "0 0 6px rgba(34,211,238,0.3)" },
   };
-
   const valStyles: Record<string, React.CSSProperties> = {
     green: { color: "var(--ast-green)" },
     blue: { color: "var(--ast-blue-l)" },
@@ -246,76 +197,45 @@ function StatusBar({
 
   return (
     <div
-      className={`flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-[14px] border transition-all ${
+      className={`flex items-center justify-center gap-2.5 py-3 px-5 rounded-2xl border ${
         live ? "animate-[bar-blink_2s_ease-in-out_infinite]" : ""
       }`}
       style={{
         background: "var(--ast-bar-bg)",
-        borderColor: live
-          ? "rgba(34,197,94,0.1)"
-          : "var(--ast-border)",
+        borderColor: live ? "rgba(34,197,94,0.1)" : "var(--ast-border)",
+        transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
-      <span
-        className="w-[7px] h-[7px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]"
-        style={dotStyles[dotColor]}
-      />
-      <span
-        className="text-[11px] font-semibold tracking-wider"
-        style={{ color: "var(--ast-gray)" }}
-      >
-        {label}
-      </span>
-      <span className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>
-        ·
-      </span>
-      <span
-        className="font-mono text-xs font-bold tracking-wide"
-        style={valStyles[valueColor]}
-      >
-        {value}
-      </span>
+      <span className="w-[7px] h-[7px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={dotStyles[dotColor]} />
+      <span className="text-[11px] font-semibold tracking-wider" style={{ color: "var(--ast-gray)" }}>{label}</span>
+      <span className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>·</span>
+      <span className="font-mono text-xs font-bold tracking-wide" style={valStyles[valueColor]}>{value}</span>
     </div>
   );
 }
 
-// ─── App Bar (Menu Item) ─────────────────────────────────────────────────────
+// ─── App Bar ─────────────────────────────────────────────────────────────────
 
-function AppBar({
-  icon,
-  text,
-  desc,
-  highlight = false,
-  newBadge = false,
-  onClick,
-}: {
-  icon: React.ReactNode;
-  text: string;
-  desc: string;
-  highlight?: boolean;
-  newBadge?: boolean;
-  onClick: () => void;
+function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick }: {
+  icon: React.ReactNode; text: string; desc: string; highlight?: boolean; newBadge?: boolean; onClick: () => void;
 }) {
   return (
     <button
       onClick={onClick}
       type="button"
-      className={`flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-[14px] border cursor-pointer transition-all duration-300 hover:border-[rgba(37,99,235,0.12)] active:scale-[0.99] text-left w-full ${
-        highlight
-          ? "bg-[rgba(37,99,235,0.04)] border-[rgba(37,99,235,0.1)]"
-          : ""
+      className={`flex items-center justify-center gap-2.5 py-3.5 px-5 rounded-2xl border text-left w-full group ${
+        highlight ? "bg-[rgba(37,99,235,0.04)] border-[rgba(37,99,235,0.1)]" : ""
       }`}
       style={{
         background: highlight ? undefined : "var(--ast-bar-bg)",
         borderColor: highlight ? undefined : "var(--ast-border)",
+        transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
-      <span className="shrink-0 flex items-center justify-center w-[22px] [&_svg]:opacity-80 [&_svg]:text-white">
+      <span className="shrink-0 flex items-center justify-center w-[22px] [&_svg]:opacity-80 [&_svg]:text-white group-hover:scale-110" style={{ transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
         {icon}
       </span>
-      <span
-        className={`text-xs font-bold tracking-wide ${highlight ? "text-[var(--ast-blue-b)]" : "text-white"}`}
-      >
+      <span className={`text-xs font-bold tracking-wide ${highlight ? "text-[var(--ast-blue-b)]" : "text-white"}`}>
         {text}
         {newBadge && (
           <span className="font-mono text-[7px] font-bold bg-gradient-to-br from-[#1d4ed8] to-[#2563eb] text-white px-1.5 py-[1px] rounded-[3px] ml-1 tracking-wider shadow-[0_0_8px_rgba(37,99,235,0.2)]">
@@ -323,68 +243,43 @@ function AppBar({
           </span>
         )}
       </span>
-      <span className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>
-        ·
-      </span>
-      <span
-        className="text-[10px] font-medium"
-        style={{ color: "var(--ast-gray)" }}
-      >
-        {desc}
-      </span>
+      <span className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>·</span>
+      <span className="text-[10px] font-medium" style={{ color: "var(--ast-gray)" }}>{desc}</span>
     </button>
   );
 }
 
 // ─── Download Button ─────────────────────────────────────────────────────────
 
-function DownloadButton({
-  theme,
-  icon,
-  text,
-  onClick,
-  style,
-}: {
+function DownloadButton({ theme, icon, text, onClick, style }: {
   theme: "blue" | "cyan" | "green" | "purple" | "amber" | "red";
-  icon: React.ReactNode;
-  text: string;
-  onClick: () => void;
-  style?: React.CSSProperties;
+  icon: React.ReactNode; text: string; onClick: () => void; style?: React.CSSProperties;
 }) {
   const gradients: Record<string, React.CSSProperties> = {
-    blue: {
-      background: "linear-gradient(135deg,#1d4ed8,#3b82f6)",
-      boxShadow: "0 6px 24px rgba(37,99,235,0.25)",
-    },
-    cyan: {
-      background: "linear-gradient(135deg,#0e7490,#22d3ee)",
-      boxShadow: "0 6px 24px rgba(34,211,238,0.2)",
-    },
-    green: {
-      background: "linear-gradient(135deg,#15803d,#22c55e)",
-      boxShadow: "0 6px 24px rgba(34,197,94,0.2)",
-    },
-    purple: {
-      background: "linear-gradient(135deg,#7c3aed,#a855f7)",
-      boxShadow: "0 6px 24px rgba(168,85,247,0.2)",
-    },
-    amber: {
-      background: "linear-gradient(135deg,#92400e,#f59e0b)",
-      boxShadow: "0 6px 24px rgba(245,158,11,0.2)",
-    },
-    red: {
-      background: "linear-gradient(135deg,#991b1b,#ef4444)",
-      boxShadow: "0 6px 24px rgba(239,68,68,0.2)",
-    },
+    blue: { background: "linear-gradient(135deg,#1d4ed8,#3b82f6)", boxShadow: "0 6px 24px rgba(37,99,235,0.25)" },
+    cyan: { background: "linear-gradient(135deg,#0e7490,#22d3ee)", boxShadow: "0 6px 24px rgba(34,211,238,0.2)" },
+    green: { background: "linear-gradient(135deg,#15803d,#22c55e)", boxShadow: "0 6px 24px rgba(34,197,94,0.2)" },
+    purple: { background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 6px 24px rgba(168,85,247,0.2)" },
+    amber: { background: "linear-gradient(135deg,#92400e,#f59e0b)", boxShadow: "0 6px 24px rgba(245,158,11,0.2)" },
+    red: { background: "linear-gradient(135deg,#991b1b,#ef4444)", boxShadow: "0 6px 24px rgba(239,68,68,0.2)" },
   };
 
   return (
     <button
       onClick={onClick}
-      className="relative flex items-center justify-center gap-2.5 w-full py-[18px] rounded-[14px] border-none text-white cursor-pointer font-['Plus_Jakarta_Sans'] text-[15px] font-extrabold mb-2.5 transition-all duration-350 hover:-translate-y-[3px] active:translate-y-0 active:scale-[0.98] overflow-hidden will-change-transform group"
-      style={{ ...gradients[theme], ...style }}
+      className="relative flex items-center justify-center gap-2.5 w-full py-[18px] rounded-2xl border-none text-white cursor-pointer font-['Plus_Jakarta_Sans'] text-[15px] font-extrabold overflow-hidden will-change-transform group"
+      style={{
+        ...gradients[theme],
+        ...style,
+        transition: "transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s cubic-bezier(0.16,1,0.3,1)",
+        marginBottom: "12px",
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; }}
+      onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(0) scale(0.98)"; }}
+      onMouseUp={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; }}
     >
-      <span className="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-left duration-600 group-hover:left-full" />
+      <span className="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/15 to-transparent" style={{ transition: "left 0.6s cubic-bezier(0.16,1,0.3,1)" }} />
       {icon}
       {text}
     </button>
@@ -393,16 +288,8 @@ function DownloadButton({
 
 // ─── Feature Item ────────────────────────────────────────────────────────────
 
-function FeatureItem({
-  num,
-  theme,
-  title,
-  desc,
-}: {
-  num: string;
-  theme: string;
-  title: string;
-  desc: string;
+function FeatureItem({ num, theme, title, desc }: {
+  num: string; theme: string; title: string; desc: string;
 }) {
   const colorMap: Record<string, { bg: string; color: string }> = {
     blue: { bg: "rgba(37,99,235,0.08)", color: "var(--ast-blue-l)" },
@@ -415,11 +302,11 @@ function FeatureItem({
   const c = colorMap[theme] || colorMap.blue;
 
   return (
-    <div className="flex items-start gap-3 py-3 border-b border-[var(--ast-border)] last:border-b-0 hover:pl-1 transition-all">
-      <div
-        className="w-7 h-7 rounded-lg flex items-center justify-center font-mono text-[11px] font-bold shrink-0"
-        style={{ background: c.bg, color: c.color }}
-      >
+    <div className="flex items-start gap-3 py-4 border-b border-[var(--ast-border)] last:border-b-0" style={{ transition: "padding-left 0.3s cubic-bezier(0.16,1,0.3,1)" }}
+      onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "4px"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "0"; }}
+    >
+      <div className="w-7 h-7 rounded-lg flex items-center justify-center font-mono text-[11px] font-bold shrink-0" style={{ background: c.bg, color: c.color }}>
         {num}
       </div>
       <div className="text-xs leading-relaxed" style={{ color: "var(--ast-gray)" }}>
@@ -429,25 +316,22 @@ function FeatureItem({
   );
 }
 
-// ─── Reveal on Scroll Wrapper ────────────────────────────────────────────────
+// ─── Reveal ──────────────────────────────────────────────────────────────────
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const [visible, setVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), delay + 60);
+    const timer = setTimeout(() => setVisible(true), delay + 80);
     return () => clearTimeout(timer);
   }, [delay]);
 
   return (
     <div
-      ref={ref}
-      className="transition-all duration-[650ms] ease-out will-change-transform"
+      className="will-change-transform"
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(14px)",
-        transitionDelay: `${delay}ms`,
+        transform: visible ? "translateY(0)" : "translateY(20px)",
+        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
       }}
     >
       {children}
@@ -457,16 +341,8 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 
 // ─── Page Wrapper ────────────────────────────────────────────────────────────
 
-function PageWrapper({
-  pageName,
-  currentPage,
-  entering,
-  children,
-}: {
-  pageName: PageName;
-  currentPage: PageName;
-  entering: boolean;
-  children: React.ReactNode;
+function PageWrapper({ pageName, currentPage, children }: {
+  pageName: PageName; currentPage: PageName; children: React.ReactNode;
 }) {
   const active = pageName === currentPage;
 
@@ -474,7 +350,11 @@ function PageWrapper({
 
   return (
     <div
-      className="max-w-[480px] mx-auto px-4 pt-[72px] pb-[60px] transition-all duration-500 ease-out will-change-transform animate-[pageSlideIn_0.5s_ease-out_forwards]"
+      className="max-w-[480px] mx-auto px-4 pb-24"
+      style={{
+        paddingTop: "80px",
+        animation: "pageSlideIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards",
+      }}
     >
       {children}
     </div>
@@ -485,7 +365,6 @@ function PageWrapper({
 
 export default function AstuteApp() {
   const [currentPage, setCurrentPage] = useState<PageName>("home");
-  const [entering, setEntering] = useState(true);
   const [panelOpen, setPanelOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
@@ -497,16 +376,14 @@ export default function AstuteApp() {
   useEffect(() => {
     function updateClock() {
       const n = new Date();
-      setClock(
-        `${String(n.getHours()).padStart(2, "0")}:${String(n.getMinutes()).padStart(2, "0")}:${String(n.getSeconds()).padStart(2, "0")}`
-      );
+      setClock(`${String(n.getHours()).padStart(2, "0")}:${String(n.getMinutes()).padStart(2, "0")}:${String(n.getSeconds()).padStart(2, "0")}`);
     }
     updateClock();
     const iv = setInterval(updateClock, 1000);
     return () => clearInterval(iv);
   }, []);
 
-  // Simulated download counter
+  // Download counter
   useEffect(() => {
     let mounted = true;
     function tick() {
@@ -519,21 +396,13 @@ export default function AstuteApp() {
       }, delay);
     }
     tick();
-    return () => {
-      mounted = false;
-    };
+    return () => { mounted = false; };
   }, []);
 
-  // Page navigation
+  // Page navigation - smooth
   const goPage = useCallback((name: PageName) => {
-    setEntering(false);
-    setTimeout(() => {
-      setCurrentPage(name);
-      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-      requestAnimationFrame(() => {
-        setEntering(true);
-      });
-    }, 350);
+    setCurrentPage(name);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   // Toast
@@ -544,13 +413,10 @@ export default function AstuteApp() {
     toastTimerRef.current = setTimeout(() => setToastVisible(false), 2400);
   }, []);
 
-  const handleDownload = useCallback(
-    (name: string) => {
-      showToast(`Preparing: ${name}...`);
-      setDownloadCount((c) => c + Math.floor(Math.random() * 3) + 1);
-    },
-    [showToast]
-  );
+  const handleDownload = useCallback((name: string) => {
+    showToast(`Preparing: ${name}...`);
+    setDownloadCount((c) => c + Math.floor(Math.random() * 3) + 1);
+  }, [showToast]);
 
   const togglePanel = useCallback(() => {
     setPanelOpen((p) => !p);
@@ -558,48 +424,13 @@ export default function AstuteApp() {
 
   const formattedCount = downloadCount.toLocaleString("en-US");
 
-  const panelLinks: {
-    name: PageName;
-    icon: React.ReactNode;
-    title: string;
-    desc: string;
-  }[] = [
-    {
-      name: "download",
-      icon: <Flame className="w-6 h-6" />,
-      title: "ASTUTE OB 53",
-      desc: "Download main APK",
-    },
-    {
-      name: "panel",
-      icon: <Settings className="w-6 h-6" />,
-      title: "PANEL ASTUTE",
-      desc: "Control panel & config",
-    },
-    {
-      name: "verif",
-      icon: <ShieldCheck className="w-6 h-6" />,
-      title: "VERIF MANUAL",
-      desc: "Bypass verification",
-    },
-    {
-      name: "discord",
-      icon: <MessageCircle className="w-6 h-6" />,
-      title: "DISCORD SERVER",
-      desc: "Community & support",
-    },
-    {
-      name: "tutorial",
-      icon: <PlayCircle className="w-6 h-6" />,
-      title: "VIDEO TUTORIAL",
-      desc: "Step by step guide",
-    },
-    {
-      name: "changelog",
-      icon: <FileText className="w-6 h-6" />,
-      title: "CHANGELOG",
-      desc: "Update history",
-    },
+  const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
+    { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB 53", desc: "Download main APK" },
+    { name: "panel", icon: <Settings className="w-6 h-6" />, title: "PANEL ASTUTE", desc: "Control panel & config" },
+    { name: "verif", icon: <ShieldCheck className="w-6 h-6" />, title: "VERIF MANUAL", desc: "Bypass verification" },
+    { name: "discord", icon: <MessageCircle className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
+    { name: "tutorial", icon: <PlayCircle className="w-6 h-6" />, title: "VIDEO TUTORIAL", desc: "Step by step guide" },
+    { name: "changelog", icon: <FileText className="w-6 h-6" />, title: "CHANGELOG", desc: "Update history" },
   ];
 
   return (
@@ -609,9 +440,10 @@ export default function AstuteApp() {
         fontFamily: "'Plus Jakarta Sans', sans-serif",
         background: "var(--ast-bg)",
         color: "var(--ast-white)",
+        WebkitOverflowScrolling: "touch",
       }}
     >
-      {/* CSS Variables & Animations */}
+      {/* ─── CSS Variables & Animations ────────────────────────────── */}
       <style>{`
         :root {
           --ast-bg: #050810;
@@ -651,87 +483,67 @@ export default function AstuteApp() {
           0%, 100% { transform: translateX(-50%) translateY(0); }
           50% { transform: translateX(-50%) translateY(20px); }
         }
-        @keyframes counter-pulse {
-          0% { transform: scale(1); }
-          40% { transform: scale(1.18); color: var(--ast-blue-b); text-shadow: 0 0 10px rgba(96,165,250,0.4); }
-          100% { transform: scale(1); }
-        }
         @keyframes pageSlideIn {
-          0% { opacity: 0; transform: translateX(30px); }
+          0% { opacity: 0; transform: translateX(40px); }
           100% { opacity: 1; transform: translateX(0); }
         }
-        html { scroll-behavior: smooth; }
+        html {
+          scroll-behavior: smooth;
+        }
         body { -webkit-font-smoothing: antialiased; }
         ::selection { background: var(--ast-blue); color: #fff; }
+        /* Smooth scrollbar */
         ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-track { background: var(--ast-bg); }
         ::-webkit-scrollbar-thumb { background: var(--ast-bg4); border-radius: 2px; }
+        /* Sidebar smooth scroll */
+        .side-panel-scroll {
+          -webkit-overflow-scrolling: touch;
+          scroll-behavior: smooth;
+        }
+        .side-panel-scroll::-webkit-scrollbar { width: 2px; }
+        .side-panel-scroll::-webkit-scrollbar-track { background: transparent; }
+        .side-panel-scroll::-webkit-scrollbar-thumb { background: rgba(37,99,235,0.1); border-radius: 2px; }
       `}</style>
 
-      {/* Background Effects */}
+      {/* ─── Background Effects ──────────────────────────────────── */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Grid */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(37,99,235,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.02) 1px,transparent 1px)",
-            backgroundSize: "44px 44px",
-          }}
-        />
-        {/* Orb 1 */}
-        <div
-          className="absolute rounded-full"
-          style={{
-            width: 500,
-            height: 500,
-            background:
-              "radial-gradient(circle,rgba(29,78,216,0.1),transparent 65%)",
-            top: "-25%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            filter: "blur(140px)",
-            opacity: 0.4,
-            animation: "orb-float 28s ease-in-out infinite",
-          }}
-        />
-        {/* Orb 2 */}
-        <div
-          className="absolute rounded-full"
-          style={{
-            width: 300,
-            height: 300,
-            background:
-              "radial-gradient(circle,rgba(34,211,238,0.04),transparent 65%)",
-            bottom: "5%",
-            right: "-5%",
-            filter: "blur(140px)",
-            opacity: 0.4,
-            animation: "orb-float 22s ease-in-out infinite reverse",
-          }}
-        />
+        <div className="absolute inset-0" style={{
+          backgroundImage: "linear-gradient(rgba(37,99,235,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.02) 1px,transparent 1px)",
+          backgroundSize: "44px 44px",
+        }} />
+        <div className="absolute rounded-full" style={{
+          width: 500, height: 500,
+          background: "radial-gradient(circle,rgba(29,78,216,0.1),transparent 65%)",
+          top: "-25%", left: "50%", transform: "translateX(-50%)",
+          filter: "blur(140px)", opacity: 0.4,
+          animation: "orb-float 28s ease-in-out infinite",
+        }} />
+        <div className="absolute rounded-full" style={{
+          width: 300, height: 300,
+          background: "radial-gradient(circle,rgba(34,211,238,0.04),transparent 65%)",
+          bottom: "5%", right: "-5%",
+          filter: "blur(140px)", opacity: 0.4,
+          animation: "orb-float 22s ease-in-out infinite reverse",
+        }} />
       </div>
 
-      {/* Particle Canvas */}
       <ParticleCanvas />
 
-      {/* ─── Topbar ──────────────────────────────────────────────────── */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-b"
+      {/* ═══ TOPBAR — Sticky with Glass Blur ══════════════════════════ */}
+      <header
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3"
         style={{
-          background: "rgba(5,8,16,0.6)",
-          backdropFilter: "blur(30px) saturate(1.5)",
-          WebkitBackdropFilter: "blur(30px) saturate(1.5)",
-          borderColor: "var(--ast-border)",
+          background: "rgba(5,8,16,0.72)",
+          backdropFilter: "blur(40px) saturate(1.8)",
+          WebkitBackdropFilter: "blur(40px) saturate(1.8)",
+          borderBottom: "1px solid var(--ast-border)",
+          transition: "background 0.4s cubic-bezier(0.16,1,0.3,1), backdrop-filter 0.4s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
         <div className="flex items-center gap-2.5">
-          <div
-            className="w-[34px] h-[34px] rounded-[10px] flex items-center justify-center"
-            style={{
-              background: "linear-gradient(135deg,var(--ast-blue-d),var(--ast-blue))",
-              boxShadow: "0 2px 12px rgba(37,99,235,0.25)",
-            }}
-          >
+          <div className="w-[34px] h-[34px] rounded-[10px] flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg,var(--ast-blue-d),var(--ast-blue))", boxShadow: "0 2px 12px rgba(37,99,235,0.25)" }}>
             <Flame className="w-[19px] h-[19px] text-white" />
           </div>
           <div className="text-[13px] font-bold">
@@ -739,15 +551,11 @@ export default function AstuteApp() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <a
-            href="https://wa.me/6281234567890"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-[38px] h-[38px] rounded-[11px] flex items-center justify-center transition-all duration-300 hover:-translate-y-[1px]"
+          <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"
+            className="w-[38px] h-[38px] rounded-[11px] flex items-center justify-center"
             style={{
-              background: "rgba(37,211,102,0.06)",
-              border: "1px solid rgba(37,211,102,0.12)",
-              color: "var(--ast-wa)",
+              background: "rgba(37,211,102,0.06)", border: "1px solid rgba(37,211,102,0.12)", color: "var(--ast-wa)",
+              transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
             }}
             title="WhatsApp Saluran"
           >
@@ -757,84 +565,78 @@ export default function AstuteApp() {
           </a>
           <button
             onClick={togglePanel}
-            className="w-[38px] h-[38px] rounded-[11px] flex flex-col items-center justify-center gap-[4.5px] cursor-pointer transition-all duration-300"
+            className="w-[38px] h-[38px] rounded-[11px] flex flex-col items-center justify-center gap-[4.5px] cursor-pointer"
             style={{
-              background: "var(--ast-bg3)",
-              border: "1px solid var(--ast-border)",
+              background: "var(--ast-bg3)", border: "1px solid var(--ast-border)",
+              transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
             }}
             aria-label="Toggle menu"
           >
-            <span
-              className="block w-[17px] h-[1.5px] rounded-[2px] transition-all duration-400 origin-center"
+            <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
               style={{
                 background: "var(--ast-blue-l)",
-                transform: panelOpen
-                  ? "translateY(6px) rotate(45deg)"
-                  : "none",
+                transform: panelOpen ? "translateY(6px) rotate(45deg)" : "none",
+                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
               }}
             />
-            <span
-              className="block w-[17px] h-[1.5px] rounded-[2px] transition-all duration-400 origin-center"
+            <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
               style={{
                 background: "var(--ast-blue-l)",
                 opacity: panelOpen ? 0 : 1,
                 transform: panelOpen ? "scaleX(0)" : "none",
+                transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
               }}
             />
-            <span
-              className="block w-[17px] h-[1.5px] rounded-[2px] transition-all duration-400 origin-center"
+            <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
               style={{
                 background: "var(--ast-blue-l)",
-                transform: panelOpen
-                  ? "translateY(-6px) rotate(-45deg)"
-                  : "none",
+                transform: panelOpen ? "translateY(-6px) rotate(-45deg)" : "none",
+                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
               }}
             />
           </button>
         </div>
       </header>
 
-      {/* ─── Panel Overlay ───────────────────────────────────────────── */}
+      {/* ═══ PANEL OVERLAY — Ultra Smooth ═══════════════════════════ */}
       <div
-        className={`fixed inset-0 z-[90] transition-all duration-550 ease-out ${
-          panelOpen ? "visible" : "invisible"
-        }`}
+        className="fixed inset-0 z-[90]"
         style={{
-          background: panelOpen ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0)",
-          backdropFilter: panelOpen ? "blur(20px)" : "blur(0px)",
-          WebkitBackdropFilter: panelOpen ? "blur(20px)" : "blur(0px)",
+          background: panelOpen ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0)",
+          backdropFilter: panelOpen ? "blur(24px)" : "blur(0px)",
+          WebkitBackdropFilter: panelOpen ? "blur(24px)" : "blur(0px)",
+          visibility: panelOpen ? "visible" : "hidden",
+          transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)",
+          pointerEvents: panelOpen ? "auto" : "none",
         }}
         onClick={togglePanel}
       />
 
-      {/* ─── Side Panel ──────────────────────────────────────────────── */}
+      {/* ═══ SIDE PANEL — Ultra Smooth ═════════════════════════════ */}
       <nav
         onClick={(e) => e.stopPropagation()}
-        className="fixed top-0 right-0 z-[100] w-[78%] max-w-[320px] h-full flex flex-col overflow-y-auto transition-transform duration-550 ease-out"
+        className="fixed top-0 right-0 z-[100] w-[78%] max-w-[320px] h-full flex flex-col side-panel-scroll"
         style={{
-          background: "rgba(10,15,28,0.6)",
-          backdropFilter: "blur(60px) saturate(2)",
-          WebkitBackdropFilter: "blur(60px) saturate(2)",
+          background: "rgba(10,15,28,0.65)",
+          backdropFilter: "blur(60px) saturate(2.2)",
+          WebkitBackdropFilter: "blur(60px) saturate(2.2)",
           borderLeft: "1px solid rgba(37,99,235,0.05)",
-          boxShadow: "-16px 0 60px rgba(0,0,0,0.4)",
+          boxShadow: panelOpen ? "-16px 0 60px rgba(0,0,0,0.5)" : "-16px 0 0px rgba(0,0,0,0)",
           transform: panelOpen ? "translateX(0)" : "translateX(100%)",
-          transitionTimingFunction: "cubic-bezier(0.32,0.72,0,1)",
+          transition: "transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s cubic-bezier(0.16,1,0.3,1)",
+          willChange: "transform",
+          overflowY: "auto",
         }}
       >
-        <div
-          className="p-6 pb-5 border-b flex items-center justify-between"
-          style={{ borderColor: "var(--ast-border)" }}
-        >
+        <div className="p-6 pb-5 border-b flex items-center justify-between" style={{ borderColor: "var(--ast-border)" }}>
           <h2 className="text-[17px] font-extrabold">
             <span style={{ color: "var(--ast-blue-l)" }}>ASTUTE</span> Menu
           </h2>
-          <button
-            onClick={togglePanel}
-            className="w-[30px] h-[30px] rounded-full flex items-center justify-center cursor-pointer transition-all hover:bg-[var(--ast-bg4)]"
+          <button onClick={togglePanel}
+            className="w-[30px] h-[30px] rounded-full flex items-center justify-center cursor-pointer"
             style={{
-              background: "var(--ast-bg3)",
-              border: "1px solid var(--ast-border)",
-              color: "var(--ast-gray)",
+              background: "var(--ast-bg3)", border: "1px solid var(--ast-border)", color: "var(--ast-gray)",
+              transition: "all 0.3s cubic-bezier(0.16,1,0.3,1)",
             }}
           >
             <X className="w-3.5 h-3.5" />
@@ -842,301 +644,141 @@ export default function AstuteApp() {
         </div>
 
         <div className="p-3 flex-1">
-          {panelLinks.map((link) => (
+          {panelLinks.map((link, i) => (
             <button
               key={link.name}
-              onClick={() => {
-                goPage(link.name);
-                togglePanel();
+              onClick={() => { goPage(link.name); togglePanel(); }}
+              className="flex items-center gap-3.5 py-[14px] px-4 rounded-2xl text-white text-left w-full mb-1 cursor-pointer"
+              style={{
+                transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                transitionDelay: panelOpen ? `${i * 40}ms` : "0ms",
+                transform: panelOpen ? "translateX(0)" : "translateX(30px)",
+                opacity: panelOpen ? 1 : 0,
               }}
-              className="flex items-center gap-3.5 py-[13px] px-3.5 rounded-[14px] text-white text-left w-full transition-all duration-250 mb-[2px] hover:bg-[rgba(37,99,235,0.04)] active:bg-[rgba(37,99,235,0.07)] active:scale-[0.98] cursor-pointer"
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(37,99,235,0.05)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
             >
               <span className="shrink-0 flex items-center justify-center w-7 [&_svg]:text-white [&_svg]:opacity-85">
                 {link.icon}
               </span>
               <div>
                 <div className="text-sm font-bold">{link.title}</div>
-                <div className="text-[11px] mt-[1px]" style={{ color: "var(--ast-gray)" }}>
-                  {link.desc}
-                </div>
+                <div className="text-[11px] mt-[1px]" style={{ color: "var(--ast-gray)" }}>{link.desc}</div>
               </div>
             </button>
           ))}
         </div>
 
-        <div
-          className="p-5 border-t text-center shrink-0"
-          style={{ borderColor: "var(--ast-border)" }}
-        >
-          <div
-            className="font-mono text-[10px] tracking-[0.1em]"
-            style={{ color: "var(--ast-gray2)" }}
-          >
+        <div className="p-5 border-t text-center shrink-0" style={{ borderColor: "var(--ast-border)" }}>
+          <div className="font-mono text-[10px] tracking-[0.1em]" style={{ color: "var(--ast-gray2)" }}>
             ASTUTE v53.0 · BUILD 2025
           </div>
           <div className="inline-flex items-center gap-1.5 mt-2.5 px-3.5 py-[5px] rounded-full border font-mono text-[9px] font-bold tracking-[0.1em]"
-            style={{
-              background: "rgba(34,197,94,0.06)",
-              borderColor: "rgba(34,197,94,0.12)",
-              color: "var(--ast-green)",
-            }}
-          >
-            <span
-              className="w-[5px] h-[5px] rounded-full animate-[dot-blink_1.5s_ease-in-out_infinite]"
-              style={{
-                background: "var(--ast-green)",
-                boxShadow: "0 0 4px var(--ast-green)",
-              }}
-            />
+            style={{ background: "rgba(34,197,94,0.06)", borderColor: "rgba(34,197,94,0.12)", color: "var(--ast-green)" }}>
+            <span className="w-[5px] h-[5px] rounded-full animate-[dot-blink_1.5s_ease-in-out_infinite]"
+              style={{ background: "var(--ast-green)", boxShadow: "0 0 4px var(--ast-green)" }} />
             ALL SYSTEMS ONLINE
           </div>
         </div>
       </nav>
 
-      {/* ─── Page Content ────────────────────────────────────────────── */}
-      <main className="relative z-[2] min-h-screen">
+      {/* ═══ PAGE CONTENT ═══════════════════════════════════════════ */}
+      <main className="relative z-[2] min-h-screen" style={{ WebkitOverflowScrolling: "touch" }}>
 
         {/* ═══ HOME PAGE ═══ */}
-        <PageWrapper pageName="home" currentPage={currentPage} entering={entering}>
-          {/* Profile */}
+        <PageWrapper pageName="home" currentPage={currentPage}>
           <Reveal>
-            <div className="text-center pt-6">
-              <div className="relative inline-block mb-[18px]">
-                <div
-                  className="w-[92px] h-[92px] rounded-full overflow-hidden relative"
-                  style={{
-                    border: "3px solid rgba(37,99,235,0.2)",
-                    boxShadow:
-                      "0 0 0 3px rgba(37,99,235,0.06),0 0 25px rgba(37,99,235,0.1),0 8px 30px rgba(0,0,0,0.4)",
-                  }}
-                >
-                  <img
-                    src="https://picsum.photos/seed/astute-avatar/184/184"
-                    alt="JUJU SELLER"
-                    className="w-full h-full object-cover block"
-                  />
+            <div className="text-center pt-4">
+              <div className="relative inline-block mb-5">
+                <div className="w-[92px] h-[92px] rounded-full overflow-hidden relative"
+                  style={{ border: "3px solid rgba(37,99,235,0.2)", boxShadow: "0 0 0 3px rgba(37,99,235,0.06),0 0 25px rgba(37,99,235,0.1),0 8px 30px rgba(0,0,0,0.4)" }}>
+                  <img src="https://picsum.photos/seed/astute-avatar/184/184" alt="JUJU SELLER" className="w-full h-full object-cover block" />
                 </div>
-                {/* Spinning ring */}
-                <div
-                  className="absolute rounded-full"
-                  style={{
-                    inset: -7,
-                    border: "2px solid transparent",
-                    borderTopColor: "var(--ast-blue)",
-                    borderRightColor: "var(--ast-cyan)",
-                    animation: "spin 5s linear infinite",
-                    filter: "drop-shadow(0 0 3px rgba(37,99,235,0.2))",
-                  }}
-                />
-                {/* Online dot */}
-                <div
-                  className="absolute bottom-[2px] right-[2px] w-4 h-4 rounded-full z-[2] animate-[dot-blink_1.5s_ease-in-out_infinite]"
-                  style={{
-                    background: "var(--ast-green)",
-                    border: "3px solid var(--ast-bg)",
-                    boxShadow: "0 0 8px rgba(34,197,94,0.5)",
-                  }}
-                />
+                <div className="absolute rounded-full" style={{
+                  inset: -7, border: "2px solid transparent", borderTopColor: "var(--ast-blue)", borderRightColor: "var(--ast-cyan)",
+                  animation: "spin 5s linear infinite", filter: "drop-shadow(0 0 3px rgba(37,99,235,0.2))",
+                }} />
+                <div className="absolute bottom-[2px] right-[2px] w-4 h-4 rounded-full z-[2] animate-[dot-blink_1.5s_ease-in-out_infinite]"
+                  style={{ background: "var(--ast-green)", border: "3px solid var(--ast-bg)", boxShadow: "0 0 8px rgba(34,197,94,0.5)" }} />
               </div>
               <h1 className="text-[22px] font-extrabold tracking-tight mb-1">
                 JUJU <span style={{ color: "var(--ast-blue-l)" }}>SELLER</span>
               </h1>
-              <div
-                className="font-mono text-xs font-bold tracking-wider inline-block mb-2"
-                style={{ color: "var(--ast-blue-l)" }}
-              >
-                FFASTUTECH OB 53
-              </div>
-              <p
-                className="text-[13px] leading-relaxed max-w-[320px] mx-auto"
-                style={{ color: "var(--ast-gray)" }}
-              >
-                Cara download, install, dan setup proxy server free terbaru —
-                work 100%
+              <div className="font-mono text-xs font-bold tracking-wider inline-block mb-2" style={{ color: "var(--ast-blue-l)" }}>FFASTUTECH OB 53</div>
+              <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+                Cara download, install, dan setup proxy server free terbaru — work 100%
               </p>
             </div>
           </Reveal>
 
-          {/* Status Bars */}
           <Reveal delay={70}>
-            <div className="flex flex-col gap-1.5 my-5">
-              <StatusBar
-                dotColor="green"
-                label="STATUS"
-                value="ONLINE"
-                valueColor="green"
-                live
-              />
-              <StatusBar
-                dotColor="blue"
-                label="BERHASIL DOWNLOAD"
-                value={formattedCount}
-                valueColor="blue"
-              />
-              <StatusBar
-                dotColor="cyan"
-                label="SERVER REGION"
-                value="ASIA"
-                valueColor="cyan"
-              />
+            <div className="flex flex-col gap-2.5 my-6">
+              <StatusBar dotColor="green" label="STATUS" value="ONLINE" valueColor="green" live />
+              <StatusBar dotColor="blue" label="BERHASIL DOWNLOAD" value={formattedCount} valueColor="blue" />
+              <StatusBar dotColor="cyan" label="SERVER REGION" value="ASIA" valueColor="cyan" />
             </div>
           </Reveal>
 
-          {/* Clock */}
           <Reveal delay={140}>
-            <div
-              className="flex items-center gap-1.5 font-mono text-[11px] justify-center mb-6"
-              style={{ color: "var(--ast-gray)" }}
-            >
-              <span
-                className="w-1 h-1 rounded-full animate-[dot-blink_2s_ease-in-out_infinite]"
-                style={{
-                  background: "var(--ast-blue)",
-                  boxShadow: "0 0 5px var(--ast-blue)",
-                }}
-              />
+            <div className="flex items-center gap-1.5 font-mono text-[11px] justify-center mb-7" style={{ color: "var(--ast-gray)" }}>
+              <span className="w-1 h-1 rounded-full animate-[dot-blink_2s_ease-in-out_infinite]"
+                style={{ background: "var(--ast-blue)", boxShadow: "0 0 5px var(--ast-blue)" }} />
               {clock}
             </div>
           </Reveal>
 
-          {/* Divider */}
-          <div
-            className="h-px my-[18px]"
-            style={{
-              background:
-                "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)",
-            }}
-          />
+          <div className="h-px my-6" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
 
-          {/* Download Section */}
           <Reveal delay={210}>
-            <div className="flex items-center gap-[7px] mb-2 px-[2px]">
+            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
               <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
-              <span
-                className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase"
-                style={{ color: "var(--ast-gray)" }}
-              >
-                Download
-              </span>
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Download</span>
             </div>
           </Reveal>
           <Reveal delay={280}>
-            <div className="flex flex-col gap-1.5 mb-[18px]">
-              <AppBar
-                icon={<Flame className="w-[18px] h-[18px]" />}
-                text="ASTUTE OB 53"
-                desc="Main APK"
-                highlight
-                newBadge
-                onClick={() => goPage("download")}
-              />
-              <AppBar
-                icon={<Settings className="w-[18px] h-[18px]" />}
-                text="PANEL ASTUTE"
-                desc="Control panel"
-                onClick={() => goPage("panel")}
-              />
-              <AppBar
-                icon={<ShieldCheck className="w-[18px] h-[18px]" />}
-                text="VERIF MANUAL"
-                desc="Bypass verif"
-                onClick={() => goPage("verif")}
-              />
+            <div className="flex flex-col gap-2.5 mb-6">
+              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB 53" desc="Main APK" highlight newBadge onClick={() => goPage("download")} />
+              <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
+              <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
             </div>
           </Reveal>
 
-          {/* Community Section */}
           <Reveal delay={350}>
-            <div className="flex items-center gap-[7px] mb-2 px-[2px]">
+            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
               <MessageCircle className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
-              <span
-                className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase"
-                style={{ color: "var(--ast-gray)" }}
-              >
-                Community
-              </span>
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Community</span>
             </div>
           </Reveal>
           <Reveal delay={420}>
-            <div className="flex flex-col gap-1.5">
-              <AppBar
-                icon={<MessageCircle className="w-[18px] h-[18px]" />}
-                text="DISCORD SERVER"
-                desc="Community"
-                onClick={() => goPage("discord")}
-              />
-              <AppBar
-                icon={<PlayCircle className="w-[18px] h-[18px]" />}
-                text="VIDEO TUTORIAL"
-                desc="Step by step"
-                onClick={() => goPage("tutorial")}
-              />
+            <div className="flex flex-col gap-2.5">
+              <AppBar icon={<MessageCircle className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
+              <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
             </div>
           </Reveal>
 
-          {/* Divider */}
-          <div
-            className="h-px my-[18px]"
-            style={{
-              background:
-                "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)",
-            }}
-          />
+          <div className="h-px my-6" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
 
-          {/* Info Box */}
           <Reveal delay={490}>
-            <div
-              className="rounded-[14px] p-[18px] mb-[18px] relative overflow-hidden border"
-              style={{
-                background: "var(--ast-bg2)",
-                borderColor: "var(--ast-border)",
-              }}
-            >
-              <div
-                className="absolute top-0 left-0 right-0 h-[2px]"
-                style={{
-                  background:
-                    "linear-gradient(90deg,var(--ast-blue-d),var(--ast-blue),var(--ast-cyan))",
-                  opacity: 0.35,
-                }}
-              />
-              <h3
-                className="text-[13px] font-bold mb-3 flex items-center gap-[7px]"
-                style={{ color: "var(--ast-blue-l)" }}
-              >
-                <Info className="w-4 h-4" />
-                Cara Install &amp; Setup
+            <div className="rounded-2xl p-5 mb-6 relative overflow-hidden border"
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]"
+                style={{ background: "linear-gradient(90deg,var(--ast-blue-d),var(--ast-blue),var(--ast-cyan))", opacity: 0.35 }} />
+              <h3 className="text-[13px] font-bold mb-3 flex items-center gap-[7px]" style={{ color: "var(--ast-blue-l)" }}>
+                <Info className="w-4 h-4" /> Cara Install &amp; Setup
               </h3>
-              <ol
-                className="pl-4 text-xs leading-[2] list-decimal"
-                style={{ color: "var(--ast-gray)" }}
-              >
-                <li>
-                  Download file <strong className="text-white font-semibold">ASTUTE OB 53</strong> di atas
-                </li>
-                <li>
-                  Install <strong className="text-white font-semibold">Panel ASTUTE</strong> terlebih dahulu
-                </li>
-                <li>
-                  Buka panel, lakukan <strong className="text-white font-semibold">Verif Manual</strong>
-                </li>
-                <li>
-                  Set proxy sesuai tutorial di <strong className="text-white font-semibold">Discord</strong>
-                </li>
-                <li>
-                  Jalankan game — <strong className="text-white font-semibold">done!</strong>
-                </li>
+              <ol className="pl-4 text-xs leading-[2.2] list-decimal" style={{ color: "var(--ast-gray)" }}>
+                <li>Download file <strong className="text-white font-semibold">ASTUTE OB 53</strong> di atas</li>
+                <li>Install <strong className="text-white font-semibold">Panel ASTUTE</strong> terlebih dahulu</li>
+                <li>Buka panel, lakukan <strong className="text-white font-semibold">Verif Manual</strong></li>
+                <li>Set proxy sesuai tutorial di <strong className="text-white font-semibold">Discord</strong></li>
+                <li>Jalankan game — <strong className="text-white font-semibold">done!</strong></li>
               </ol>
             </div>
           </Reveal>
 
-          {/* Footer */}
           <Reveal delay={560}>
             <div className="text-center pt-5">
-              <div
-                className="font-mono text-[10px] font-bold tracking-wider mb-2 flex items-center justify-center gap-[5px]"
-                style={{ color: "var(--ast-blue-l)" }}
-              >
+              <div className="font-mono text-[10px] font-bold tracking-wider mb-2 flex items-center justify-center gap-[5px]" style={{ color: "var(--ast-blue-l)" }}>
                 <AlertTriangle className="w-[13px] h-[13px]" style={{ color: "var(--ast-cyan)" }} />
                 LIHAT TUTOR SAMPAI SELESAI
               </div>
@@ -1148,66 +790,39 @@ export default function AstuteApp() {
         </PageWrapper>
 
         {/* ═══ DOWNLOAD PAGE ═══ */}
-        <PageWrapper pageName="download" currentPage={currentPage} entering={entering}>
+        <PageWrapper pageName="download" currentPage={currentPage}>
           <Reveal>
-            <button
-              onClick={() => goPage("home")}
-              className="inline-flex items-center gap-2 py-2 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer mb-6 transition-all duration-250 hover:bg-[var(--ast-bg3)] hover:border-[var(--ast-border2)] hover:-translate-x-[3px] border"
-              style={{
-                background: "var(--ast-bg2)",
-                borderColor: "var(--ast-border)",
-              }}
-            >
+            <button onClick={() => goPage("home")} type="button"
+              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <ArrowLeft className="w-4 h-4" /> Kembali
             </button>
           </Reveal>
-
           <Reveal delay={70}>
-            <div className="text-center mb-7">
-              <div className="inline-flex items-center justify-center mb-[18px] w-[72px] h-[72px]">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <Flame className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">
-                ASTUTE <span style={{ color: "var(--ast-blue-l)" }}>OB 53</span>
-              </h2>
-              <p
-                className="text-[13px] leading-relaxed max-w-[340px] mx-auto"
-                style={{ color: "var(--ast-gray)" }}
-              >
+              <h2 className="text-[22px] font-extrabold mb-1.5">ASTUTE <span style={{ color: "var(--ast-blue-l)" }}>OB 53</span></h2>
+              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
               </p>
             </div>
           </Reveal>
-
           <Reveal delay={140}>
-            <div className="flex flex-col gap-1.5 mb-5">
+            <div className="flex flex-col gap-2.5 mb-6">
               <StatusBar dotColor="green" label="STATUS SERVER" value="ONLINE" valueColor="green" live />
               <StatusBar dotColor="blue" label="TOTAL DOWNLOAD" value={formattedCount} valueColor="blue" />
               <StatusBar dotColor="cyan" label="FILE SIZE" value="284 MB" valueColor="cyan" />
             </div>
           </Reveal>
-
           <Reveal delay={210}>
-            <DownloadButton
-              theme="blue"
-              icon={<Download className="w-5 h-5" />}
-              text="DOWNLOAD APK v53"
-              onClick={() => handleDownload("ASTUTE OB53 APK")}
-            />
-            <DownloadButton
-              theme="blue"
-              icon={<FileArchive className="w-5 h-5" />}
-              text="DOWNLOAD OBB DATA"
-              onClick={() => handleDownload("ASTUTE OB53 OBB")}
-              style={{
-                background: "linear-gradient(135deg,#1e3a5f,#2563eb)",
-                boxShadow: "0 6px 24px rgba(37,99,235,0.2)",
-              }}
-            />
+            <DownloadButton theme="blue" icon={<Download className="w-5 h-5" />} text="DOWNLOAD APK v53" onClick={() => handleDownload("ASTUTE OB53 APK")} />
+            <DownloadButton theme="blue" icon={<FileArchive className="w-5 h-5" />} text="DOWNLOAD OBB DATA" onClick={() => handleDownload("ASTUTE OB53 OBB")}
+              style={{ background: "linear-gradient(135deg,#1e3a5f,#2563eb)", boxShadow: "0 6px 24px rgba(37,99,235,0.2)" }} />
           </Reveal>
-
           <Reveal delay={280}>
-            <div className="mt-5">
+            <div className="mt-6">
               <FeatureItem num="01" theme="blue" title="Auto Update" desc="Otomatis update ke versi terbaru tanpa reinstall" />
               <FeatureItem num="02" theme="blue" title="Anti-Ban System" desc="Proteksi 3 layer agar akun tetap aman" />
               <FeatureItem num="03" theme="blue" title="All Skin Unlocked" desc="Semua skin dan bundle tersedia gratis" />
@@ -1217,49 +832,36 @@ export default function AstuteApp() {
         </PageWrapper>
 
         {/* ═══ PANEL PAGE ═══ */}
-        <PageWrapper pageName="panel" currentPage={currentPage} entering={entering}>
+        <PageWrapper pageName="panel" currentPage={currentPage}>
           <Reveal>
-            <button
-              onClick={() => goPage("home")}
-              className="inline-flex items-center gap-2 py-2 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer mb-6 transition-all duration-250 hover:bg-[var(--ast-bg3)] hover:border-[var(--ast-border2)] hover:-translate-x-[3px] border"
-              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}
-            >
+            <button onClick={() => goPage("home")} type="button"
+              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <ArrowLeft className="w-4 h-4" /> Kembali
             </button>
           </Reveal>
-
           <Reveal delay={70}>
-            <div className="text-center mb-7">
-              <div className="inline-flex items-center justify-center mb-[18px] w-[72px] h-[72px]">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <Settings className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">
-                PANEL <span style={{ color: "var(--ast-cyan)" }}>ASTUTE</span>
-              </h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5">PANEL <span style={{ color: "var(--ast-cyan)" }}>ASTUTE</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Control panel untuk konfigurasi server, proxy, dan manage fitur mod
               </p>
             </div>
           </Reveal>
-
           <Reveal delay={140}>
-            <div className="flex flex-col gap-1.5 mb-5">
+            <div className="flex flex-col gap-2.5 mb-6">
               <StatusBar dotColor="green" label="PANEL STATUS" value="ACTIVE" valueColor="green" live />
               <StatusBar dotColor="blue" label="VERSION" value="v2.4.1" valueColor="blue" />
             </div>
           </Reveal>
-
           <Reveal delay={210}>
-            <DownloadButton
-              theme="cyan"
-              icon={<Download className="w-5 h-5" />}
-              text="DOWNLOAD PANEL v2.4"
-              onClick={() => handleDownload("Panel ASTUTE")}
-            />
+            <DownloadButton theme="cyan" icon={<Download className="w-5 h-5" />} text="DOWNLOAD PANEL v2.4" onClick={() => handleDownload("Panel ASTUTE")} />
           </Reveal>
-
           <Reveal delay={280}>
-            <div className="mt-5">
+            <div className="mt-6">
               <FeatureItem num="01" theme="cyan" title="Proxy Manager" desc="Setup dan ganti proxy dalam 1 klik" />
               <FeatureItem num="02" theme="cyan" title="Config Editor" desc="Edit config server langsung dari app" />
               <FeatureItem num="03" theme="cyan" title="Auto Patch" desc="Patch otomatis saat ada update baru" />
@@ -1269,49 +871,36 @@ export default function AstuteApp() {
         </PageWrapper>
 
         {/* ═══ VERIF PAGE ═══ */}
-        <PageWrapper pageName="verif" currentPage={currentPage} entering={entering}>
+        <PageWrapper pageName="verif" currentPage={currentPage}>
           <Reveal>
-            <button
-              onClick={() => goPage("home")}
-              className="inline-flex items-center gap-2 py-2 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer mb-6 transition-all duration-250 hover:bg-[var(--ast-bg3)] hover:border-[var(--ast-border2)] hover:-translate-x-[3px] border"
-              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}
-            >
+            <button onClick={() => goPage("home")} type="button"
+              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <ArrowLeft className="w-4 h-4" /> Kembali
             </button>
           </Reveal>
-
           <Reveal delay={70}>
-            <div className="text-center mb-7">
-              <div className="inline-flex items-center justify-center mb-[18px] w-[72px] h-[72px]">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <ShieldCheck className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">
-                VERIF <span style={{ color: "var(--ast-green)" }}>MANUAL</span>
-              </h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5">VERIF <span style={{ color: "var(--ast-green)" }}>MANUAL</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Tool bypass verifikasi untuk mengaktifkan fitur premium tanpa limit
               </p>
             </div>
           </Reveal>
-
           <Reveal delay={140}>
-            <div className="flex flex-col gap-1.5 mb-5">
+            <div className="flex flex-col gap-2.5 mb-6">
               <StatusBar dotColor="green" label="VERIF STATUS" value="READY" valueColor="green" live />
               <StatusBar dotColor="blue" label="SUCCESS RATE" value="99.2%" valueColor="blue" />
             </div>
           </Reveal>
-
           <Reveal delay={210}>
-            <DownloadButton
-              theme="green"
-              icon={<Download className="w-5 h-5" />}
-              text="DOWNLOAD VERIF TOOL"
-              onClick={() => handleDownload("Verif Manual Tool")}
-            />
+            <DownloadButton theme="green" icon={<Download className="w-5 h-5" />} text="DOWNLOAD VERIF TOOL" onClick={() => handleDownload("Verif Manual Tool")} />
           </Reveal>
-
           <Reveal delay={280}>
-            <div className="mt-5">
+            <div className="mt-6">
               <FeatureItem num="01" theme="green" title="One-Click Bypass" desc="Verifikasi otomatis tanpa survey" />
               <FeatureItem num="02" theme="green" title="Device Spoofer" desc="Mask device ID agar tidak terdeteksi" />
               <FeatureItem num="03" theme="green" title="Token Generator" desc="Generate token akses premium" />
@@ -1321,49 +910,36 @@ export default function AstuteApp() {
         </PageWrapper>
 
         {/* ═══ DISCORD PAGE ═══ */}
-        <PageWrapper pageName="discord" currentPage={currentPage} entering={entering}>
+        <PageWrapper pageName="discord" currentPage={currentPage}>
           <Reveal>
-            <button
-              onClick={() => goPage("home")}
-              className="inline-flex items-center gap-2 py-2 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer mb-6 transition-all duration-250 hover:bg-[var(--ast-bg3)] hover:border-[var(--ast-border2)] hover:-translate-x-[3px] border"
-              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}
-            >
+            <button onClick={() => goPage("home")} type="button"
+              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <ArrowLeft className="w-4 h-4" /> Kembali
             </button>
           </Reveal>
-
           <Reveal delay={70}>
-            <div className="text-center mb-7">
-              <div className="inline-flex items-center justify-center mb-[18px] w-[72px] h-[72px]">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <MessageCircle className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">
-                DISCORD <span style={{ color: "var(--ast-purple)" }}>SERVER</span>
-              </h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5">DISCORD <span style={{ color: "var(--ast-purple)" }}>SERVER</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Join komunitas ASTUTE — dapatkan bantuan, info update, dan diskusi sesama player
               </p>
             </div>
           </Reveal>
-
           <Reveal delay={140}>
-            <div className="flex flex-col gap-1.5 mb-5">
+            <div className="flex flex-col gap-2.5 mb-6">
               <StatusBar dotColor="green" label="SERVER STATUS" value="ONLINE" valueColor="green" live />
               <StatusBar dotColor="blue" label="MEMBERS" value="1,247" valueColor="blue" />
             </div>
           </Reveal>
-
           <Reveal delay={210}>
-            <DownloadButton
-              theme="purple"
-              icon={<MessageCircle className="w-5 h-5" />}
-              text="JOIN DISCORD"
-              onClick={() => handleDownload("Discord Invite")}
-            />
+            <DownloadButton theme="purple" icon={<MessageCircle className="w-5 h-5" />} text="JOIN DISCORD" onClick={() => handleDownload("Discord Invite")} />
           </Reveal>
-
           <Reveal delay={280}>
-            <div className="mt-5">
+            <div className="mt-6">
               <FeatureItem num="01" theme="purple" title="24/7 Support" desc="Tim support siap bantu kapan saja" />
               <FeatureItem num="02" theme="purple" title="Announcements" desc="Info update dan event terbaru" />
               <FeatureItem num="03" theme="purple" title="Giveaway" desc="Giveaway akun dan item secara rutin" />
@@ -1373,49 +949,36 @@ export default function AstuteApp() {
         </PageWrapper>
 
         {/* ═══ TUTORIAL PAGE ═══ */}
-        <PageWrapper pageName="tutorial" currentPage={currentPage} entering={entering}>
+        <PageWrapper pageName="tutorial" currentPage={currentPage}>
           <Reveal>
-            <button
-              onClick={() => goPage("home")}
-              className="inline-flex items-center gap-2 py-2 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer mb-6 transition-all duration-250 hover:bg-[var(--ast-bg3)] hover:border-[var(--ast-border2)] hover:-translate-x-[3px] border"
-              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}
-            >
+            <button onClick={() => goPage("home")} type="button"
+              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <ArrowLeft className="w-4 h-4" /> Kembali
             </button>
           </Reveal>
-
           <Reveal delay={70}>
-            <div className="text-center mb-7">
-              <div className="inline-flex items-center justify-center mb-[18px] w-[72px] h-[72px]">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <PlayCircle className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">
-                VIDEO <span style={{ color: "var(--ast-amber)" }}>TUTORIAL</span>
-              </h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5">VIDEO <span style={{ color: "var(--ast-amber)" }}>TUTORIAL</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Panduan lengkap dari install sampai main — ikutin aja step by step
               </p>
             </div>
           </Reveal>
-
           <Reveal delay={140}>
-            <div className="flex flex-col gap-1.5 mb-5">
+            <div className="flex flex-col gap-2.5 mb-6">
               <StatusBar dotColor="green" label="GUIDE STATUS" value="UPDATED" valueColor="green" live />
               <StatusBar dotColor="blue" label="DURATION" value="12:34" valueColor="blue" />
             </div>
           </Reveal>
-
           <Reveal delay={210}>
-            <DownloadButton
-              theme="amber"
-              icon={<PlayCircle className="w-5 h-5" />}
-              text="TONTON TUTORIAL"
-              onClick={() => handleDownload("Video Tutorial")}
-            />
+            <DownloadButton theme="amber" icon={<PlayCircle className="w-5 h-5" />} text="TONTON TUTORIAL" onClick={() => handleDownload("Video Tutorial")} />
           </Reveal>
-
           <Reveal delay={280}>
-            <div className="mt-5">
+            <div className="mt-6">
               <FeatureItem num="01" theme="amber" title="Install Guide" desc="Cara install APK + OBB dengan benar" />
               <FeatureItem num="02" theme="amber" title="Proxy Setup" desc="Setting proxy agar server bisa connect" />
               <FeatureItem num="03" theme="amber" title="Verif Steps" desc="Tutorial verifikasi manual yang work" />
@@ -1425,40 +988,33 @@ export default function AstuteApp() {
         </PageWrapper>
 
         {/* ═══ CHANGELOG PAGE ═══ */}
-        <PageWrapper pageName="changelog" currentPage={currentPage} entering={entering}>
+        <PageWrapper pageName="changelog" currentPage={currentPage}>
           <Reveal>
-            <button
-              onClick={() => goPage("home")}
-              className="inline-flex items-center gap-2 py-2 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer mb-6 transition-all duration-250 hover:bg-[var(--ast-bg3)] hover:border-[var(--ast-border2)] hover:-translate-x-[3px] border"
-              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}
-            >
+            <button onClick={() => goPage("home")} type="button"
+              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <ArrowLeft className="w-4 h-4" /> Kembali
             </button>
           </Reveal>
-
           <Reveal delay={70}>
-            <div className="text-center mb-7">
-              <div className="inline-flex items-center justify-center mb-[18px] w-[72px] h-[72px]">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <FileText className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">
-                CHANGE<span style={{ color: "var(--ast-red)" }}>LOG</span>
-              </h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5">CHANGE<span style={{ color: "var(--ast-red)" }}>LOG</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Riwayat update dan patch notes setiap versi ASTUTE
               </p>
             </div>
           </Reveal>
-
           <Reveal delay={140}>
-            <div className="flex flex-col gap-1.5 mb-5">
+            <div className="flex flex-col gap-2.5 mb-6">
               <StatusBar dotColor="green" label="CURRENT VERSION" value="v53.0" valueColor="green" live />
               <StatusBar dotColor="blue" label="LAST UPDATED" value="JUN 2025" valueColor="blue" />
             </div>
           </Reveal>
-
           <Reveal delay={210}>
-            <div className="mt-5">
+            <div className="mt-6">
               <FeatureItem num="53" theme="red" title="v53.0 — Current" desc="OB 53 support, new anti-ban, skin pack update" />
               <FeatureItem num="52" theme="red" title="v52.1 — Hotfix" desc="Fix crash on Android 14, proxy stability" />
               <FeatureItem num="52" theme="red" title="v52.0 — Major" desc="OB 52 support, new UI panel, faster load" />
@@ -1469,7 +1025,6 @@ export default function AstuteApp() {
         </PageWrapper>
       </main>
 
-      {/* Toast */}
       <Toast message={toastMsg} visible={toastVisible} />
     </div>
   );
