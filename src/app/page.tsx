@@ -440,9 +440,7 @@ export default function AstuteApp() {
   const musicAutoStartedRef = useRef(false);
   const panelSwipeRef = useRef<{ startX: number; currentX: number; swiping: boolean }>({ startX: 0, currentX: 0, swiping: false });
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const musicNodesRef = useRef<OscillatorNode[]>([]);
-  const gainNodeRef = useRef<GainNode | null>(null);
+  const musicAudioRef = useRef<HTMLAudioElement | null>(null);
 
   // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
   const clickAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -457,87 +455,24 @@ export default function AstuteApp() {
     } catch {}
   }, []);
 
-  // ─── Ambient Music ──────────────────────────────────────────────────────────
+  // ─── Background Music (MP3) ─────────────────────────────────────────────────
   const startMusic = useCallback(() => {
     try {
-      const ctx = audioContextRef.current || new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-      audioContextRef.current = ctx;
-      if (ctx.state === "suspended") ctx.resume();
-
-      const masterGain = ctx.createGain();
-      masterGain.gain.setValueAtTime(0, ctx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 2);
-      masterGain.connect(ctx.destination);
-      gainNodeRef.current = masterGain;
-
-      const notes = [130.81, 146.83, 164.81, 174.61, 196.00, 220.00, 246.94];
-      const oscillators: OscillatorNode[] = [];
-
-      // Pad layer 1 — deep drone
-      const osc1 = ctx.createOscillator();
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(65.41, ctx.currentTime);
-      const g1 = ctx.createGain(); g1.gain.setValueAtTime(0.3, ctx.currentTime);
-      osc1.connect(g1); g1.connect(masterGain);
-      osc1.start();
-      oscillators.push(osc1);
-
-      // Pad layer 2 — gentle chord
-      [130.81, 196.00, 261.63].forEach((freq, i) => {
-        const osc = ctx.createOscillator();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
-        const g = ctx.createGain(); g.gain.setValueAtTime(0.12, ctx.currentTime);
-        osc.connect(g); g.connect(masterGain);
-        osc.start();
-        oscillators.push(osc);
-      });
-
-      // Pad layer 3 — slow LFO modulation for dreamy feel
-      const lfo = ctx.createOscillator();
-      lfo.type = "sine";
-      lfo.frequency.setValueAtTime(0.15, ctx.currentTime);
-      const lfoGain = ctx.createGain();
-      lfoGain.gain.setValueAtTime(8, ctx.currentTime);
-      lfo.connect(lfoGain);
-      lfoGain.connect(oscillators[1].frequency);
-      lfo.start();
-      oscillators.push(lfo);
-
-      // Melodic arpeggio layer — gentle random notes
-      function playArpNote() {
-        if (!gainNodeRef.current || gainNodeRef.current.gain.value === 0) return;
-        const freq = notes[Math.floor(Math.random() * notes.length)];
-        const osc = ctx.createOscillator();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
-        const g = ctx.createGain();
-        g.gain.setValueAtTime(0, ctx.currentTime);
-        g.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 0.3);
-        g.gain.linearRampToValueAtTime(0, ctx.currentTime + 2.5);
-        osc.connect(g); g.connect(masterGain);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + 3);
-        const next = Math.random() * 3000 + 2000;
-        setTimeout(playArpNote, next);
+      if (!musicAudioRef.current) {
+        musicAudioRef.current = new Audio("/music.mp3");
+        musicAudioRef.current.volume = 0.35;
+        musicAudioRef.current.loop = true;
       }
-      setTimeout(playArpNote, 1000);
-
-      musicNodesRef.current = oscillators;
+      musicAudioRef.current.play().catch(() => {});
       setMusicPlaying(true);
     } catch {}
   }, []);
 
   const stopMusic = useCallback(() => {
     try {
-      if (gainNodeRef.current) {
-        gainNodeRef.current.gain.linearRampToValueAtTime(0, (audioContextRef.current?.currentTime || 0) + 0.5);
+      if (musicAudioRef.current) {
+        musicAudioRef.current.pause();
       }
-      setTimeout(() => {
-        musicNodesRef.current.forEach(o => { try { o.stop(); } catch {} });
-        musicNodesRef.current = [];
-        gainNodeRef.current = null;
-      }, 600);
       setMusicPlaying(false);
     } catch {}
   }, []);
@@ -551,7 +486,7 @@ export default function AstuteApp() {
     }
   }, [musicPlaying, startMusic, stopMusic, playClickSound]);
 
-  // Auto-start ambient music on first user interaction
+  // Auto-start background music on first user interaction
   useEffect(() => {
     function onFirstInteraction() {
       if (musicAutoStartedRef.current) return;
