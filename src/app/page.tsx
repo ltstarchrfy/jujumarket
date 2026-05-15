@@ -767,9 +767,9 @@ export default function AstuteApp() {
           zIndex: 0,
         }} />
         <div className="flex items-center gap-2.5 relative z-[1]">
-          <div className="w-[38px] h-[38px] rounded-[11px] flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg,#0c1f4a,#1d4ed8,#2563eb)", boxShadow: "0 2px 16px rgba(37,99,235,0.35), inset 0 1px 0 rgba(96,165,250,0.15)" }}>
-            <Flame className="w-[20px] h-[20px] text-white" />
+          <div className="w-[38px] h-[38px] rounded-[11px] overflow-hidden p-[2px]"
+            style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)", boxShadow: "0 2px 16px rgba(37,99,235,0.35)" }}>
+            <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover rounded-[9px] block" />
           </div>
           <div className="flex flex-col">
             <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "var(--ast-gray)", lineHeight: 1.2 }}>JUJU</span>
@@ -930,16 +930,16 @@ export default function AstuteApp() {
           <Reveal>
             <div className="text-center pt-4">
               <div className="relative inline-block mb-5">
-                <div className="rounded-full p-[3px]" style={{
+                <div className="rounded-[22px] p-[3px]" style={{
                   background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
                   animation: "avatar-pulse 3s ease-in-out infinite",
                 }}>
-                  <div className="w-[92px] h-[92px] rounded-full overflow-hidden"
+                  <div className="w-[92px] h-[92px] rounded-[20px] overflow-hidden"
                     style={{ border: "2px solid var(--ast-bg)" }}>
-                    <img src="https://picsum.photos/seed/astute-avatar/184/184" alt="JUJU SELLER" className="w-full h-full object-cover block" />
+                    <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
                   </div>
                 </div>
-                <div className="absolute rounded-full" style={{
+                <div className="absolute rounded-[22px]" style={{
                   inset: -7, border: "2px solid transparent", borderTopColor: "var(--ast-blue)", borderRightColor: "var(--ast-cyan)",
                   animation: "spin 5s linear infinite", filter: "drop-shadow(0 0 3px rgba(37,99,235,0.2))",
                 }} />
