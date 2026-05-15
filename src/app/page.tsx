@@ -1149,9 +1149,13 @@ export default function AstuteApp() {
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <Flame className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5" style={{ color: "var(--ast-gray)" }}>ASTUTE <span style={{
-                color: "#6b7280",
-              }}>OB 53</span></h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5" style={{
+                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
+              }}>ASTUTE OB 53</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
               </p>
