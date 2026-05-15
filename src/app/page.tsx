@@ -216,17 +216,17 @@ function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, 
 
   return (
     <div
-      className="flex items-center justify-center gap-2.5 py-3 px-5 rounded-2xl border"
+      className="flex items-center justify-center gap-2.5 py-4 px-6 rounded-2xl border"
       style={{
         background: "var(--ast-bar-bg)",
         borderColor: live ? "rgba(34,197,94,0.1)" : "var(--ast-border)",
         transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
-      <span className={`${bigDot ? "w-[9px] h-[9px]" : "w-[7px] h-[7px]"} rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]`} style={dotStyles[dotColor]} />
-      <span className="text-[11px] font-semibold tracking-wider" style={{ color: "var(--ast-gray)" }}>{label}</span>
-      <span className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>·</span>
-      <span className="font-mono text-xs font-bold tracking-wide" style={valueGradient ? gradientStyle : valStyles[valueColor]}>{value}</span>
+      <span className={`${bigDot ? "w-[10px] h-[10px]" : "w-[8px] h-[8px]"} rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]`} style={dotStyles[dotColor]} />
+      <span className="text-[12px] font-semibold tracking-wider" style={{ color: "var(--ast-gray)" }}>{label}</span>
+      <span className="text-[11px]" style={{ color: "var(--ast-gray2)" }}>·</span>
+      <span className="font-mono text-[13px] font-bold tracking-wide" style={valueGradient ? gradientStyle : valStyles[valueColor]}>{value}</span>
     </div>
   );
 }
@@ -240,7 +240,7 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
     <button
       onClick={onClick}
       type="button"
-      className={`flex items-center gap-3 py-3.5 px-5 rounded-2xl border w-full group ${
+      className={`flex items-center gap-3 py-4 px-6 rounded-2xl border w-full group ${
         highlight ? "bg-[rgba(37,99,235,0.04)] border-[rgba(37,99,235,0.1)]" : ""
       }`}
       style={{
@@ -249,10 +249,10 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
         transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
-      <span className="shrink-0 flex items-center justify-center w-[22px] [&_svg]:opacity-80 [&_svg]:text-white group-hover:scale-110" style={{ transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+      <span className="shrink-0 flex items-center justify-center w-[24px] [&_svg]:opacity-80 [&_svg]:text-white group-hover:scale-110" style={{ transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
         {icon}
       </span>
-      <span className={`text-xs font-bold tracking-wide ${highlight ? "text-[var(--ast-blue-b)]" : ""}`}
+      <span className={`text-[13px] font-bold tracking-wide ${highlight ? "text-[var(--ast-blue-b)]" : ""}`}
         style={highlight ? undefined : { color: "var(--ast-gray)" }}>
         {text}
         {newBadge && (
@@ -262,7 +262,7 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
         )}
       </span>
       <span className="flex-1" />
-      <span className="text-[10px] font-medium" style={{ color: "var(--ast-gray)" }}>{desc}</span>
+      <span className="text-[11px] font-medium" style={{ color: "var(--ast-gray)" }}>{desc}</span>
     </button>
   );
 }
@@ -987,7 +987,7 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={70}>
-            <div className="flex flex-col gap-3 my-6">
+            <div className="flex flex-col gap-4 my-6">
               <StatusBar dotColor="green" label="STATUS" value="ONLINE" valueColor="green" live />
               <StatusBar dotColor="blue" label="BERHASIL DOWNLOAD" value={formattedCount} valueColor="blue" valueGradient bigDot />
             </div>
@@ -1008,7 +1008,7 @@ export default function AstuteApp() {
               <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
             </div>
-            <div className="flex flex-col gap-2.5 mb-5">
+            <div className="flex flex-col gap-3.5 mb-5">
               <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB 53" desc="Main APK" newBadge onClick={() => goPage("download")} />
               <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
@@ -1020,7 +1020,7 @@ export default function AstuteApp() {
               <DiscordIcon className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Community</span>
             </div>
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-3.5">
               <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
               <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
               <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
