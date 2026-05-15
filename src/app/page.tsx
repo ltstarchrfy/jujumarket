@@ -11,7 +11,6 @@ import {
   Download,
   FileArchive,
   X,
-  AlertTriangle,
   Info,
   ExternalLink,
 } from "lucide-react";
@@ -561,6 +560,10 @@ export default function AstuteApp() {
           0% { opacity: 0; transform: translateX(40px); }
           100% { opacity: 1; transform: translateX(0); }
         }
+        @keyframes marquee-scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
         html {
           scroll-behavior: smooth;
         }
@@ -653,7 +656,7 @@ export default function AstuteApp() {
           </div>
         </div>
         <div className="flex items-center gap-2 relative z-[1]">
-          <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"
+          <a href="https://whatsapp.com/channel/0029VbBxPsuDeONChEGz5D1Q" target="_blank" rel="noopener noreferrer"
             className="flex items-center gap-1.5 py-[5px] px-3 rounded-full"
             style={{
               background: "rgba(120,130,160,0.1)",
@@ -897,11 +900,21 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={560}>
-            <div className="text-center pt-5">
-              <div className="font-mono text-[10px] font-bold tracking-wider mb-2 flex items-center justify-center gap-[5px]" style={{ color: "var(--ast-blue-l)" }}>
-                <AlertTriangle className="w-[13px] h-[13px]" style={{ color: "var(--ast-cyan)" }} />
-                LIHAT TUTOR SAMPAI SELESAI
+            <div className="rounded-full py-2 px-4 overflow-hidden mb-4"
+              style={{
+                background: "rgba(120,130,160,0.1)",
+                border: "1px solid rgba(120,130,160,0.1)",
+              }}>
+              <div className="flex whitespace-nowrap" style={{
+                animation: "marquee-scroll 12s linear infinite",
+              }}>
+                <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff" }}>
+                  SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
               </div>
+            </div>
+            <div className="text-center pt-2">
               <div className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>
                 © 2025 <span style={{ color: "var(--ast-blue-l)", fontWeight: 600 }}>ASTUTE</span>
               </div>
@@ -923,7 +936,7 @@ export default function AstuteApp() {
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <Flame className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">ASTUTE <span style={{ color: "var(--ast-blue-l)" }}>OB 53</span></h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5">ASTUTE <span style={{ color: "var(--ast-cyan)" }}>OB 53</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
               </p>
