@@ -240,7 +240,7 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
     <button
       onClick={onClick}
       type="button"
-      className={`flex items-center justify-center gap-2.5 py-3.5 px-5 rounded-2xl border text-left w-full group ${
+      className={`flex items-center gap-3 py-3.5 px-5 rounded-2xl border w-full group ${
         highlight ? "bg-[rgba(37,99,235,0.04)] border-[rgba(37,99,235,0.1)]" : ""
       }`}
       style={{
@@ -261,7 +261,7 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
           </span>
         )}
       </span>
-      <span className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>·</span>
+      <span className="flex-1" />
       <span className="text-[10px] font-medium" style={{ color: "var(--ast-gray)" }}>{desc}</span>
     </button>
   );
@@ -987,54 +987,36 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={70}>
-            <div className="flex flex-col gap-4 my-6">
+            <div className="flex flex-col gap-3 my-6">
               <StatusBar dotColor="green" label="STATUS" value="ONLINE" valueColor="green" live />
               <StatusBar dotColor="blue" label="BERHASIL DOWNLOAD" value={formattedCount} valueColor="blue" valueGradient bigDot />
-              <StatusBar dotColor="cyan" label="SERVER REGION" value="INDONESIA" valueColor="cyan" valueGradient bigDot />
             </div>
           </Reveal>
 
           <Reveal delay={140}>
-            <div className="flex items-center gap-1.5 font-mono text-[11px] justify-center mb-7" style={{ color: "var(--ast-gray)" }}>
+            <div className="flex items-center gap-1.5 font-mono text-[11px] justify-center mb-4" style={{ color: "var(--ast-gray)" }}>
               <span className="w-1 h-1 rounded-full animate-[dot-blink_2s_ease-in-out_infinite]"
                 style={{ background: "var(--ast-blue)", boxShadow: "0 0 5px var(--ast-blue)" }} />
               {clock}
             </div>
           </Reveal>
 
-          <div className="h-px my-6" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
+          <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
 
           <Reveal delay={210}>
-            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
-              <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
-              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Download</span>
-            </div>
-          </Reveal>
-          <Reveal delay={280}>
-            <div className="flex flex-col gap-3 mb-8">
+            <div className="flex flex-col gap-2.5">
               <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB 53" desc="Main APK" newBadge onClick={() => goPage("download")} />
               <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
-            </div>
-          </Reveal>
-
-          <Reveal delay={350}>
-            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
-              <DiscordIcon className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
-              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Community</span>
-            </div>
-          </Reveal>
-          <Reveal delay={420}>
-            <div className="flex flex-col gap-3 mb-8">
               <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
               <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
               <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
             </div>
           </Reveal>
 
-          <div className="h-px my-6" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
+          <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
 
-          <Reveal delay={490}>
+          <Reveal delay={350}>
             <div className="rounded-2xl p-5 mb-6 relative overflow-hidden border"
               style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]"
@@ -1052,7 +1034,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
 
-          <Reveal delay={560}>
+          <Reveal delay={420}>
             <div className="flex items-center justify-center mb-4">
               <div className="rounded-full py-2 px-4 overflow-hidden inline-flex items-center"
                 style={{
