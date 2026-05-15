@@ -983,16 +983,10 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Panel</span>
             </div>
             <LinkBox
-              title="PANEL ASTUTE v2.4"
+              title="DASHBOARD ASTUTE"
               url="https://panel.astute.dev"
-              desc="Buka control panel di browser"
+              desc="Buka dashboard control panel"
               icon={<Settings className="w-5 h-5 text-white" />}
-            />
-            <LinkBox
-              title="PANEL ASTUTE (APK)"
-              url="https://astute.dev/panel-apk"
-              desc="Download panel untuk Android"
-              icon={<Download className="w-5 h-5 text-white" />}
             />
           </Reveal>
           <Reveal delay={280}>
@@ -1037,16 +1031,10 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Verifikasi</span>
             </div>
             <LinkBox
-              title="VERIF MANUAL TOOL"
-              url="https://astute.dev/verif-tool"
-              desc="Tool bypass verifikasi otomatis"
+              title="UNLOCK ASTUTE"
+              url="https://astute.dev/unlock"
+              desc="Unlock fitur premium ASTUTE"
               icon={<ShieldCheck className="w-5 h-5 text-white" />}
-            />
-            <LinkBox
-              title="VERIF ONLINE"
-              url="https://astute.dev/verif-online"
-              desc="Bypass langsung dari browser"
-              icon={<ExternalLink className="w-5 h-5 text-white" />}
             />
           </Reveal>
           <Reveal delay={280}>
@@ -1121,7 +1109,7 @@ export default function AstuteApp() {
           <Reveal delay={140}>
             <div className="flex flex-col gap-4 mb-8">
               <StatusBar dotColor="green" label="GUIDE STATUS" value="UPDATED" valueColor="green" live />
-              <StatusBar dotColor="blue" label="DURATION" value="12:34" valueColor="blue" />
+              <StatusBar dotColor="blue" label="DURATION" value="1 : 52 minute" valueColor="blue" />
             </div>
           </Reveal>
           <Reveal delay={210}>
@@ -1130,21 +1118,15 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Video Tutorial</span>
             </div>
             <LinkBox
-              title="TUTORIAL INSTALL"
-              url="https://youtube.com/watch?v=astute-install"
-              desc="Cara install APK + OBB step by step"
-              icon={<PlayCircle className="w-5 h-5 text-white" />}
-            />
-            <LinkBox
-              title="TUTORIAL PROXY SETUP"
+              title="TUTORIAL FULL STUP PROXY"
               url="https://youtube.com/watch?v=astute-proxy"
-              desc="Setting proxy agar server connect"
+              desc="Panduan setup proxy dari awal sampai connect"
               icon={<PlayCircle className="w-5 h-5 text-white" />}
             />
             <LinkBox
-              title="TUTORIAL VERIF MANUAL"
-              url="https://youtube.com/watch?v=astute-verif"
-              desc="Tutorial bypass verifikasi yang work"
+              title="TUTORIAL GUNAKAN DASHBOARD"
+              url="https://youtube.com/watch?v=astute-dashboard"
+              desc="Cara pakai dashboard panel ASTUTE"
               icon={<PlayCircle className="w-5 h-5 text-white" />}
             />
           </Reveal>
