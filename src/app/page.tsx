@@ -937,9 +937,28 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="seller" icon={<Download className="w-5 h-5" />} text="FF ASTUTE 64 BIT" onClick={() => handleDownload("FF ASTUTE 64 BIT")} />
-            <DownloadButton theme="seller" icon={<Download className="w-5 h-5" />} text="FF ASTUTE 32 BIT" onClick={() => handleDownload("FF ASTUTE 32 BIT")} />
-            <DownloadButton theme="seller" icon={<FileArchive className="w-5 h-5" />} text="JSON ASTUTE" onClick={() => handleDownload("JSON ASTUTE")} />
+            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+              <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Download</span>
+            </div>
+            <LinkBox
+              title="FF ASTUTE 64 BIT"
+              url="https://www.mediafire.com/file/cpjctcde2bvdkut/Free_Fire_MAX_ARMv8.apks/file"
+              desc="Download APK versi 64 bit (ARMv8)"
+              icon={<Download className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="FF ASTUTE 32 BIT"
+              url="https://www.mediafire.com/file/d7t3x2nscwll7ct/Free_Fire_MAX_ARMv7.apks/file"
+              desc="Download APK versi 32 bit (ARMv7)"
+              icon={<Download className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="JSON ASTUTE"
+              url="https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file"
+              desc="Download file config JSON"
+              icon={<FileArchive className="w-5 h-5 text-white" />}
+            />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
@@ -984,7 +1003,7 @@ export default function AstuteApp() {
             </div>
             <LinkBox
               title="DASHBOARD ASTUTE"
-              url="https://panel.astute.dev"
+              url="https://dash.unlockffbeta.com/"
               desc="Buka dashboard control panel"
               icon={<Settings className="w-5 h-5 text-white" />}
             />
@@ -1032,7 +1051,7 @@ export default function AstuteApp() {
             </div>
             <LinkBox
               title="UNLOCK ASTUTE"
-              url="https://astute.dev/unlock"
+              url="https://www.unlockffbeta.com"
               desc="Unlock fitur premium ASTUTE"
               icon={<ShieldCheck className="w-5 h-5 text-white" />}
             />
@@ -1074,7 +1093,12 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="seller" icon={<DiscordIcon className="w-5 h-5" />} text="JOIN DISCORD" onClick={() => handleDownload("Discord Invite")} />
+            <LinkBox
+              title="JOIN DISCORD SERVER"
+              url="https://discord.gg/astutetech"
+              desc="Gabung komunitas ASTUTE di Discord"
+              icon={<DiscordIcon className="w-5 h-5 text-white" />}
+            />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
@@ -1119,13 +1143,13 @@ export default function AstuteApp() {
             </div>
             <LinkBox
               title="TUTORIAL FULL STUP PROXY"
-              url="https://youtube.com/watch?v=astute-proxy"
+              url="https://vt.tiktok.com/ZSmQPyen2/"
               desc="Panduan setup proxy dari awal sampai connect"
               icon={<PlayCircle className="w-5 h-5 text-white" />}
             />
             <LinkBox
               title="TUTORIAL GUNAKAN DASHBOARD"
-              url="https://youtube.com/watch?v=astute-dashboard"
+              url="https://vt.tiktok.com/ZSx8GpjvY/"
               desc="Cara pakai dashboard panel ASTUTE"
               icon={<PlayCircle className="w-5 h-5 text-white" />}
             />
