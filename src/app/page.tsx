@@ -353,8 +353,8 @@ function DownloadButton({ theme, icon, text, onClick, style }: {
 
 // ─── Feature Item ────────────────────────────────────────────────────────────
 
-function FeatureItem({ num, theme, title, desc }: {
-  num: string; theme: string; title: string; desc: string;
+function FeatureItem({ num, theme, title, desc, dark }: {
+  num: string; theme: string; title: string; desc: string; dark?: boolean;
 }) {
   const colorMap: Record<string, { bg: string; color: string }> = {
     blue: { bg: "rgba(37,99,235,0.08)", color: "var(--ast-blue-l)" },
@@ -371,11 +371,11 @@ function FeatureItem({ num, theme, title, desc }: {
       onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "4px"; }}
       onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "0"; }}
     >
-      <div className="w-7 h-7 rounded-lg flex items-center justify-center font-mono text-[11px] font-bold shrink-0" style={{ background: c.bg, color: c.color }}>
+      <div className="w-7 h-7 rounded-lg flex items-center justify-center font-mono text-[11px] font-bold shrink-0" style={{ background: dark ? "rgba(107,123,168,0.06)" : c.bg, color: dark ? "#4a5568" : c.color, fontSize: num.length > 2 ? "13px" : undefined }}>
         {num}
       </div>
-      <div className="text-xs leading-relaxed" style={{ color: "var(--ast-gray)" }}>
-        <strong className="text-white font-semibold">{title}</strong> — {desc}
+      <div className="text-xs leading-relaxed" style={{ color: dark ? "#6b7280" : "var(--ast-gray)" }}>
+        <strong className={dark ? "" : "text-white"} style={dark ? { color: "#6b7280", fontWeight: 600 } : { fontWeight: 600 }}>{title}</strong>{dark ? " — " : " — "}{desc}
       </div>
     </div>
   );
@@ -444,58 +444,38 @@ export default function AstuteApp() {
   const musicNodesRef = useRef<OscillatorNode[]>([]);
   const gainNodeRef = useRef<GainNode | null>(null);
 
-  // ─── Click Sound (soft gentle tap like raden.pw) ──────────────────────────
+  // ─── Click Sound (raden.pw style — clean crisp "tik") ──────────────────────
   const playClickSound = useCallback(() => {
     try {
       const ctx = audioContextRef.current || new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       audioContextRef.current = ctx;
       if (ctx.state === "suspended") ctx.resume();
 
-      // Layer 1: Soft sine pop — gentle "tuk" sound
-      const osc1 = ctx.createOscillator();
-      const gain1 = ctx.createGain();
-      osc1.connect(gain1);
-      gain1.connect(ctx.destination);
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(680, ctx.currentTime);
-      osc1.frequency.exponentialRampToValueAtTime(380, ctx.currentTime + 0.06);
-      gain1.gain.setValueAtTime(0.09, ctx.currentTime);
-      gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
-      osc1.start(ctx.currentTime);
-      osc1.stop(ctx.currentTime + 0.1);
+      // Main tone: triangle wave for clean, soft "tik"
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(900, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(450, ctx.currentTime + 0.035);
+      gain.gain.setValueAtTime(0.07, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.08);
 
-      // Layer 2: Subtle harmonic overtone for warmth
-      const osc2 = ctx.createOscillator();
-      const gain2 = ctx.createGain();
-      osc2.connect(gain2);
-      gain2.connect(ctx.destination);
-      osc2.type = "sine";
-      osc2.frequency.setValueAtTime(1360, ctx.currentTime);
-      osc2.frequency.exponentialRampToValueAtTime(760, ctx.currentTime + 0.04);
-      gain2.gain.setValueAtTime(0.03, ctx.currentTime);
-      gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
-      osc2.start(ctx.currentTime);
-      osc2.stop(ctx.currentTime + 0.07);
-
-      // Layer 3: Very soft filtered noise tap for texture
-      const bufferSize = Math.floor(ctx.sampleRate * 0.015);
-      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const data = noiseBuffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1);
-      const noise = ctx.createBufferSource();
-      noise.buffer = noiseBuffer;
-      const noiseGain = ctx.createGain();
-      const noiseFilter = ctx.createBiquadFilter();
-      noiseFilter.type = "bandpass";
-      noiseFilter.frequency.setValueAtTime(900, ctx.currentTime);
-      noiseFilter.Q.setValueAtTime(1.5, ctx.currentTime);
-      noise.connect(noiseFilter);
-      noiseFilter.connect(noiseGain);
-      noiseGain.connect(ctx.destination);
-      noiseGain.gain.setValueAtTime(0.025, ctx.currentTime);
-      noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-      noise.start(ctx.currentTime);
-      noise.stop(ctx.currentTime + 0.04);
+      // Sub click: tiny sine pop for body
+      const sub = ctx.createOscillator();
+      const subGain = ctx.createGain();
+      sub.connect(subGain);
+      subGain.connect(ctx.destination);
+      sub.type = "sine";
+      sub.frequency.setValueAtTime(220, ctx.currentTime);
+      sub.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.025);
+      subGain.gain.setValueAtTime(0.04, ctx.currentTime);
+      subGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+      sub.start(ctx.currentTime);
+      sub.stop(ctx.currentTime + 0.05);
     } catch {}
   }, []);
 
@@ -693,7 +673,7 @@ export default function AstuteApp() {
     { name: "verif", icon: <ShieldCheck className="w-6 h-6" />, title: "VERIF MANUAL", desc: "Bypass verification" },
     { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
     { name: "tutorial", icon: <PlayCircle className="w-6 h-6" />, title: "VIDEO TUTORIAL", desc: "Step by step guide" },
-    { name: "changelog", icon: <FileText className="w-6 h-6" />, title: "CHANGELOG", desc: "Update history" },
+    { name: "changelog", icon: <FileText className="w-6 h-6" />, title: "FITUR VIP ACCESS", desc: "VIP features list" },
   ];
 
   return (
@@ -1128,6 +1108,7 @@ export default function AstuteApp() {
             <div className="flex flex-col gap-3 mb-8">
               <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
               <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
+              <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
             </div>
           </Reveal>
 
@@ -1437,7 +1418,7 @@ export default function AstuteApp() {
           </Reveal>
         </PageWrapper>
 
-        {/* ═══ CHANGELOG PAGE ═══ */}
+        {/* ═══ CHANGELOG / FITUR VIP ACCESS PAGE ═══ */}
         <PageWrapper pageName="changelog" currentPage={currentPage}>
           <Reveal>
             <button onClick={() => goPage("home")} type="button"
@@ -1449,27 +1430,48 @@ export default function AstuteApp() {
           <Reveal delay={70}>
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
-                <FileText className="w-[60px] h-[60px] text-white opacity-90" />
+                <ShieldCheck className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">CHANGE<span style={{ color: "var(--ast-red)" }}>LOG</span></h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5">FITUR VIP <span style={{
+                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}>ACCESS JUJU</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
-                Riwayat update dan patch notes setiap versi ASTUTE
+                Semua fitur premium yang kamu dapatkan sebagai VIP ACCESS di ASTUTE
               </p>
             </div>
           </Reveal>
           <Reveal delay={140}>
             <div className="flex flex-col gap-4 mb-8">
-              <StatusBar dotColor="green" label="CURRENT VERSION" value="v53.0" valueColor="green" live />
-              <StatusBar dotColor="blue" label="LAST UPDATED" value="JUN 2025" valueColor="blue" />
+              <StatusBar dotColor="green" label="VIP STATUS" value="ACTIVE" valueColor="green" live />
+              <StatusBar dotColor="blue" label="ACCESS LEVEL" value="VIP" valueColor="blue" valueGradient />
             </div>
           </Reveal>
           <Reveal delay={210}>
             <div className="mt-6">
-              <FeatureItem num="53" theme="red" title="v53.0 — Current" desc="OB 53 support, new anti-ban, skin pack update" />
-              <FeatureItem num="52" theme="red" title="v52.1 — Hotfix" desc="Fix crash on Android 14, proxy stability" />
-              <FeatureItem num="52" theme="red" title="v52.0 — Major" desc="OB 52 support, new UI panel, faster load" />
-              <FeatureItem num="51" theme="red" title="v51.0 — Release" desc="Initial OB 51, auto-update, verif v2" />
-              <FeatureItem num="50" theme="red" title="v50.0 — Legacy" desc="First public release, basic mod features" />
+              <FeatureItem num="✅" theme="blue" title="Android/iPhone" desc="Bisa digunakan di Android maupun iPhone" dark />
+              <FeatureItem num="✅" theme="blue" title="Tidak Mudah Terbanned" desc="Proteksi anti-ban yang kuat dan aman" dark />
+              <FeatureItem num="✅" theme="blue" title="Claim Mail Seperti Asli" desc="Bisa klaim mail seperti akun asli" dark />
+              <FeatureItem num="✅" theme="blue" title="Nambahin Item Di Shop & Dibeli" desc="Bisa menambahkan item di shop dan membelinya" dark />
+              <FeatureItem num="✅" theme="blue" title="Badge Keliatan Di Lobby" desc="Bisa terlihat badgenya di lobby" dark />
+              <FeatureItem num="✅" theme="blue" title="Prime Level 8 Diubah" desc="Prime level 8 bisa diubah sesuai keinginan" dark />
+              <FeatureItem num="✅" theme="blue" title="Setting Region" desc="Bisa setting region sesuai kebutuhan" dark />
+              <FeatureItem num="✅" theme="blue" title="Setting Nama" desc="Bisa setting nama karakter" dark />
+              <FeatureItem num="✅" theme="blue" title="Bebas Setting Shop" desc="Kebebasan mengatur shop sesuai selera" dark />
+              <FeatureItem num="✅" theme="blue" title="Terlihat Sesama Beta Astute" desc="Bisa terlihat sesama pengguna Beta Astute" dark />
+              <FeatureItem num="✅" theme="blue" title="Emot Tembus Ori" desc="Emote bisa tembus ke akun original" dark />
+              <FeatureItem num="✅" theme="blue" title="Bisa Spin" desc="Bisa melakukan spin wheel" dark />
+              <FeatureItem num="✅" theme="blue" title="Karakter Kebuka Semua" desc="Semua karakter terbuka dan bisa digunakan" dark />
+              <FeatureItem num="✅" theme="blue" title="Emote Berubah Tembus Ori" desc="Emote berubah dan tembus ke akun original" dark />
+              <FeatureItem num="✅" theme="blue" title="Setting Vault Ghoib" desc="Bisa setting vault ghoib" dark />
+              <FeatureItem num="✅" theme="blue" title="Main Skin Terbawa Semua" desc="Bisa main skin terbuka semua (tidak bisa damage)" dark />
+              <FeatureItem num="✅" theme="blue" title="Setting Pertemanan" desc="Bisa setting pertemanan" dark />
+              <FeatureItem num="✅" theme="blue" title="Glowall & Terlihat" desc="Bisa glowall dan terlihat di lu & sesama FF Astute" dark />
+              <FeatureItem num="✅" theme="blue" title="Karakter Skill Kebawa" desc="Skill karakter kebawa di ingame (tidak untuk di room)" dark />
+              <FeatureItem num="✅" theme="blue" title="Damage & Ga Kerasa" desc="Bisa damage dan ga kerasa seperti skin aslinya (no skin)" dark />
+              <FeatureItem num="✅" theme="blue" title="Skills Pet Kebawa" desc="Skills pet kebawa di ingame" dark />
             </div>
           </Reveal>
         </PageWrapper>
