@@ -438,58 +438,64 @@ export default function AstuteApp() {
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const musicAutoStartedRef = useRef(false);
+  const panelSwipeRef = useRef<{ startX: number; currentX: number; swiping: boolean }>({ startX: 0, currentX: 0, swiping: false });
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const musicNodesRef = useRef<OscillatorNode[]>([]);
   const gainNodeRef = useRef<GainNode | null>(null);
 
-  // ─── Click Sound (like raden.pw — crisp digital tick) ──────────────────────────
+  // ─── Click Sound (soft gentle tap like raden.pw) ──────────────────────────
   const playClickSound = useCallback(() => {
     try {
       const ctx = audioContextRef.current || new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       audioContextRef.current = ctx;
       if (ctx.state === "suspended") ctx.resume();
 
-      // Layer 1: High-frequency tick
+      // Layer 1: Soft sine pop — gentle "tuk" sound
       const osc1 = ctx.createOscillator();
       const gain1 = ctx.createGain();
       osc1.connect(gain1);
       gain1.connect(ctx.destination);
-      osc1.type = "square";
-      osc1.frequency.setValueAtTime(1200, ctx.currentTime);
-      osc1.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.03);
-      gain1.gain.setValueAtTime(0.12, ctx.currentTime);
-      gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(680, ctx.currentTime);
+      osc1.frequency.exponentialRampToValueAtTime(380, ctx.currentTime + 0.06);
+      gain1.gain.setValueAtTime(0.09, ctx.currentTime);
+      gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
       osc1.start(ctx.currentTime);
-      osc1.stop(ctx.currentTime + 0.06);
+      osc1.stop(ctx.currentTime + 0.1);
 
-      // Layer 2: Low thump for body
+      // Layer 2: Subtle harmonic overtone for warmth
       const osc2 = ctx.createOscillator();
       const gain2 = ctx.createGain();
       osc2.connect(gain2);
       gain2.connect(ctx.destination);
       osc2.type = "sine";
-      osc2.frequency.setValueAtTime(300, ctx.currentTime);
-      osc2.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.04);
-      gain2.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+      osc2.frequency.setValueAtTime(1360, ctx.currentTime);
+      osc2.frequency.exponentialRampToValueAtTime(760, ctx.currentTime + 0.04);
+      gain2.gain.setValueAtTime(0.03, ctx.currentTime);
+      gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
       osc2.start(ctx.currentTime);
-      osc2.stop(ctx.currentTime + 0.05);
+      osc2.stop(ctx.currentTime + 0.07);
 
-      // Layer 3: Noise burst for crispness
-      const bufferSize = ctx.sampleRate * 0.02;
+      // Layer 3: Very soft filtered noise tap for texture
+      const bufferSize = Math.floor(ctx.sampleRate * 0.015);
       const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = noiseBuffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.3;
+      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1);
       const noise = ctx.createBufferSource();
       noise.buffer = noiseBuffer;
       const noiseGain = ctx.createGain();
-      noise.connect(noiseGain);
+      const noiseFilter = ctx.createBiquadFilter();
+      noiseFilter.type = "bandpass";
+      noiseFilter.frequency.setValueAtTime(900, ctx.currentTime);
+      noiseFilter.Q.setValueAtTime(1.5, ctx.currentTime);
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
       noiseGain.connect(ctx.destination);
-      noiseGain.gain.setValueAtTime(0.06, ctx.currentTime);
-      noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+      noiseGain.gain.setValueAtTime(0.025, ctx.currentTime);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
       noise.start(ctx.currentTime);
-      noise.stop(ctx.currentTime + 0.03);
+      noise.stop(ctx.currentTime + 0.04);
     } catch {}
   }, []);
 
@@ -667,6 +673,17 @@ export default function AstuteApp() {
     playClickSound();
     setPanelOpen((p) => !p);
   }, [playClickSound]);
+
+  // Clear inline swipe transform when panel re-opens
+  useEffect(() => {
+    if (panelOpen) {
+      const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+      if (nav) {
+        nav.style.transform = "";
+        nav.style.transition = "";
+      }
+    }
+  }, [panelOpen]);
 
   const formattedCount = downloadCount.toLocaleString("en-US");
 
@@ -900,9 +917,69 @@ export default function AstuteApp() {
         onClick={togglePanel}
       />
 
-      {/* ═══ SIDE PANEL — Ultra Smooth ═════════════════════════════ */}
+      {/* ═══ SIDE PANEL — Ultra Smooth + Swipe/Drag to Close ═════════════════════════════ */}
       <nav
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => {
+          if (!panelOpen) return;
+          panelSwipeRef.current = { startX: e.touches[0].clientX, currentX: e.touches[0].clientX, swiping: true };
+        }}
+        onTouchMove={(e) => {
+          if (!panelSwipeRef.current.swiping) return;
+          panelSwipeRef.current.currentX = e.touches[0].clientX;
+          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+          if (diff > 0) {
+            e.preventDefault();
+            const nav = e.currentTarget;
+            nav.style.transition = "none";
+            nav.style.transform = `translateX(${diff}px)`;
+          }
+        }}
+        onTouchEnd={() => {
+          if (!panelSwipeRef.current.swiping) return;
+          panelSwipeRef.current.swiping = false;
+          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+          const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+          if (nav) nav.style.transition = "";
+          if (diff > 80) {
+            setPanelOpen(false);
+          } else {
+            if (nav) nav.style.transform = "";
+          }
+        }}
+        onMouseDown={(e) => {
+          if (!panelOpen) return;
+          panelSwipeRef.current = { startX: e.clientX, currentX: e.clientX, swiping: true };
+        }}
+        onMouseMove={(e) => {
+          if (!panelSwipeRef.current.swiping) return;
+          panelSwipeRef.current.currentX = e.clientX;
+          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+          if (diff > 0) {
+            const nav = e.currentTarget;
+            nav.style.transition = "none";
+            nav.style.transform = `translateX(${diff}px)`;
+          }
+        }}
+        onMouseUp={() => {
+          if (!panelSwipeRef.current.swiping) return;
+          panelSwipeRef.current.swiping = false;
+          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+          const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+          if (nav) nav.style.transition = "";
+          if (diff > 80) {
+            setPanelOpen(false);
+          } else {
+            if (nav) nav.style.transform = "";
+          }
+        }}
+        onMouseLeave={() => {
+          if (!panelSwipeRef.current.swiping) return;
+          panelSwipeRef.current.swiping = false;
+          const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+          if (nav) { nav.style.transition = ""; nav.style.transform = ""; }
+        }}
+        data-panel-nav
         className="fixed top-0 right-0 z-[100] w-[78%] max-w-[320px] h-full flex flex-col side-panel-scroll"
         style={{
           background: "rgba(10,15,28,0.65)",
@@ -914,6 +991,7 @@ export default function AstuteApp() {
           transition: "transform 0.55s cubic-bezier(0.22,1,0.36,1), box-shadow 0.55s cubic-bezier(0.22,1,0.36,1)",
           willChange: "transform",
           overflowY: "auto",
+          touchAction: "pan-y",
         }}
       >
         <div className="p-6 pb-5 border-b flex items-center justify-between" style={{ borderColor: "var(--ast-border)" }}>
