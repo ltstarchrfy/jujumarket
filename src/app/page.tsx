@@ -686,8 +686,8 @@ export default function AstuteApp() {
           100% { transform: translateX(-100%); }
         }
         @keyframes avatar-pulse {
-          0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(37,99,235,0.2); }
-          50% { transform: scale(1.1); box-shadow: 0 0 40px rgba(37,99,235,0.45), 0 0 60px rgba(96,165,250,0.15); }
+          0%, 100% { transform: scale(1); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+          50% { transform: scale(1.06); box-shadow: 0 10px 35px rgba(0,0,0,0.5); }
         }
         @keyframes music-pulse {
           0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
@@ -767,9 +767,9 @@ export default function AstuteApp() {
           zIndex: 0,
         }} />
         <div className="flex items-center gap-2.5 relative z-[1]">
-          <div className="w-[38px] h-[38px] rounded-[11px] overflow-hidden p-[2px]"
-            style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)", boxShadow: "0 2px 16px rgba(37,99,235,0.35)" }}>
-            <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover rounded-[9px] block" />
+          <div className="w-[38px] h-[38px] rounded-[11px] overflow-hidden"
+            style={{ border: "2px solid rgba(37,99,235,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
+            <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
           </div>
           <div className="flex flex-col">
             <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "var(--ast-gray)", lineHeight: 1.2 }}>JUJU</span>
@@ -930,21 +930,14 @@ export default function AstuteApp() {
           <Reveal>
             <div className="text-center pt-4">
               <div className="relative inline-block mb-5">
-                <div className="rounded-[22px] p-[3px]" style={{
-                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
-                  animation: "avatar-pulse 3s ease-in-out infinite",
-                }}>
-                  <div className="w-[92px] h-[92px] rounded-[20px] overflow-hidden"
-                    style={{ border: "2px solid var(--ast-bg)" }}>
-                    <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
-                  </div>
+                <div className="w-[92px] h-[92px] rounded-[20px] overflow-hidden"
+                  style={{
+                    border: "3px solid rgba(37,99,235,0.15)",
+                    boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
+                    animation: "avatar-pulse 3s ease-in-out infinite",
+                  }}>
+                  <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
                 </div>
-                <div className="absolute rounded-[22px]" style={{
-                  inset: -7, border: "2px solid transparent", borderTopColor: "var(--ast-blue)", borderRightColor: "var(--ast-cyan)",
-                  animation: "spin 5s linear infinite", filter: "drop-shadow(0 0 3px rgba(37,99,235,0.2))",
-                }} />
-                <div className="absolute bottom-[2px] right-[2px] w-4 h-4 rounded-full z-[2] animate-[dot-blink_1.5s_ease-in-out_infinite]"
-                  style={{ background: "var(--ast-green)", border: "3px solid var(--ast-bg)", boxShadow: "0 0 8px rgba(34,197,94,0.5)" }} />
               </div>
               <h1 className="text-[26px] font-extrabold tracking-tight mb-1">
                 JUJU <span style={{
