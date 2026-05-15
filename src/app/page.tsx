@@ -190,13 +190,13 @@ function Toast({ message, visible }: { message: string; visible: boolean }) {
 
 // ─── Status Bar ──────────────────────────────────────────────────────────────
 
-function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, live = false }: {
-  dotColor: string; label: string; value: string; valueColor: string; valueGradient?: boolean; live?: boolean;
+function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, live = false, bigDot = false }: {
+  dotColor: string; label: string; value: string; valueColor: string; valueGradient?: boolean; live?: boolean; bigDot?: boolean;
 }) {
   const dotStyles: Record<string, React.CSSProperties> = {
     green: { background: "var(--ast-green)", boxShadow: "0 0 8px rgba(34,197,94,0.5)" },
-    blue: { background: "var(--ast-blue)", boxShadow: "0 0 6px rgba(37,99,235,0.4)" },
-    cyan: { background: "var(--ast-cyan)", boxShadow: "0 0 6px rgba(34,211,238,0.3)" },
+    blue: { background: "var(--ast-blue)", boxShadow: "0 0 8px rgba(37,99,235,0.45)" },
+    cyan: { background: "var(--ast-cyan)", boxShadow: "0 0 8px rgba(34,211,238,0.35)" },
   };
   const valStyles: Record<string, React.CSSProperties> = {
     green: { color: "var(--ast-green)" },
@@ -214,16 +214,14 @@ function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, 
 
   return (
     <div
-      className={`flex items-center justify-center gap-2.5 py-3 px-5 rounded-2xl border ${
-        live ? "animate-[bar-blink_2s_ease-in-out_infinite]" : ""
-      }`}
+      className="flex items-center justify-center gap-2.5 py-3 px-5 rounded-2xl border"
       style={{
         background: "var(--ast-bar-bg)",
         borderColor: live ? "rgba(34,197,94,0.1)" : "var(--ast-border)",
         transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
-      <span className="w-[7px] h-[7px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={dotStyles[dotColor]} />
+      <span className={`${bigDot ? "w-[9px] h-[9px]" : "w-[7px] h-[7px]"} rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]`} style={dotStyles[dotColor]} />
       <span className="text-[11px] font-semibold tracking-wider" style={{ color: "var(--ast-gray)" }}>{label}</span>
       <span className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>·</span>
       <span className="font-mono text-xs font-bold tracking-wide" style={valueGradient ? gradientStyle : valStyles[valueColor]}>{value}</span>
@@ -252,7 +250,8 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
       <span className="shrink-0 flex items-center justify-center w-[22px] [&_svg]:opacity-80 [&_svg]:text-white group-hover:scale-110" style={{ transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
         {icon}
       </span>
-      <span className={`text-xs font-bold tracking-wide ${highlight ? "text-[var(--ast-blue-b)]" : "text-white"}`}>
+      <span className={`text-xs font-bold tracking-wide ${highlight ? "text-[var(--ast-blue-b)]" : ""}`}
+        style={highlight ? undefined : { color: "var(--ast-gray)" }}>
         {text}
         {newBadge && (
           <span className="font-mono text-[7px] font-bold bg-gradient-to-br from-[#1d4ed8] to-[#2563eb] text-white px-1.5 py-[1px] rounded-[3px] ml-1 tracking-wider shadow-[0_0_8px_rgba(37,99,235,0.2)]">
@@ -787,8 +786,8 @@ export default function AstuteApp() {
           <Reveal delay={70}>
             <div className="flex flex-col gap-4 my-6">
               <StatusBar dotColor="green" label="STATUS" value="ONLINE" valueColor="green" live />
-              <StatusBar dotColor="blue" label="BERHASIL DOWNLOAD" value={formattedCount} valueColor="blue" valueGradient />
-              <StatusBar dotColor="cyan" label="SERVER REGION" value="INDONESIA" valueColor="cyan" valueGradient />
+              <StatusBar dotColor="blue" label="BERHASIL DOWNLOAD" value={formattedCount} valueColor="blue" valueGradient bigDot />
+              <StatusBar dotColor="cyan" label="SERVER REGION" value="INDONESIA" valueColor="cyan" valueGradient bigDot />
             </div>
           </Reveal>
 
