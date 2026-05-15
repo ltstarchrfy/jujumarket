@@ -13,6 +13,8 @@ import {
   X,
   Info,
   ExternalLink,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 
 // ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
@@ -434,7 +436,124 @@ export default function AstuteApp() {
   const [downloadCount, setDownloadCount] = useState(14827);
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
+  const [musicPlaying, setMusicPlaying] = useState(false);
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const musicNodesRef = useRef<OscillatorNode[]>([]);
+  const gainNodeRef = useRef<GainNode | null>(null);
+
+  // ─── Click Sound (like raden.pw) ────────────────────────────────────────────
+  const playClickSound = useCallback(() => {
+    try {
+      const ctx = audioContextRef.current || new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+      audioContextRef.current = ctx;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.1);
+    } catch {}
+  }, []);
+
+  // ─── Ambient Music ──────────────────────────────────────────────────────────
+  const startMusic = useCallback(() => {
+    try {
+      const ctx = audioContextRef.current || new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+      audioContextRef.current = ctx;
+      if (ctx.state === "suspended") ctx.resume();
+
+      const masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(0, ctx.currentTime);
+      masterGain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 2);
+      masterGain.connect(ctx.destination);
+      gainNodeRef.current = masterGain;
+
+      const notes = [130.81, 146.83, 164.81, 174.61, 196.00, 220.00, 246.94];
+      const oscillators: OscillatorNode[] = [];
+
+      // Pad layer 1 — deep drone
+      const osc1 = ctx.createOscillator();
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(65.41, ctx.currentTime);
+      const g1 = ctx.createGain(); g1.gain.setValueAtTime(0.3, ctx.currentTime);
+      osc1.connect(g1); g1.connect(masterGain);
+      osc1.start();
+      oscillators.push(osc1);
+
+      // Pad layer 2 — gentle chord
+      [130.81, 196.00, 261.63].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        const g = ctx.createGain(); g.gain.setValueAtTime(0.12, ctx.currentTime);
+        osc.connect(g); g.connect(masterGain);
+        osc.start();
+        oscillators.push(osc);
+      });
+
+      // Pad layer 3 — slow LFO modulation for dreamy feel
+      const lfo = ctx.createOscillator();
+      lfo.type = "sine";
+      lfo.frequency.setValueAtTime(0.15, ctx.currentTime);
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.setValueAtTime(8, ctx.currentTime);
+      lfo.connect(lfoGain);
+      lfoGain.connect(oscillators[1].frequency);
+      lfo.start();
+      oscillators.push(lfo);
+
+      // Melodic arpeggio layer — gentle random notes
+      function playArpNote() {
+        if (!gainNodeRef.current || gainNodeRef.current.gain.value === 0) return;
+        const freq = notes[Math.floor(Math.random() * notes.length)];
+        const osc = ctx.createOscillator();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0, ctx.currentTime);
+        g.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 0.3);
+        g.gain.linearRampToValueAtTime(0, ctx.currentTime + 2.5);
+        osc.connect(g); g.connect(masterGain);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 3);
+        const next = Math.random() * 3000 + 2000;
+        setTimeout(playArpNote, next);
+      }
+      setTimeout(playArpNote, 1000);
+
+      musicNodesRef.current = oscillators;
+      setMusicPlaying(true);
+    } catch {}
+  }, []);
+
+  const stopMusic = useCallback(() => {
+    try {
+      if (gainNodeRef.current) {
+        gainNodeRef.current.gain.linearRampToValueAtTime(0, (audioContextRef.current?.currentTime || 0) + 0.5);
+      }
+      setTimeout(() => {
+        musicNodesRef.current.forEach(o => { try { o.stop(); } catch {} });
+        musicNodesRef.current = [];
+        gainNodeRef.current = null;
+      }, 600);
+      setMusicPlaying(false);
+    } catch {}
+  }, []);
+
+  const toggleMusic = useCallback(() => {
+    playClickSound();
+    if (musicPlaying) {
+      stopMusic();
+    } else {
+      startMusic();
+    }
+  }, [musicPlaying, startMusic, stopMusic, playClickSound]);
 
   // Scroll detection for glass effect
   useEffect(() => {
@@ -474,9 +593,10 @@ export default function AstuteApp() {
 
   // Page navigation - smooth
   const goPage = useCallback((name: PageName) => {
+    playClickSound();
     setCurrentPage(name);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  }, [playClickSound]);
 
   // Toast
   const showToast = useCallback((msg: string) => {
@@ -492,8 +612,9 @@ export default function AstuteApp() {
   }, [showToast]);
 
   const togglePanel = useCallback(() => {
+    playClickSound();
     setPanelOpen((p) => !p);
-  }, []);
+  }, [playClickSound]);
 
   const formattedCount = downloadCount.toLocaleString("en-US");
 
@@ -565,8 +686,12 @@ export default function AstuteApp() {
           100% { transform: translateX(-100%); }
         }
         @keyframes avatar-pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.06); }
+          0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(37,99,235,0.2); }
+          50% { transform: scale(1.1); box-shadow: 0 0 40px rgba(37,99,235,0.45), 0 0 60px rgba(96,165,250,0.15); }
+        }
+        @keyframes music-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
+          50% { box-shadow: 0 0 0 8px rgba(37,99,235,0); }
         }
         html {
           scroll-behavior: smooth;
@@ -805,9 +930,14 @@ export default function AstuteApp() {
           <Reveal>
             <div className="text-center pt-4">
               <div className="relative inline-block mb-5">
-                <div className="w-[92px] h-[92px] rounded-full overflow-hidden relative"
-                  style={{ border: "3px solid rgba(37,99,235,0.2)", boxShadow: "0 0 0 3px rgba(37,99,235,0.06),0 0 25px rgba(37,99,235,0.1),0 8px 30px rgba(0,0,0,0.4)", animation: "avatar-pulse 3s ease-in-out infinite" }}>
-                  <img src="https://picsum.photos/seed/astute-avatar/184/184" alt="JUJU SELLER" className="w-full h-full object-cover block" />
+                <div className="rounded-full p-[3px]" style={{
+                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                  animation: "avatar-pulse 3s ease-in-out infinite",
+                }}>
+                  <div className="w-[92px] h-[92px] rounded-full overflow-hidden"
+                    style={{ border: "2px solid var(--ast-bg)" }}>
+                    <img src="https://picsum.photos/seed/astute-avatar/184/184" alt="JUJU SELLER" className="w-full h-full object-cover block" />
+                  </div>
                 </div>
                 <div className="absolute rounded-full" style={{
                   inset: -7, border: "2px solid transparent", borderTopColor: "var(--ast-blue)", borderRightColor: "var(--ast-cyan)",
@@ -904,17 +1034,20 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={560}>
-            <div className="rounded-full py-2 px-4 overflow-hidden mb-4"
-              style={{
-                background: "rgba(120,130,160,0.1)",
-                border: "1px solid rgba(120,130,160,0.1)",
-              }}>
-              <div className="whitespace-nowrap inline-block" style={{
-                animation: "marquee-scroll 8s linear infinite",
-              }}>
-                <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff" }}>
-                  SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
-                </span>
+            <div className="flex items-center justify-center mb-4">
+              <div className="rounded-full py-2 px-4 overflow-hidden inline-flex items-center"
+                style={{
+                  background: "rgba(120,130,160,0.1)",
+                  border: "1px solid rgba(120,130,160,0.1)",
+                  minWidth: "200px",
+                }}>
+                <div className="whitespace-nowrap inline-block" style={{
+                  animation: "marquee-scroll 7s linear infinite",
+                }}>
+                  <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff" }}>
+                    SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
+                  </span>
+                </div>
               </div>
             </div>
             <div className="text-center pt-2">
@@ -1225,6 +1358,30 @@ export default function AstuteApp() {
       </main>
 
       <Toast message={toastMsg} visible={toastVisible} />
+
+      {/* ═══ MUSIC CONTROL — Fixed Bottom Right ═══════════════════════════ */}
+      <button
+        onClick={toggleMusic}
+        className="fixed bottom-6 right-6 z-[150] w-[48px] h-[48px] rounded-full flex items-center justify-center cursor-pointer"
+        style={{
+          background: musicPlaying
+            ? "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)"
+            : "var(--ast-bg3)",
+          border: "1px solid " + (musicPlaying ? "rgba(37,99,235,0.2)" : "var(--ast-border)"),
+          boxShadow: musicPlaying
+            ? "0 0 20px rgba(37,99,235,0.3), 0 4px 16px rgba(0,0,0,0.4)"
+            : "0 4px 16px rgba(0,0,0,0.3)",
+          animation: musicPlaying ? "music-pulse 2s ease-in-out infinite" : "none",
+          transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+        }}
+        aria-label={musicPlaying ? "Mute music" : "Play music"}
+        title={musicPlaying ? "Matikan musik" : "Nyalakan musik"}
+      >
+        {musicPlaying
+          ? <Volume2 className="w-[20px] h-[20px] text-white" />
+          : <VolumeX className="w-[20px] h-[20px]" style={{ color: "var(--ast-gray)" }} />
+        }
+      </button>
     </div>
   );
 }
