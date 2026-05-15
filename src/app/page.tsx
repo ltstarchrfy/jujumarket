@@ -562,26 +562,29 @@ export default function AstuteApp() {
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 relative"
         style={{
           background: scrolled
-            ? "rgba(5,8,16,0.65)"
+            ? "rgba(15,18,30,0.55)"
             : "linear-gradient(90deg, rgba(8,18,50,0.92) 0%, rgba(10,16,36,0.85) 40%, rgba(5,8,16,0.72) 100%)",
           backdropFilter: scrolled
-            ? "blur(50px) saturate(2.2) brightness(0.85)"
+            ? "blur(60px) saturate(2.5) brightness(0.9)"
             : "blur(40px) saturate(1.8)",
           WebkitBackdropFilter: scrolled
-            ? "blur(50px) saturate(2.2) brightness(0.85)"
+            ? "blur(60px) saturate(2.5) brightness(0.9)"
             : "blur(40px) saturate(1.8)",
           borderBottom: scrolled
-            ? "1px solid rgba(37,99,235,0.08)"
+            ? "1px solid rgba(120,140,180,0.08)"
             : "1px solid var(--ast-border)",
           boxShadow: scrolled
-            ? "0 1px 0 0 rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4)"
+            ? "0 0.5px 0 0 rgba(180,190,220,0.06), 0 4px 20px rgba(0,0,0,0.3)"
             : "none",
           transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
         {/* Navy gradient glow on left side */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(ellipse at 0% 50%, rgba(29,78,216,0.18) 0%, rgba(13,36,120,0.1) 30%, transparent 70%)",
+          background: scrolled
+            ? "radial-gradient(ellipse at 0% 50%, rgba(29,78,216,0.08) 0%, transparent 50%)"
+            : "radial-gradient(ellipse at 0% 50%, rgba(29,78,216,0.18) 0%, rgba(13,36,120,0.1) 30%, transparent 70%)",
+          transition: "background 0.5s cubic-bezier(0.16,1,0.3,1)",
           zIndex: 0,
         }} />
         <div className="flex items-center gap-2.5 relative z-[1]">
@@ -768,7 +771,13 @@ export default function AstuteApp() {
                   filter: "drop-shadow(0 0 10px rgba(37,99,235,0.4))",
                 }}>SELLER</span>
               </h1>
-              <div className="font-mono text-xs font-bold tracking-wider inline-block mb-2" style={{ color: "var(--ast-blue-l)" }}>FFASTUTECH OB 53</div>
+              <div className="font-mono text-xs font-bold tracking-wider inline-block mb-2" style={{
+                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.35))",
+              }}>FFASTUTECH OB 53</div>
               <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Cara download, install, dan setup proxy server free terbaru — work 100%
               </p>
@@ -776,7 +785,7 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={70}>
-            <div className="flex flex-col gap-2.5 my-6">
+            <div className="flex flex-col gap-4 my-6">
               <StatusBar dotColor="green" label="STATUS" value="ONLINE" valueColor="green" live />
               <StatusBar dotColor="blue" label="BERHASIL DOWNLOAD" value={formattedCount} valueColor="blue" valueGradient />
               <StatusBar dotColor="cyan" label="SERVER REGION" value="INDONESIA" valueColor="cyan" valueGradient />
@@ -800,7 +809,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={280}>
-            <div className="flex flex-col gap-2.5 mb-6">
+            <div className="flex flex-col gap-3 mb-8">
               <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB 53" desc="Main APK" highlight newBadge onClick={() => goPage("download")} />
               <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
@@ -814,7 +823,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={420}>
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-3 mb-8">
               <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
               <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
             </div>
@@ -874,7 +883,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={140}>
-            <div className="flex flex-col gap-2.5 mb-6">
+            <div className="flex flex-col gap-4 mb-8">
               <StatusBar dotColor="green" label="STATUS SERVER" value="ONLINE" valueColor="green" live />
               <StatusBar dotColor="blue" label="TOTAL DOWNLOAD" value={formattedCount} valueColor="blue" valueGradient />
               <StatusBar dotColor="cyan" label="FILE SIZE" value="284 MB" valueColor="cyan" />
@@ -916,7 +925,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={140}>
-            <div className="flex flex-col gap-2.5 mb-6">
+            <div className="flex flex-col gap-4 mb-8">
               <StatusBar dotColor="green" label="PANEL STATUS" value="ACTIVE" valueColor="green" live />
               <StatusBar dotColor="blue" label="VERSION" value="v2.4.1" valueColor="blue" />
             </div>
@@ -955,7 +964,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={140}>
-            <div className="flex flex-col gap-2.5 mb-6">
+            <div className="flex flex-col gap-4 mb-8">
               <StatusBar dotColor="green" label="VERIF STATUS" value="READY" valueColor="green" live />
               <StatusBar dotColor="blue" label="SUCCESS RATE" value="99.2%" valueColor="blue" />
             </div>
@@ -994,7 +1003,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={140}>
-            <div className="flex flex-col gap-2.5 mb-6">
+            <div className="flex flex-col gap-4 mb-8">
               <StatusBar dotColor="green" label="SERVER STATUS" value="ONLINE" valueColor="green" live />
               <StatusBar dotColor="blue" label="MEMBERS" value="1,247" valueColor="blue" />
             </div>
@@ -1033,7 +1042,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={140}>
-            <div className="flex flex-col gap-2.5 mb-6">
+            <div className="flex flex-col gap-4 mb-8">
               <StatusBar dotColor="green" label="GUIDE STATUS" value="UPDATED" valueColor="green" live />
               <StatusBar dotColor="blue" label="DURATION" value="12:34" valueColor="blue" />
             </div>
@@ -1072,7 +1081,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={140}>
-            <div className="flex flex-col gap-2.5 mb-6">
+            <div className="flex flex-col gap-4 mb-8">
               <StatusBar dotColor="green" label="CURRENT VERSION" value="v53.0" valueColor="green" live />
               <StatusBar dotColor="blue" label="LAST UPDATED" value="JUN 2025" valueColor="blue" />
             </div>
