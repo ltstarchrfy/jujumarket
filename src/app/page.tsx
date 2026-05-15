@@ -13,6 +13,7 @@ import {
   X,
   AlertTriangle,
   Info,
+  ExternalLink,
 } from "lucide-react";
 
 // ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
@@ -262,6 +263,52 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
       <span className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>·</span>
       <span className="text-[10px] font-medium" style={{ color: "var(--ast-gray)" }}>{desc}</span>
     </button>
+  );
+}
+
+// ─── Link Box ────────────────────────────────────────────────────────────────
+
+function LinkBox({ title, url, desc, icon }: {
+  title: string; url: string; desc: string; icon: React.ReactNode;
+}) {
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-4 py-4 px-5 rounded-2xl border group cursor-pointer"
+      style={{
+        background: "var(--ast-bg2)",
+        borderColor: "var(--ast-border)",
+        transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+        textDecoration: "none",
+        marginBottom: "10px",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = "rgba(37,99,235,0.15)";
+        e.currentTarget.style.background = "rgba(37,99,235,0.03)";
+        e.currentTarget.style.transform = "translateX(3px)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "var(--ast-border)";
+        e.currentTarget.style.background = "var(--ast-bg2)";
+        e.currentTarget.style.transform = "translateX(0)";
+      }}
+    >
+      <div className="w-[40px] h-[40px] rounded-xl flex items-center justify-center shrink-0"
+        style={{
+          background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+          boxShadow: "0 2px 12px rgba(37,99,235,0.25)",
+          transition: "box-shadow 0.4s cubic-bezier(0.16,1,0.3,1)",
+        }}>
+        {icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-[13px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{title}</div>
+        <div className="text-[11px] mt-[2px] truncate" style={{ color: "var(--ast-gray)" }}>{desc}</div>
+      </div>
+      <ExternalLink className="w-4 h-4 shrink-0 opacity-40 group-hover:opacity-80" style={{ color: "var(--ast-blue-l)", transition: "opacity 0.3s" }} />
+    </a>
   );
 }
 
@@ -931,7 +978,22 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="seller" icon={<Download className="w-5 h-5" />} text="DOWNLOAD PANEL v2.4" onClick={() => handleDownload("Panel ASTUTE")} />
+            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Panel</span>
+            </div>
+            <LinkBox
+              title="PANEL ASTUTE v2.4"
+              url="https://panel.astute.dev"
+              desc="Buka control panel di browser"
+              icon={<Settings className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="PANEL ASTUTE (APK)"
+              url="https://astute.dev/panel-apk"
+              desc="Download panel untuk Android"
+              icon={<Download className="w-5 h-5 text-white" />}
+            />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
@@ -970,7 +1032,22 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="seller" icon={<Download className="w-5 h-5" />} text="DOWNLOAD VERIF TOOL" onClick={() => handleDownload("Verif Manual Tool")} />
+            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Verifikasi</span>
+            </div>
+            <LinkBox
+              title="VERIF MANUAL TOOL"
+              url="https://astute.dev/verif-tool"
+              desc="Tool bypass verifikasi otomatis"
+              icon={<ShieldCheck className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="VERIF ONLINE"
+              url="https://astute.dev/verif-online"
+              desc="Bypass langsung dari browser"
+              icon={<ExternalLink className="w-5 h-5 text-white" />}
+            />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
@@ -1048,7 +1125,28 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="seller" icon={<PlayCircle className="w-5 h-5" />} text="TONTON TUTORIAL" onClick={() => handleDownload("Video Tutorial")} />
+            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Video Tutorial</span>
+            </div>
+            <LinkBox
+              title="TUTORIAL INSTALL"
+              url="https://youtube.com/watch?v=astute-install"
+              desc="Cara install APK + OBB step by step"
+              icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="TUTORIAL PROXY SETUP"
+              url="https://youtube.com/watch?v=astute-proxy"
+              desc="Setting proxy agar server connect"
+              icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="TUTORIAL VERIF MANUAL"
+              url="https://youtube.com/watch?v=astute-verif"
+              desc="Tutorial bypass verifikasi yang work"
+              icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
