@@ -437,27 +437,59 @@ export default function AstuteApp() {
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const musicAutoStartedRef = useRef(false);
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const musicNodesRef = useRef<OscillatorNode[]>([]);
   const gainNodeRef = useRef<GainNode | null>(null);
 
-  // ─── Click Sound (like raden.pw) ────────────────────────────────────────────
+  // ─── Click Sound (like raden.pw — crisp digital tick) ──────────────────────────
   const playClickSound = useCallback(() => {
     try {
       const ctx = audioContextRef.current || new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       audioContextRef.current = ctx;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(800, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.08);
-      gain.gain.setValueAtTime(0.15, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.1);
+      if (ctx.state === "suspended") ctx.resume();
+
+      // Layer 1: High-frequency tick
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.type = "square";
+      osc1.frequency.setValueAtTime(1200, ctx.currentTime);
+      osc1.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.03);
+      gain1.gain.setValueAtTime(0.12, ctx.currentTime);
+      gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+      osc1.start(ctx.currentTime);
+      osc1.stop(ctx.currentTime + 0.06);
+
+      // Layer 2: Low thump for body
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.type = "sine";
+      osc2.frequency.setValueAtTime(300, ctx.currentTime);
+      osc2.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.04);
+      gain2.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+      osc2.start(ctx.currentTime);
+      osc2.stop(ctx.currentTime + 0.05);
+
+      // Layer 3: Noise burst for crispness
+      const bufferSize = ctx.sampleRate * 0.02;
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.3;
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+      const noiseGain = ctx.createGain();
+      noise.connect(noiseGain);
+      noiseGain.connect(ctx.destination);
+      noiseGain.gain.setValueAtTime(0.06, ctx.currentTime);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+      noise.start(ctx.currentTime);
+      noise.stop(ctx.currentTime + 0.03);
     } catch {}
   }, []);
 
@@ -554,6 +586,26 @@ export default function AstuteApp() {
       startMusic();
     }
   }, [musicPlaying, startMusic, stopMusic, playClickSound]);
+
+  // Auto-start ambient music on first user interaction
+  useEffect(() => {
+    function onFirstInteraction() {
+      if (musicAutoStartedRef.current) return;
+      musicAutoStartedRef.current = true;
+      startMusic();
+      ["click", "touchstart", "keydown"].forEach(evt =>
+        document.removeEventListener(evt, onFirstInteraction)
+      );
+    }
+    ["click", "touchstart", "keydown"].forEach(evt =>
+      document.addEventListener(evt, onFirstInteraction, { once: false })
+    );
+    return () => {
+      ["click", "touchstart", "keydown"].forEach(evt =>
+        document.removeEventListener(evt, onFirstInteraction)
+      );
+    };
+  }, [startMusic]);
 
   // Scroll detection for glass effect
   useEffect(() => {
@@ -685,10 +737,6 @@ export default function AstuteApp() {
           0% { transform: translateX(100%); }
           100% { transform: translateX(-100%); }
         }
-        @keyframes avatar-pulse {
-          0%, 100% { transform: scale(1); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
-          50% { transform: scale(1.06); box-shadow: 0 10px 35px rgba(0,0,0,0.5); }
-        }
         @keyframes music-pulse {
           0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
           50% { box-shadow: 0 0 0 8px rgba(37,99,235,0); }
@@ -814,14 +862,14 @@ export default function AstuteApp() {
           >
             <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
               style={{
-                background: "var(--ast-blue-l)",
+                background: "#9ca3af",
                 transform: panelOpen ? "translateY(6px) rotate(45deg)" : "none",
-                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
+                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.35s",
               }}
             />
             <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
               style={{
-                background: "var(--ast-blue-l)",
+                background: "#9ca3af",
                 opacity: panelOpen ? 0 : 1,
                 transform: panelOpen ? "scaleX(0)" : "none",
                 transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
@@ -829,9 +877,9 @@ export default function AstuteApp() {
             />
             <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
               style={{
-                background: "var(--ast-blue-l)",
+                background: "#9ca3af",
                 transform: panelOpen ? "translateY(-6px) rotate(-45deg)" : "none",
-                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
+                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.35s",
               }}
             />
           </button>
@@ -934,7 +982,6 @@ export default function AstuteApp() {
                   style={{
                     border: "3px solid rgba(37,99,235,0.15)",
                     boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
-                    animation: "avatar-pulse 3s ease-in-out infinite",
                   }}>
                   <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
                 </div>
