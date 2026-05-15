@@ -1004,10 +1004,23 @@ export default function AstuteApp() {
           <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
 
           <Reveal delay={210}>
-            <div className="flex flex-col gap-2.5">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
+            </div>
+            <div className="flex flex-col gap-2.5 mb-5">
               <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB 53" desc="Main APK" newBadge onClick={() => goPage("download")} />
               <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
+            </div>
+          </Reveal>
+
+          <Reveal delay={350}>
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <DiscordIcon className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Community</span>
+            </div>
+            <div className="flex flex-col gap-2.5">
               <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
               <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
               <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
