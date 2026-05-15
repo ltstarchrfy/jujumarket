@@ -1399,27 +1399,32 @@ export default function AstuteApp() {
 
       <Toast message={toastMsg} visible={toastVisible} />
 
-      {/* ═══ MUSIC CONTROL — Fixed Bottom Right ═══════════════════════════ */}
+      {/* ═══ VOICE CONTROL — Fixed Bottom Right (sticky, tidak ikut scroll) ═══════════════════════════ */}
       <button
         onClick={toggleMusic}
-        className="fixed bottom-6 right-6 z-[150] w-[48px] h-[48px] rounded-full flex items-center justify-center cursor-pointer"
+        className="fixed bottom-6 right-6 z-[999] w-[50px] h-[50px] rounded-full flex items-center justify-center cursor-pointer"
         style={{
           background: musicPlaying
             ? "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)"
             : "var(--ast-bg3)",
-          border: "1px solid " + (musicPlaying ? "rgba(37,99,235,0.2)" : "var(--ast-border)"),
+          border: "1px solid " + (musicPlaying ? "rgba(37,99,235,0.25)" : "var(--ast-border)"),
           boxShadow: musicPlaying
-            ? "0 0 20px rgba(37,99,235,0.3), 0 4px 16px rgba(0,0,0,0.4)"
-            : "0 4px 16px rgba(0,0,0,0.3)",
+            ? "0 0 24px rgba(37,99,235,0.35), 0 4px 20px rgba(0,0,0,0.5)"
+            : "0 4px 20px rgba(0,0,0,0.4)",
           animation: musicPlaying ? "music-pulse 2s ease-in-out infinite" : "none",
           transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+          position: "fixed",
+          bottom: "24px",
+          right: "24px",
+          willChange: "transform",
+          contain: "layout",
         }}
-        aria-label={musicPlaying ? "Mute music" : "Play music"}
-        title={musicPlaying ? "Matikan musik" : "Nyalakan musik"}
+        aria-label={musicPlaying ? "Matikan sound" : "Hidupkan sound"}
+        title={musicPlaying ? "Klik untuk matikan sound" : "Klik untuk hidupkan sound"}
       >
         {musicPlaying
-          ? <Volume2 className="w-[20px] h-[20px] text-white" />
-          : <VolumeX className="w-[20px] h-[20px]" style={{ color: "var(--ast-gray)" }} />
+          ? <Volume2 className="w-[22px] h-[22px] text-white" />
+          : <VolumeX className="w-[22px] h-[22px]" style={{ color: "var(--ast-gray)" }} />
         }
       </button>
     </div>
