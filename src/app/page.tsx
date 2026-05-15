@@ -532,25 +532,39 @@ export default function AstuteApp() {
 
       {/* ═══ TOPBAR — Sticky with Glass Blur ══════════════════════════ */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 relative"
         style={{
-          background: "rgba(5,8,16,0.72)",
+          background: "linear-gradient(90deg, rgba(8,18,50,0.92) 0%, rgba(10,16,36,0.85) 40%, rgba(5,8,16,0.72) 100%)",
           backdropFilter: "blur(40px) saturate(1.8)",
           WebkitBackdropFilter: "blur(40px) saturate(1.8)",
           borderBottom: "1px solid var(--ast-border)",
           transition: "background 0.4s cubic-bezier(0.16,1,0.3,1), backdrop-filter 0.4s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
-        <div className="flex items-center gap-2.5">
-          <div className="w-[34px] h-[34px] rounded-[10px] flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg,var(--ast-blue-d),var(--ast-blue))", boxShadow: "0 2px 12px rgba(37,99,235,0.25)" }}>
-            <Flame className="w-[19px] h-[19px] text-white" />
+        {/* Navy gradient glow on left side */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "radial-gradient(ellipse at 0% 50%, rgba(29,78,216,0.18) 0%, rgba(13,36,120,0.1) 30%, transparent 70%)",
+          zIndex: 0,
+        }} />
+        <div className="flex items-center gap-2.5 relative z-[1]">
+          <div className="w-[38px] h-[38px] rounded-[11px] flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg,#0c1f4a,#1d4ed8,#2563eb)", boxShadow: "0 2px 16px rgba(37,99,235,0.35), inset 0 1px 0 rgba(96,165,250,0.15)" }}>
+            <Flame className="w-[20px] h-[20px] text-white" />
           </div>
-          <div className="text-[13px] font-bold">
-            JUJU <em className="not-italic" style={{ color: "var(--ast-blue-l)" }}>SELLER</em>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "var(--ast-gray)", lineHeight: 1.2 }}>JUJU</span>
+            <span className="text-[16px] font-extrabold tracking-wide" style={{
+              background: "linear-gradient(135deg, #60a5fa, #93c5fd, #bfdbfe)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              textShadow: "none",
+              filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
+              lineHeight: 1.2,
+            }}>SELLER</span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative z-[1]">
           <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"
             className="w-[38px] h-[38px] rounded-[11px] flex items-center justify-center"
             style={{
@@ -701,8 +715,14 @@ export default function AstuteApp() {
                 <div className="absolute bottom-[2px] right-[2px] w-4 h-4 rounded-full z-[2] animate-[dot-blink_1.5s_ease-in-out_infinite]"
                   style={{ background: "var(--ast-green)", border: "3px solid var(--ast-bg)", boxShadow: "0 0 8px rgba(34,197,94,0.5)" }} />
               </div>
-              <h1 className="text-[22px] font-extrabold tracking-tight mb-1">
-                JUJU <span style={{ color: "var(--ast-blue-l)" }}>SELLER</span>
+              <h1 className="text-[26px] font-extrabold tracking-tight mb-1">
+                JUJU <span style={{
+                  background: "linear-gradient(135deg, #60a5fa, #93c5fd, #bfdbfe)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  filter: "drop-shadow(0 0 10px rgba(37,99,235,0.4))",
+                }}>SELLER</span>
               </h1>
               <div className="font-mono text-xs font-bold tracking-wider inline-block mb-2" style={{ color: "var(--ast-blue-l)" }}>FFASTUTECH OB 53</div>
               <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
