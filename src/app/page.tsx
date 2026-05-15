@@ -459,13 +459,21 @@ export default function AstuteApp() {
   const startMusic = useCallback(() => {
     try {
       if (!musicAudioRef.current) {
-        musicAudioRef.current = new Audio("/music.mp3");
-        musicAudioRef.current.volume = 0.35;
-        musicAudioRef.current.loop = true;
+        const audio = new Audio("/music.mp3");
+        audio.volume = 0.35;
+        audio.loop = true;
+        audio.preload = "auto";
+        musicAudioRef.current = audio;
       }
-      musicAudioRef.current.play().catch(() => {});
-      setMusicPlaying(true);
-    } catch {}
+      const audio = musicAudioRef.current;
+      audio.play().then(() => {
+        setMusicPlaying(true);
+      }).catch(() => {
+        setMusicPlaying(false);
+      });
+    } catch {
+      setMusicPlaying(false);
+    }
   }, []);
 
   const stopMusic = useCallback(() => {
@@ -478,13 +486,12 @@ export default function AstuteApp() {
   }, []);
 
   const toggleMusic = useCallback(() => {
-    playClickSound();
     if (musicPlaying) {
       stopMusic();
     } else {
       startMusic();
     }
-  }, [musicPlaying, startMusic, stopMusic, playClickSound]);
+  }, [musicPlaying, startMusic, stopMusic]);
 
   // Auto-start background music on first user interaction
   useEffect(() => {
