@@ -5,7 +5,6 @@ import {
   Flame,
   Settings,
   ShieldCheck,
-  MessageCircle,
   PlayCircle,
   FileText,
   ArrowLeft,
@@ -15,6 +14,16 @@ import {
   AlertTriangle,
   Info,
 } from "lucide-react";
+
+// ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
+
+function DiscordIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+    </svg>
+  );
+}
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -370,7 +379,17 @@ export default function AstuteApp() {
   const [toastVisible, setToastVisible] = useState(false);
   const [downloadCount, setDownloadCount] = useState(14827);
   const [clock, setClock] = useState("00:00:00");
+  const [scrolled, setScrolled] = useState(false);
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Scroll detection for glass effect
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 10);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Clock
   useEffect(() => {
@@ -428,7 +447,7 @@ export default function AstuteApp() {
     { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB 53", desc: "Download main APK" },
     { name: "panel", icon: <Settings className="w-6 h-6" />, title: "PANEL ASTUTE", desc: "Control panel & config" },
     { name: "verif", icon: <ShieldCheck className="w-6 h-6" />, title: "VERIF MANUAL", desc: "Bypass verification" },
-    { name: "discord", icon: <MessageCircle className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
+    { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
     { name: "tutorial", icon: <PlayCircle className="w-6 h-6" />, title: "VIDEO TUTORIAL", desc: "Step by step guide" },
     { name: "changelog", icon: <FileText className="w-6 h-6" />, title: "CHANGELOG", desc: "Update history" },
   ];
@@ -530,15 +549,26 @@ export default function AstuteApp() {
 
       <ParticleCanvas />
 
-      {/* ═══ TOPBAR — Sticky with Glass Blur ══════════════════════════ */}
+      {/* ═══ TOPBAR — Sticky with Glass Blur (iPhone style) ══════════════════════════ */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 relative"
         style={{
-          background: "linear-gradient(90deg, rgba(8,18,50,0.92) 0%, rgba(10,16,36,0.85) 40%, rgba(5,8,16,0.72) 100%)",
-          backdropFilter: "blur(40px) saturate(1.8)",
-          WebkitBackdropFilter: "blur(40px) saturate(1.8)",
-          borderBottom: "1px solid var(--ast-border)",
-          transition: "background 0.4s cubic-bezier(0.16,1,0.3,1), backdrop-filter 0.4s cubic-bezier(0.16,1,0.3,1)",
+          background: scrolled
+            ? "rgba(5,8,16,0.65)"
+            : "linear-gradient(90deg, rgba(8,18,50,0.92) 0%, rgba(10,16,36,0.85) 40%, rgba(5,8,16,0.72) 100%)",
+          backdropFilter: scrolled
+            ? "blur(50px) saturate(2.2) brightness(0.85)"
+            : "blur(40px) saturate(1.8)",
+          WebkitBackdropFilter: scrolled
+            ? "blur(50px) saturate(2.2) brightness(0.85)"
+            : "blur(40px) saturate(1.8)",
+          borderBottom: scrolled
+            ? "1px solid rgba(37,99,235,0.08)"
+            : "1px solid var(--ast-border)",
+          boxShadow: scrolled
+            ? "0 1px 0 0 rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4)"
+            : "none",
+          transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
         {/* Navy gradient glow on left side */}
@@ -554,7 +584,7 @@ export default function AstuteApp() {
           <div className="flex flex-col">
             <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "var(--ast-gray)", lineHeight: 1.2 }}>JUJU</span>
             <span className="text-[16px] font-extrabold tracking-wide" style={{
-              background: "linear-gradient(135deg, #60a5fa, #93c5fd, #bfdbfe)",
+              background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -566,16 +596,22 @@ export default function AstuteApp() {
         </div>
         <div className="flex items-center gap-2 relative z-[1]">
           <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"
-            className="w-[38px] h-[38px] rounded-[11px] flex items-center justify-center"
+            className="flex items-center gap-1.5 py-[5px] px-3 rounded-full"
             style={{
-              background: "rgba(37,211,102,0.06)", border: "1px solid rgba(37,211,102,0.12)", color: "var(--ast-wa)",
+              background: "rgba(120,130,160,0.1)",
+              border: "1px solid rgba(120,130,160,0.1)",
+              color: "var(--ast-gray)",
               transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+              fontSize: "10px",
+              fontWeight: 600,
+              letterSpacing: "0.02em",
             }}
             title="WhatsApp Saluran"
           >
-            <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">
+            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" style={{ color: "var(--ast-wa)" }}>
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
+            <span className="hidden sm:inline">WA</span>
           </a>
           <button
             onClick={togglePanel}
@@ -717,7 +753,7 @@ export default function AstuteApp() {
               </div>
               <h1 className="text-[26px] font-extrabold tracking-tight mb-1">
                 JUJU <span style={{
-                  background: "linear-gradient(135deg, #60a5fa, #93c5fd, #bfdbfe)",
+                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -765,13 +801,13 @@ export default function AstuteApp() {
 
           <Reveal delay={350}>
             <div className="flex items-center gap-[7px] mb-3 px-[2px]">
-              <MessageCircle className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+              <DiscordIcon className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Community</span>
             </div>
           </Reveal>
           <Reveal delay={420}>
             <div className="flex flex-col gap-2.5">
-              <AppBar icon={<MessageCircle className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
+              <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
               <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
             </div>
           </Reveal>
@@ -941,7 +977,7 @@ export default function AstuteApp() {
           <Reveal delay={70}>
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
-                <MessageCircle className="w-[60px] h-[60px] text-white opacity-90" />
+                <DiscordIcon className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
               <h2 className="text-[22px] font-extrabold mb-1.5">DISCORD <span style={{ color: "var(--ast-purple)" }}>SERVER</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
@@ -956,7 +992,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <DownloadButton theme="purple" icon={<MessageCircle className="w-5 h-5" />} text="JOIN DISCORD" onClick={() => handleDownload("Discord Invite")} />
+            <DownloadButton theme="purple" icon={<DiscordIcon className="w-5 h-5" />} text="JOIN DISCORD" onClick={() => handleDownload("Discord Invite")} />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
