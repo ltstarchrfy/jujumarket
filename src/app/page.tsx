@@ -561,8 +561,12 @@ export default function AstuteApp() {
           100% { opacity: 1; transform: translateX(0); }
         }
         @keyframes marquee-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+          0% { transform: translateX(100%); }
+          100% { transform: translateX(-100%); }
+        }
+        @keyframes avatar-pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.06); }
         }
         html {
           scroll-behavior: smooth;
@@ -802,7 +806,7 @@ export default function AstuteApp() {
             <div className="text-center pt-4">
               <div className="relative inline-block mb-5">
                 <div className="w-[92px] h-[92px] rounded-full overflow-hidden relative"
-                  style={{ border: "3px solid rgba(37,99,235,0.2)", boxShadow: "0 0 0 3px rgba(37,99,235,0.06),0 0 25px rgba(37,99,235,0.1),0 8px 30px rgba(0,0,0,0.4)" }}>
+                  style={{ border: "3px solid rgba(37,99,235,0.2)", boxShadow: "0 0 0 3px rgba(37,99,235,0.06),0 0 25px rgba(37,99,235,0.1),0 8px 30px rgba(0,0,0,0.4)", animation: "avatar-pulse 3s ease-in-out infinite" }}>
                   <img src="https://picsum.photos/seed/astute-avatar/184/184" alt="JUJU SELLER" className="w-full h-full object-cover block" />
                 </div>
                 <div className="absolute rounded-full" style={{
@@ -905,12 +909,11 @@ export default function AstuteApp() {
                 background: "rgba(120,130,160,0.1)",
                 border: "1px solid rgba(120,130,160,0.1)",
               }}>
-              <div className="flex whitespace-nowrap" style={{
-                animation: "marquee-scroll 12s linear infinite",
+              <div className="whitespace-nowrap inline-block" style={{
+                animation: "marquee-scroll 8s linear infinite",
               }}>
                 <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff" }}>
-                  SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
                 </span>
               </div>
             </div>
@@ -936,7 +939,13 @@ export default function AstuteApp() {
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <Flame className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">ASTUTE <span style={{ color: "var(--ast-cyan)" }}>OB 53</span></h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5">ASTUTE <span style={{
+                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.35))",
+              }}>OB 53</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
               </p>
