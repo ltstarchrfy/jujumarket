@@ -3,10 +3,10 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "ASTUTE – Private Server Free Fire",
+  title: "TopUpKu — Top Up Game Favoritmu",
   description:
-    "Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection. Download ASTUTE OB 53 sekarang!",
-  keywords: ["ASTUTE", "Free Fire", "Private Server", "OB 53", "Mod", "Android"],
+    "Platform top-up game terpercaya dengan harga terbaik dan proses instan. Top up Mobile Legends, PUBG, Free Fire, dan game lainnya.",
+  keywords: ["Top Up", "Game", "Mobile Legends", "PUBG", "Free Fire", "Diamond", "UC"],
 };
 
 export default function RootLayout({
