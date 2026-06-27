@@ -15,6 +15,8 @@ import {
   ExternalLink,
   Volume2,
   VolumeX,
+  Crown,
+  MessageCircle,
 } from "lucide-react";
 
 // ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
@@ -36,7 +38,28 @@ type PageName =
   | "verif"
   | "discord"
   | "tutorial"
-  | "changelog";
+  | "changelog"
+  | "vip";
+
+// ─── WhatsApp Icon ────────────────────────────────────────────────────────────
+
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  );
+}
+
+// ─── Telegram Icon ────────────────────────────────────────────────────────────
+
+function TelegramIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+    </svg>
+  );
+}
 
 interface Particle {
   x: number;
@@ -199,11 +222,13 @@ function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, 
     green: { background: "var(--ast-green)", boxShadow: "0 0 8px rgba(34,197,94,0.5)" },
     blue: { background: "var(--ast-blue)", boxShadow: "0 0 8px rgba(37,99,235,0.45)" },
     cyan: { background: "var(--ast-cyan)", boxShadow: "0 0 8px rgba(34,211,238,0.35)" },
+    amber: { background: "var(--ast-amber)", boxShadow: "0 0 8px rgba(245,158,11,0.5)" },
   };
   const valStyles: Record<string, React.CSSProperties> = {
     green: { color: "var(--ast-green)" },
     blue: { color: "var(--ast-blue-l)" },
     cyan: { color: "var(--ast-cyan)" },
+    amber: { color: "var(--ast-amber)" },
   };
 
   const gradientStyle: React.CSSProperties = {
@@ -376,6 +401,278 @@ function FeatureItem({ num, theme, title, desc, dark }: {
       </div>
       <div className="text-xs leading-relaxed" style={{ color: dark ? "#6b7280" : "var(--ast-gray)" }}>
         <strong className={dark ? "" : "text-white"} style={dark ? { color: "#6b7280", fontWeight: 600 } : { fontWeight: 600 }}>{title}</strong>{dark ? " — " : " — "}{desc}
+      </div>
+    </div>
+  );
+}
+
+// ─── Swipeable Feature Carousel (Box + Sound on swipe, Smooth) ──────────────
+
+function FeatureCarousel({ items, theme = "blue" }: {
+  items: { num: string; title: string; desc: string; features?: string[] }[];
+  theme?: string;
+}) {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const lastIdxRef = useRef<number>(0);
+  const rafRef = useRef<number | null>(null);
+  const [activeIdx, setActiveIdx] = useState<number>(0);
+
+  // Color theme
+  const themeStyles: Record<string, {
+    boxGradient: string;
+    boxShadow: string;
+    chipGradient: string;
+    chipShadow: string;
+    accent: string;
+    indicatorActive: string;
+    labelColor: string;
+  }> = {
+    blue: {
+      boxGradient: "linear-gradient(135deg, rgba(37,99,235,0.10) 0%, rgba(37,99,235,0.02) 60%, var(--ast-bg2) 100%)",
+      boxShadow: "0 4px 24px rgba(37,99,235,0.12), 0 1px 3px rgba(0,0,0,0.3)",
+      chipGradient: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+      chipShadow: "0 2px 10px rgba(37,99,235,0.30)",
+      accent: "var(--ast-blue-l)",
+      indicatorActive: "var(--ast-blue-l)",
+      labelColor: "var(--ast-blue-l)",
+    },
+    amber: {
+      boxGradient: "linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.02) 60%, var(--ast-bg2) 100%)",
+      boxShadow: "0 4px 24px rgba(245,158,11,0.14), 0 1px 3px rgba(0,0,0,0.3)",
+      chipGradient: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
+      chipShadow: "0 2px 10px rgba(245,158,11,0.32)",
+      accent: "var(--ast-amber)",
+      indicatorActive: "var(--ast-amber)",
+      labelColor: "var(--ast-amber)",
+    },
+  };
+  const ts = themeStyles[theme] || themeStyles.blue;
+
+  // Play swipe sound
+  const playSwipeSound = useCallback(() => {
+    try {
+      if (!audioRef.current) {
+        const a = new Audio("/flip.mp3");
+        a.volume = 0.3;
+        a.preload = "auto";
+        audioRef.current = a;
+      }
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    } catch {}
+  }, []);
+
+  // Compute current visible index based on scroll position
+  const computeIdx = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return 0;
+    const firstChild = el.firstElementChild as HTMLElement | null;
+    if (!firstChild) return 0;
+    const step = firstChild.offsetWidth + 12;
+    const idx = Math.round(el.scrollLeft / step);
+    return Math.max(0, Math.min(items.length - 1, idx));
+  }, [items.length]);
+
+  // Throttled scroll handler using rAF
+  const handleScroll = useCallback(() => {
+    if (rafRef.current != null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      const idx = computeIdx();
+      if (idx !== lastIdxRef.current) {
+        lastIdxRef.current = idx;
+        setActiveIdx(idx);
+        playSwipeSound();
+      }
+    });
+  }, [computeIdx, playSwipeSound]);
+
+  // Smooth scroll to a specific box index
+  const scrollToIdx = useCallback((idx: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const firstChild = el.firstElementChild as HTMLElement | null;
+    if (!firstChild) return;
+    const step = firstChild.offsetWidth + 12;
+    const target = Math.max(0, Math.min(items.length - 1, idx));
+    const targetLeft = target * step;
+    el.scrollTo({ left: targetLeft, behavior: "smooth" });
+    if (lastIdxRef.current !== target) {
+      lastIdxRef.current = target;
+      setActiveIdx(target);
+      playSwipeSound();
+    }
+  }, [items.length, playSwipeSound]);
+
+  const scrollByBox = useCallback((dir: 1 | -1) => {
+    scrollToIdx(lastIdxRef.current + dir);
+  }, [scrollToIdx]);
+
+  // Cleanup rAF on unmount
+  useEffect(() => {
+    return () => {
+      if (rafRef.current != null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div className="relative">
+      {/* Arrows (desktop) */}
+      <button
+        type="button"
+        aria-label="Previous"
+        onClick={() => scrollByBox(-1)}
+        className="hidden sm:flex absolute -left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full items-center justify-center cursor-pointer border"
+        style={{
+          background: "var(--ast-bg2)",
+          borderColor: "var(--ast-border)",
+          color: "var(--ast-gray)",
+        }}
+      >
+        <ArrowLeft className="w-4 h-4" />
+      </button>
+      <button
+        type="button"
+        aria-label="Next"
+        onClick={() => scrollByBox(1)}
+        className="hidden sm:flex absolute -right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full items-center justify-center cursor-pointer border"
+        style={{
+          background: "var(--ast-bg2)",
+          borderColor: "var(--ast-border)",
+          color: "var(--ast-gray)",
+        }}
+      >
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </button>
+
+      {/* Horizontal scroll container */}
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="feature-carousel-scroll flex gap-3 overflow-x-auto pb-3 -mx-1 px-1"
+        style={{
+          scrollSnapType: "x mandatory",
+          scrollBehavior: "smooth",
+          willChange: "scroll-position",
+          transform: "translateZ(0)",
+          scrollPaddingLeft: "4px",
+          scrollPaddingRight: "4px",
+        } as React.CSSProperties}
+      >
+        {items.map((it, i) => (
+          <div
+            key={i}
+            className="shrink-0 snap-start"
+            style={{
+              flexBasis: it.features ? "90%" : "82%",
+              maxWidth: it.features ? "90%" : "82%",
+              transform: "translateZ(0)",
+              willChange: "transform",
+            }}
+          >
+            {/* Feature box */}
+            <div
+              className="rounded-2xl p-5 border relative overflow-hidden"
+              style={{
+                background: ts.boxGradient,
+                borderColor: "var(--ast-border)",
+                boxShadow: ts.boxShadow,
+                transition: "border-color 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
+                minHeight: it.features ? "200px" : "auto",
+              }}
+            >
+              {/* Top row: gradient chip + label */}
+              <div className="flex items-center gap-2.5 mb-3">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center font-mono text-[14px] font-bold shrink-0"
+                  style={{
+                    background: ts.chipGradient,
+                    boxShadow: ts.chipShadow,
+                    color: "#fff",
+                  }}
+                >
+                  {it.num}
+                </div>
+                <div className="flex flex-col">
+                  <div className="font-mono text-[8px] tracking-[0.18em] uppercase font-bold" style={{ color: ts.labelColor }}>
+                    {it.features ? "KATEGORI" : "FEATURE"} {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <div className="text-[15px] font-extrabold leading-tight" style={{ color: "var(--ast-white)" }}>
+                    {it.title}
+                  </div>
+                </div>
+              </div>
+
+              {/* Grouped feature list or single desc */}
+              {it.features ? (
+                <div className="flex flex-col gap-1.5 mt-1">
+                  {it.features.map((feat, fi) => (
+                    <div key={fi} className="flex items-start gap-2">
+                      <span className="text-[11px] mt-[2px] shrink-0" style={{ color: ts.accent }}>✅</span>
+                      <span className="text-[12px] leading-snug" style={{ color: "var(--ast-gray)" }}>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <div className="text-[14.5px] font-extrabold mb-1.5 leading-tight" style={{ color: "var(--ast-white)" }}>
+                    {it.title}
+                  </div>
+                  <div className="text-[11.5px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
+                    {it.desc}
+                  </div>
+                </>
+              )}
+
+              {/* Top accent line */}
+              <div
+                className="absolute top-0 left-0 right-0 h-[2px] opacity-80 pointer-events-none"
+                style={{ background: `linear-gradient(90deg, transparent, ${ts.accent}, transparent)` }}
+              />
+              {/* Decorative corner accent */}
+              <div
+                className="absolute -bottom-8 -right-8 w-24 h-24 rounded-full opacity-25 pointer-events-none"
+                style={{ background: `radial-gradient(circle, ${ts.accent}, transparent 70%)` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Page indicator dots + hint */}
+      <div className="flex flex-col items-center gap-2 mt-2.5">
+        <div className="flex items-center gap-1.5">
+          {items.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label={`Go to feature ${i + 1}`}
+              onClick={() => scrollToIdx(i)}
+              className="rounded-full transition-all duration-300 cursor-pointer"
+              style={{
+                width: i === activeIdx ? 16 : 5,
+                height: 5,
+                background: i === activeIdx ? ts.indicatorActive : "rgba(255,255,255,0.15)",
+                border: "none",
+                padding: 0,
+              }}
+            />
+          ))}
+        </div>
+        <div className="flex items-center justify-center gap-1.5">
+          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-gray2)" }}>
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          <span className="font-mono text-[9px] tracking-[0.16em] uppercase font-bold" style={{ color: "var(--ast-gray2)" }}>
+            Geser untuk lihat semua
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -594,6 +891,7 @@ export default function AstuteApp() {
     { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
     { name: "tutorial", icon: <PlayCircle className="w-6 h-6" />, title: "VIDEO TUTORIAL", desc: "Step by step guide" },
     { name: "changelog", icon: <FileText className="w-6 h-6" />, title: "FITUR VIP ACCESS", desc: "VIP features list" },
+    { name: "vip", icon: <Crown className="w-6 h-6" />, title: "PEMBELIAN VIP", desc: "Beli VIP & chat admin" },
   ];
 
   return (
@@ -1024,6 +1322,7 @@ export default function AstuteApp() {
               <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
               <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
               <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
+              <AppBar icon={<Crown className="w-[18px] h-[18px]" />} text="PEMBELIAN VIP" desc="Beli VIP" highlight onClick={() => goPage("vip")} />
             </div>
           </Reveal>
 
@@ -1365,28 +1664,175 @@ export default function AstuteApp() {
             </div>
           </Reveal>
           <Reveal delay={210}>
-            <div className="mt-6">
-              <FeatureItem num="✅" theme="blue" title="Android/iPhone" desc="Bisa digunakan di Android maupun iPhone" dark />
-              <FeatureItem num="✅" theme="blue" title="Tidak Mudah Terbanned" desc="Proteksi anti-ban yang kuat dan aman" dark />
-              <FeatureItem num="✅" theme="blue" title="Claim Mail Seperti Asli" desc="Bisa klaim mail seperti akun asli" dark />
-              <FeatureItem num="✅" theme="blue" title="Nambahin Item Di Shop & Dibeli" desc="Bisa menambahkan item di shop dan membelinya" dark />
-              <FeatureItem num="✅" theme="blue" title="Badge Keliatan Di Lobby" desc="Bisa terlihat badgenya di lobby" dark />
-              <FeatureItem num="✅" theme="blue" title="Prime Level 8 Diubah" desc="Prime level 8 bisa diubah sesuai keinginan" dark />
-              <FeatureItem num="✅" theme="blue" title="Setting Region" desc="Bisa setting region sesuai kebutuhan" dark />
-              <FeatureItem num="✅" theme="blue" title="Setting Nama" desc="Bisa setting nama karakter" dark />
-              <FeatureItem num="✅" theme="blue" title="Bebas Setting Shop" desc="Kebebasan mengatur shop sesuai selera" dark />
-              <FeatureItem num="✅" theme="blue" title="Terlihat Sesama Beta Astute" desc="Bisa terlihat sesama pengguna Beta Astute" dark />
-              <FeatureItem num="✅" theme="blue" title="Emot Tembus Ori" desc="Emote bisa tembus ke akun original" dark />
-              <FeatureItem num="✅" theme="blue" title="Bisa Spin" desc="Bisa melakukan spin wheel" dark />
-              <FeatureItem num="✅" theme="blue" title="Karakter Kebuka Semua" desc="Semua karakter terbuka dan bisa digunakan" dark />
-              <FeatureItem num="✅" theme="blue" title="Emote Berubah Tembus Ori" desc="Emote berubah dan tembus ke akun original" dark />
-              <FeatureItem num="✅" theme="blue" title="Setting Vault Ghoib" desc="Bisa setting vault ghoib" dark />
-              <FeatureItem num="✅" theme="blue" title="Main Skin Terbawa Semua" desc="Bisa main skin terbuka semua (tidak bisa damage)" dark />
-              <FeatureItem num="✅" theme="blue" title="Setting Pertemanan" desc="Bisa setting pertemanan" dark />
-              <FeatureItem num="✅" theme="blue" title="Glowall & Terlihat" desc="Bisa glowall dan terlihat di lu & sesama FF Astute" dark />
-              <FeatureItem num="✅" theme="blue" title="Karakter Skill Kebawa" desc="Skill karakter kebawa di ingame (tidak untuk di room)" dark />
-              <FeatureItem num="✅" theme="blue" title="Damage & Ga Kerasa" desc="Bisa damage dan ga kerasa seperti skin aslinya (no skin)" dark />
-              <FeatureItem num="✅" theme="blue" title="Skills Pet Kebawa" desc="Skills pet kebawa di ingame" dark />
+            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+              <ShieldCheck className="w-3 h-3" style={{ color: "var(--ast-blue-l)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>VIP Features</span>
+            </div>
+            <FeatureCarousel theme="blue" items={[
+              { num: "📱", title: "Perangkat & Keamanan", desc: "",
+                features: [
+                  "Bisa digunakan di Android maupun iPhone",
+                  "Proteksi anti-ban yang kuat dan aman",
+                ] },
+              { num: "👤", title: "Akun & Profil", desc: "",
+                features: [
+                  "Bisa klaim mail seperti akun asli",
+                  "Setting nama karakter",
+                  "Setting region sesuai kebutuhan",
+                  "Badge terlihat di lobby",
+                  "Prime level 8 bisa diubah sesuai keinginan",
+                  "Setting pertemanan",
+                ] },
+              { num: "🛒", title: "Shop & Item", desc: "",
+                features: [
+                  "Nambahin item di shop & dibeli",
+                  "Kebebasan mengatur shop sesuai selera",
+                  "Setting vault ghoib",
+                ] },
+              { num: "🎭", title: "Karakter & Skin", desc: "",
+                features: [
+                  "Semua karakter terbuka dan bisa digunakan",
+                  "Main skin terbawa semua (tidak bisa damage)",
+                  "Skill karakter kebawa di ingame (tidak untuk di room)",
+                ] },
+              { num: "💃", title: "Emote & Interaksi", desc: "",
+                features: [
+                  "Emote tembus ke akun original",
+                  "Emote berubah dan tembus ke akun original",
+                  "Terlihat sesama pengguna Beta Astute",
+                  "Bisa melakukan spin wheel",
+                ] },
+              { num: "⚔️", title: "Combat & Spesial", desc: "",
+                features: [
+                  "Glowall & terlihat di lu & sesama FF Astute",
+                  "Damage & ga kerasa seperti skin aslinya (no skin)",
+                  "Skills pet kebawa di ingame",
+                ] },
+            ]} />
+          </Reveal>
+        </PageWrapper>
+
+        {/* ═══ PEMBELIAN VIP PAGE ═══ */}
+        <PageWrapper pageName="vip" currentPage={currentPage}>
+          <Reveal>
+            <button onClick={() => goPage("home")} type="button"
+              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <ArrowLeft className="w-4 h-4" /> Kembali
+            </button>
+          </Reveal>
+          <Reveal delay={70}>
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+                <Crown className="w-[60px] h-[60px] text-white opacity-90" />
+              </div>
+              <h2 className="text-[22px] font-extrabold mb-1.5" style={{
+                background: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}>PEMBELIAN VIP</h2>
+              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+                Dapatkan akses VIP ASTUTE dan nikmati semua fitur premium. Hubungi admin atau helper di bawah untuk pembelian.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={140}>
+            <div className="flex flex-col gap-4 mb-8">
+              <StatusBar dotColor="green" label="VIP STATUS" value="ACTIVE" valueColor="green" live />
+              <StatusBar dotColor="amber" label="PAYMENT" value="MANUAL" valueColor="amber" />
+            </div>
+          </Reveal>
+
+          {/* Keuntungan VIP */}
+          <Reveal delay={210}>
+            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+              <Crown className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Keuntungan VIP</span>
+            </div>
+            <FeatureCarousel theme="amber" items={[
+              { num: "📱", title: "Perangkat & Keamanan", desc: "",
+                features: [
+                  "Bisa digunakan di Android maupun iPhone",
+                  "Proteksi anti-ban yang kuat dan aman",
+                ] },
+              { num: "👤", title: "Akun & Profil", desc: "",
+                features: [
+                  "Bisa klaim mail seperti akun asli",
+                  "Setting nama karakter",
+                  "Setting region sesuai kebutuhan",
+                  "Badge terlihat di lobby",
+                  "Prime level 8 bisa diubah sesuai keinginan",
+                  "Setting pertemanan",
+                ] },
+              { num: "🛒", title: "Shop & Item", desc: "",
+                features: [
+                  "Nambahin item di shop & dibeli",
+                  "Kebebasan mengatur shop sesuai selera",
+                  "Setting vault ghoib",
+                ] },
+              { num: "🎭", title: "Karakter & Skin", desc: "",
+                features: [
+                  "Semua karakter terbuka dan bisa digunakan",
+                  "Main skin terbawa semua (tidak bisa damage)",
+                  "Skill karakter kebawa di ingame (tidak untuk di room)",
+                ] },
+              { num: "💃", title: "Emote & Interaksi", desc: "",
+                features: [
+                  "Emote tembus ke akun original",
+                  "Emote berubah dan tembus ke akun original",
+                  "Terlihat sesama pengguna Beta Astute",
+                  "Bisa melakukan spin wheel",
+                ] },
+              { num: "⚔️", title: "Combat & Spesial", desc: "",
+                features: [
+                  "Glowall & terlihat di lu & sesama FF Astute",
+                  "Damage & ga kerasa seperti skin aslinya (no skin)",
+                  "Skills pet kebawa di ingame",
+                ] },
+            ]} />
+          </Reveal>
+
+          {/* Kontak Pembelian */}
+          <Reveal delay={280}>
+            <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-8">
+              <MessageCircle className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Chat Untuk Pembelian</span>
+            </div>
+            <LinkBox
+              title="admin (Telegram)"
+              url="https://t.me/ftrjna"
+              desc="Chat admin via Telegram untuk pembelian VIP"
+              icon={<TelegramIcon className="w-5 h-5 text-white" />}
+              item="vip-tele-admin"
+            />
+            <LinkBox
+              title="admin (WhatsApp)"
+              url="https://wa.me/6281218320975"
+              desc="Chat admin via WhatsApp untuk pembelian VIP"
+              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
+              item="vip-wa-admin"
+            />
+            <LinkBox
+              title="helper (WhatsApp)"
+              url="https://wa.me/628812882145"
+              desc="Chat helper via WhatsApp untuk bantuan pembelian"
+              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
+              item="vip-wa-helper"
+            />
+          </Reveal>
+
+          <Reveal delay={350}>
+            <div className="mt-8 rounded-2xl p-5 border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+              <div className="flex items-start gap-3">
+                <Info className="w-4 h-4 mt-[2px] shrink-0" style={{ color: "var(--ast-amber)" }} />
+                <div>
+                  <div className="text-[13px] font-bold mb-1" style={{ color: "var(--ast-white)" }}>Cara Pembelian</div>
+                  <div className="text-[12px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
+                    Hubungi admin atau helper melalui link di atas. Pembayaran dilakukan secara manual, dan VIP akan diaktifkan setelah konfirmasi pembayaran.
+                  </div>
+                </div>
+              </div>
             </div>
           </Reveal>
         </PageWrapper>
