@@ -17,6 +17,13 @@ import {
   VolumeX,
   Crown,
   MessageCircle,
+  Smartphone,
+  User,
+  ShoppingBag,
+  Sparkles,
+  Music,
+  Zap,
+  CheckCircle2,
 } from "lucide-react";
 
 // ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
@@ -409,7 +416,7 @@ function FeatureItem({ num, theme, title, desc, dark }: {
 // ─── Swipeable Feature Carousel (Box + Sound on swipe, Smooth) ──────────────
 
 function FeatureCarousel({ items, theme = "blue" }: {
-  items: { num: string; title: string; desc: string; features?: string[] }[];
+  items: { num: React.ReactNode; title: string; desc: string; features?: string[] }[];
   theme?: string;
 }) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -597,7 +604,7 @@ function FeatureCarousel({ items, theme = "blue" }: {
                     color: "#fff",
                   }}
                 >
-                  {it.num}
+                  {typeof it.num === "string" ? it.num : it.num}
                 </div>
                 <div className="flex flex-col">
                   <div className="font-mono text-[8px] tracking-[0.18em] uppercase font-bold" style={{ color: ts.labelColor }}>
@@ -614,7 +621,7 @@ function FeatureCarousel({ items, theme = "blue" }: {
                 <div className="flex flex-col gap-1.5 mt-1">
                   {it.features.map((feat, fi) => (
                     <div key={fi} className="flex items-start gap-2">
-                      <span className="text-[11px] mt-[2px] shrink-0" style={{ color: ts.accent }}>✅</span>
+                      <CheckCircle2 className="w-3.5 h-3.5 mt-[1px] shrink-0" style={{ color: ts.accent }} />
                       <span className="text-[12px] leading-snug" style={{ color: "var(--ast-gray)" }}>{feat}</span>
                     </div>
                   ))}
@@ -1669,12 +1676,12 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>VIP Features</span>
             </div>
             <FeatureCarousel theme="blue" items={[
-              { num: "📱", title: "Perangkat & Keamanan", desc: "",
+              { num: <Smartphone className="w-5 h-5" />, title: "Perangkat & Keamanan", desc: "",
                 features: [
                   "Bisa digunakan di Android maupun iPhone",
                   "Proteksi anti-ban yang kuat dan aman",
                 ] },
-              { num: "👤", title: "Akun & Profil", desc: "",
+              { num: <User className="w-5 h-5" />, title: "Akun & Profil", desc: "",
                 features: [
                   "Bisa klaim mail seperti akun asli",
                   "Setting nama karakter",
@@ -1683,26 +1690,26 @@ export default function AstuteApp() {
                   "Prime level 8 bisa diubah sesuai keinginan",
                   "Setting pertemanan",
                 ] },
-              { num: "🛒", title: "Shop & Item", desc: "",
+              { num: <ShoppingBag className="w-5 h-5" />, title: "Shop & Item", desc: "",
                 features: [
                   "Nambahin item di shop & dibeli",
                   "Kebebasan mengatur shop sesuai selera",
                   "Setting vault ghoib",
                 ] },
-              { num: "🎭", title: "Karakter & Skin", desc: "",
+              { num: <Sparkles className="w-5 h-5" />, title: "Karakter & Skin", desc: "",
                 features: [
                   "Semua karakter terbuka dan bisa digunakan",
                   "Main skin terbawa semua (tidak bisa damage)",
                   "Skill karakter kebawa di ingame (tidak untuk di room)",
                 ] },
-              { num: "💃", title: "Emote & Interaksi", desc: "",
+              { num: <Music className="w-5 h-5" />, title: "Emote & Interaksi", desc: "",
                 features: [
                   "Emote tembus ke akun original",
                   "Emote berubah dan tembus ke akun original",
                   "Terlihat sesama pengguna Beta Astute",
                   "Bisa melakukan spin wheel",
                 ] },
-              { num: "⚔️", title: "Combat & Spesial", desc: "",
+              { num: <Zap className="w-5 h-5" />, title: "Combat & Spesial", desc: "",
                 features: [
                   "Glowall & terlihat di lu & sesama FF Astute",
                   "Damage & ga kerasa seperti skin aslinya (no skin)",
@@ -1751,12 +1758,12 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Keuntungan VIP</span>
             </div>
             <FeatureCarousel theme="amber" items={[
-              { num: "📱", title: "Perangkat & Keamanan", desc: "",
+              { num: <Smartphone className="w-5 h-5" />, title: "Perangkat & Keamanan", desc: "",
                 features: [
                   "Bisa digunakan di Android maupun iPhone",
                   "Proteksi anti-ban yang kuat dan aman",
                 ] },
-              { num: "👤", title: "Akun & Profil", desc: "",
+              { num: <User className="w-5 h-5" />, title: "Akun & Profil", desc: "",
                 features: [
                   "Bisa klaim mail seperti akun asli",
                   "Setting nama karakter",
@@ -1765,26 +1772,26 @@ export default function AstuteApp() {
                   "Prime level 8 bisa diubah sesuai keinginan",
                   "Setting pertemanan",
                 ] },
-              { num: "🛒", title: "Shop & Item", desc: "",
+              { num: <ShoppingBag className="w-5 h-5" />, title: "Shop & Item", desc: "",
                 features: [
                   "Nambahin item di shop & dibeli",
                   "Kebebasan mengatur shop sesuai selera",
                   "Setting vault ghoib",
                 ] },
-              { num: "🎭", title: "Karakter & Skin", desc: "",
+              { num: <Sparkles className="w-5 h-5" />, title: "Karakter & Skin", desc: "",
                 features: [
                   "Semua karakter terbuka dan bisa digunakan",
                   "Main skin terbawa semua (tidak bisa damage)",
                   "Skill karakter kebawa di ingame (tidak untuk di room)",
                 ] },
-              { num: "💃", title: "Emote & Interaksi", desc: "",
+              { num: <Music className="w-5 h-5" />, title: "Emote & Interaksi", desc: "",
                 features: [
                   "Emote tembus ke akun original",
                   "Emote berubah dan tembus ke akun original",
                   "Terlihat sesama pengguna Beta Astute",
                   "Bisa melakukan spin wheel",
                 ] },
-              { num: "⚔️", title: "Combat & Spesial", desc: "",
+              { num: <Zap className="w-5 h-5" />, title: "Combat & Spesial", desc: "",
                 features: [
                   "Glowall & terlihat di lu & sesama FF Astute",
                   "Damage & ga kerasa seperti skin aslinya (no skin)",
