@@ -343,92 +343,129 @@ function DownloadBar({ count, max }: { count: number; max: number }) {
   );
 }
 
-// ─── Channel Bar (WhatsApp / Telegram style) ─────────────────────────────────
+// ─── Channel Bar (WhatsApp Channel style) ────────────────────────────────────
 
 function ChannelBar({
   icon,
-  channelName,
-  channelUrl,
+  title,
+  subtitle,
+  value,
+  valueLabel,
   count,
   max,
   barColor,
   barGradient,
   dotColor,
   accentColor,
+  channelUrl,
 }: {
   icon: React.ReactNode;
-  channelName: string;
-  channelUrl: string;
-  count: number;
-  max: number;
+  title: string;
+  subtitle: string;
+  value?: string;
+  valueLabel?: string;
+  count?: number;
+  max?: number;
   barColor: string;
   barGradient: string;
   dotColor: string;
   accentColor: string;
+  channelUrl?: string;
 }) {
-  const pct = Math.min(100, (count / max) * 100);
-  return (
-    <a
-      href={channelUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block rounded-2xl border overflow-hidden cursor-pointer group"
-      style={{
-        background: "var(--ast-bar-bg)",
-        borderColor: "var(--ast-border)",
-        textDecoration: "none",
-        transition: "border-color 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = `${accentColor}33`;
-        e.currentTarget.style.transform = "translateY(-2px)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "var(--ast-border)";
-        e.currentTarget.style.transform = "translateY(0)";
-      }}
-    >
+  const pct = max && count ? Math.min(100, (count / max) * 100) : 0;
+  const displayValue = value || (count ? count.toLocaleString("en-US") : "");
+  const displayLabel = valueLabel || "";
+
+  const inner = (
+    <>
       {/* Channel header */}
       <div className="flex items-center gap-3 py-3 px-4" style={{
-        borderBottom: "1px solid var(--ast-border)",
+        borderBottom: (max && count) ? "1px solid var(--ast-border)" : "none",
       }}>
         {/* Channel icon */}
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{
+        <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{
           background: barGradient,
-          boxShadow: `0 2px 8px ${barColor}33`,
+          boxShadow: `0 2px 10px ${barColor}40`,
         }}>
           {icon}
         </div>
         {/* Channel info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-[12px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{channelName}</span>
+            <span className="text-[12px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{title}</span>
             <span className="w-[6px] h-[6px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
               background: dotColor,
               boxShadow: `0 0 6px ${barColor}88`,
             }} />
           </div>
-          <span className="text-[9px] font-semibold tracking-[0.12em] uppercase" style={{ color: "var(--ast-gray)" }}>CHANNEL</span>
+          <span className="text-[9px] font-semibold tracking-[0.12em] uppercase" style={{ color: "var(--ast-gray)" }}>{subtitle}</span>
         </div>
-        {/* Counter */}
+        {/* Value / Counter */}
         <div className="flex flex-col items-end shrink-0">
           <span className="font-mono text-[16px] font-bold tracking-wide" style={{
             color: "#ffffff",
             textShadow: "none",
-          }}>{count.toLocaleString("en-US")}</span>
-          <span className="text-[8px] font-semibold tracking-[0.1em] uppercase" style={{ color: accentColor }}>followers</span>
+          }}>{displayValue}</span>
+          {displayLabel && (
+            <span className="text-[8px] font-semibold tracking-[0.1em] uppercase" style={{ color: accentColor }}>{displayLabel}</span>
+          )}
         </div>
       </div>
       {/* Progress bar */}
-      <div className="h-[4px] w-full" style={{ background: `${barColor}14` }}>
-        <div className="h-full" style={{
-          width: `${pct}%`,
-          background: barGradient,
-          boxShadow: `0 0 8px ${barColor}66`,
-          transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
-        }} />
-      </div>
-    </a>
+      {(max && count) && (
+        <div className="h-[4px] w-full" style={{ background: `${barColor}14` }}>
+          <div className="h-full" style={{
+            width: `${pct}%`,
+            background: barGradient,
+            boxShadow: `0 0 8px ${barColor}66`,
+            transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
+          }} />
+        </div>
+      )}
+    </>
+  );
+
+  const wrapperStyle: React.CSSProperties = {
+    background: "var(--ast-bar-bg)",
+    borderColor: "var(--ast-border)",
+    textDecoration: "none",
+    transition: "border-color 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1)",
+  };
+
+  const hoverIn = (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.style.borderColor = `${accentColor}33`;
+    e.currentTarget.style.transform = "translateY(-2px)";
+  };
+  const hoverOut = (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.style.borderColor = "var(--ast-border)";
+    e.currentTarget.style.transform = "translateY(0)";
+  };
+
+  if (channelUrl) {
+    return (
+      <a
+        href={channelUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block rounded-2xl border overflow-hidden cursor-pointer"
+        style={wrapperStyle}
+        onMouseEnter={hoverIn}
+        onMouseLeave={hoverOut}
+      >
+        {inner}
+      </a>
+    );
+  }
+
+  return (
+    <div
+      className="rounded-2xl border overflow-hidden"
+      style={wrapperStyle}
+      onMouseEnter={hoverIn}
+      onMouseLeave={hoverOut}
+    >
+      {inner}
+    </div>
   );
 }
 
@@ -1013,8 +1050,6 @@ export default function AstuteApp() {
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
   const [downloadCount, setDownloadCount] = useState(1300);
-  const [waChannelCount, setWaChannelCount] = useState(2847);
-  const [tgChannelCount, setTgChannelCount] = useState(1536);
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -1123,38 +1158,6 @@ export default function AstuteApp() {
       setTimeout(() => {
         if (!mounted) return;
         setDownloadCount((c) => c + Math.floor(Math.random() * 4) + 1);
-        tick();
-      }, delay);
-    }
-    tick();
-    return () => { mounted = false; };
-  }, []);
-
-  // WhatsApp channel counter
-  useEffect(() => {
-    let mounted = true;
-    function tick() {
-      if (!mounted) return;
-      const delay = Math.floor(Math.random() * 6000) + 3000;
-      setTimeout(() => {
-        if (!mounted) return;
-        setWaChannelCount((c) => c + Math.floor(Math.random() * 3) + 1);
-        tick();
-      }, delay);
-    }
-    tick();
-    return () => { mounted = false; };
-  }, []);
-
-  // Telegram channel counter
-  useEffect(() => {
-    let mounted = true;
-    function tick() {
-      if (!mounted) return;
-      const delay = Math.floor(Math.random() * 7000) + 4000;
-      setTimeout(() => {
-        if (!mounted) return;
-        setTgChannelCount((c) => c + Math.floor(Math.random() * 2) + 1);
         tick();
       }, delay);
     }
@@ -1607,27 +1610,34 @@ export default function AstuteApp() {
 
           <Reveal delay={70}>
             <div className="flex flex-col gap-3 my-6">
+              {/* STATUS bar — WhatsApp channel style */}
               <ChannelBar
-                icon={<WhatsAppIcon className="w-4 h-4 text-white" />}
-                channelName="ASTUTE WA"
-                channelUrl="https://whatsapp.com/channel/0029VbBxPsuDeONChEGz5D1Q"
-                count={waChannelCount}
-                max={10000}
-                barColor="#25D366"
-                barGradient="linear-gradient(90deg, #16a34a, #22c55e, #4ade80)"
+                icon={
+                  <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                  </svg>
+                }
+                title="STATUS SERVER"
+                subtitle="realtime monitor"
+                value="ONLINE"
+                valueLabel="active"
+                barColor="#22c55e"
+                barGradient="linear-gradient(135deg, #16a34a, #22c55e)"
                 dotColor="var(--ast-green)"
                 accentColor="var(--ast-green)"
               />
+              {/* BERHASIL DOWNLOAD bar — WhatsApp channel style */}
               <ChannelBar
-                icon={<TelegramIcon className="w-4 h-4 text-white" />}
-                channelName="ASTUTE TG"
-                channelUrl="https://t.me/ftrjna"
-                count={tgChannelCount}
+                icon={<Download className="w-4 h-4 text-white" />}
+                title="BERHASIL DOWNLOAD"
+                subtitle="total downloads"
+                count={downloadCount}
                 max={5000}
-                barColor="#229ED9"
-                barGradient="linear-gradient(90deg, #1a7ab5, #229ED9, #5ab8e8)"
-                dotColor="var(--ast-cyan)"
-                accentColor="var(--ast-cyan)"
+                barColor="#3b82f6"
+                barGradient="linear-gradient(90deg, #1d4ed8, #3b82f6, #60a5fa)"
+                dotColor="var(--ast-blue)"
+                accentColor="var(--ast-blue-l)"
               />
             </div>
           </Reveal>
