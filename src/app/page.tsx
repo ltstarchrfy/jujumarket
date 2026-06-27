@@ -374,50 +374,62 @@ function ChannelBar({
 }) {
   const pct = max && count ? Math.min(100, (count / max) * 100) : 0;
   const displayValue = value || (count ? count.toLocaleString("en-US") : "");
-  const displayLabel = valueLabel || "";
 
   const inner = (
     <>
-      {/* Channel header */}
-      <div className="flex items-center gap-3 py-3 px-4" style={{
-        borderBottom: (max && count) ? "1px solid var(--ast-border)" : "none",
-      }}>
-        {/* Channel icon */}
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{
+      {/* WhatsApp channel card body */}
+      <div className="flex items-center gap-3.5 py-3.5 px-4">
+        {/* Channel profile icon — like WA channel avatar */}
+        <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 relative" style={{
           background: barGradient,
-          boxShadow: `0 2px 10px ${barColor}40`,
+          boxShadow: `0 3px 12px ${barColor}50`,
         }}>
           {icon}
+          {/* Online indicator dot — like WA profile online dot */}
+          <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-[2.5px]" style={{
+            background: barColor,
+            borderColor: "var(--ast-bar-bg)",
+            boxShadow: `0 0 6px ${barColor}88`,
+          }} />
         </div>
+
         {/* Channel info */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-[12px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{title}</span>
-            <span className="w-[6px] h-[6px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
-              background: dotColor,
-              boxShadow: `0 0 6px ${barColor}88`,
-            }} />
+          <div className="flex items-center gap-1.5">
+            <span className="text-[13px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{title}</span>
+            {/* Verified badge — like WA channel checkmark */}
+            <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill={accentColor}>
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+            </svg>
           </div>
-          <span className="text-[9px] font-semibold tracking-[0.12em] uppercase" style={{ color: "var(--ast-gray)" }}>{subtitle}</span>
+          <div className="flex items-center gap-1.5 mt-[2px]">
+            <span className="w-[5px] h-[5px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
+              background: dotColor,
+              boxShadow: `0 0 4px ${barColor}66`,
+            }} />
+            <span className="text-[10px] font-medium" style={{ color: "var(--ast-gray)" }}>{subtitle}</span>
+          </div>
         </div>
-        {/* Value / Counter */}
+
+        {/* Value / Counter — like WA channel follower count */}
         <div className="flex flex-col items-end shrink-0">
-          <span className="font-mono text-[16px] font-bold tracking-wide" style={{
+          <span className="font-mono text-[18px] font-bold tracking-wide leading-none" style={{
             color: "#ffffff",
             textShadow: "none",
           }}>{displayValue}</span>
-          {displayLabel && (
-            <span className="text-[8px] font-semibold tracking-[0.1em] uppercase" style={{ color: accentColor }}>{displayLabel}</span>
+          {valueLabel && (
+            <span className="text-[8px] font-semibold tracking-[0.1em] uppercase mt-[2px]" style={{ color: accentColor }}>{valueLabel}</span>
           )}
         </div>
       </div>
-      {/* Progress bar */}
+
+      {/* Progress bar — like WA channel activity bar */}
       {(max && count) && (
-        <div className="h-[4px] w-full" style={{ background: `${barColor}14` }}>
+        <div className="h-[3px] w-full" style={{ background: `${barColor}18` }}>
           <div className="h-full" style={{
             width: `${pct}%`,
             background: barGradient,
-            boxShadow: `0 0 8px ${barColor}66`,
+            boxShadow: `0 0 6px ${barColor}55`,
             transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
           }} />
         </div>
@@ -429,16 +441,16 @@ function ChannelBar({
     background: "var(--ast-bar-bg)",
     borderColor: "var(--ast-border)",
     textDecoration: "none",
-    transition: "border-color 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1)",
+    transition: "border-color 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1)",
   };
 
   const hoverIn = (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.borderColor = `${accentColor}33`;
-    e.currentTarget.style.transform = "translateY(-2px)";
+    e.currentTarget.style.borderColor = `${barColor}30`;
+    e.currentTarget.style.boxShadow = `0 4px 20px ${barColor}15`;
   };
   const hoverOut = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.borderColor = "var(--ast-border)";
-    e.currentTarget.style.transform = "translateY(0)";
+    e.currentTarget.style.boxShadow = "none";
   };
 
   if (channelUrl) {
@@ -1613,7 +1625,7 @@ export default function AstuteApp() {
               {/* STATUS ONLINE bar — WhatsApp channel style */}
               <ChannelBar
                 icon={
-                  <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                   </svg>
                 }
@@ -1628,7 +1640,7 @@ export default function AstuteApp() {
               />
               {/* BERHASIL DOWNLOAD bar — WhatsApp channel style */}
               <ChannelBar
-                icon={<Download className="w-4 h-4 text-white" />}
+                icon={<Download className="w-5 h-5 text-white" />}
                 title="BERHASIL DOWNLOAD"
                 subtitle="total download"
                 count={downloadCount}
