@@ -343,6 +343,95 @@ function DownloadBar({ count, max }: { count: number; max: number }) {
   );
 }
 
+// ─── Channel Bar (WhatsApp / Telegram style) ─────────────────────────────────
+
+function ChannelBar({
+  icon,
+  channelName,
+  channelUrl,
+  count,
+  max,
+  barColor,
+  barGradient,
+  dotColor,
+  accentColor,
+}: {
+  icon: React.ReactNode;
+  channelName: string;
+  channelUrl: string;
+  count: number;
+  max: number;
+  barColor: string;
+  barGradient: string;
+  dotColor: string;
+  accentColor: string;
+}) {
+  const pct = Math.min(100, (count / max) * 100);
+  return (
+    <a
+      href={channelUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block rounded-2xl border overflow-hidden cursor-pointer group"
+      style={{
+        background: "var(--ast-bar-bg)",
+        borderColor: "var(--ast-border)",
+        textDecoration: "none",
+        transition: "border-color 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1)",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = `${accentColor}33`;
+        e.currentTarget.style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "var(--ast-border)";
+        e.currentTarget.style.transform = "translateY(0)";
+      }}
+    >
+      {/* Channel header */}
+      <div className="flex items-center gap-3 py-3 px-4" style={{
+        borderBottom: "1px solid var(--ast-border)",
+      }}>
+        {/* Channel icon */}
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{
+          background: barGradient,
+          boxShadow: `0 2px 8px ${barColor}33`,
+        }}>
+          {icon}
+        </div>
+        {/* Channel info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="text-[12px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{channelName}</span>
+            <span className="w-[6px] h-[6px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
+              background: dotColor,
+              boxShadow: `0 0 6px ${barColor}88`,
+            }} />
+          </div>
+          <span className="text-[9px] font-semibold tracking-[0.12em] uppercase" style={{ color: "var(--ast-gray)" }}>CHANNEL</span>
+        </div>
+        {/* Counter */}
+        <div className="flex flex-col items-end shrink-0">
+          <span className="font-mono text-[16px] font-bold tracking-wide" style={{
+            color: "#ffffff",
+            textShadow: "none",
+          }}>{count.toLocaleString("en-US")}</span>
+          <span className="text-[8px] font-semibold tracking-[0.1em] uppercase" style={{ color: accentColor }}>followers</span>
+        </div>
+      </div>
+      {/* Progress bar */}
+      <div className="h-[4px] w-full" style={{ background: `${barColor}14` }}>
+        <div className="h-full" style={{
+          width: `${pct}%`,
+          background: barGradient,
+          boxShadow: `0 0 8px ${barColor}66`,
+          transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
+        }} />
+      </div>
+    </a>
+  );
+}
+
 // ─── Status Bar ──────────────────────────────────────────────────────────────
 
 function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, live = false, bigDot = false }: {
@@ -924,6 +1013,8 @@ export default function AstuteApp() {
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
   const [downloadCount, setDownloadCount] = useState(1300);
+  const [waChannelCount, setWaChannelCount] = useState(2847);
+  const [tgChannelCount, setTgChannelCount] = useState(1536);
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -1032,6 +1123,38 @@ export default function AstuteApp() {
       setTimeout(() => {
         if (!mounted) return;
         setDownloadCount((c) => c + Math.floor(Math.random() * 4) + 1);
+        tick();
+      }, delay);
+    }
+    tick();
+    return () => { mounted = false; };
+  }, []);
+
+  // WhatsApp channel counter
+  useEffect(() => {
+    let mounted = true;
+    function tick() {
+      if (!mounted) return;
+      const delay = Math.floor(Math.random() * 6000) + 3000;
+      setTimeout(() => {
+        if (!mounted) return;
+        setWaChannelCount((c) => c + Math.floor(Math.random() * 3) + 1);
+        tick();
+      }, delay);
+    }
+    tick();
+    return () => { mounted = false; };
+  }, []);
+
+  // Telegram channel counter
+  useEffect(() => {
+    let mounted = true;
+    function tick() {
+      if (!mounted) return;
+      const delay = Math.floor(Math.random() * 7000) + 4000;
+      setTimeout(() => {
+        if (!mounted) return;
+        setTgChannelCount((c) => c + Math.floor(Math.random() * 2) + 1);
         tick();
       }, delay);
     }
@@ -1483,8 +1606,29 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={70}>
-            <div className="my-6">
-              <DownloadBar count={downloadCount} max={5000} />
+            <div className="flex flex-col gap-3 my-6">
+              <ChannelBar
+                icon={<WhatsAppIcon className="w-4 h-4 text-white" />}
+                channelName="ASTUTE WA"
+                channelUrl="https://whatsapp.com/channel/0029VbBxPsuDeONChEGz5D1Q"
+                count={waChannelCount}
+                max={10000}
+                barColor="#25D366"
+                barGradient="linear-gradient(90deg, #16a34a, #22c55e, #4ade80)"
+                dotColor="var(--ast-green)"
+                accentColor="var(--ast-green)"
+              />
+              <ChannelBar
+                icon={<TelegramIcon className="w-4 h-4 text-white" />}
+                channelName="ASTUTE TG"
+                channelUrl="https://t.me/ftrjna"
+                count={tgChannelCount}
+                max={5000}
+                barColor="#229ED9"
+                barGradient="linear-gradient(90deg, #1a7ab5, #229ED9, #5ab8e8)"
+                dotColor="var(--ast-cyan)"
+                accentColor="var(--ast-cyan)"
+              />
             </div>
           </Reveal>
 
