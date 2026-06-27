@@ -304,21 +304,35 @@ function DownloadBar({ count, max }: { count: number; max: number }) {
       background: "var(--ast-bar-bg)",
       borderColor: "var(--ast-border)",
     }}>
-      <div className="flex items-center justify-between px-4 py-2.5">
+      {/* Channel-style header */}
+      <div className="flex items-center justify-center gap-3 py-3 px-4" style={{
+        borderBottom: "1px solid var(--ast-border)",
+        background: "linear-gradient(180deg, rgba(34,197,94,0.04) 0%, transparent 100%)",
+      }}>
         <div className="flex items-center gap-2">
           <span className="w-[8px] h-[8px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
             background: "var(--ast-green)", boxShadow: "0 0 8px rgba(34,197,94,0.5)",
           }} />
-          <span className="text-[11px] font-semibold tracking-wider" style={{ color: "var(--ast-gray)" }}>BERHASIL DOWNLOAD</span>
+          <span className="text-[10px] font-semibold tracking-[0.12em] uppercase" style={{ color: "var(--ast-gray)" }}>STATUS</span>
         </div>
-        <span className="font-mono text-[14px] font-bold tracking-wide" style={{
+        <span className="text-[11px] font-bold" style={{ color: "var(--ast-green)" }}>ONLINE</span>
+        <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.12)" }}>│</span>
+        <div className="flex items-center gap-2">
+          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-green)" }}>
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          <span className="text-[10px] font-semibold tracking-[0.12em] uppercase" style={{ color: "var(--ast-gray)" }}>BERHASIL DOWNLOAD</span>
+        </div>
+        <span className="font-mono text-[15px] font-bold tracking-wide" style={{
           color: "#ffffff",
           textShadow: "none",
         }}>{count.toLocaleString("en-US")}</span>
       </div>
       {/* WhatsApp-style green progress bar */}
-      <div className="h-[5px] w-full" style={{ background: "rgba(34,197,94,0.1)" }}>
-        <div className="h-full rounded-full" style={{
+      <div className="h-[5px] w-full" style={{ background: "rgba(34,197,94,0.08)" }}>
+        <div className="h-full" style={{
           width: `${pct}%`,
           background: "linear-gradient(90deg, #16a34a, #22c55e, #4ade80)",
           boxShadow: "0 0 8px rgba(34,197,94,0.4)",
@@ -1469,8 +1483,7 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={70}>
-            <div className="flex flex-col gap-4 my-6">
-              <StatusBar dotColor="green" label="STATUS" value="ONLINE" valueColor="green" live />
+            <div className="my-6">
               <DownloadBar count={downloadCount} max={5000} />
             </div>
           </Reveal>
@@ -1583,7 +1596,6 @@ export default function AstuteApp() {
           </Reveal>
           <Reveal delay={140}>
             <div className="flex flex-col gap-4 mb-8">
-              <StatusBar dotColor="green" label="STATUS SERVER" value="ONLINE" valueColor="green" live />
               <DownloadBar count={downloadCount} max={5000} />
               <StatusBar dotColor="cyan" label="FILE SIZE" value="284 MB" valueColor="cyan" />
             </div>
