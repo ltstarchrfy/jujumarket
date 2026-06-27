@@ -1621,35 +1621,81 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={70}>
-            <div className="flex flex-col gap-3 my-6">
-              {/* STATUS ONLINE bar — WhatsApp channel style */}
-              <ChannelBar
-                icon={
-                  <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                  </svg>
-                }
-                title="STATUS ONLINE"
-                subtitle="server monitor"
-                value="ONLINE"
-                valueLabel="active"
-                barColor="#22c55e"
-                barGradient="linear-gradient(135deg, #16a34a, #22c55e)"
-                dotColor="var(--ast-green)"
-                accentColor="var(--ast-green)"
-              />
-              {/* BERHASIL DOWNLOAD bar — WhatsApp channel style */}
-              <ChannelBar
-                icon={<Download className="w-5 h-5 text-white" />}
-                title="BERHASIL DOWNLOAD"
-                subtitle="total download"
-                count={downloadCount}
-                max={5000}
-                barColor="#3b82f6"
-                barGradient="linear-gradient(90deg, #1d4ed8, #3b82f6, #60a5fa)"
-                dotColor="var(--ast-blue)"
-                accentColor="var(--ast-blue-l)"
-              />
+            <div className="my-6">
+              {/* 3 status cards — like reference site */}
+              <div className="grid grid-cols-3 gap-2.5 mb-3">
+                {/* STATUS */}
+                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
+                  background: "var(--ast-bar-bg)",
+                  borderColor: "rgba(34,197,94,0.1)",
+                }}>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-[5px] h-[5px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
+                      background: "var(--ast-green)", boxShadow: "0 0 6px rgba(34,197,94,0.5)",
+                    }} />
+                    <span className="text-[8px] font-semibold tracking-[0.1em] uppercase" style={{ color: "var(--ast-gray)" }}>STATUS</span>
+                  </div>
+                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-green)" }}>ONLINE</span>
+                </div>
+
+                {/* BERHASIL DOWNLOAD */}
+                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
+                  background: "var(--ast-bar-bg)",
+                  borderColor: "var(--ast-border)",
+                }}>
+                  <div className="flex items-center gap-1.5">
+                    <Download className="w-[10px] h-[10px]" style={{ color: "var(--ast-blue-l)" }} />
+                    <span className="text-[7px] font-semibold tracking-[0.08em] uppercase" style={{ color: "var(--ast-gray)" }}>DOWNLOAD</span>
+                  </div>
+                  <span className="font-mono text-[13px] font-bold" style={{
+                    color: "#ffffff",
+                    textShadow: "none",
+                  }}>{downloadCount.toLocaleString("en-US")}</span>
+                </div>
+
+                {/* SERVER REGION */}
+                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
+                  background: "var(--ast-bar-bg)",
+                  borderColor: "var(--ast-border)",
+                }}>
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-[10px] h-[10px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-blue-l)" }}>
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="2" y1="12" x2="22" y2="12" />
+                      <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                    </svg>
+                    <span className="text-[7px] font-semibold tracking-[0.08em] uppercase" style={{ color: "var(--ast-gray)" }}>REGION</span>
+                  </div>
+                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-blue-l)" }}>INDONESIA</span>
+                </div>
+              </div>
+
+              {/* Download progress bar */}
+              <div className="rounded-xl border overflow-hidden" style={{
+                background: "var(--ast-bar-bg)",
+                borderColor: "var(--ast-border)",
+              }}>
+                <div className="flex items-center justify-between px-3.5 py-2" style={{
+                  borderBottom: "1px solid var(--ast-border)",
+                }}>
+                  <div className="flex items-center gap-2">
+                    <Download className="w-3 h-3" style={{ color: "var(--ast-blue-l)" }} />
+                    <span className="text-[9px] font-semibold tracking-[0.1em] uppercase" style={{ color: "var(--ast-gray)" }}>BERHASIL DOWNLOAD</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-mono text-[12px] font-bold" style={{ color: "#ffffff", textShadow: "none" }}>{downloadCount.toLocaleString("en-US")}</span>
+                    <span className="text-[8px]" style={{ color: "var(--ast-gray2)" }}>/ 5,000</span>
+                  </div>
+                </div>
+                <div className="h-[4px] w-full" style={{ background: "rgba(37,99,235,0.08)" }}>
+                  <div className="h-full" style={{
+                    width: `${Math.min(100, (downloadCount / 5000) * 100)}%`,
+                    background: "linear-gradient(90deg, #1d4ed8, #3b82f6, #60a5fa)",
+                    boxShadow: "0 0 8px rgba(37,99,235,0.4)",
+                    transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
+                  }} />
+                </div>
+              </div>
             </div>
           </Reveal>
 
@@ -1696,7 +1742,7 @@ export default function AstuteApp() {
               <div className="absolute top-0 left-0 right-0 h-[2px]"
                 style={{ background: "linear-gradient(90deg,var(--ast-blue-d),var(--ast-blue),var(--ast-cyan))", opacity: 0.35 }} />
               <h3 className="text-[13px] font-bold mb-3 flex items-center gap-[7px]" style={{ color: "var(--ast-blue-l)" }}>
-                <Info className="w-4 h-4" /> Cara Install &amp; Setup
+                <Info className="w-4 h-4" /> Cara Setup Astute Method Terbaru
               </h3>
               <ol className="pl-4 text-xs leading-[2.2] list-decimal" style={{ color: "var(--ast-gray)" }}>
                 <li>Download file <strong className="text-white font-semibold">ASTUTE OB54</strong> di atas</li>
