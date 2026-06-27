@@ -17,13 +17,6 @@ import {
   VolumeX,
   Crown,
   MessageCircle,
-  Smartphone,
-  User,
-  ShoppingBag,
-  Sparkles,
-  Music,
-  Zap,
-  CheckCircle2,
 } from "lucide-react";
 
 // ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
@@ -64,6 +57,88 @@ function TelegramIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
       <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+    </svg>
+  );
+}
+
+// ─── Custom VIP Feature Icons (SVG) ──────────────────────────────────────────
+
+function IconDeviceSecurity({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="3" />
+      <line x1="12" y1="18" x2="12" y2="18.01" strokeWidth="2.5" />
+      <path d="M9 8.5L10.5 10L15 5.5" strokeWidth="2" />
+      <path d="M3 7L5 6" strokeWidth="1.5" opacity="0.5" />
+      <path d="M3 12L5 11.5" strokeWidth="1.5" opacity="0.5" />
+      <path d="M19 7L21 6" strokeWidth="1.5" opacity="0.5" />
+      <path d="M19 12L21 11.5" strokeWidth="1.5" opacity="0.5" />
+    </svg>
+  );
+}
+
+function IconAccountProfile({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21v-1C4 16.582 7.582 14 12 14s8 2.582 8 6v1" />
+      <path d="M16 6L18 4L20 6" strokeWidth="1.5" opacity="0.6" />
+      <circle cx="19" cy="4.5" r="1" fill="currentColor" opacity="0.5" stroke="none" />
+    </svg>
+  );
+}
+
+function IconShopItem({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <path d="M16 10a4 4 0 01-8 0" />
+      <circle cx="17" cy="3" r="1.2" fill="currentColor" stroke="none" opacity="0.5" />
+      <path d="M10 2L12 4L14 2" strokeWidth="1.2" opacity="0.5" />
+    </svg>
+  );
+}
+
+function IconCharacterSkin({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2L14.5 9H22L16 13.5L18 21L12 17L6 21L8 13.5L2 9H9.5L12 2Z" />
+      <path d="M12 6L13.2 9.5H17L14 11.8L15.2 15.5L12 13.2L8.8 15.5L10 11.8L7 9.5H10.8L12 6Z" strokeWidth="1" opacity="0.5" />
+    </svg>
+  );
+}
+
+function IconEmoteInteract({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+      <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="2.5" />
+      <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="2.5" />
+      <path d="M17 3L19 1L21 3" strokeWidth="1.3" opacity="0.5" />
+      <path d="M3 17L5 19L3 21" strokeWidth="1.3" opacity="0.5" />
+    </svg>
+  );
+}
+
+function IconCombatSpecial({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14.5 17.5L3 6V3h3l11.5 11.5" />
+      <path d="M13 7L17 3L21 3L21 7L17 11" />
+      <path d="M16 13L19 16L21 21L16 19L13 16" />
+      <path d="M7.5 10.5L3 15V18H6L10.5 13.5" />
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" opacity="0.3" />
+    </svg>
+  );
+}
+
+function IconVipCheck({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2L14.09 8.26L20.18 8.63L15.54 12.54L17.12 18.84L12 15.4L6.88 18.84L8.46 12.54L3.82 8.63L9.91 8.26L12 2Z" strokeWidth="1.2" />
+      <path d="M8 12.5L10.5 15L16 9" strokeWidth="2.5" />
     </svg>
   );
 }
@@ -621,7 +696,7 @@ function FeatureCarousel({ items, theme = "blue" }: {
                 <div className="flex flex-col gap-1.5 mt-1">
                   {it.features.map((feat, fi) => (
                     <div key={fi} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 mt-[1px] shrink-0" style={{ color: ts.accent }} />
+                      <IconVipCheck className="w-3.5 h-3.5 mt-[1px] shrink-0" style={{ color: ts.accent }} />
                       <span className="text-[12px] leading-snug" style={{ color: "var(--ast-gray)" }}>{feat}</span>
                     </div>
                   ))}
@@ -1676,12 +1751,12 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>VIP Features</span>
             </div>
             <FeatureCarousel theme="blue" items={[
-              { num: <Smartphone className="w-5 h-5" />, title: "Perangkat & Keamanan", desc: "",
+              { num: <IconDeviceSecurity className="w-5 h-5" />, title: "Perangkat & Keamanan", desc: "",
                 features: [
                   "Bisa digunakan di Android maupun iPhone",
                   "Proteksi anti-ban yang kuat dan aman",
                 ] },
-              { num: <User className="w-5 h-5" />, title: "Akun & Profil", desc: "",
+              { num: <IconAccountProfile className="w-5 h-5" />, title: "Akun & Profil", desc: "",
                 features: [
                   "Bisa klaim mail seperti akun asli",
                   "Setting nama karakter",
@@ -1690,26 +1765,26 @@ export default function AstuteApp() {
                   "Prime level 8 bisa diubah sesuai keinginan",
                   "Setting pertemanan",
                 ] },
-              { num: <ShoppingBag className="w-5 h-5" />, title: "Shop & Item", desc: "",
+              { num: <IconShopItem className="w-5 h-5" />, title: "Shop & Item", desc: "",
                 features: [
                   "Nambahin item di shop & dibeli",
                   "Kebebasan mengatur shop sesuai selera",
                   "Setting vault ghoib",
                 ] },
-              { num: <Sparkles className="w-5 h-5" />, title: "Karakter & Skin", desc: "",
+              { num: <IconCharacterSkin className="w-5 h-5" />, title: "Karakter & Skin", desc: "",
                 features: [
                   "Semua karakter terbuka dan bisa digunakan",
                   "Main skin terbawa semua (tidak bisa damage)",
                   "Skill karakter kebawa di ingame (tidak untuk di room)",
                 ] },
-              { num: <Music className="w-5 h-5" />, title: "Emote & Interaksi", desc: "",
+              { num: <IconEmoteInteract className="w-5 h-5" />, title: "Emote & Interaksi", desc: "",
                 features: [
                   "Emote tembus ke akun original",
                   "Emote berubah dan tembus ke akun original",
                   "Terlihat sesama pengguna Beta Astute",
                   "Bisa melakukan spin wheel",
                 ] },
-              { num: <Zap className="w-5 h-5" />, title: "Combat & Spesial", desc: "",
+              { num: <IconCombatSpecial className="w-5 h-5" />, title: "Combat & Spesial", desc: "",
                 features: [
                   "Glowall & terlihat di lu & sesama FF Astute",
                   "Damage & ga kerasa seperti skin aslinya (no skin)",
@@ -1758,12 +1833,12 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Keuntungan VIP</span>
             </div>
             <FeatureCarousel theme="amber" items={[
-              { num: <Smartphone className="w-5 h-5" />, title: "Perangkat & Keamanan", desc: "",
+              { num: <IconDeviceSecurity className="w-5 h-5" />, title: "Perangkat & Keamanan", desc: "",
                 features: [
                   "Bisa digunakan di Android maupun iPhone",
                   "Proteksi anti-ban yang kuat dan aman",
                 ] },
-              { num: <User className="w-5 h-5" />, title: "Akun & Profil", desc: "",
+              { num: <IconAccountProfile className="w-5 h-5" />, title: "Akun & Profil", desc: "",
                 features: [
                   "Bisa klaim mail seperti akun asli",
                   "Setting nama karakter",
@@ -1772,26 +1847,26 @@ export default function AstuteApp() {
                   "Prime level 8 bisa diubah sesuai keinginan",
                   "Setting pertemanan",
                 ] },
-              { num: <ShoppingBag className="w-5 h-5" />, title: "Shop & Item", desc: "",
+              { num: <IconShopItem className="w-5 h-5" />, title: "Shop & Item", desc: "",
                 features: [
                   "Nambahin item di shop & dibeli",
                   "Kebebasan mengatur shop sesuai selera",
                   "Setting vault ghoib",
                 ] },
-              { num: <Sparkles className="w-5 h-5" />, title: "Karakter & Skin", desc: "",
+              { num: <IconCharacterSkin className="w-5 h-5" />, title: "Karakter & Skin", desc: "",
                 features: [
                   "Semua karakter terbuka dan bisa digunakan",
                   "Main skin terbawa semua (tidak bisa damage)",
                   "Skill karakter kebawa di ingame (tidak untuk di room)",
                 ] },
-              { num: <Music className="w-5 h-5" />, title: "Emote & Interaksi", desc: "",
+              { num: <IconEmoteInteract className="w-5 h-5" />, title: "Emote & Interaksi", desc: "",
                 features: [
                   "Emote tembus ke akun original",
                   "Emote berubah dan tembus ke akun original",
                   "Terlihat sesama pengguna Beta Astute",
                   "Bisa melakukan spin wheel",
                 ] },
-              { num: <Zap className="w-5 h-5" />, title: "Combat & Spesial", desc: "",
+              { num: <IconCombatSpecial className="w-5 h-5" />, title: "Combat & Spesial", desc: "",
                 features: [
                   "Glowall & terlihat di lu & sesama FF Astute",
                   "Damage & ga kerasa seperti skin aslinya (no skin)",
