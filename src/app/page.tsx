@@ -295,6 +295,40 @@ function Toast({ message, visible }: { message: string; visible: boolean }) {
   );
 }
 
+// ─── Download Progress Bar (WhatsApp Style) ──────────────────────────────────
+
+function DownloadBar({ count, max }: { count: number; max: number }) {
+  const pct = Math.min(100, (count / max) * 100);
+  return (
+    <div className="rounded-2xl border overflow-hidden" style={{
+      background: "var(--ast-bar-bg)",
+      borderColor: "var(--ast-border)",
+    }}>
+      <div className="flex items-center justify-between px-4 py-2.5">
+        <div className="flex items-center gap-2">
+          <span className="w-[8px] h-[8px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
+            background: "var(--ast-green)", boxShadow: "0 0 8px rgba(34,197,94,0.5)",
+          }} />
+          <span className="text-[11px] font-semibold tracking-wider" style={{ color: "var(--ast-gray)" }}>BERHASIL DOWNLOAD</span>
+        </div>
+        <span className="font-mono text-[14px] font-bold tracking-wide" style={{
+          color: "#ffffff",
+          textShadow: "none",
+        }}>{count.toLocaleString("en-US")}</span>
+      </div>
+      {/* WhatsApp-style green progress bar */}
+      <div className="h-[5px] w-full" style={{ background: "rgba(34,197,94,0.1)" }}>
+        <div className="h-full rounded-full" style={{
+          width: `${pct}%`,
+          background: "linear-gradient(90deg, #16a34a, #22c55e, #4ade80)",
+          boxShadow: "0 0 8px rgba(34,197,94,0.4)",
+          transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
+        }} />
+      </div>
+    </div>
+  );
+}
+
 // ─── Status Bar ──────────────────────────────────────────────────────────────
 
 function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, live = false, bigDot = false }: {
@@ -376,14 +410,15 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
 
 // ─── Link Box ────────────────────────────────────────────────────────────────
 
-function LinkBox({ title, url, desc, icon }: {
-  title: string; url: string; desc: string; icon: React.ReactNode;
+function LinkBox({ title, url, desc, icon, onLinkClick }: {
+  title: string; url: string; desc: string; icon: React.ReactNode; onLinkClick?: () => void;
 }) {
   return (
     <a
       href={url}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={onLinkClick}
       className="flex items-center gap-4 py-4 px-5 rounded-2xl border group cursor-pointer"
       style={{
         background: "var(--ast-bg2)",
@@ -483,6 +518,68 @@ function FeatureItem({ num, theme, title, desc, dark }: {
       </div>
       <div className="text-xs leading-relaxed" style={{ color: dark ? "#6b7280" : "var(--ast-gray)" }}>
         <strong className={dark ? "" : "text-white"} style={dark ? { color: "#6b7280", fontWeight: 600 } : { fontWeight: 600 }}>{title}</strong>{dark ? " — " : " — "}{desc}
+      </div>
+    </div>
+  );
+}
+
+// ─── VIP Feature Box (like Cara Install & Setup style) ───────────────────────
+
+function VipFeatureBox({ theme = "blue" }: { theme?: string }) {
+  const accentColor = theme === "amber" ? "var(--ast-amber)" : "var(--ast-blue-l)";
+  const gradientLine = theme === "amber"
+    ? "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)"
+    : "linear-gradient(90deg, var(--ast-blue-d), var(--ast-blue), var(--ast-cyan))";
+
+  const categories = [
+    { icon: <IconDeviceSecurity className="w-4 h-4" />, title: "Perangkat & Keamanan",
+      features: ["Bisa digunakan di Android maupun iPhone", "Proteksi anti-ban yang kuat dan aman"] },
+    { icon: <IconAccountProfile className="w-4 h-4" />, title: "Akun & Profil",
+      features: ["Bisa klaim mail seperti akun asli", "Setting nama karakter", "Setting region sesuai kebutuhan", "Badge terlihat di lobby", "Prime level 8 bisa diubah sesuai keinginan", "Setting pertemanan"] },
+    { icon: <IconShopItem className="w-4 h-4" />, title: "Shop & Item",
+      features: ["Nambahin item di shop & dibeli", "Kebebasan mengatur shop sesuai selera", "Setting vault ghoib"] },
+    { icon: <IconCharacterSkin className="w-4 h-4" />, title: "Karakter & Skin",
+      features: ["Semua karakter terbuka dan bisa digunakan", "Main skin terbawa semua (tidak bisa damage)", "Skill karakter kebawa di ingame (tidak untuk di room)"] },
+    { icon: <IconEmoteInteract className="w-4 h-4" />, title: "Emote & Interaksi",
+      features: ["Emote tembus ke akun original", "Emote berubah dan tembus ke akun original", "Terlihat sesama pengguna Beta Astute", "Bisa melakukan spin wheel"] },
+    { icon: <IconCombatSpecial className="w-4 h-4" />, title: "Combat & Spesial",
+      features: ["Glowall & terlihat di lu & sesama FF Astute", "Damage & ga kerasa seperti skin aslinya (no skin)", "Skills pet kebawa di ingame"] },
+  ];
+
+  return (
+    <div className="rounded-2xl p-5 relative overflow-hidden border" style={{
+      background: "var(--ast-bg2)",
+      borderColor: "var(--ast-border)",
+    }}>
+      <div className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{ background: gradientLine, opacity: 0.35 }} />
+      <div className="flex flex-col gap-4">
+        {categories.map((cat, i) => (
+          <div key={i}>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{
+                background: theme === "amber"
+                  ? "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)"
+                  : "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                boxShadow: `0 2px 8px ${theme === "amber" ? "rgba(245,158,11,0.25)" : "rgba(37,99,235,0.25)"}`,
+              }}>
+                {cat.icon}
+              </div>
+              <span className="text-[13px] font-bold" style={{ color: accentColor }}>{cat.title}</span>
+            </div>
+            <div className="flex flex-col gap-1 pl-9">
+              {cat.features.map((feat, fi) => (
+                <div key={fi} className="flex items-start gap-2">
+                  <IconVipCheck className="w-3 h-3 mt-[3px] shrink-0" style={{ color: accentColor }} />
+                  <span className="text-[12px] leading-snug" style={{ color: "var(--ast-gray)" }}>{feat}</span>
+                </div>
+              ))}
+            </div>
+            {i < categories.length - 1 && (
+              <div className="mt-4 h-px" style={{ background: "var(--ast-border)", opacity: 0.5 }} />
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -812,7 +909,7 @@ export default function AstuteApp() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
-  const [downloadCount, setDownloadCount] = useState(14827);
+  const [downloadCount, setDownloadCount] = useState(1300);
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -966,8 +1063,13 @@ export default function AstuteApp() {
 
   const formattedCount = downloadCount.toLocaleString("en-US");
 
+  // Increment download count when PlayStore link clicked
+  const bumpDownload = useCallback(() => {
+    setDownloadCount(prev => prev + 1);
+  }, []);
+
   const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
-    { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB 53", desc: "Download main APK" },
+    { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB54", desc: "Download main APK" },
     { name: "panel", icon: <Settings className="w-6 h-6" />, title: "PANEL ASTUTE", desc: "Control panel & config" },
     { name: "verif", icon: <ShieldCheck className="w-6 h-6" />, title: "VERIF MANUAL", desc: "Bypass verification" },
     { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
@@ -1317,7 +1419,7 @@ export default function AstuteApp() {
 
         <div className="p-5 border-t text-center shrink-0" style={{ borderColor: "var(--ast-border)" }}>
           <div className="font-mono text-[10px] tracking-[0.1em]" style={{ color: "var(--ast-gray2)" }}>
-            ASTUTE v53.0 · BUILD 2025
+            ASTUTE v54.0 · BUILD 2025
           </div>
           <div className="inline-flex items-center gap-1.5 mt-2.5 px-3.5 py-[5px] rounded-full border font-mono text-[9px] font-bold tracking-[0.1em]"
             style={{ background: "rgba(34,197,94,0.06)", borderColor: "rgba(34,197,94,0.12)", color: "var(--ast-green)" }}>
@@ -1359,7 +1461,7 @@ export default function AstuteApp() {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 filter: "drop-shadow(0 0 8px rgba(37,99,235,0.35))",
-              }}>FFASTUTECH OB 53</div>
+              }}>FFASTUTECH OB54</div>
               <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Cara download, install, dan setup proxy server free terbaru — work 100%
               </p>
@@ -1369,7 +1471,7 @@ export default function AstuteApp() {
           <Reveal delay={70}>
             <div className="flex flex-col gap-4 my-6">
               <StatusBar dotColor="green" label="STATUS" value="ONLINE" valueColor="green" live />
-              <StatusBar dotColor="blue" label="BERHASIL DOWNLOAD" value={formattedCount} valueColor="blue" valueGradient bigDot />
+              <DownloadBar count={downloadCount} max={5000} />
             </div>
           </Reveal>
 
@@ -1389,7 +1491,7 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
             </div>
             <div className="flex flex-col gap-3.5 mb-5">
-              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB 53" desc="Main APK" newBadge onClick={() => goPage("download")} />
+              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB54" desc="Main APK" newBadge onClick={() => goPage("download")} />
               <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
             </div>
@@ -1419,7 +1521,7 @@ export default function AstuteApp() {
                 <Info className="w-4 h-4" /> Cara Install &amp; Setup
               </h3>
               <ol className="pl-4 text-xs leading-[2.2] list-decimal" style={{ color: "var(--ast-gray)" }}>
-                <li>Download file <strong className="text-white font-semibold">ASTUTE OB 53</strong> di atas</li>
+                <li>Download file <strong className="text-white font-semibold">ASTUTE OB54</strong> di atas</li>
                 <li>Install <strong className="text-white font-semibold">Panel ASTUTE</strong> terlebih dahulu</li>
                 <li>Buka panel, lakukan <strong className="text-white font-semibold">Verif Manual</strong></li>
                 <li>Set proxy sesuai tutorial di <strong className="text-white font-semibold">Discord</strong></li>
@@ -1473,7 +1575,7 @@ export default function AstuteApp() {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
-              }}>ASTUTE OB 53</h2>
+              }}>ASTUTE OB54</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
               </p>
@@ -1482,7 +1584,7 @@ export default function AstuteApp() {
           <Reveal delay={140}>
             <div className="flex flex-col gap-4 mb-8">
               <StatusBar dotColor="green" label="STATUS SERVER" value="ONLINE" valueColor="green" live />
-              <StatusBar dotColor="blue" label="TOTAL DOWNLOAD" value={formattedCount} valueColor="blue" valueGradient />
+              <DownloadBar count={downloadCount} max={5000} />
               <StatusBar dotColor="cyan" label="FILE SIZE" value="284 MB" valueColor="cyan" />
             </div>
           </Reveal>
@@ -1496,12 +1598,14 @@ export default function AstuteApp() {
               url="https://play.google.com/store/apps/details?id=com.dts.freefiremax"
               desc="Download Free Fire MAX Original dari Google Play Store"
               icon={<Download className="w-5 h-5 text-white" />}
+              onLinkClick={bumpDownload}
             />
             <LinkBox
               title="FF BIASA ORIGINAL NEW"
               url="https://play.google.com/store/apps/details?id=com.dts.freefireth"
               desc="Download Free Fire Original dari Google Play Store"
               icon={<Download className="w-5 h-5 text-white" />}
+              onLinkClick={bumpDownload}
             />
             <LinkBox
               title="JSON ASTUTE"
@@ -1750,47 +1854,7 @@ export default function AstuteApp() {
               <ShieldCheck className="w-3 h-3" style={{ color: "var(--ast-blue-l)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>VIP Features</span>
             </div>
-            <FeatureCarousel theme="blue" items={[
-              { num: <IconDeviceSecurity className="w-5 h-5" />, title: "Perangkat & Keamanan", desc: "",
-                features: [
-                  "Bisa digunakan di Android maupun iPhone",
-                  "Proteksi anti-ban yang kuat dan aman",
-                ] },
-              { num: <IconAccountProfile className="w-5 h-5" />, title: "Akun & Profil", desc: "",
-                features: [
-                  "Bisa klaim mail seperti akun asli",
-                  "Setting nama karakter",
-                  "Setting region sesuai kebutuhan",
-                  "Badge terlihat di lobby",
-                  "Prime level 8 bisa diubah sesuai keinginan",
-                  "Setting pertemanan",
-                ] },
-              { num: <IconShopItem className="w-5 h-5" />, title: "Shop & Item", desc: "",
-                features: [
-                  "Nambahin item di shop & dibeli",
-                  "Kebebasan mengatur shop sesuai selera",
-                  "Setting vault ghoib",
-                ] },
-              { num: <IconCharacterSkin className="w-5 h-5" />, title: "Karakter & Skin", desc: "",
-                features: [
-                  "Semua karakter terbuka dan bisa digunakan",
-                  "Main skin terbawa semua (tidak bisa damage)",
-                  "Skill karakter kebawa di ingame (tidak untuk di room)",
-                ] },
-              { num: <IconEmoteInteract className="w-5 h-5" />, title: "Emote & Interaksi", desc: "",
-                features: [
-                  "Emote tembus ke akun original",
-                  "Emote berubah dan tembus ke akun original",
-                  "Terlihat sesama pengguna Beta Astute",
-                  "Bisa melakukan spin wheel",
-                ] },
-              { num: <IconCombatSpecial className="w-5 h-5" />, title: "Combat & Spesial", desc: "",
-                features: [
-                  "Glowall & terlihat di lu & sesama FF Astute",
-                  "Damage & ga kerasa seperti skin aslinya (no skin)",
-                  "Skills pet kebawa di ingame",
-                ] },
-            ]} />
+            <VipFeatureBox theme="blue" />
           </Reveal>
         </PageWrapper>
 
@@ -1832,47 +1896,7 @@ export default function AstuteApp() {
               <Crown className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Keuntungan VIP</span>
             </div>
-            <FeatureCarousel theme="amber" items={[
-              { num: <IconDeviceSecurity className="w-5 h-5" />, title: "Perangkat & Keamanan", desc: "",
-                features: [
-                  "Bisa digunakan di Android maupun iPhone",
-                  "Proteksi anti-ban yang kuat dan aman",
-                ] },
-              { num: <IconAccountProfile className="w-5 h-5" />, title: "Akun & Profil", desc: "",
-                features: [
-                  "Bisa klaim mail seperti akun asli",
-                  "Setting nama karakter",
-                  "Setting region sesuai kebutuhan",
-                  "Badge terlihat di lobby",
-                  "Prime level 8 bisa diubah sesuai keinginan",
-                  "Setting pertemanan",
-                ] },
-              { num: <IconShopItem className="w-5 h-5" />, title: "Shop & Item", desc: "",
-                features: [
-                  "Nambahin item di shop & dibeli",
-                  "Kebebasan mengatur shop sesuai selera",
-                  "Setting vault ghoib",
-                ] },
-              { num: <IconCharacterSkin className="w-5 h-5" />, title: "Karakter & Skin", desc: "",
-                features: [
-                  "Semua karakter terbuka dan bisa digunakan",
-                  "Main skin terbawa semua (tidak bisa damage)",
-                  "Skill karakter kebawa di ingame (tidak untuk di room)",
-                ] },
-              { num: <IconEmoteInteract className="w-5 h-5" />, title: "Emote & Interaksi", desc: "",
-                features: [
-                  "Emote tembus ke akun original",
-                  "Emote berubah dan tembus ke akun original",
-                  "Terlihat sesama pengguna Beta Astute",
-                  "Bisa melakukan spin wheel",
-                ] },
-              { num: <IconCombatSpecial className="w-5 h-5" />, title: "Combat & Spesial", desc: "",
-                features: [
-                  "Glowall & terlihat di lu & sesama FF Astute",
-                  "Damage & ga kerasa seperti skin aslinya (no skin)",
-                  "Skills pet kebawa di ingame",
-                ] },
-            ]} />
+            <VipFeatureBox theme="amber" />
           </Reveal>
 
           {/* Kontak Pembelian */}
