@@ -1801,9 +1801,9 @@ export default function AstuteApp() {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] line-through" style={{ color: "var(--ast-gray)" }}>100K</span>
-                    <span className="text-[18px] font-extrabold" style={{ color: "#fbbf24" }}>50K</span>
-                    <span className="text-[9px] font-mono" style={{ color: "var(--ast-gray)" }}>IDR</span>
+                    <span className="text-[10px] line-through" style={{ color: "var(--ast-gray)" }}>500K</span>
+                    <span className="text-[18px] font-black" style={{ color: "#fbbf24" }}>300K</span>
+                    <span className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</span>
                   </div>
                   <div className="flex items-center gap-1 text-[10px] font-bold" style={{ color: "#fbbf24" }}>
                     Mulai <Crown className="w-3 h-3" />
@@ -2231,66 +2231,64 @@ export default function AstuteApp() {
             </div>
 
             {/* VIP 1 Day */}
-            <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border2)" }}>
+            <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden cursor-pointer active:scale-[0.98]"
+              onClick={() => goPage("changelog")}
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b)", opacity: 0.4 }} />
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[15px] font-extrabold" style={{ color: "var(--ast-amber)" }}>VIP 1 HARI</div>
+                  <div className="text-[16px] font-black" style={{ color: "var(--ast-amber)" }}>VIP PERHARI</div>
                   <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 24 jam</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[20px] font-extrabold" style={{ color: "#fbbf24" }}>5K</div>
-                  <div className="text-[9px] font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  <div className="text-[24px] font-black" style={{ color: "#fbbf24" }}>10K</div>
+                  <div className="text-[10px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-1.5">
-                {["All Skin", "All Character", "Emote", "Glowall"].map(f => (
-                  <span key={f} className="px-2 py-[3px] rounded-full text-[9px] font-semibold" style={{ background: "rgba(245,158,11,0.08)", color: "var(--ast-amber)", border: "1px solid rgba(245,158,11,0.15)" }}>{f}</span>
-                ))}
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-[11px] font-bold" style={{ color: "var(--ast-amber)" }}>FITUR →</span>
               </div>
             </div>
 
             {/* VIP 1 Week */}
-            <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "rgba(245,158,11,0.2)" }}>
+            <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden cursor-pointer active:scale-[0.98]"
+              onClick={() => goPage("changelog")}
+              style={{ background: "var(--ast-bg2)", borderColor: "rgba(245,158,11,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)", opacity: 0.6 }} />
-              {/* Popular badge */}
               <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #92400e, #f59e0b)", color: "#fff" }}>POPULER</div>
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[15px] font-extrabold" style={{ color: "var(--ast-amber)" }}>VIP 7 HARI</div>
+                  <div className="text-[16px] font-black" style={{ color: "var(--ast-amber)" }}>VIP PERMINGGU</div>
                   <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 1 minggu</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[20px] font-extrabold" style={{ color: "#fbbf24" }}>20K</div>
-                  <div className="text-[9px] font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  <div className="text-[24px] font-black" style={{ color: "#fbbf24" }}>70K</div>
+                  <div className="text-[10px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-1.5">
-                {["All Skin", "All Character", "Emote", "Glowall", "Shop Edit", "Vault Ghoib", "Badge"].map(f => (
-                  <span key={f} className="px-2 py-[3px] rounded-full text-[9px] font-semibold" style={{ background: "rgba(245,158,11,0.08)", color: "var(--ast-amber)", border: "1px solid rgba(245,158,11,0.15)" }}>{f}</span>
-                ))}
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-[11px] font-bold" style={{ color: "var(--ast-amber)" }}>FITUR →</span>
               </div>
             </div>
 
-            {/* VIP Permanent */}
-            <div className="rounded-2xl p-5 border relative overflow-hidden" style={{ background: "linear-gradient(135deg, rgba(146,64,14,0.12), rgba(245,158,11,0.06))", borderColor: "rgba(245,158,11,0.25)" }}>
+            {/* VIP 1 Month */}
+            <div className="rounded-2xl p-5 border relative overflow-hidden cursor-pointer active:scale-[0.98]"
+              onClick={() => goPage("changelog")}
+              style={{ background: "linear-gradient(135deg, rgba(146,64,14,0.12), rgba(245,158,11,0.06))", borderColor: "rgba(245,158,11,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)" }} />
-              {/* Best Value badge */}
               <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)", color: "#1a1a1a" }}>BEST VALUE</div>
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[15px] font-extrabold" style={{ color: "#fbbf24" }}>VIP PERMANENT</div>
-                  <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses selamanya tanpa batas waktu</div>
+                  <div className="text-[16px] font-black" style={{ color: "#fbbf24" }}>VIP PERBULAN</div>
+                  <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 1 bulan</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[20px] font-extrabold" style={{ color: "#fbbf24" }}>50K</div>
-                  <div className="text-[9px] font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  <div className="text-[24px] font-black" style={{ color: "#fbbf24" }}>300K</div>
+                  <div className="text-[10px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-1.5">
-                {["All Skin", "All Character", "Emote", "Glowall", "Shop Edit", "Vault Ghoib", "Badge", "Prime Lv8", "Anti-Ban", "Auto Update"].map(f => (
-                  <span key={f} className="px-2 py-[3px] rounded-full text-[9px] font-semibold" style={{ background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" }}>{f}</span>
-                ))}
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-[11px] font-bold" style={{ color: "#fbbf24" }}>FITUR →</span>
               </div>
             </div>
           </Reveal>
