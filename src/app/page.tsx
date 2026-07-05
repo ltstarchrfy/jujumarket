@@ -2576,7 +2576,7 @@ export default function AstuteApp() {
             </div>
             <LinkBox
               title="admin (WhatsApp)"
-              url="https://wa.me/6281218320975"
+              url="https://wa.me/628812882145"
               desc="Kirim bukti pembayaran QRIS ke admin"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
               item="qris-wa-admin"
