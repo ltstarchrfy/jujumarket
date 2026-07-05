@@ -1,0 +1,502 @@
+     1→  1589→        <PageWrapper pageName="home" currentPage={currentPage}>
+     2→  1590→          <Reveal>
+     3→  1591→            <div className="text-center pt-4">
+     4→  1592→              <div className="relative inline-block mb-5">
+     5→  1593→                <div className="w-[92px] h-[92px] rounded-[20px] overflow-hidden"
+     6→  1594→                  style={{
+     7→  1595→                    border: "3px solid rgba(37,99,235,0.15)",
+     8→  1596→                    boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
+     9→  1597→                  }}>
+    10→  1598→                  <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
+    11→  1599→                </div>
+    12→  1600→              </div>
+    13→  1601→              <h1 className="text-[26px] font-extrabold tracking-tight mb-1">
+    14→  1602→                JUJU <span style={{
+    15→  1603→                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+    16→  1604→                  WebkitBackgroundClip: "text",
+    17→  1605→                  WebkitTextFillColor: "transparent",
+    18→  1606→                  backgroundClip: "text",
+    19→  1607→                  filter: "drop-shadow(0 0 10px rgba(37,99,235,0.4))",
+    20→  1608→                }}>SELLER</span>
+    21→  1609→              </h1>
+    22→  1610→              <div className="font-mono text-xs font-bold tracking-wider inline-block mb-2" style={{
+    23→  1611→                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+    24→  1612→                WebkitBackgroundClip: "text",
+    25→  1613→                WebkitTextFillColor: "transparent",
+    26→  1614→                backgroundClip: "text",
+    27→  1615→                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.35))",
+    28→  1616→              }}>FFASTUTECH OB54</div>
+    29→  1617→              <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+    30→  1618→                Cara download, install, dan setup proxy server free terbaru — work 100%
+    31→  1619→              </p>
+    32→  1620→            </div>
+    33→  1621→          </Reveal>
+    34→  1622→
+    35→  1623→          <Reveal delay={70}>
+    36→  1624→            <div className="my-6">
+    37→  1625→              {/* 3 status cards — like reference site */}
+    38→  1626→              <div className="grid grid-cols-3 gap-2.5 mb-3">
+    39→  1627→                {/* STATUS */}
+    40→  1628→                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
+    41→  1629→                  background: "var(--ast-bar-bg)",
+    42→  1630→                  borderColor: "rgba(34,197,94,0.1)",
+    43→  1631→                }}>
+    44→  1632→                  <div className="flex items-center gap-1.5">
+    45→  1633→                    <span className="w-[5px] h-[5px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
+    46→  1634→                      background: "var(--ast-green)", boxShadow: "0 0 6px rgba(34,197,94,0.5)",
+    47→  1635→                    }} />
+    48→  1636→                    <span className="text-[8px] font-semibold tracking-[0.1em] uppercase" style={{ color: "var(--ast-gray)" }}>STATUS</span>
+    49→  1637→                  </div>
+    50→  1638→                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-green)" }}>ONLINE</span>
+    51→  1639→                </div>
+    52→  1640→
+    53→  1641→                {/* BERHASIL DOWNLOAD */}
+    54→  1642→                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
+    55→  1643→                  background: "var(--ast-bar-bg)",
+    56→  1644→                  borderColor: "var(--ast-border)",
+    57→  1645→                }}>
+    58→  1646→                  <div className="flex items-center gap-1.5">
+    59→  1647→                    <Download className="w-[10px] h-[10px]" style={{ color: "var(--ast-blue-l)" }} />
+    60→  1648→                    <span className="text-[7px] font-semibold tracking-[0.08em] uppercase" style={{ color: "var(--ast-gray)" }}>DOWNLOAD</span>
+    61→  1649→                  </div>
+    62→  1650→                  <span className="font-mono text-[13px] font-bold" style={{
+    63→  1651→                    color: "#ffffff",
+    64→  1652→                    textShadow: "none",
+    65→  1653→                  }}>{downloadCount.toLocaleString("en-US")}</span>
+    66→  1654→                </div>
+    67→  1655→
+    68→  1656→                {/* SERVER REGION */}
+    69→  1657→                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
+    70→  1658→                  background: "var(--ast-bar-bg)",
+    71→  1659→                  borderColor: "var(--ast-border)",
+    72→  1660→                }}>
+    73→  1661→                  <div className="flex items-center gap-1.5">
+    74→  1662→                    <svg className="w-[10px] h-[10px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-blue-l)" }}>
+    75→  1663→                      <circle cx="12" cy="12" r="10" />
+    76→  1664→                      <line x1="2" y1="12" x2="22" y2="12" />
+    77→  1665→                      <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+    78→  1666→                    </svg>
+    79→  1667→                    <span className="text-[7px] font-semibold tracking-[0.08em] uppercase" style={{ color: "var(--ast-gray)" }}>REGION</span>
+    80→  1668→                  </div>
+    81→  1669→                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-blue-l)" }}>INDONESIA</span>
+    82→  1670→                </div>
+    83→  1671→              </div>
+    84→  1672→
+    85→  1673→              {/* Download progress bar */}
+    86→  1674→              <div className="rounded-xl border overflow-hidden" style={{
+    87→  1675→                background: "var(--ast-bar-bg)",
+    88→  1676→                borderColor: "var(--ast-border)",
+    89→  1677→              }}>
+    90→  1678→                <div className="flex items-center justify-between px-3.5 py-2" style={{
+    91→  1679→                  borderBottom: "1px solid var(--ast-border)",
+    92→  1680→                }}>
+    93→  1681→                  <div className="flex items-center gap-2">
+    94→  1682→                    <Download className="w-3 h-3" style={{ color: "var(--ast-blue-l)" }} />
+    95→  1683→                    <span className="text-[9px] font-semibold tracking-[0.1em] uppercase" style={{ color: "var(--ast-gray)" }}>BERHASIL DOWNLOAD</span>
+    96→  1684→                  </div>
+    97→  1685→                  <div className="flex items-center gap-1.5">
+    98→  1686→                    <span className="font-mono text-[12px] font-bold" style={{ color: "#ffffff", textShadow: "none" }}>{downloadCount.toLocaleString("en-US")}</span>
+    99→  1687→                    <span className="text-[8px]" style={{ color: "var(--ast-gray2)" }}>/ 5,000</span>
+   100→  1688→                  </div>
+   101→  1689→                </div>
+   102→  1690→                <div className="h-[4px] w-full" style={{ background: "rgba(37,99,235,0.08)" }}>
+   103→  1691→                  <div className="h-full" style={{
+   104→  1692→                    width: `${Math.min(100, (downloadCount / 5000) * 100)}%`,
+   105→  1693→                    background: "linear-gradient(90deg, #1d4ed8, #3b82f6, #60a5fa)",
+   106→  1694→                    boxShadow: "0 0 8px rgba(37,99,235,0.4)",
+   107→  1695→                    transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
+   108→  1696→                  }} />
+   109→  1697→                </div>
+   110→  1698→              </div>
+   111→  1699→            </div>
+   112→  1700→          </Reveal>
+   113→  1701→
+   114→  1702→          <Reveal delay={140}>
+   115→  1703→            <div className="flex items-center gap-1.5 font-mono text-[11px] justify-center mb-4" style={{ color: "var(--ast-gray)" }}>
+   116→  1704→              <span className="w-1 h-1 rounded-full animate-[dot-blink_2s_ease-in-out_infinite]"
+   117→  1705→                style={{ background: "var(--ast-blue)", boxShadow: "0 0 5px var(--ast-blue)" }} />
+   118→  1706→              {clock}
+   119→  1707→            </div>
+   120→  1708→          </Reveal>
+   121→  1709→
+   122→  1710→          <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
+   123→  1711→
+   124→  1712→          <Reveal delay={210}>
+   125→  1713→            <div className="flex items-center justify-center gap-2 mb-3">
+   126→  1714→              <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+   127→  1715→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
+   128→  1716→            </div>
+   129→  1717→            <div className="flex flex-col gap-3.5 mb-5">
+   130→  1718→              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB54" desc="Main APK" newBadge onClick={() => goPage("download")} />
+   131→  1719→              <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
+   132→  1720→              <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
+   133→  1721→            </div>
+   134→  1722→          </Reveal>
+   135→  1723→
+   136→  1724→          <Reveal delay={350}>
+   137→  1725→            <div className="flex items-center justify-center gap-2 mb-3">
+   138→  1726→              <DiscordIcon className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+   139→  1727→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Community</span>
+   140→  1728→            </div>
+   141→  1729→            <div className="flex flex-col gap-3.5">
+   142→  1730→              <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
+   143→  1731→              <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
+   144→  1732→              <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
+   145→  1733→              <AppBar icon={<Crown className="w-[18px] h-[18px]" />} text="PEMBELIAN VIP" desc="Beli VIP" highlight onClick={() => goPage("vip")} />
+   146→  1734→            </div>
+   147→  1735→          </Reveal>
+   148→  1736→
+   149→  1737→          <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
+   150→  1738→
+   151→  1739→          <Reveal delay={350}>
+   152→  1740→            <div className="rounded-2xl p-5 mb-6 relative overflow-hidden border"
+   153→  1741→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+   154→  1742→              <div className="absolute top-0 left-0 right-0 h-[2px]"
+   155→  1743→                style={{ background: "linear-gradient(90deg,var(--ast-blue-d),var(--ast-blue),var(--ast-cyan))", opacity: 0.35 }} />
+   156→  1744→              <h3 className="text-[13px] font-bold mb-3 flex items-center gap-[7px]" style={{ color: "var(--ast-blue-l)" }}>
+   157→  1745→                <Info className="w-4 h-4" /> Cara Setup Astute Method Terbaru
+   158→  1746→              </h3>
+   159→  1747→              <ol className="pl-4 text-xs leading-[2.2] list-decimal" style={{ color: "var(--ast-gray)" }}>
+   160→  1748→                <li>Download file <strong className="text-white font-semibold">ASTUTE OB54</strong> di atas</li>
+   161→  1749→                <li>Install <strong className="text-white font-semibold">Panel ASTUTE</strong> terlebih dahulu</li>
+   162→  1750→                <li>Buka panel, lakukan <strong className="text-white font-semibold">Verif Manual</strong></li>
+   163→  1751→                <li>Set proxy sesuai tutorial di <strong className="text-white font-semibold">Discord</strong></li>
+   164→  1752→                <li>Jalankan game — <strong className="text-white font-semibold">done!</strong></li>
+   165→  1753→              </ol>
+   166→  1754→            </div>
+   167→  1755→          </Reveal>
+   168→  1756→
+   169→  1757→          <Reveal delay={420}>
+   170→  1758→            <div className="flex items-center justify-center mb-4">
+   171→  1759→              <div className="rounded-full py-2 px-4 overflow-hidden inline-flex items-center"
+   172→  1760→                style={{
+   173→  1761→                  background: "rgba(120,130,160,0.1)",
+   174→  1762→                  border: "1px solid rgba(120,130,160,0.1)",
+   175→  1763→                  minWidth: "200px",
+   176→  1764→                }}>
+   177→  1765→                <div className="whitespace-nowrap inline-block" style={{
+   178→  1766→                  animation: "marquee-scroll 7s linear infinite",
+   179→  1767→                }}>
+   180→  1768→                  <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff" }}>
+   181→  1769→                    SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
+   182→  1770→                  </span>
+   183→  1771→                </div>
+   184→  1772→              </div>
+   185→  1773→            </div>
+   186→  1774→            <div className="text-center pt-2">
+   187→  1775→              <div className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>
+   188→  1776→                © 2025 <span style={{ color: "var(--ast-blue-l)", fontWeight: 600 }}>ASTUTE</span>
+   189→  1777→              </div>
+   190→  1778→            </div>
+   191→  1779→          </Reveal>
+   192→  1780→        </PageWrapper>
+   193→  1781→
+   194→  1782→        {/* ═══ DOWNLOAD PAGE ═══ */}
+   195→  1783→        <PageWrapper pageName="download" currentPage={currentPage}>
+   196→  1784→          <Reveal>
+   197→  1785→            <button onClick={() => goPage("home")} type="button"
+   198→  1786→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+   199→  1787→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+   200→  1788→              <ArrowLeft className="w-4 h-4" /> Kembali
+   201→  1789→            </button>
+   202→  1790→          </Reveal>
+   203→  1791→          <Reveal delay={70}>
+   204→  1792→            <div className="text-center mb-8">
+   205→  1793→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+   206→  1794→                <Flame className="w-[60px] h-[60px] text-white opacity-90" />
+   207→  1795→              </div>
+   208→  1796→              <h2 className="text-[22px] font-extrabold mb-1.5" style={{
+   209→  1797→                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+   210→  1798→                WebkitBackgroundClip: "text",
+   211→  1799→                WebkitTextFillColor: "transparent",
+   212→  1800→                backgroundClip: "text",
+   213→  1801→                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
+   214→  1802→              }}>ASTUTE OB54</h2>
+   215→  1803→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+   216→  1804→                Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
+   217→  1805→              </p>
+   218→  1806→            </div>
+   219→  1807→          </Reveal>
+   220→  1808→          <Reveal delay={140}>
+   221→  1809→            <div className="flex flex-col gap-4 mb-8">
+   222→  1810→              <DownloadBar count={downloadCount} max={5000} />
+   223→  1811→              <StatusBar dotColor="cyan" label="FILE SIZE" value="284 MB" valueColor="cyan" />
+   224→  1812→            </div>
+   225→  1813→          </Reveal>
+   226→  1814→          <Reveal delay={210}>
+   227→  1815→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+   228→  1816→              <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+   229→  1817→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Download</span>
+   230→  1818→            </div>
+   231→  1819→            <LinkBox
+   232→  1820→              title="FF MAX ORIGINAL NEW"
+   233→  1821→              url="https://play.google.com/store/apps/details?id=com.dts.freefiremax"
+   234→  1822→              desc="Download Free Fire MAX Original dari Google Play Store"
+   235→  1823→              icon={<Download className="w-5 h-5 text-white" />}
+   236→  1824→              onLinkClick={bumpDownload}
+   237→  1825→            />
+   238→  1826→            <LinkBox
+   239→  1827→              title="FF BIASA ORIGINAL NEW"
+   240→  1828→              url="https://play.google.com/store/apps/details?id=com.dts.freefireth"
+   241→  1829→              desc="Download Free Fire Original dari Google Play Store"
+   242→  1830→              icon={<Download className="w-5 h-5 text-white" />}
+   243→  1831→              onLinkClick={bumpDownload}
+   244→  1832→            />
+   245→  1833→            <LinkBox
+   246→  1834→              title="JSON ASTUTE"
+   247→  1835→              url="https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file"
+   248→  1836→              desc="Download file config JSON"
+   249→  1837→              icon={<FileArchive className="w-5 h-5 text-white" />}
+   250→  1838→            />
+   251→  1839→          </Reveal>
+   252→  1840→          <Reveal delay={280}>
+   253→  1841→            <div className="mt-6">
+   254→  1842→              <FeatureItem num="01" theme="blue" title="Auto Update" desc="Otomatis update ke versi terbaru tanpa reinstall" />
+   255→  1843→              <FeatureItem num="02" theme="blue" title="Anti-Ban System" desc="Proteksi 3 layer agar akun tetap aman" />
+   256→  1844→              <FeatureItem num="03" theme="blue" title="All Skin Unlocked" desc="Semua skin dan bundle tersedia gratis" />
+   257→  1845→              <FeatureItem num="04" theme="blue" title="Stable Server" desc="99.9% uptime dengan latency rendah" />
+   258→  1846→            </div>
+   259→  1847→          </Reveal>
+   260→  1848→        </PageWrapper>
+   261→  1849→
+   262→  1850→        {/* ═══ PANEL PAGE ═══ */}
+   263→  1851→        <PageWrapper pageName="panel" currentPage={currentPage}>
+   264→  1852→          <Reveal>
+   265→  1853→            <button onClick={() => goPage("home")} type="button"
+   266→  1854→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+   267→  1855→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+   268→  1856→              <ArrowLeft className="w-4 h-4" /> Kembali
+   269→  1857→            </button>
+   270→  1858→          </Reveal>
+   271→  1859→          <Reveal delay={70}>
+   272→  1860→            <div className="text-center mb-8">
+   273→  1861→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+   274→  1862→                <Settings className="w-[60px] h-[60px] text-white opacity-90" />
+   275→  1863→              </div>
+   276→  1864→              <h2 className="text-[22px] font-extrabold mb-1.5">PANEL <span style={{ color: "var(--ast-cyan)" }}>ASTUTE</span></h2>
+   277→  1865→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+   278→  1866→                Control panel untuk konfigurasi server, proxy, dan manage fitur mod
+   279→  1867→              </p>
+   280→  1868→            </div>
+   281→  1869→          </Reveal>
+   282→  1870→          <Reveal delay={140}>
+   283→  1871→            <div className="flex flex-col gap-4 mb-8">
+   284→  1872→              <StatusBar dotColor="green" label="PANEL STATUS" value="ACTIVE" valueColor="green" live />
+   285→  1873→              <StatusBar dotColor="blue" label="VERSION" value="v2.4.1" valueColor="blue" />
+   286→  1874→            </div>
+   287→  1875→          </Reveal>
+   288→  1876→          <Reveal delay={210}>
+   289→  1877→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+   290→  1878→              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+   291→  1879→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Panel</span>
+   292→  1880→            </div>
+   293→  1881→            <LinkBox
+   294→  1882→              title="DASHBOARD ASTUTE"
+   295→  1883→              url="https://dash.unlockffbeta.com/"
+   296→  1884→              desc="Buka dashboard control panel"
+   297→  1885→              icon={<Settings className="w-5 h-5 text-white" />}
+   298→  1886→            />
+   299→  1887→          </Reveal>
+   300→  1888→          <Reveal delay={280}>
+   301→  1889→            <div className="mt-6">
+   302→  1890→              <FeatureItem num="01" theme="cyan" title="Proxy Manager" desc="Setup dan ganti proxy dalam 1 klik" />
+   303→  1891→              <FeatureItem num="02" theme="cyan" title="Config Editor" desc="Edit config server langsung dari app" />
+   304→  1892→              <FeatureItem num="03" theme="cyan" title="Auto Patch" desc="Patch otomatis saat ada update baru" />
+   305→  1893→              <FeatureItem num="04" theme="cyan" title="Log Monitor" desc="Pantau log koneksi real-time" />
+   306→  1894→            </div>
+   307→  1895→          </Reveal>
+   308→  1896→        </PageWrapper>
+   309→  1897→
+   310→  1898→        {/* ═══ VERIF PAGE ═══ */}
+   311→  1899→        <PageWrapper pageName="verif" currentPage={currentPage}>
+   312→  1900→          <Reveal>
+   313→  1901→            <button onClick={() => goPage("home")} type="button"
+   314→  1902→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+   315→  1903→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+   316→  1904→              <ArrowLeft className="w-4 h-4" /> Kembali
+   317→  1905→            </button>
+   318→  1906→          </Reveal>
+   319→  1907→          <Reveal delay={70}>
+   320→  1908→            <div className="text-center mb-8">
+   321→  1909→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+   322→  1910→                <ShieldCheck className="w-[60px] h-[60px] text-white opacity-90" />
+   323→  1911→              </div>
+   324→  1912→              <h2 className="text-[22px] font-extrabold mb-1.5">VERIF <span style={{ color: "var(--ast-green)" }}>MANUAL</span></h2>
+   325→  1913→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+   326→  1914→                Tool bypass verifikasi untuk mengaktifkan fitur premium tanpa limit
+   327→  1915→              </p>
+   328→  1916→            </div>
+   329→  1917→          </Reveal>
+   330→  1918→          <Reveal delay={140}>
+   331→  1919→            <div className="flex flex-col gap-4 mb-8">
+   332→  1920→              <StatusBar dotColor="green" label="VERIF STATUS" value="READY" valueColor="green" live />
+   333→  1921→              <StatusBar dotColor="blue" label="SUCCESS RATE" value="99.2%" valueColor="blue" />
+   334→  1922→            </div>
+   335→  1923→          </Reveal>
+   336→  1924→          <Reveal delay={210}>
+   337→  1925→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+   338→  1926→              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+   339→  1927→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Verifikasi</span>
+   340→  1928→            </div>
+   341→  1929→            <LinkBox
+   342→  1930→              title="UNLOCK ASTUTE"
+   343→  1931→              url="https://www.unlockffbeta.com"
+   344→  1932→              desc="Unlock fitur premium ASTUTE"
+   345→  1933→              icon={<ShieldCheck className="w-5 h-5 text-white" />}
+   346→  1934→            />
+   347→  1935→          </Reveal>
+   348→  1936→          <Reveal delay={280}>
+   349→  1937→            <div className="mt-6">
+   350→  1938→              <FeatureItem num="01" theme="green" title="One-Click Bypass" desc="Verifikasi otomatis tanpa survey" />
+   351→  1939→              <FeatureItem num="02" theme="green" title="Device Spoofer" desc="Mask device ID agar tidak terdeteksi" />
+   352→  1940→              <FeatureItem num="03" theme="green" title="Token Generator" desc="Generate token akses premium" />
+   353→  1941→              <FeatureItem num="04" theme="green" title="Safe Mode" desc="Mode aman untuk pengguna baru" />
+   354→  1942→            </div>
+   355→  1943→          </Reveal>
+   356→  1944→        </PageWrapper>
+   357→  1945→
+   358→  1946→        {/* ═══ DISCORD PAGE ═══ */}
+   359→  1947→        <PageWrapper pageName="discord" currentPage={currentPage}>
+   360→  1948→          <Reveal>
+   361→  1949→            <button onClick={() => goPage("home")} type="button"
+   362→  1950→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+   363→  1951→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+   364→  1952→              <ArrowLeft className="w-4 h-4" /> Kembali
+   365→  1953→            </button>
+   366→  1954→          </Reveal>
+   367→  1955→          <Reveal delay={70}>
+   368→  1956→            <div className="text-center mb-8">
+   369→  1957→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+   370→  1958→                <DiscordIcon className="w-[60px] h-[60px] text-white opacity-90" />
+   371→  1959→              </div>
+   372→  1960→              <h2 className="text-[22px] font-extrabold mb-1.5">DISCORD <span style={{ color: "var(--ast-purple)" }}>SERVER</span></h2>
+   373→  1961→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+   374→  1962→                Join komunitas ASTUTE — dapatkan bantuan, info update, dan diskusi sesama player
+   375→  1963→              </p>
+   376→  1964→            </div>
+   377→  1965→          </Reveal>
+   378→  1966→          <Reveal delay={140}>
+   379→  1967→            <div className="flex flex-col gap-4 mb-8">
+   380→  1968→              <StatusBar dotColor="green" label="SERVER STATUS" value="ONLINE" valueColor="green" live />
+   381→  1969→              <StatusBar dotColor="blue" label="MEMBERS" value="1,247" valueColor="blue" />
+   382→  1970→            </div>
+   383→  1971→          </Reveal>
+   384→  1972→          <Reveal delay={210}>
+   385→  1973→            <LinkBox
+   386→  1974→              title="JOIN DISCORD SERVER"
+   387→  1975→              url="https://discord.gg/astutetech"
+   388→  1976→              desc="Gabung komunitas ASTUTE di Discord"
+   389→  1977→              icon={<DiscordIcon className="w-5 h-5 text-white" />}
+   390→  1978→            />
+   391→  1979→          </Reveal>
+   392→  1980→          <Reveal delay={280}>
+   393→  1981→            <div className="mt-6">
+   394→  1982→              <FeatureItem num="01" theme="purple" title="24/7 Support" desc="Tim support siap bantu kapan saja" />
+   395→  1983→              <FeatureItem num="02" theme="purple" title="Announcements" desc="Info update dan event terbaru" />
+   396→  1984→              <FeatureItem num="03" theme="purple" title="Giveaway" desc="Giveaway akun dan item secara rutin" />
+   397→  1985→              <FeatureItem num="04" theme="purple" title="1,200+ Members" desc="Komunitas aktif dan ramah" />
+   398→  1986→            </div>
+   399→  1987→          </Reveal>
+   400→  1988→        </PageWrapper>
+   401→  1989→
+   402→  1990→        {/* ═══ TUTORIAL PAGE ═══ */}
+   403→  1991→        <PageWrapper pageName="tutorial" currentPage={currentPage}>
+   404→  1992→          <Reveal>
+   405→  1993→            <button onClick={() => goPage("home")} type="button"
+   406→  1994→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+   407→  1995→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+   408→  1996→              <ArrowLeft className="w-4 h-4" /> Kembali
+   409→  1997→            </button>
+   410→  1998→          </Reveal>
+   411→  1999→          <Reveal delay={70}>
+   412→  2000→            <div className="text-center mb-8">
+   413→  2001→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+   414→  2002→                <PlayCircle className="w-[60px] h-[60px] text-white opacity-90" />
+   415→  2003→              </div>
+   416→  2004→              <h2 className="text-[22px] font-extrabold mb-1.5">VIDEO <span style={{ color: "var(--ast-amber)" }}>TUTORIAL</span></h2>
+   417→  2005→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+   418→  2006→                Panduan lengkap dari install sampai main — ikutin aja step by step
+   419→  2007→              </p>
+   420→  2008→            </div>
+   421→  2009→          </Reveal>
+   422→  2010→          <Reveal delay={140}>
+   423→  2011→            <div className="flex flex-col gap-4 mb-8">
+   424→  2012→              <StatusBar dotColor="green" label="GUIDE STATUS" value="UPDATED" valueColor="green" live />
+   425→  2013→              <StatusBar dotColor="blue" label="DURATION" value="1 : 52 minute" valueColor="blue" />
+   426→  2014→            </div>
+   427→  2015→          </Reveal>
+   428→  2016→          <Reveal delay={210}>
+   429→  2017→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+   430→  2018→              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+   431→  2019→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Video Tutorial</span>
+   432→  2020→            </div>
+   433→  2021→            <LinkBox
+   434→  2022→              title="TUTORIAL FULL STUP PROXY"
+   435→  2023→              url="https://vt.tiktok.com/ZSmQPyen2/"
+   436→  2024→              desc="Panduan setup proxy dari awal sampai connect"
+   437→  2025→              icon={<PlayCircle className="w-5 h-5 text-white" />}
+   438→  2026→            />
+   439→  2027→            <LinkBox
+   440→  2028→              title="TUTORIAL GUNAKAN DASHBOARD"
+   441→  2029→              url="https://vt.tiktok.com/ZSx8GpjvY/"
+   442→  2030→              desc="Cara pakai dashboard panel ASTUTE"
+   443→  2031→              icon={<PlayCircle className="w-5 h-5 text-white" />}
+   444→  2032→            />
+   445→  2033→          </Reveal>
+   446→  2034→          <Reveal delay={280}>
+   447→  2035→            <div className="mt-6">
+   448→  2036→              <FeatureItem num="01" theme="amber" title="Install Guide" desc="Cara install APK + OBB dengan benar" />
+   449→  2037→              <FeatureItem num="02" theme="amber" title="Proxy Setup" desc="Setting proxy agar server bisa connect" />
+   450→  2038→              <FeatureItem num="03" theme="amber" title="Verif Steps" desc="Tutorial verifikasi manual yang work" />
+   451→  2039→              <FeatureItem num="04" theme="amber" title="Troubleshoot" desc="Solusi untuk error yang sering muncul" />
+   452→  2040→            </div>
+   453→  2041→          </Reveal>
+   454→  2042→        </PageWrapper>
+   455→  2043→
+   456→  2044→        {/* ═══ CHANGELOG / FITUR VIP ACCESS PAGE ═══ */}
+   457→  2045→        <PageWrapper pageName="changelog" currentPage={currentPage}>
+   458→  2046→          <Reveal>
+   459→  2047→            <button onClick={() => goPage("home")} type="button"
+   460→  2048→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+   461→  2049→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+   462→  2050→              <ArrowLeft className="w-4 h-4" /> Kembali
+   463→  2051→            </button>
+   464→  2052→          </Reveal>
+   465→  2053→          <Reveal delay={70}>
+   466→  2054→            <div className="text-center mb-8">
+   467→  2055→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+   468→  2056→                <ShieldCheck className="w-[60px] h-[60px] text-white opacity-90" />
+   469→  2057→              </div>
+   470→  2058→              <h2 className="text-[22px] font-extrabold mb-1.5">FITUR VIP <span style={{
+   471→  2059→                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+   472→  2060→                WebkitBackgroundClip: "text",
+   473→  2061→                WebkitTextFillColor: "transparent",
+   474→  2062→                backgroundClip: "text",
+   475→  2063→              }}>ACCESS JUJU</span></h2>
+   476→  2064→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+   477→  2065→                Semua fitur premium yang kamu dapatkan sebagai VIP ACCESS di ASTUTE
+   478→  2066→              </p>
+   479→  2067→            </div>
+   480→  2068→          </Reveal>
+   481→  2069→          <Reveal delay={140}>
+   482→  2070→            <div className="flex flex-col gap-4 mb-8">
+   483→  2071→              <StatusBar dotColor="green" label="VIP STATUS" value="ACTIVE" valueColor="green" live />
+   484→  2072→              <StatusBar dotColor="blue" label="ACCESS LEVEL" value="VIP" valueColor="blue" valueGradient />
+   485→  2073→            </div>
+   486→  2074→          </Reveal>
+   487→  2075→          <Reveal delay={210}>
+   488→  2076→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+   489→  2077→              <ShieldCheck className="w-3 h-3" style={{ color: "var(--ast-blue-l)" }} />
+   490→  2078→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>VIP Features</span>
+   491→  2079→            </div>
+   492→  2080→            <VipFeatureBox theme="blue" />
+   493→  2081→          </Reveal>
+   494→  2082→        </PageWrapper>
+   495→  2083→
+   496→  2084→        {/* ═══ PEMBELIAN VIP PAGE ═══ */}
+   497→  2085→        <PageWrapper pageName="vip" currentPage={currentPage}>
+   498→  2086→          <Reveal>
+   499→  2087→            <button onClick={() => goPage("home")} type="button"
+   500→  2088→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+   501→
+   502→[showing lines 1589-2088 of 2208; use offset=2089 with limit to continue reading]

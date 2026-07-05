@@ -1,0 +1,2002 @@
+     1→"use client";
+     2→
+     3→import React, { useState, useEffect, useRef, useCallback } from "react";
+     4→import {
+     5→  Flame,
+     6→  Settings,
+     7→  ShieldCheck,
+     8→  PlayCircle,
+     9→  FileText,
+    10→  ArrowLeft,
+    11→  Download,
+    12→  FileArchive,
+    13→  X,
+    14→  Info,
+    15→  ExternalLink,
+    16→  Volume2,
+    17→  VolumeX,
+    18→  Crown,
+    19→  MessageCircle,
+    20→} from "lucide-react";
+    21→
+    22→// ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
+    23→
+    24→function DiscordIcon({ className }: { className?: string }) {
+    25→  return (
+    26→    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    27→      <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+    28→    </svg>
+    29→  );
+    30→}
+    31→
+    32→// ─── Types ───────────────────────────────────────────────────────────────────
+    33→
+    34→type PageName =
+    35→  | "home"
+    36→  | "download"
+    37→  | "panel"
+    38→  | "verif"
+    39→  | "discord"
+    40→  | "tutorial"
+    41→  | "changelog"
+    42→  | "vip";
+    43→
+    44→// ─── WhatsApp Icon ────────────────────────────────────────────────────────────
+    45→
+    46→function WhatsAppIcon({ className }: { className?: string }) {
+    47→  return (
+    48→    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    49→      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    50→    </svg>
+    51→  );
+    52→}
+    53→
+    54→// ─── Telegram Icon ────────────────────────────────────────────────────────────
+    55→
+    56→function TelegramIcon({ className }: { className?: string }) {
+    57→  return (
+    58→    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    59→      <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+    60→    </svg>
+    61→  );
+    62→}
+    63→
+    64→// ─── Custom VIP Feature Icons (SVG) ──────────────────────────────────────────
+    65→
+    66→function IconDeviceSecurity({ className }: { className?: string }) {
+    67→  return (
+    68→    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    69→      <rect x="5" y="2" width="14" height="20" rx="3" />
+    70→      <line x1="12" y1="18" x2="12" y2="18.01" strokeWidth="2.5" />
+    71→      <path d="M9 8.5L10.5 10L15 5.5" strokeWidth="2" />
+    72→      <path d="M3 7L5 6" strokeWidth="1.5" opacity="0.5" />
+    73→      <path d="M3 12L5 11.5" strokeWidth="1.5" opacity="0.5" />
+    74→      <path d="M19 7L21 6" strokeWidth="1.5" opacity="0.5" />
+    75→      <path d="M19 12L21 11.5" strokeWidth="1.5" opacity="0.5" />
+    76→    </svg>
+    77→  );
+    78→}
+    79→
+    80→function IconAccountProfile({ className }: { className?: string }) {
+    81→  return (
+    82→    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    83→      <circle cx="12" cy="8" r="4" />
+    84→      <path d="M4 21v-1C4 16.582 7.582 14 12 14s8 2.582 8 6v1" />
+    85→      <path d="M16 6L18 4L20 6" strokeWidth="1.5" opacity="0.6" />
+    86→      <circle cx="19" cy="4.5" r="1" fill="currentColor" opacity="0.5" stroke="none" />
+    87→    </svg>
+    88→  );
+    89→}
+    90→
+    91→function IconShopItem({ className }: { className?: string }) {
+    92→  return (
+    93→    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    94→      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+    95→      <line x1="3" y1="6" x2="21" y2="6" />
+    96→      <path d="M16 10a4 4 0 01-8 0" />
+    97→      <circle cx="17" cy="3" r="1.2" fill="currentColor" stroke="none" opacity="0.5" />
+    98→      <path d="M10 2L12 4L14 2" strokeWidth="1.2" opacity="0.5" />
+    99→    </svg>
+   100→  );
+   101→}
+   102→
+   103→function IconCharacterSkin({ className }: { className?: string }) {
+   104→  return (
+   105→    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+   106→      <path d="M12 2L14.5 9H22L16 13.5L18 21L12 17L6 21L8 13.5L2 9H9.5L12 2Z" />
+   107→      <path d="M12 6L13.2 9.5H17L14 11.8L15.2 15.5L12 13.2L8.8 15.5L10 11.8L7 9.5H10.8L12 6Z" strokeWidth="1" opacity="0.5" />
+   108→    </svg>
+   109→  );
+   110→}
+   111→
+   112→function IconEmoteInteract({ className }: { className?: string }) {
+   113→  return (
+   114→    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+   115→      <circle cx="12" cy="12" r="10" />
+   116→      <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+   117→      <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="2.5" />
+   118→      <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="2.5" />
+   119→      <path d="M17 3L19 1L21 3" strokeWidth="1.3" opacity="0.5" />
+   120→      <path d="M3 17L5 19L3 21" strokeWidth="1.3" opacity="0.5" />
+   121→    </svg>
+   122→  );
+   123→}
+   124→
+   125→function IconCombatSpecial({ className }: { className?: string }) {
+   126→  return (
+   127→    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+   128→      <path d="M14.5 17.5L3 6V3h3l11.5 11.5" />
+   129→      <path d="M13 7L17 3L21 3L21 7L17 11" />
+   130→      <path d="M16 13L19 16L21 21L16 19L13 16" />
+   131→      <path d="M7.5 10.5L3 15V18H6L10.5 13.5" />
+   132→      <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" opacity="0.3" />
+   133→    </svg>
+   134→  );
+   135→}
+   136→
+   137→function IconVipCheck({ className }: { className?: string }) {
+   138→  return (
+   139→    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+   140→      <path d="M12 2L14.09 8.26L20.18 8.63L15.54 12.54L17.12 18.84L12 15.4L6.88 18.84L8.46 12.54L3.82 8.63L9.91 8.26L12 2Z" strokeWidth="1.2" />
+   141→      <path d="M8 12.5L10.5 15L16 9" strokeWidth="2.5" />
+   142→    </svg>
+   143→  );
+   144→}
+   145→
+   146→interface Particle {
+   147→  x: number;
+   148→  y: number;
+   149→  size: number;
+   150→  speedY: number;
+   151→  speedX: number;
+   152→  rotation: number;
+   153→  rotSpeed: number;
+   154→  swayAmp: number;
+   155→  swaySpeed: number;
+   156→  swayOffset: number;
+   157→  alpha: number;
+   158→  type: number;
+   159→  color: string;
+   160→}
+   161→
+   162→// ─── Particle Canvas ─────────────────────────────────────────────────────────
+   163→
+   164→function ParticleCanvas() {
+   165→  const canvasRef = useRef<HTMLCanvasElement>(null);
+   166→  const particlesRef = useRef<Particle[]>([]);
+   167→  const timeRef = useRef(0);
+   168→  const animRef = useRef<number>(0);
+   169→
+   170→  useEffect(() => {
+   171→    const canvas = canvasRef.current;
+   172→    if (!canvas) return;
+   173→    const ctx = canvas.getContext("2d");
+   174→    if (!ctx) return;
+   175→
+   176→    let w = 0, h = 0;
+   177→
+   178→    function resize() {
+   179→      if (!canvas) return;
+   180→      w = canvas.width = window.innerWidth;
+   181→      h = canvas.height = window.innerHeight;
+   182→    }
+   183→    resize();
+   184→    window.addEventListener("resize", resize);
+   185→
+   186→    const isMobile = window.innerWidth < 768;
+   187→    const count = isMobile ? 25 : 55;
+   188→
+   189→    function createParticle(init: boolean): Particle {
+   190→      return {
+   191→        x: Math.random() * w,
+   192→        y: init ? Math.random() * h : -20,
+   193→        size: Math.random() * 5 + 2,
+   194→        speedY: Math.random() * 0.8 + 0.3,
+   195→        speedX: Math.random() * 0.4 - 0.2,
+   196→        rotation: Math.random() * Math.PI * 2,
+   197→        rotSpeed: (Math.random() - 0.5) * 0.02,
+   198→        swayAmp: Math.random() * 0.8 + 0.3,
+   199→        swaySpeed: Math.random() * 0.015 + 0.005,
+   200→        swayOffset: Math.random() * Math.PI * 2,
+   201→        alpha: Math.random() * 0.25 + 0.05,
+   202→        type: Math.floor(Math.random() * 3),
+   203→        color:
+   204→          Math.random() < 0.5
+   205→            ? "37,99,235"
+   206→            : Math.random() < 0.8
+   207→              ? "96,165,250"
+   208→              : "34,211,238",
+   209→      };
+   210→    }
+   211→
+   212→    const leaves: Particle[] = [];
+   213→    for (let i = 0; i < count; i++) leaves.push(createParticle(true));
+   214→    particlesRef.current = leaves;
+   215→
+   216→    function drawParticle(p: Particle, t: number) {
+   217→      if (!ctx) return;
+   218→      ctx.save();
+   219→      ctx.translate(p.x, p.y);
+   220→      ctx.rotate(p.rotation);
+   221→      ctx.globalAlpha = p.alpha;
+   222→
+   223→      if (p.type === 0) {
+   224→        ctx.beginPath();
+   225→        ctx.moveTo(0, -p.size);
+   226→        ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.5, p.size * 0.8, p.size * 0.5, 0, p.size);
+   227→        ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.8, -p.size * 0.5, 0, -p.size);
+   228→        ctx.fillStyle = `rgba(${p.color},1)`;
+   229→        ctx.fill();
+   230→      } else if (p.type === 1) {
+   231→        ctx.beginPath();
+   232→        ctx.arc(0, 0, p.size * 0.5, 0, Math.PI * 2);
+   233→        ctx.fillStyle = `rgba(${p.color},1)`;
+   234→        ctx.fill();
+   235→      } else {
+   236→        const s = p.size * 0.6;
+   237→        ctx.strokeStyle = `rgba(${p.color},1)`;
+   238→        ctx.lineWidth = 0.8;
+   239→        ctx.beginPath(); ctx.moveTo(-s, 0); ctx.lineTo(s, 0); ctx.stroke();
+   240→        ctx.beginPath(); ctx.moveTo(0, -s); ctx.lineTo(0, s); ctx.stroke();
+   241→        ctx.beginPath(); ctx.moveTo(-s * 0.6, -s * 0.6); ctx.lineTo(s * 0.6, s * 0.6); ctx.stroke();
+   242→        ctx.beginPath(); ctx.moveTo(s * 0.6, -s * 0.6); ctx.lineTo(-s * 0.6, s * 0.6); ctx.stroke();
+   243→      }
+   244→      ctx.globalAlpha = 1;
+   245→      ctx.restore();
+   246→    }
+   247→
+   248→    function loop() {
+   249→      if (!ctx || !canvas) return;
+   250→      ctx.clearRect(0, 0, w, h);
+   251→      timeRef.current++;
+   252→      const t = timeRef.current;
+   253→      for (const p of particlesRef.current) {
+   254→        p.y += p.speedY;
+   255→        p.x += p.speedX + Math.sin(t * p.swaySpeed + p.swayOffset) * p.swayAmp * 0.3;
+   256→        p.rotation += p.rotSpeed;
+   257→        if (p.y > h + 20) Object.assign(p, createParticle(false));
+   258→        if (p.x < -20) p.x = w + 20;
+   259→        if (p.x > w + 20) p.x = -20;
+   260→        drawParticle(p, t);
+   261→      }
+   262→      animRef.current = requestAnimationFrame(loop);
+   263→    }
+   264→    loop();
+   265→
+   266→    return () => {
+   267→      window.removeEventListener("resize", resize);
+   268→      cancelAnimationFrame(animRef.current);
+   269→    };
+   270→  }, []);
+   271→
+   272→  return <canvas ref={canvasRef} className="fixed inset-0 z-[1] pointer-events-none" aria-hidden="true" />;
+   273→}
+   274→
+   275→// ─── Toast ────────────────────────────────────────────────────────────────────
+   276→
+   277→function Toast({ message, visible }: { message: string; visible: boolean }) {
+   278→  return (
+   279→    <div
+   280→      className={`fixed bottom-6 left-1/2 z-[200] font-mono text-xs font-bold px-5 py-2.5 rounded-xl border pointer-events-none will-change-transform ${
+   281→        visible
+   282→          ? "translate-x-[-50%] translate-y-0 opacity-100"
+   283→          : "translate-x-[-50%] translate-y-20 opacity-0"
+   284→      }`}
+   285→      style={{
+   286→        background: "var(--ast-bg3)",
+   287→        borderColor: "var(--ast-border2)",
+   288→        color: "var(--ast-blue-l)",
+   289→        boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+   290→        transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.55s cubic-bezier(0.16,1,0.3,1)",
+   291→      }}
+   292→    >
+   293→      ⬇ {message}
+   294→    </div>
+   295→  );
+   296→}
+   297→
+   298→// ─── Download Progress Bar (WhatsApp Style) ──────────────────────────────────
+   299→
+   300→function DownloadBar({ count, max }: { count: number; max: number }) {
+   301→  const pct = Math.min(100, (count / max) * 100);
+   302→  return (
+   303→    <div className="rounded-2xl border overflow-hidden" style={{
+   304→      background: "var(--ast-bar-bg)",
+   305→      borderColor: "var(--ast-border)",
+   306→    }}>
+   307→      {/* Channel-style header */}
+   308→      <div className="flex items-center justify-center gap-3 py-3 px-4" style={{
+   309→        borderBottom: "1px solid var(--ast-border)",
+   310→        background: "linear-gradient(180deg, rgba(34,197,94,0.04) 0%, transparent 100%)",
+   311→      }}>
+   312→        <div className="flex items-center gap-2">
+   313→          <span className="w-[8px] h-[8px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
+   314→            background: "var(--ast-green)", boxShadow: "0 0 8px rgba(34,197,94,0.5)",
+   315→          }} />
+   316→          <span className="text-[10px] font-semibold tracking-[0.12em] uppercase" style={{ color: "var(--ast-gray)" }}>STATUS</span>
+   317→        </div>
+   318→        <span className="text-[11px] font-bold" style={{ color: "var(--ast-green)" }}>ONLINE</span>
+   319→        <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.12)" }}>│</span>
+   320→        <div className="flex items-center gap-2">
+   321→          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-green)" }}>
+   322→            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+   323→            <polyline points="7 10 12 15 17 10" />
+   324→            <line x1="12" y1="15" x2="12" y2="3" />
+   325→          </svg>
+   326→          <span className="text-[10px] font-semibold tracking-[0.12em] uppercase" style={{ color: "var(--ast-gray)" }}>BERHASIL DOWNLOAD</span>
+   327→        </div>
+   328→        <span className="font-mono text-[15px] font-bold tracking-wide" style={{
+   329→          color: "#ffffff",
+   330→          textShadow: "none",
+   331→        }}>{count.toLocaleString("en-US")}</span>
+   332→      </div>
+   333→      {/* WhatsApp-style green progress bar */}
+   334→      <div className="h-[5px] w-full" style={{ background: "rgba(34,197,94,0.08)" }}>
+   335→        <div className="h-full" style={{
+   336→          width: `${pct}%`,
+   337→          background: "linear-gradient(90deg, #16a34a, #22c55e, #4ade80)",
+   338→          boxShadow: "0 0 8px rgba(34,197,94,0.4)",
+   339→          transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
+   340→        }} />
+   341→      </div>
+   342→    </div>
+   343→  );
+   344→}
+   345→
+   346→// ─── Channel Bar (WhatsApp Channel style) ────────────────────────────────────
+   347→
+   348→function ChannelBar({
+   349→  icon,
+   350→  title,
+   351→  subtitle,
+   352→  value,
+   353→  valueLabel,
+   354→  count,
+   355→  max,
+   356→  barColor,
+   357→  barGradient,
+   358→  dotColor,
+   359→  accentColor,
+   360→  channelUrl,
+   361→}: {
+   362→  icon: React.ReactNode;
+   363→  title: string;
+   364→  subtitle: string;
+   365→  value?: string;
+   366→  valueLabel?: string;
+   367→  count?: number;
+   368→  max?: number;
+   369→  barColor: string;
+   370→  barGradient: string;
+   371→  dotColor: string;
+   372→  accentColor: string;
+   373→  channelUrl?: string;
+   374→}) {
+   375→  const pct = max && count ? Math.min(100, (count / max) * 100) : 0;
+   376→  const displayValue = value || (count ? count.toLocaleString("en-US") : "");
+   377→
+   378→  const inner = (
+   379→    <>
+   380→      {/* WhatsApp channel card body */}
+   381→      <div className="flex items-center gap-3.5 py-3.5 px-4">
+   382→        {/* Channel profile icon — like WA channel avatar */}
+   383→        <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 relative" style={{
+   384→          background: barGradient,
+   385→          boxShadow: `0 3px 12px ${barColor}50`,
+   386→        }}>
+   387→          {icon}
+   388→          {/* Online indicator dot — like WA profile online dot */}
+   389→          <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-[2.5px]" style={{
+   390→            background: barColor,
+   391→            borderColor: "var(--ast-bar-bg)",
+   392→            boxShadow: `0 0 6px ${barColor}88`,
+   393→          }} />
+   394→        </div>
+   395→
+   396→        {/* Channel info */}
+   397→        <div className="flex-1 min-w-0">
+   398→          <div className="flex items-center gap-1.5">
+   399→            <span className="text-[13px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{title}</span>
+   400→            {/* Verified badge — like WA channel checkmark */}
+   401→            <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill={accentColor}>
+   402→              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+   403→            </svg>
+   404→          </div>
+   405→          <div className="flex items-center gap-1.5 mt-[2px]">
+   406→            <span className="w-[5px] h-[5px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
+   407→              background: dotColor,
+   408→              boxShadow: `0 0 4px ${barColor}66`,
+   409→            }} />
+   410→            <span className="text-[10px] font-medium" style={{ color: "var(--ast-gray)" }}>{subtitle}</span>
+   411→          </div>
+   412→        </div>
+   413→
+   414→        {/* Value / Counter — like WA channel follower count */}
+   415→        <div className="flex flex-col items-end shrink-0">
+   416→          <span className="font-mono text-[18px] font-bold tracking-wide leading-none" style={{
+   417→            color: "#ffffff",
+   418→            textShadow: "none",
+   419→          }}>{displayValue}</span>
+   420→          {valueLabel && (
+   421→            <span className="text-[8px] font-semibold tracking-[0.1em] uppercase mt-[2px]" style={{ color: accentColor }}>{valueLabel}</span>
+   422→          )}
+   423→        </div>
+   424→      </div>
+   425→
+   426→      {/* Progress bar — like WA channel activity bar */}
+   427→      {(max && count) && (
+   428→        <div className="h-[3px] w-full" style={{ background: `${barColor}18` }}>
+   429→          <div className="h-full" style={{
+   430→            width: `${pct}%`,
+   431→            background: barGradient,
+   432→            boxShadow: `0 0 6px ${barColor}55`,
+   433→            transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
+   434→          }} />
+   435→        </div>
+   436→      )}
+   437→    </>
+   438→  );
+   439→
+   440→  const wrapperStyle: React.CSSProperties = {
+   441→    background: "var(--ast-bar-bg)",
+   442→    borderColor: "var(--ast-border)",
+   443→    textDecoration: "none",
+   444→    transition: "border-color 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1)",
+   445→  };
+   446→
+   447→  const hoverIn = (e: React.MouseEvent<HTMLElement>) => {
+   448→    e.currentTarget.style.borderColor = `${barColor}30`;
+   449→    e.currentTarget.style.boxShadow = `0 4px 20px ${barColor}15`;
+   450→  };
+   451→  const hoverOut = (e: React.MouseEvent<HTMLElement>) => {
+   452→    e.currentTarget.style.borderColor = "var(--ast-border)";
+   453→    e.currentTarget.style.boxShadow = "none";
+   454→  };
+   455→
+   456→  if (channelUrl) {
+   457→    return (
+   458→      <a
+   459→        href={channelUrl}
+   460→        target="_blank"
+   461→        rel="noopener noreferrer"
+   462→        className="block rounded-2xl border overflow-hidden cursor-pointer"
+   463→        style={wrapperStyle}
+   464→        onMouseEnter={hoverIn}
+   465→        onMouseLeave={hoverOut}
+   466→      >
+   467→        {inner}
+   468→      </a>
+   469→    );
+   470→  }
+   471→
+   472→  return (
+   473→    <div
+   474→      className="rounded-2xl border overflow-hidden"
+   475→      style={wrapperStyle}
+   476→      onMouseEnter={hoverIn}
+   477→      onMouseLeave={hoverOut}
+   478→    >
+   479→      {inner}
+   480→    </div>
+   481→  );
+   482→}
+   483→
+   484→// ─── Status Bar ──────────────────────────────────────────────────────────────
+   485→
+   486→function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, live = false, bigDot = false }: {
+   487→  dotColor: string; label: string; value: string; valueColor: string; valueGradient?: boolean; live?: boolean; bigDot?: boolean;
+   488→}) {
+   489→  const dotStyles: Record<string, React.CSSProperties> = {
+   490→    green: { background: "var(--ast-green)", boxShadow: "0 0 8px rgba(34,197,94,0.5)" },
+   491→    blue: { background: "var(--ast-blue)", boxShadow: "0 0 8px rgba(37,99,235,0.45)" },
+   492→    cyan: { background: "var(--ast-cyan)", boxShadow: "0 0 8px rgba(34,211,238,0.35)" },
+   493→    amber: { background: "var(--ast-amber)", boxShadow: "0 0 8px rgba(245,158,11,0.5)" },
+   494→  };
+   495→  const valStyles: Record<string, React.CSSProperties> = {
+   496→    green: { color: "var(--ast-green)" },
+   497→    blue: { color: "var(--ast-blue-l)" },
+   498→    cyan: { color: "var(--ast-cyan)" },
+   499→    amber: { color: "var(--ast-amber)" },
+   500→  };
+   501→
+   502→  const gradientStyle: React.CSSProperties = {
+   503→    background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+   504→    WebkitBackgroundClip: "text",
+   505→    WebkitTextFillColor: "transparent",
+   506→    backgroundClip: "text",
+   507→    filter: "drop-shadow(0 0 6px rgba(37,99,235,0.3))",
+   508→  };
+   509→
+   510→  return (
+   511→    <div
+   512→      className="flex items-center justify-center gap-2.5 py-4 px-6 rounded-2xl border"
+   513→      style={{
+   514→        background: "var(--ast-bar-bg)",
+   515→        borderColor: live ? "rgba(34,197,94,0.1)" : "var(--ast-border)",
+   516→        transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+   517→      }}
+   518→    >
+   519→      <span className={`${bigDot ? "w-[10px] h-[10px]" : "w-[8px] h-[8px]"} rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]`} style={dotStyles[dotColor]} />
+   520→      <span className="text-[12px] font-semibold tracking-wider" style={{ color: "var(--ast-gray)" }}>{label}</span>
+   521→      <span className="text-[11px]" style={{ color: "var(--ast-gray2)" }}>·</span>
+   522→      <span className="font-mono text-[13px] font-bold tracking-wide" style={valueGradient ? gradientStyle : valStyles[valueColor]}>{value}</span>
+   523→    </div>
+   524→  );
+   525→}
+   526→
+   527→// ─── App Bar ─────────────────────────────────────────────────────────────────
+   528→
+   529→function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick }: {
+   530→  icon: React.ReactNode; text: string; desc: string; highlight?: boolean; newBadge?: boolean; onClick: () => void;
+   531→}) {
+   532→  return (
+   533→    <button
+   534→      onClick={onClick}
+   535→      type="button"
+   536→      className={`flex items-center gap-3 py-4 px-6 rounded-2xl border w-full group ${
+   537→        highlight ? "bg-[rgba(37,99,235,0.04)] border-[rgba(37,99,235,0.1)]" : ""
+   538→      }`}
+   539→      style={{
+   540→        background: highlight ? undefined : "var(--ast-bar-bg)",
+   541→        borderColor: highlight ? undefined : "var(--ast-border)",
+   542→        transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+   543→      }}
+   544→    >
+   545→      <span className="shrink-0 flex items-center justify-center w-[24px] [&_svg]:opacity-80 [&_svg]:text-white group-hover:scale-110" style={{ transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+   546→        {icon}
+   547→      </span>
+   548→      <span className={`text-[13px] font-bold tracking-wide ${highlight ? "text-[var(--ast-blue-b)]" : ""}`}
+   549→        style={highlight ? undefined : { color: "var(--ast-gray)" }}>
+   550→        {text}
+   551→        {newBadge && (
+   552→          <span className="font-mono text-[7px] font-bold bg-gradient-to-br from-[#1d4ed8] to-[#2563eb] text-white px-1.5 py-[1px] rounded-[3px] ml-1 tracking-wider shadow-[0_0_8px_rgba(37,99,235,0.2)]">
+   553→            NEW
+   554→          </span>
+   555→        )}
+   556→      </span>
+   557→      <span className="flex-1" />
+   558→      <span className="text-[11px] font-medium" style={{ color: "var(--ast-gray)" }}>{desc}</span>
+   559→    </button>
+   560→  );
+   561→}
+   562→
+   563→// ─── Link Box ────────────────────────────────────────────────────────────────
+   564→
+   565→function LinkBox({ title, url, desc, icon, onLinkClick }: {
+   566→  title: string; url: string; desc: string; icon: React.ReactNode; onLinkClick?: () => void;
+   567→}) {
+   568→  return (
+   569→    <a
+   570→      href={url}
+   571→      target="_blank"
+   572→      rel="noopener noreferrer"
+   573→      onClick={onLinkClick}
+   574→      className="flex items-center gap-4 py-4 px-5 rounded-2xl border group cursor-pointer"
+   575→      style={{
+   576→        background: "var(--ast-bg2)",
+   577→        borderColor: "var(--ast-border)",
+   578→        transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+   579→        textDecoration: "none",
+   580→        marginBottom: "10px",
+   581→      }}
+   582→      onMouseEnter={(e) => {
+   583→        e.currentTarget.style.borderColor = "rgba(37,99,235,0.15)";
+   584→        e.currentTarget.style.background = "rgba(37,99,235,0.03)";
+   585→        e.currentTarget.style.transform = "translateX(3px)";
+   586→      }}
+   587→      onMouseLeave={(e) => {
+   588→        e.currentTarget.style.borderColor = "var(--ast-border)";
+   589→        e.currentTarget.style.background = "var(--ast-bg2)";
+   590→        e.currentTarget.style.transform = "translateX(0)";
+   591→      }}
+   592→    >
+   593→      <div className="w-[40px] h-[40px] rounded-xl flex items-center justify-center shrink-0"
+   594→        style={{
+   595→          background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+   596→          boxShadow: "0 2px 12px rgba(37,99,235,0.25)",
+   597→          transition: "box-shadow 0.4s cubic-bezier(0.16,1,0.3,1)",
+   598→        }}>
+   599→        {icon}
+   600→      </div>
+   601→      <div className="flex-1 min-w-0">
+   602→        <div className="text-[13px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{title}</div>
+   603→        <div className="text-[11px] mt-[2px] truncate" style={{ color: "var(--ast-gray)" }}>{desc}</div>
+   604→      </div>
+   605→      <ExternalLink className="w-4 h-4 shrink-0 opacity-40 group-hover:opacity-80" style={{ color: "var(--ast-blue-l)", transition: "opacity 0.3s" }} />
+   606→    </a>
+   607→  );
+   608→}
+   609→
+   610→// ─── Download Button ─────────────────────────────────────────────────────────
+   611→
+   612→function DownloadButton({ theme, icon, text, onClick, style }: {
+   613→  theme: "blue" | "cyan" | "green" | "purple" | "amber" | "red" | "seller";
+   614→  icon: React.ReactNode; text: string; onClick: () => void; style?: React.CSSProperties;
+   615→}) {
+   616→  const gradients: Record<string, React.CSSProperties> = {
+   617→    blue: { background: "linear-gradient(135deg,#1d4ed8,#3b82f6)", boxShadow: "0 6px 24px rgba(37,99,235,0.25)" },
+   618→    cyan: { background: "linear-gradient(135deg,#0e7490,#22d3ee)", boxShadow: "0 6px 24px rgba(34,211,238,0.2)" },
+   619→    green: { background: "linear-gradient(135deg,#15803d,#22c55e)", boxShadow: "0 6px 24px rgba(34,197,94,0.2)" },
+   620→    purple: { background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 6px 24px rgba(168,85,247,0.2)" },
+   621→    amber: { background: "linear-gradient(135deg,#92400e,#f59e0b)", boxShadow: "0 6px 24px rgba(245,158,11,0.2)" },
+   622→    red: { background: "linear-gradient(135deg,#991b1b,#ef4444)", boxShadow: "0 6px 24px rgba(239,68,68,0.2)" },
+   623→    seller: { background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)", boxShadow: "0 6px 24px rgba(37,99,235,0.3)" },
+   624→  };
+   625→
+   626→  return (
+   627→    <button
+   628→      onClick={onClick}
+   629→      className="relative flex items-center justify-center gap-2.5 w-full py-[18px] rounded-2xl border-none text-white cursor-pointer font-['Plus_Jakarta_Sans'] text-[15px] font-extrabold overflow-hidden will-change-transform group"
+   630→      style={{
+   631→        ...gradients[theme],
+   632→        ...style,
+   633→        transition: "transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s cubic-bezier(0.16,1,0.3,1)",
+   634→        marginBottom: "12px",
+   635→      }}
+   636→      onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; }}
+   637→      onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; }}
+   638→      onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(0) scale(0.98)"; }}
+   639→      onMouseUp={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; }}
+   640→    >
+   641→      <span className="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/15 to-transparent" style={{ transition: "left 0.6s cubic-bezier(0.16,1,0.3,1)" }} />
+   642→      {icon}
+   643→      {text}
+   644→    </button>
+   645→  );
+   646→}
+   647→
+   648→// ─── Feature Item ────────────────────────────────────────────────────────────
+   649→
+   650→function FeatureItem({ num, theme, title, desc, dark }: {
+   651→  num: string; theme: string; title: string; desc: string; dark?: boolean;
+   652→}) {
+   653→  const colorMap: Record<string, { bg: string; color: string }> = {
+   654→    blue: { bg: "rgba(37,99,235,0.08)", color: "var(--ast-blue-l)" },
+   655→    cyan: { bg: "rgba(34,211,238,0.08)", color: "var(--ast-cyan)" },
+   656→    green: { bg: "rgba(34,197,94,0.08)", color: "var(--ast-green)" },
+   657→    purple: { bg: "rgba(168,85,247,0.08)", color: "var(--ast-purple)" },
+   658→    amber: { bg: "rgba(245,158,11,0.08)", color: "var(--ast-amber)" },
+   659→    red: { bg: "rgba(239,68,68,0.08)", color: "var(--ast-red)" },
+   660→  };
+   661→  const c = colorMap[theme] || colorMap.blue;
+   662→
+   663→  return (
+   664→    <div className="flex items-start gap-3 py-4 border-b border-[var(--ast-border)] last:border-b-0" style={{ transition: "padding-left 0.3s cubic-bezier(0.16,1,0.3,1)" }}
+   665→      onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "4px"; }}
+   666→      onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "0"; }}
+   667→    >
+   668→      <div className="w-7 h-7 rounded-lg flex items-center justify-center font-mono text-[11px] font-bold shrink-0" style={{ background: dark ? "rgba(107,123,168,0.06)" : c.bg, color: dark ? "#4a5568" : c.color, fontSize: num.length > 2 ? "13px" : undefined }}>
+   669→        {num}
+   670→      </div>
+   671→      <div className="text-xs leading-relaxed" style={{ color: dark ? "#6b7280" : "var(--ast-gray)" }}>
+   672→        <strong className={dark ? "" : "text-white"} style={dark ? { color: "#6b7280", fontWeight: 600 } : { fontWeight: 600 }}>{title}</strong>{dark ? " — " : " — "}{desc}
+   673→      </div>
+   674→    </div>
+   675→  );
+   676→}
+   677→
+   678→// ─── VIP Feature Box (like Cara Install & Setup style) ───────────────────────
+   679→
+   680→function VipFeatureBox({ theme = "blue" }: { theme?: string }) {
+   681→  const accentColor = theme === "amber" ? "var(--ast-amber)" : "var(--ast-blue-l)";
+   682→  const gradientLine = theme === "amber"
+   683→    ? "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)"
+   684→    : "linear-gradient(90deg, var(--ast-blue-d), var(--ast-blue), var(--ast-cyan))";
+   685→
+   686→  const categories = [
+   687→    { icon: <IconDeviceSecurity className="w-4 h-4" />, title: "Perangkat & Keamanan",
+   688→      features: ["Bisa digunakan di Android maupun iPhone", "Proteksi anti-ban yang kuat dan aman"] },
+   689→    { icon: <IconAccountProfile className="w-4 h-4" />, title: "Akun & Profil",
+   690→      features: ["Bisa klaim mail seperti akun asli", "Setting nama karakter", "Setting region sesuai kebutuhan", "Badge terlihat di lobby", "Prime level 8 bisa diubah sesuai keinginan", "Setting pertemanan"] },
+   691→    { icon: <IconShopItem className="w-4 h-4" />, title: "Shop & Item",
+   692→      features: ["Nambahin item di shop & dibeli", "Kebebasan mengatur shop sesuai selera", "Setting vault ghoib"] },
+   693→    { icon: <IconCharacterSkin className="w-4 h-4" />, title: "Karakter & Skin",
+   694→      features: ["Semua karakter terbuka dan bisa digunakan", "Main skin terbawa semua (tidak bisa damage)", "Skill karakter kebawa di ingame (tidak untuk di room)"] },
+   695→    { icon: <IconEmoteInteract className="w-4 h-4" />, title: "Emote & Interaksi",
+   696→      features: ["Emote tembus ke akun original", "Emote berubah dan tembus ke akun original", "Terlihat sesama pengguna Beta Astute", "Bisa melakukan spin wheel"] },
+   697→    { icon: <IconCombatSpecial className="w-4 h-4" />, title: "Combat & Spesial",
+   698→      features: ["Glowall & terlihat di lu & sesama FF Astute", "Damage & ga kerasa seperti skin aslinya (no skin)", "Skills pet kebawa di ingame"] },
+   699→  ];
+   700→
+   701→  return (
+   702→    <div className="rounded-2xl p-5 relative overflow-hidden border" style={{
+   703→      background: "var(--ast-bg2)",
+   704→      borderColor: "var(--ast-border)",
+   705→    }}>
+   706→      <div className="absolute top-0 left-0 right-0 h-[2px]"
+   707→        style={{ background: gradientLine, opacity: 0.35 }} />
+   708→      <div className="flex flex-col gap-4">
+   709→        {categories.map((cat, i) => (
+   710→          <div key={i}>
+   711→            <div className="flex items-center gap-2 mb-2">
+   712→              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{
+   713→                background: theme === "amber"
+   714→                  ? "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)"
+   715→                  : "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+   716→                boxShadow: `0 2px 8px ${theme === "amber" ? "rgba(245,158,11,0.25)" : "rgba(37,99,235,0.25)"}`,
+   717→              }}>
+   718→                {cat.icon}
+   719→              </div>
+   720→              <span className="text-[13px] font-bold" style={{ color: accentColor }}>{cat.title}</span>
+   721→            </div>
+   722→            <div className="flex flex-col gap-1 pl-9">
+   723→              {cat.features.map((feat, fi) => (
+   724→                <div key={fi} className="flex items-start gap-2">
+   725→                  <IconVipCheck className="w-3 h-3 mt-[3px] shrink-0" style={{ color: accentColor }} />
+   726→                  <span className="text-[12px] leading-snug" style={{ color: "var(--ast-gray)" }}>{feat}</span>
+   727→                </div>
+   728→              ))}
+   729→            </div>
+   730→            {i < categories.length - 1 && (
+   731→              <div className="mt-4 h-px" style={{ background: "var(--ast-border)", opacity: 0.5 }} />
+   732→            )}
+   733→          </div>
+   734→        ))}
+   735→      </div>
+   736→    </div>
+   737→  );
+   738→}
+   739→
+   740→// ─── Swipeable Feature Carousel (Box + Sound on swipe, Smooth) ──────────────
+   741→
+   742→function FeatureCarousel({ items, theme = "blue" }: {
+   743→  items: { num: React.ReactNode; title: string; desc: string; features?: string[] }[];
+   744→  theme?: string;
+   745→}) {
+   746→  const scrollRef = useRef<HTMLDivElement | null>(null);
+   747→  const audioRef = useRef<HTMLAudioElement | null>(null);
+   748→  const lastIdxRef = useRef<number>(0);
+   749→  const rafRef = useRef<number | null>(null);
+   750→  const [activeIdx, setActiveIdx] = useState<number>(0);
+   751→
+   752→  // Color theme
+   753→  const themeStyles: Record<string, {
+   754→    boxGradient: string;
+   755→    boxShadow: string;
+   756→    chipGradient: string;
+   757→    chipShadow: string;
+   758→    accent: string;
+   759→    indicatorActive: string;
+   760→    labelColor: string;
+   761→  }> = {
+   762→    blue: {
+   763→      boxGradient: "linear-gradient(135deg, rgba(37,99,235,0.10) 0%, rgba(37,99,235,0.02) 60%, var(--ast-bg2) 100%)",
+   764→      boxShadow: "0 4px 24px rgba(37,99,235,0.12), 0 1px 3px rgba(0,0,0,0.3)",
+   765→      chipGradient: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+   766→      chipShadow: "0 2px 10px rgba(37,99,235,0.30)",
+   767→      accent: "var(--ast-blue-l)",
+   768→      indicatorActive: "var(--ast-blue-l)",
+   769→      labelColor: "var(--ast-blue-l)",
+   770→    },
+   771→    amber: {
+   772→      boxGradient: "linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.02) 60%, var(--ast-bg2) 100%)",
+   773→      boxShadow: "0 4px 24px rgba(245,158,11,0.14), 0 1px 3px rgba(0,0,0,0.3)",
+   774→      chipGradient: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
+   775→      chipShadow: "0 2px 10px rgba(245,158,11,0.32)",
+   776→      accent: "var(--ast-amber)",
+   777→      indicatorActive: "var(--ast-amber)",
+   778→      labelColor: "var(--ast-amber)",
+   779→    },
+   780→  };
+   781→  const ts = themeStyles[theme] || themeStyles.blue;
+   782→
+   783→  // Play swipe sound
+   784→  const playSwipeSound = useCallback(() => {
+   785→    try {
+   786→      if (!audioRef.current) {
+   787→        const a = new Audio("/flip.mp3");
+   788→        a.volume = 0.3;
+   789→        a.preload = "auto";
+   790→        audioRef.current = a;
+   791→      }
+   792→      audioRef.current.currentTime = 0;
+   793→      audioRef.current.play().catch(() => {});
+   794→    } catch {}
+   795→  }, []);
+   796→
+   797→  // Compute current visible index based on scroll position
+   798→  const computeIdx = useCallback(() => {
+   799→    const el = scrollRef.current;
+   800→    if (!el) return 0;
+   801→    const firstChild = el.firstElementChild as HTMLElement | null;
+   802→    if (!firstChild) return 0;
+   803→    const step = firstChild.offsetWidth + 12;
+   804→    const idx = Math.round(el.scrollLeft / step);
+   805→    return Math.max(0, Math.min(items.length - 1, idx));
+   806→  }, [items.length]);
+   807→
+   808→  // Throttled scroll handler using rAF
+   809→  const handleScroll = useCallback(() => {
+   810→    if (rafRef.current != null) return;
+   811→    rafRef.current = requestAnimationFrame(() => {
+   812→      rafRef.current = null;
+   813→      const idx = computeIdx();
+   814→      if (idx !== lastIdxRef.current) {
+   815→        lastIdxRef.current = idx;
+   816→        setActiveIdx(idx);
+   817→        playSwipeSound();
+   818→      }
+   819→    });
+   820→  }, [computeIdx, playSwipeSound]);
+   821→
+   822→  // Smooth scroll to a specific box index
+   823→  const scrollToIdx = useCallback((idx: number) => {
+   824→    const el = scrollRef.current;
+   825→    if (!el) return;
+   826→    const firstChild = el.firstElementChild as HTMLElement | null;
+   827→    if (!firstChild) return;
+   828→    const step = firstChild.offsetWidth + 12;
+   829→    const target = Math.max(0, Math.min(items.length - 1, idx));
+   830→    const targetLeft = target * step;
+   831→    el.scrollTo({ left: targetLeft, behavior: "smooth" });
+   832→    if (lastIdxRef.current !== target) {
+   833→      lastIdxRef.current = target;
+   834→      setActiveIdx(target);
+   835→      playSwipeSound();
+   836→    }
+   837→  }, [items.length, playSwipeSound]);
+   838→
+   839→  const scrollByBox = useCallback((dir: 1 | -1) => {
+   840→    scrollToIdx(lastIdxRef.current + dir);
+   841→  }, [scrollToIdx]);
+   842→
+   843→  // Cleanup rAF on unmount
+   844→  useEffect(() => {
+   845→    return () => {
+   846→      if (rafRef.current != null) {
+   847→        cancelAnimationFrame(rafRef.current);
+   848→      }
+   849→    };
+   850→  }, []);
+   851→
+   852→  return (
+   853→    <div className="relative">
+   854→      {/* Arrows (desktop) */}
+   855→      <button
+   856→        type="button"
+   857→        aria-label="Previous"
+   858→        onClick={() => scrollByBox(-1)}
+   859→        className="hidden sm:flex absolute -left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full items-center justify-center cursor-pointer border"
+   860→        style={{
+   861→          background: "var(--ast-bg2)",
+   862→          borderColor: "var(--ast-border)",
+   863→          color: "var(--ast-gray)",
+   864→        }}
+   865→      >
+   866→        <ArrowLeft className="w-4 h-4" />
+   867→      </button>
+   868→      <button
+   869→        type="button"
+   870→        aria-label="Next"
+   871→        onClick={() => scrollByBox(1)}
+   872→        className="hidden sm:flex absolute -right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full items-center justify-center cursor-pointer border"
+   873→        style={{
+   874→          background: "var(--ast-bg2)",
+   875→          borderColor: "var(--ast-border)",
+   876→          color: "var(--ast-gray)",
+   877→        }}
+   878→      >
+   879→        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+   880→          <line x1="5" y1="12" x2="19" y2="12" />
+   881→          <polyline points="12 5 19 12 12 19" />
+   882→        </svg>
+   883→      </button>
+   884→
+   885→      {/* Horizontal scroll container */}
+   886→      <div
+   887→        ref={scrollRef}
+   888→        onScroll={handleScroll}
+   889→        className="feature-carousel-scroll flex gap-3 overflow-x-auto pb-3 -mx-1 px-1"
+   890→        style={{
+   891→          scrollSnapType: "x mandatory",
+   892→          scrollBehavior: "smooth",
+   893→          willChange: "scroll-position",
+   894→          transform: "translateZ(0)",
+   895→          scrollPaddingLeft: "4px",
+   896→          scrollPaddingRight: "4px",
+   897→        } as React.CSSProperties}
+   898→      >
+   899→        {items.map((it, i) => (
+   900→          <div
+   901→            key={i}
+   902→            className="shrink-0 snap-start"
+   903→            style={{
+   904→              flexBasis: it.features ? "90%" : "82%",
+   905→              maxWidth: it.features ? "90%" : "82%",
+   906→              transform: "translateZ(0)",
+   907→              willChange: "transform",
+   908→            }}
+   909→          >
+   910→            {/* Feature box */}
+   911→            <div
+   912→              className="rounded-2xl p-5 border relative overflow-hidden"
+   913→              style={{
+   914→                background: ts.boxGradient,
+   915→                borderColor: "var(--ast-border)",
+   916→                boxShadow: ts.boxShadow,
+   917→                transition: "border-color 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
+   918→                minHeight: it.features ? "200px" : "auto",
+   919→              }}
+   920→            >
+   921→              {/* Top row: gradient chip + label */}
+   922→              <div className="flex items-center gap-2.5 mb-3">
+   923→                <div
+   924→                  className="w-10 h-10 rounded-xl flex items-center justify-center font-mono text-[14px] font-bold shrink-0"
+   925→                  style={{
+   926→                    background: ts.chipGradient,
+   927→                    boxShadow: ts.chipShadow,
+   928→                    color: "#fff",
+   929→                  }}
+   930→                >
+   931→                  {typeof it.num === "string" ? it.num : it.num}
+   932→                </div>
+   933→                <div className="flex flex-col">
+   934→                  <div className="font-mono text-[8px] tracking-[0.18em] uppercase font-bold" style={{ color: ts.labelColor }}>
+   935→                    {it.features ? "KATEGORI" : "FEATURE"} {String(i + 1).padStart(2, "0")}
+   936→                  </div>
+   937→                  <div className="text-[15px] font-extrabold leading-tight" style={{ color: "var(--ast-white)" }}>
+   938→                    {it.title}
+   939→                  </div>
+   940→                </div>
+   941→              </div>
+   942→
+   943→              {/* Grouped feature list or single desc */}
+   944→              {it.features ? (
+   945→                <div className="flex flex-col gap-1.5 mt-1">
+   946→                  {it.features.map((feat, fi) => (
+   947→                    <div key={fi} className="flex items-start gap-2">
+   948→                      <IconVipCheck className="w-3.5 h-3.5 mt-[1px] shrink-0" style={{ color: ts.accent }} />
+   949→                      <span className="text-[12px] leading-snug" style={{ color: "var(--ast-gray)" }}>{feat}</span>
+   950→                    </div>
+   951→                  ))}
+   952→                </div>
+   953→              ) : (
+   954→                <>
+   955→                  <div className="text-[14.5px] font-extrabold mb-1.5 leading-tight" style={{ color: "var(--ast-white)" }}>
+   956→                    {it.title}
+   957→                  </div>
+   958→                  <div className="text-[11.5px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
+   959→                    {it.desc}
+   960→                  </div>
+   961→                </>
+   962→              )}
+   963→
+   964→              {/* Top accent line */}
+   965→              <div
+   966→                className="absolute top-0 left-0 right-0 h-[2px] opacity-80 pointer-events-none"
+   967→                style={{ background: `linear-gradient(90deg, transparent, ${ts.accent}, transparent)` }}
+   968→              />
+   969→              {/* Decorative corner accent */}
+   970→              <div
+   971→                className="absolute -bottom-8 -right-8 w-24 h-24 rounded-full opacity-25 pointer-events-none"
+   972→                style={{ background: `radial-gradient(circle, ${ts.accent}, transparent 70%)` }}
+   973→              />
+   974→            </div>
+   975→          </div>
+   976→        ))}
+   977→      </div>
+   978→
+   979→      {/* Page indicator dots + hint */}
+   980→      <div className="flex flex-col items-center gap-2 mt-2.5">
+   981→        <div className="flex items-center gap-1.5">
+   982→          {items.map((_, i) => (
+   983→            <button
+   984→              key={i}
+   985→              type="button"
+   986→              aria-label={`Go to feature ${i + 1}`}
+   987→              onClick={() => scrollToIdx(i)}
+   988→              className="rounded-full transition-all duration-300 cursor-pointer"
+   989→              style={{
+   990→                width: i === activeIdx ? 16 : 5,
+   991→                height: 5,
+   992→                background: i === activeIdx ? ts.indicatorActive : "rgba(255,255,255,0.15)",
+   993→                border: "none",
+   994→                padding: 0,
+   995→              }}
+   996→            />
+   997→          ))}
+   998→        </div>
+   999→        <div className="flex items-center justify-center gap-1.5">
+  1000→          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-gray2)" }}>
+  1001→            <polyline points="15 18 9 12 15 6" />
+  1002→          </svg>
+  1003→          <span className="font-mono text-[9px] tracking-[0.16em] uppercase font-bold" style={{ color: "var(--ast-gray2)" }}>
+  1004→            Geser untuk lihat semua
+  1005→          </span>
+  1006→        </div>
+  1007→      </div>
+  1008→    </div>
+  1009→  );
+  1010→}
+  1011→
+  1012→// ─── Reveal ──────────────────────────────────────────────────────────────────
+  1013→
+  1014→function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  1015→  const [visible, setVisible] = useState(false);
+  1016→  useEffect(() => {
+  1017→    const timer = setTimeout(() => setVisible(true), delay + 80);
+  1018→    return () => clearTimeout(timer);
+  1019→  }, [delay]);
+  1020→
+  1021→  return (
+  1022→    <div
+  1023→      className="will-change-transform"
+  1024→      style={{
+  1025→        opacity: visible ? 1 : 0,
+  1026→        transform: visible ? "translateY(0)" : "translateY(20px)",
+  1027→        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+  1028→      }}
+  1029→    >
+  1030→      {children}
+  1031→    </div>
+  1032→  );
+  1033→}
+  1034→
+  1035→// ─── Page Wrapper ────────────────────────────────────────────────────────────
+  1036→
+  1037→function PageWrapper({ pageName, currentPage, children }: {
+  1038→  pageName: PageName; currentPage: PageName; children: React.ReactNode;
+  1039→}) {
+  1040→  const active = pageName === currentPage;
+  1041→
+  1042→  if (!active) return null;
+  1043→
+  1044→  return (
+  1045→    <div
+  1046→      className="max-w-[480px] mx-auto px-4 pb-24"
+  1047→      style={{
+  1048→        paddingTop: "80px",
+  1049→        animation: "pageSlideIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards",
+  1050→      }}
+  1051→    >
+  1052→      {children}
+  1053→    </div>
+  1054→  );
+  1055→}
+  1056→
+  1057→// ─── Main App ────────────────────────────────────────────────────────────────
+  1058→
+  1059→export default function AstuteApp() {
+  1060→  const [currentPage, setCurrentPage] = useState<PageName>("home");
+  1061→  const [panelOpen, setPanelOpen] = useState(false);
+  1062→  const [toastMsg, setToastMsg] = useState("");
+  1063→  const [toastVisible, setToastVisible] = useState(false);
+  1064→  const [downloadCount, setDownloadCount] = useState(1300);
+  1065→  const [clock, setClock] = useState("00:00:00");
+  1066→  const [scrolled, setScrolled] = useState(false);
+  1067→  const [musicPlaying, setMusicPlaying] = useState(false);
+  1068→  const musicAutoStartedRef = useRef(false);
+  1069→  const panelSwipeRef = useRef<{ startX: number; currentX: number; swiping: boolean }>({ startX: 0, currentX: 0, swiping: false });
+  1070→  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
+  1071→  const musicAudioRef = useRef<HTMLAudioElement | null>(null);
+  1072→
+  1073→  // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
+  1074→  const clickAudioRef = useRef<HTMLAudioElement | null>(null);
+  1075→  const playClickSound = useCallback(() => {
+  1076→    try {
+  1077→      if (!clickAudioRef.current) {
+  1078→        clickAudioRef.current = new Audio("/click.mp3");
+  1079→        clickAudioRef.current.volume = 0.4;
+  1080→      }
+  1081→      clickAudioRef.current.currentTime = 0;
+  1082→      clickAudioRef.current.play().catch(() => {});
+  1083→    } catch {}
+  1084→  }, []);
+  1085→
+  1086→  // ─── Background Music (MP3) ─────────────────────────────────────────────────
+  1087→  const startMusic = useCallback(() => {
+  1088→    try {
+  1089→      if (!musicAudioRef.current) {
+  1090→        const audio = new Audio("/music.mp3");
+  1091→        audio.volume = 0.35;
+  1092→        audio.loop = true;
+  1093→        audio.preload = "auto";
+  1094→        musicAudioRef.current = audio;
+  1095→      }
+  1096→      const audio = musicAudioRef.current;
+  1097→      audio.play().then(() => {
+  1098→        setMusicPlaying(true);
+  1099→      }).catch(() => {
+  1100→        setMusicPlaying(false);
+  1101→      });
+  1102→    } catch {
+  1103→      setMusicPlaying(false);
+  1104→    }
+  1105→  }, []);
+  1106→
+  1107→  const stopMusic = useCallback(() => {
+  1108→    try {
+  1109→      if (musicAudioRef.current) {
+  1110→        musicAudioRef.current.pause();
+  1111→      }
+  1112→      setMusicPlaying(false);
+  1113→    } catch {}
+  1114→  }, []);
+  1115→
+  1116→  const toggleMusic = useCallback(() => {
+  1117→    if (musicPlaying) {
+  1118→      stopMusic();
+  1119→    } else {
+  1120→      startMusic();
+  1121→    }
+  1122→  }, [musicPlaying, startMusic, stopMusic]);
+  1123→
+  1124→  // Auto-start background music on first user interaction
+  1125→  useEffect(() => {
+  1126→    function onFirstInteraction() {
+  1127→      if (musicAutoStartedRef.current) return;
+  1128→      musicAutoStartedRef.current = true;
+  1129→      startMusic();
+  1130→      ["click", "touchstart", "keydown"].forEach(evt =>
+  1131→        document.removeEventListener(evt, onFirstInteraction)
+  1132→      );
+  1133→    }
+  1134→    ["click", "touchstart", "keydown"].forEach(evt =>
+  1135→      document.addEventListener(evt, onFirstInteraction, { once: false })
+  1136→    );
+  1137→    return () => {
+  1138→      ["click", "touchstart", "keydown"].forEach(evt =>
+  1139→        document.removeEventListener(evt, onFirstInteraction)
+  1140→      );
+  1141→    };
+  1142→  }, [startMusic]);
+  1143→
+  1144→  // Scroll detection for glass effect
+  1145→  useEffect(() => {
+  1146→    function onScroll() {
+  1147→      setScrolled(window.scrollY > 10);
+  1148→    }
+  1149→    window.addEventListener("scroll", onScroll, { passive: true });
+  1150→    return () => window.removeEventListener("scroll", onScroll);
+  1151→  }, []);
+  1152→
+  1153→  // Clock
+  1154→  useEffect(() => {
+  1155→    function updateClock() {
+  1156→      const n = new Date();
+  1157→      setClock(`${String(n.getHours()).padStart(2, "0")}:${String(n.getMinutes()).padStart(2, "0")}:${String(n.getSeconds()).padStart(2, "0")}`);
+  1158→    }
+  1159→    updateClock();
+  1160→    const iv = setInterval(updateClock, 1000);
+  1161→    return () => clearInterval(iv);
+  1162→  }, []);
+  1163→
+  1164→  // Download counter
+  1165→  useEffect(() => {
+  1166→    let mounted = true;
+  1167→    function tick() {
+  1168→      if (!mounted) return;
+  1169→      const delay = Math.floor(Math.random() * 4500) + 1500;
+  1170→      setTimeout(() => {
+  1171→        if (!mounted) return;
+  1172→        setDownloadCount((c) => c + Math.floor(Math.random() * 4) + 1);
+  1173→        tick();
+  1174→      }, delay);
+  1175→    }
+  1176→    tick();
+  1177→    return () => { mounted = false; };
+  1178→  }, []);
+  1179→
+  1180→  // Page navigation - smooth
+  1181→  const goPage = useCallback((name: PageName) => {
+  1182→    playClickSound();
+  1183→    setCurrentPage(name);
+  1184→    window.scrollTo({ top: 0, behavior: "smooth" });
+  1185→  }, [playClickSound]);
+  1186→
+  1187→  // Toast
+  1188→  const showToast = useCallback((msg: string) => {
+  1189→    setToastMsg(msg);
+  1190→    setToastVisible(true);
+  1191→    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+  1192→    toastTimerRef.current = setTimeout(() => setToastVisible(false), 2400);
+  1193→  }, []);
+  1194→
+  1195→  const handleDownload = useCallback((name: string) => {
+  1196→    showToast(`Preparing: ${name}...`);
+  1197→    setDownloadCount((c) => c + Math.floor(Math.random() * 3) + 1);
+  1198→  }, [showToast]);
+  1199→
+  1200→  const togglePanel = useCallback(() => {
+  1201→    playClickSound();
+  1202→    setPanelOpen((p) => !p);
+  1203→  }, [playClickSound]);
+  1204→
+  1205→  // Clear inline swipe transform when panel re-opens
+  1206→  useEffect(() => {
+  1207→    if (panelOpen) {
+  1208→      const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+  1209→      if (nav) {
+  1210→        nav.style.transform = "";
+  1211→        nav.style.transition = "";
+  1212→      }
+  1213→    }
+  1214→  }, [panelOpen]);
+  1215→
+  1216→  const formattedCount = downloadCount.toLocaleString("en-US");
+  1217→
+  1218→  // Increment download count when PlayStore link clicked
+  1219→  const bumpDownload = useCallback(() => {
+  1220→    setDownloadCount(prev => prev + 1);
+  1221→  }, []);
+  1222→
+  1223→  const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
+  1224→    { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB54", desc: "Download main APK" },
+  1225→    { name: "panel", icon: <Settings className="w-6 h-6" />, title: "PANEL ASTUTE", desc: "Control panel & config" },
+  1226→    { name: "verif", icon: <ShieldCheck className="w-6 h-6" />, title: "VERIF MANUAL", desc: "Bypass verification" },
+  1227→    { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
+  1228→    { name: "tutorial", icon: <PlayCircle className="w-6 h-6" />, title: "VIDEO TUTORIAL", desc: "Step by step guide" },
+  1229→    { name: "changelog", icon: <FileText className="w-6 h-6" />, title: "FITUR VIP ACCESS", desc: "VIP features list" },
+  1230→    { name: "vip", icon: <Crown className="w-6 h-6" />, title: "PEMBELIAN VIP", desc: "Beli VIP & chat admin" },
+  1231→  ];
+  1232→
+  1233→  return (
+  1234→    <div
+  1235→      className="min-h-screen overflow-x-hidden antialiased relative"
+  1236→      style={{
+  1237→        fontFamily: "'Plus Jakarta Sans', sans-serif",
+  1238→        background: "var(--ast-bg)",
+  1239→        color: "var(--ast-white)",
+  1240→        WebkitOverflowScrolling: "touch",
+  1241→      }}
+  1242→    >
+  1243→      {/* ─── CSS Variables & Animations ────────────────────────────── */}
+  1244→      <style>{`
+  1245→        :root {
+  1246→          --ast-bg: #050810;
+  1247→          --ast-bg2: #0a0f1c;
+  1248→          --ast-bg3: #0e1428;
+  1249→          --ast-bg4: #131b30;
+  1250→          --ast-blue: #2563eb;
+  1251→          --ast-blue-l: #60a5fa;
+  1252→          --ast-blue-b: #93c5fd;
+  1253→          --ast-blue-d: #1d4ed8;
+  1254→          --ast-cyan: #22d3ee;
+  1255→          --ast-green: #22c55e;
+  1256→          --ast-purple: #a855f7;
+  1257→          --ast-amber: #f59e0b;
+  1258→          --ast-red: #ef4444;
+  1259→          --ast-wa: #25D366;
+  1260→          --ast-white: #e8edf5;
+  1261→          --ast-gray: #6b7ba8;
+  1262→          --ast-gray2: #3d4c73;
+  1263→          --ast-gray3: #151d38;
+  1264→          --ast-bar-bg: #0a1020;
+  1265→          --ast-border: rgba(37,99,235,0.06);
+  1266→          --ast-border2: rgba(37,99,235,0.12);
+  1267→        }
+  1268→        @keyframes dot-blink {
+  1269→          0%, 100% { opacity: 1; transform: scale(1); }
+  1270→          50% { opacity: 0.3; transform: scale(0.7); }
+  1271→        }
+  1272→        @keyframes bar-blink {
+  1273→          0%, 100% { background: var(--ast-bar-bg); border-color: var(--ast-border); }
+  1274→          50% { background: rgba(34,197,94,0.03); border-color: rgba(34,197,94,0.1); }
+  1275→        }
+  1276→        @keyframes spin {
+  1277→          to { transform: rotate(360deg); }
+  1278→        }
+  1279→        @keyframes orb-float {
+  1280→          0%, 100% { transform: translateX(-50%) translateY(0); }
+  1281→          50% { transform: translateX(-50%) translateY(20px); }
+  1282→        }
+  1283→        @keyframes pageSlideIn {
+  1284→          0% { opacity: 0; transform: translateX(40px); }
+  1285→          100% { opacity: 1; transform: translateX(0); }
+  1286→        }
+  1287→        @keyframes marquee-scroll {
+  1288→          0% { transform: translateX(100%); }
+  1289→          100% { transform: translateX(-100%); }
+  1290→        }
+  1291→        @keyframes music-pulse {
+  1292→          0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
+  1293→          50% { box-shadow: 0 0 0 8px rgba(37,99,235,0); }
+  1294→        }
+  1295→        html {
+  1296→          scroll-behavior: smooth;
+  1297→        }
+  1298→        body { -webkit-font-smoothing: antialiased; }
+  1299→        ::selection { background: var(--ast-blue); color: #fff; }
+  1300→        /* Smooth scrollbar */
+  1301→        ::-webkit-scrollbar { width: 3px; }
+  1302→        ::-webkit-scrollbar-track { background: var(--ast-bg); }
+  1303→        ::-webkit-scrollbar-thumb { background: var(--ast-bg4); border-radius: 2px; }
+  1304→        /* Sidebar smooth scroll */
+  1305→        .side-panel-scroll {
+  1306→          -webkit-overflow-scrolling: touch;
+  1307→          scroll-behavior: smooth;
+  1308→        }
+  1309→        .side-panel-scroll::-webkit-scrollbar { width: 2px; }
+  1310→        .side-panel-scroll::-webkit-scrollbar-track { background: transparent; }
+  1311→        .side-panel-scroll::-webkit-scrollbar-thumb { background: rgba(37,99,235,0.1); border-radius: 2px; }
+  1312→      `}</style>
+  1313→
+  1314→      {/* ─── Background Effects ──────────────────────────────────── */}
+  1315→      <div className="fixed inset-0 z-0 pointer-events-none">
+  1316→        <div className="absolute inset-0" style={{
+  1317→          backgroundImage: "linear-gradient(rgba(37,99,235,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.02) 1px,transparent 1px)",
+  1318→          backgroundSize: "44px 44px",
+  1319→        }} />
+  1320→        <div className="absolute rounded-full" style={{
+  1321→          width: 500, height: 500,
+  1322→          background: "radial-gradient(circle,rgba(29,78,216,0.1),transparent 65%)",
+  1323→          top: "-25%", left: "50%", transform: "translateX(-50%)",
+  1324→          filter: "blur(140px)", opacity: 0.4,
+  1325→          animation: "orb-float 28s ease-in-out infinite",
+  1326→        }} />
+  1327→        <div className="absolute rounded-full" style={{
+  1328→          width: 300, height: 300,
+  1329→          background: "radial-gradient(circle,rgba(34,211,238,0.04),transparent 65%)",
+  1330→          bottom: "5%", right: "-5%",
+  1331→          filter: "blur(140px)", opacity: 0.4,
+  1332→          animation: "orb-float 22s ease-in-out infinite reverse",
+  1333→        }} />
+  1334→      </div>
+  1335→
+  1336→      <ParticleCanvas />
+  1337→
+  1338→      {/* ═══ TOPBAR — Sticky with Glass Blur (iPhone style) ══════════════════════════ */}
+  1339→      <header
+  1340→        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 relative"
+  1341→        style={{
+  1342→          background: scrolled
+  1343→            ? "rgba(15,18,30,0.55)"
+  1344→            : "linear-gradient(90deg, rgba(8,18,50,0.92) 0%, rgba(10,16,36,0.85) 40%, rgba(5,8,16,0.72) 100%)",
+  1345→          backdropFilter: scrolled
+  1346→            ? "blur(60px) saturate(2.5) brightness(0.9)"
+  1347→            : "blur(40px) saturate(1.8)",
+  1348→          WebkitBackdropFilter: scrolled
+  1349→            ? "blur(60px) saturate(2.5) brightness(0.9)"
+  1350→            : "blur(40px) saturate(1.8)",
+  1351→          borderBottom: scrolled
+  1352→            ? "1px solid rgba(120,140,180,0.08)"
+  1353→            : "1px solid var(--ast-border)",
+  1354→          boxShadow: scrolled
+  1355→            ? "0 0.5px 0 0 rgba(180,190,220,0.06), 0 4px 20px rgba(0,0,0,0.3)"
+  1356→            : "none",
+  1357→          transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
+  1358→        }}
+  1359→      >
+  1360→        {/* Navy gradient glow on left side */}
+  1361→        <div className="absolute inset-0 pointer-events-none" style={{
+  1362→          background: scrolled
+  1363→            ? "radial-gradient(ellipse at 0% 50%, rgba(29,78,216,0.08) 0%, transparent 50%)"
+  1364→            : "radial-gradient(ellipse at 0% 50%, rgba(29,78,216,0.18) 0%, rgba(13,36,120,0.1) 30%, transparent 70%)",
+  1365→          transition: "background 0.5s cubic-bezier(0.16,1,0.3,1)",
+  1366→          zIndex: 0,
+  1367→        }} />
+  1368→        <div className="flex items-center gap-2.5 relative z-[1]">
+  1369→          <div className="w-[38px] h-[38px] rounded-[11px] overflow-hidden"
+  1370→            style={{ border: "2px solid rgba(37,99,235,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
+  1371→            <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
+  1372→          </div>
+  1373→          <div className="flex flex-col">
+  1374→            <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "var(--ast-gray)", lineHeight: 1.2 }}>JUJU</span>
+  1375→            <span className="text-[16px] font-extrabold tracking-wide" style={{
+  1376→              background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+  1377→              WebkitBackgroundClip: "text",
+  1378→              WebkitTextFillColor: "transparent",
+  1379→              backgroundClip: "text",
+  1380→              textShadow: "none",
+  1381→              filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
+  1382→              lineHeight: 1.2,
+  1383→            }}>SELLER</span>
+  1384→          </div>
+  1385→        </div>
+  1386→        <div className="flex items-center gap-2 relative z-[1]">
+  1387→          <a href="https://whatsapp.com/channel/0029VbBxPsuDeONChEGz5D1Q" target="_blank" rel="noopener noreferrer"
+  1388→            className="flex items-center gap-1.5 py-[5px] px-3 rounded-full"
+  1389→            style={{
+  1390→              background: "rgba(120,130,160,0.1)",
+  1391→              border: "1px solid rgba(120,130,160,0.1)",
+  1392→              color: "var(--ast-gray)",
+  1393→              transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+  1394→              fontSize: "10px",
+  1395→              fontWeight: 600,
+  1396→              letterSpacing: "0.02em",
+  1397→            }}
+  1398→            title="WhatsApp Saluran"
+  1399→          >
+  1400→            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" style={{ color: "var(--ast-wa)" }}>
+  1401→              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  1402→            </svg>
+  1403→            <span>CHANNEL</span>
+  1404→          </a>
+  1405→          <button
+  1406→            onClick={togglePanel}
+  1407→            className="w-[38px] h-[38px] rounded-[11px] flex flex-col items-center justify-center gap-[4.5px] cursor-pointer"
+  1408→            style={{
+  1409→              background: "var(--ast-bg3)", border: "1px solid var(--ast-border)",
+  1410→              transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+  1411→            }}
+  1412→            aria-label="Toggle menu"
+  1413→          >
+  1414→            <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
+  1415→              style={{
+  1416→                background: "#9ca3af",
+  1417→                transform: panelOpen ? "translateY(6px) rotate(45deg)" : "none",
+  1418→                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.35s",
+  1419→              }}
+  1420→            />
+  1421→            <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
+  1422→              style={{
+  1423→                background: "#9ca3af",
+  1424→                opacity: panelOpen ? 0 : 1,
+  1425→                transform: panelOpen ? "scaleX(0)" : "none",
+  1426→                transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
+  1427→              }}
+  1428→            />
+  1429→            <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
+  1430→              style={{
+  1431→                background: "#9ca3af",
+  1432→                transform: panelOpen ? "translateY(-6px) rotate(-45deg)" : "none",
+  1433→                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.35s",
+  1434→              }}
+  1435→            />
+  1436→          </button>
+  1437→        </div>
+  1438→      </header>
+  1439→
+  1440→      {/* ═══ PANEL OVERLAY — Ultra Smooth ═══════════════════════════ */}
+  1441→      <div
+  1442→        className="fixed inset-0 z-[90]"
+  1443→        style={{
+  1444→          background: panelOpen ? "rgba(0,0,0,0.45)" : "rgba(0,0,0,0)",
+  1445→          backdropFilter: panelOpen ? "blur(28px)" : "blur(0px)",
+  1446→          WebkitBackdropFilter: panelOpen ? "blur(28px)" : "blur(0px)",
+  1447→          visibility: panelOpen ? "visible" : "hidden",
+  1448→          transition: "background 0.55s cubic-bezier(0.22,1,0.36,1), backdrop-filter 0.55s cubic-bezier(0.22,1,0.36,1), visibility 0s linear " + (panelOpen ? "0s" : "0.55s"),
+  1449→          pointerEvents: panelOpen ? "auto" : "none",
+  1450→        }}
+  1451→        onClick={togglePanel}
+  1452→      />
+  1453→
+  1454→      {/* ═══ SIDE PANEL — Ultra Smooth + Swipe/Drag to Close ═════════════════════════════ */}
+  1455→      <nav
+  1456→        onClick={(e) => e.stopPropagation()}
+  1457→        onTouchStart={(e) => {
+  1458→          if (!panelOpen) return;
+  1459→          panelSwipeRef.current = { startX: e.touches[0].clientX, currentX: e.touches[0].clientX, swiping: true };
+  1460→        }}
+  1461→        onTouchMove={(e) => {
+  1462→          if (!panelSwipeRef.current.swiping) return;
+  1463→          panelSwipeRef.current.currentX = e.touches[0].clientX;
+  1464→          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+  1465→          if (diff > 0) {
+  1466→            e.preventDefault();
+  1467→            const nav = e.currentTarget;
+  1468→            nav.style.transition = "none";
+  1469→            nav.style.transform = `translateX(${diff}px)`;
+  1470→          }
+  1471→        }}
+  1472→        onTouchEnd={() => {
+  1473→          if (!panelSwipeRef.current.swiping) return;
+  1474→          panelSwipeRef.current.swiping = false;
+  1475→          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+  1476→          const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+  1477→          if (nav) nav.style.transition = "";
+  1478→          if (diff > 80) {
+  1479→            setPanelOpen(false);
+  1480→          } else {
+  1481→            if (nav) nav.style.transform = "";
+  1482→          }
+  1483→        }}
+  1484→        onMouseDown={(e) => {
+  1485→          if (!panelOpen) return;
+  1486→          panelSwipeRef.current = { startX: e.clientX, currentX: e.clientX, swiping: true };
+  1487→        }}
+  1488→        onMouseMove={(e) => {
+  1489→          if (!panelSwipeRef.current.swiping) return;
+  1490→          panelSwipeRef.current.currentX = e.clientX;
+  1491→          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+  1492→          if (diff > 0) {
+  1493→            const nav = e.currentTarget;
+  1494→            nav.style.transition = "none";
+  1495→            nav.style.transform = `translateX(${diff}px)`;
+  1496→          }
+  1497→        }}
+  1498→        onMouseUp={() => {
+  1499→          if (!panelSwipeRef.current.swiping) return;
+  1500→          panelSwipeRef.current.swiping = false;
+  1501→          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+  1502→          const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+  1503→          if (nav) nav.style.transition = "";
+  1504→          if (diff > 80) {
+  1505→            setPanelOpen(false);
+  1506→          } else {
+  1507→            if (nav) nav.style.transform = "";
+  1508→          }
+  1509→        }}
+  1510→        onMouseLeave={() => {
+  1511→          if (!panelSwipeRef.current.swiping) return;
+  1512→          panelSwipeRef.current.swiping = false;
+  1513→          const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+  1514→          if (nav) { nav.style.transition = ""; nav.style.transform = ""; }
+  1515→        }}
+  1516→        data-panel-nav
+  1517→        className="fixed top-0 right-0 z-[100] w-[78%] max-w-[320px] h-full flex flex-col side-panel-scroll"
+  1518→        style={{
+  1519→          background: "rgba(10,15,28,0.65)",
+  1520→          backdropFilter: "blur(60px) saturate(2.2)",
+  1521→          WebkitBackdropFilter: "blur(60px) saturate(2.2)",
+  1522→          borderLeft: "1px solid rgba(37,99,235,0.05)",
+  1523→          boxShadow: panelOpen ? "-16px 0 60px rgba(0,0,0,0.5)" : "-16px 0 0px rgba(0,0,0,0)",
+  1524→          transform: panelOpen ? "translateX(0)" : "translateX(100%)",
+  1525→          transition: "transform 0.55s cubic-bezier(0.22,1,0.36,1), box-shadow 0.55s cubic-bezier(0.22,1,0.36,1)",
+  1526→          willChange: "transform",
+  1527→          overflowY: "auto",
+  1528→          touchAction: "pan-y",
+  1529→        }}
+  1530→      >
+  1531→        <div className="p-6 pb-5 border-b flex items-center justify-between" style={{ borderColor: "var(--ast-border)" }}>
+  1532→          <h2 className="text-[17px] font-extrabold">
+  1533→            <span style={{ color: "var(--ast-blue-l)" }}>ASTUTE</span> Menu
+  1534→          </h2>
+  1535→          <button onClick={togglePanel}
+  1536→            className="w-[30px] h-[30px] rounded-full flex items-center justify-center cursor-pointer"
+  1537→            style={{
+  1538→              background: "var(--ast-bg3)", border: "1px solid var(--ast-border)", color: "var(--ast-gray)",
+  1539→              transition: "all 0.3s cubic-bezier(0.16,1,0.3,1)",
+  1540→            }}
+  1541→          >
+  1542→            <X className="w-3.5 h-3.5" />
+  1543→          </button>
+  1544→        </div>
+  1545→
+  1546→        <div className="p-3 flex-1">
+  1547→          {panelLinks.map((link, i) => (
+  1548→            <button
+  1549→              key={link.name}
+  1550→              onClick={() => { goPage(link.name); togglePanel(); }}
+  1551→              className="flex items-center gap-3.5 py-[14px] px-4 rounded-2xl text-white text-left w-full mb-1 cursor-pointer"
+  1552→              style={{
+  1553→                transition: "all 0.45s cubic-bezier(0.22,1,0.36,1)",
+  1554→                transitionDelay: panelOpen ? `${i * 55}ms` : "0ms",
+  1555→                transform: panelOpen ? "translateX(0)" : "translateX(30px)",
+  1556→                opacity: panelOpen ? 1 : 0,
+  1557→              }}
+  1558→              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(37,99,235,0.05)"; e.currentTarget.style.paddingLeft = "6px"; }}
+  1559→              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.paddingLeft = "4px"; }}
+  1560→            >
+  1561→              <span className="shrink-0 flex items-center justify-center w-7 [&_svg]:text-white [&_svg]:opacity-85">
+  1562→                {link.icon}
+  1563→              </span>
+  1564→              <div>
+  1565→                <div className="text-sm font-bold">{link.title}</div>
+  1566→                <div className="text-[11px] mt-[1px]" style={{ color: "var(--ast-gray)" }}>{link.desc}</div>
+  1567→              </div>
+  1568→            </button>
+  1569→          ))}
+  1570→        </div>
+  1571→
+  1572→        <div className="p-5 border-t text-center shrink-0" style={{ borderColor: "var(--ast-border)" }}>
+  1573→          <div className="font-mono text-[10px] tracking-[0.1em]" style={{ color: "var(--ast-gray2)" }}>
+  1574→            ASTUTE v54.0 · BUILD 2025
+  1575→          </div>
+  1576→          <div className="inline-flex items-center gap-1.5 mt-2.5 px-3.5 py-[5px] rounded-full border font-mono text-[9px] font-bold tracking-[0.1em]"
+  1577→            style={{ background: "rgba(34,197,94,0.06)", borderColor: "rgba(34,197,94,0.12)", color: "var(--ast-green)" }}>
+  1578→            <span className="w-[5px] h-[5px] rounded-full animate-[dot-blink_1.5s_ease-in-out_infinite]"
+  1579→              style={{ background: "var(--ast-green)", boxShadow: "0 0 4px var(--ast-green)" }} />
+  1580→            ALL SYSTEMS ONLINE
+  1581→          </div>
+  1582→        </div>
+  1583→      </nav>
+  1584→
+  1585→      {/* ═══ PAGE CONTENT ═══════════════════════════════════════════ */}
+  1586→      <main className="relative z-[2] min-h-screen" style={{ WebkitOverflowScrolling: "touch" }}>
+  1587→
+  1588→        {/* ═══ HOME PAGE ═══ */}
+  1589→        <PageWrapper pageName="home" currentPage={currentPage}>
+  1590→          <Reveal>
+  1591→            <div className="text-center pt-4">
+  1592→              <div className="relative inline-block mb-5">
+  1593→                <div className="w-[92px] h-[92px] rounded-[20px] overflow-hidden"
+  1594→                  style={{
+  1595→                    border: "3px solid rgba(37,99,235,0.15)",
+  1596→                    boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
+  1597→                  }}>
+  1598→                  <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
+  1599→                </div>
+  1600→              </div>
+  1601→              <h1 className="text-[26px] font-extrabold tracking-tight mb-1">
+  1602→                JUJU <span style={{
+  1603→                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+  1604→                  WebkitBackgroundClip: "text",
+  1605→                  WebkitTextFillColor: "transparent",
+  1606→                  backgroundClip: "text",
+  1607→                  filter: "drop-shadow(0 0 10px rgba(37,99,235,0.4))",
+  1608→                }}>SELLER</span>
+  1609→              </h1>
+  1610→              <div className="font-mono text-xs font-bold tracking-wider inline-block mb-2" style={{
+  1611→                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+  1612→                WebkitBackgroundClip: "text",
+  1613→                WebkitTextFillColor: "transparent",
+  1614→                backgroundClip: "text",
+  1615→                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.35))",
+  1616→              }}>FFASTUTECH OB54</div>
+  1617→              <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1618→                Cara download, install, dan setup proxy server free terbaru — work 100%
+  1619→              </p>
+  1620→            </div>
+  1621→          </Reveal>
+  1622→
+  1623→          <Reveal delay={70}>
+  1624→            <div className="my-6">
+  1625→              {/* 3 status cards — like reference site */}
+  1626→              <div className="grid grid-cols-3 gap-2.5 mb-3">
+  1627→                {/* STATUS */}
+  1628→                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
+  1629→                  background: "var(--ast-bar-bg)",
+  1630→                  borderColor: "rgba(34,197,94,0.1)",
+  1631→                }}>
+  1632→                  <div className="flex items-center gap-1.5">
+  1633→                    <span className="w-[5px] h-[5px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
+  1634→                      background: "var(--ast-green)", boxShadow: "0 0 6px rgba(34,197,94,0.5)",
+  1635→                    }} />
+  1636→                    <span className="text-[8px] font-semibold tracking-[0.1em] uppercase" style={{ color: "var(--ast-gray)" }}>STATUS</span>
+  1637→                  </div>
+  1638→                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-green)" }}>ONLINE</span>
+  1639→                </div>
+  1640→
+  1641→                {/* BERHASIL DOWNLOAD */}
+  1642→                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
+  1643→                  background: "var(--ast-bar-bg)",
+  1644→                  borderColor: "var(--ast-border)",
+  1645→                }}>
+  1646→                  <div className="flex items-center gap-1.5">
+  1647→                    <Download className="w-[10px] h-[10px]" style={{ color: "var(--ast-blue-l)" }} />
+  1648→                    <span className="text-[7px] font-semibold tracking-[0.08em] uppercase" style={{ color: "var(--ast-gray)" }}>DOWNLOAD</span>
+  1649→                  </div>
+  1650→                  <span className="font-mono text-[13px] font-bold" style={{
+  1651→                    color: "#ffffff",
+  1652→                    textShadow: "none",
+  1653→                  }}>{downloadCount.toLocaleString("en-US")}</span>
+  1654→                </div>
+  1655→
+  1656→                {/* SERVER REGION */}
+  1657→                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
+  1658→                  background: "var(--ast-bar-bg)",
+  1659→                  borderColor: "var(--ast-border)",
+  1660→                }}>
+  1661→                  <div className="flex items-center gap-1.5">
+  1662→                    <svg className="w-[10px] h-[10px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-blue-l)" }}>
+  1663→                      <circle cx="12" cy="12" r="10" />
+  1664→                      <line x1="2" y1="12" x2="22" y2="12" />
+  1665→                      <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+  1666→                    </svg>
+  1667→                    <span className="text-[7px] font-semibold tracking-[0.08em] uppercase" style={{ color: "var(--ast-gray)" }}>REGION</span>
+  1668→                  </div>
+  1669→                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-blue-l)" }}>INDONESIA</span>
+  1670→                </div>
+  1671→              </div>
+  1672→
+  1673→              {/* Download progress bar */}
+  1674→              <div className="rounded-xl border overflow-hidden" style={{
+  1675→                background: "var(--ast-bar-bg)",
+  1676→                borderColor: "var(--ast-border)",
+  1677→              }}>
+  1678→                <div className="flex items-center justify-between px-3.5 py-2" style={{
+  1679→                  borderBottom: "1px solid var(--ast-border)",
+  1680→                }}>
+  1681→                  <div className="flex items-center gap-2">
+  1682→                    <Download className="w-3 h-3" style={{ color: "var(--ast-blue-l)" }} />
+  1683→                    <span className="text-[9px] font-semibold tracking-[0.1em] uppercase" style={{ color: "var(--ast-gray)" }}>BERHASIL DOWNLOAD</span>
+  1684→                  </div>
+  1685→                  <div className="flex items-center gap-1.5">
+  1686→                    <span className="font-mono text-[12px] font-bold" style={{ color: "#ffffff", textShadow: "none" }}>{downloadCount.toLocaleString("en-US")}</span>
+  1687→                    <span className="text-[8px]" style={{ color: "var(--ast-gray2)" }}>/ 5,000</span>
+  1688→                  </div>
+  1689→                </div>
+  1690→                <div className="h-[4px] w-full" style={{ background: "rgba(37,99,235,0.08)" }}>
+  1691→                  <div className="h-full" style={{
+  1692→                    width: `${Math.min(100, (downloadCount / 5000) * 100)}%`,
+  1693→                    background: "linear-gradient(90deg, #1d4ed8, #3b82f6, #60a5fa)",
+  1694→                    boxShadow: "0 0 8px rgba(37,99,235,0.4)",
+  1695→                    transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
+  1696→                  }} />
+  1697→                </div>
+  1698→              </div>
+  1699→            </div>
+  1700→          </Reveal>
+  1701→
+  1702→          <Reveal delay={140}>
+  1703→            <div className="flex items-center gap-1.5 font-mono text-[11px] justify-center mb-4" style={{ color: "var(--ast-gray)" }}>
+  1704→              <span className="w-1 h-1 rounded-full animate-[dot-blink_2s_ease-in-out_infinite]"
+  1705→                style={{ background: "var(--ast-blue)", boxShadow: "0 0 5px var(--ast-blue)" }} />
+  1706→              {clock}
+  1707→            </div>
+  1708→          </Reveal>
+  1709→
+  1710→          <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
+  1711→
+  1712→          <Reveal delay={210}>
+  1713→            <div className="flex items-center justify-center gap-2 mb-3">
+  1714→              <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1715→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
+  1716→            </div>
+  1717→            <div className="flex flex-col gap-3.5 mb-5">
+  1718→              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB54" desc="Main APK" newBadge onClick={() => goPage("download")} />
+  1719→              <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
+  1720→              <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
+  1721→            </div>
+  1722→          </Reveal>
+  1723→
+  1724→          <Reveal delay={350}>
+  1725→            <div className="flex items-center justify-center gap-2 mb-3">
+  1726→              <DiscordIcon className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1727→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Community</span>
+  1728→            </div>
+  1729→            <div className="flex flex-col gap-3.5">
+  1730→              <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
+  1731→              <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
+  1732→              <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
+  1733→              <AppBar icon={<Crown className="w-[18px] h-[18px]" />} text="PEMBELIAN VIP" desc="Beli VIP" highlight onClick={() => goPage("vip")} />
+  1734→            </div>
+  1735→          </Reveal>
+  1736→
+  1737→          <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
+  1738→
+  1739→          <Reveal delay={350}>
+  1740→            <div className="rounded-2xl p-5 mb-6 relative overflow-hidden border"
+  1741→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+  1742→              <div className="absolute top-0 left-0 right-0 h-[2px]"
+  1743→                style={{ background: "linear-gradient(90deg,var(--ast-blue-d),var(--ast-blue),var(--ast-cyan))", opacity: 0.35 }} />
+  1744→              <h3 className="text-[13px] font-bold mb-3 flex items-center gap-[7px]" style={{ color: "var(--ast-blue-l)" }}>
+  1745→                <Info className="w-4 h-4" /> Cara Setup Astute Method Terbaru
+  1746→              </h3>
+  1747→              <ol className="pl-4 text-xs leading-[2.2] list-decimal" style={{ color: "var(--ast-gray)" }}>
+  1748→                <li>Download file <strong className="text-white font-semibold">ASTUTE OB54</strong> di atas</li>
+  1749→                <li>Install <strong className="text-white font-semibold">Panel ASTUTE</strong> terlebih dahulu</li>
+  1750→                <li>Buka panel, lakukan <strong className="text-white font-semibold">Verif Manual</strong></li>
+  1751→                <li>Set proxy sesuai tutorial di <strong className="text-white font-semibold">Discord</strong></li>
+  1752→                <li>Jalankan game — <strong className="text-white font-semibold">done!</strong></li>
+  1753→              </ol>
+  1754→            </div>
+  1755→          </Reveal>
+  1756→
+  1757→          <Reveal delay={420}>
+  1758→            <div className="flex items-center justify-center mb-4">
+  1759→              <div className="rounded-full py-2 px-4 overflow-hidden inline-flex items-center"
+  1760→                style={{
+  1761→                  background: "rgba(120,130,160,0.1)",
+  1762→                  border: "1px solid rgba(120,130,160,0.1)",
+  1763→                  minWidth: "200px",
+  1764→                }}>
+  1765→                <div className="whitespace-nowrap inline-block" style={{
+  1766→                  animation: "marquee-scroll 7s linear infinite",
+  1767→                }}>
+  1768→                  <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff" }}>
+  1769→                    SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
+  1770→                  </span>
+  1771→                </div>
+  1772→              </div>
+  1773→            </div>
+  1774→            <div className="text-center pt-2">
+  1775→              <div className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>
+  1776→                © 2025 <span style={{ color: "var(--ast-blue-l)", fontWeight: 600 }}>ASTUTE</span>
+  1777→              </div>
+  1778→            </div>
+  1779→          </Reveal>
+  1780→        </PageWrapper>
+  1781→
+  1782→        {/* ═══ DOWNLOAD PAGE ═══ */}
+  1783→        <PageWrapper pageName="download" currentPage={currentPage}>
+  1784→          <Reveal>
+  1785→            <button onClick={() => goPage("home")} type="button"
+  1786→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1787→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1788→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1789→            </button>
+  1790→          </Reveal>
+  1791→          <Reveal delay={70}>
+  1792→            <div className="text-center mb-8">
+  1793→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1794→                <Flame className="w-[60px] h-[60px] text-white opacity-90" />
+  1795→              </div>
+  1796→              <h2 className="text-[22px] font-extrabold mb-1.5" style={{
+  1797→                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+  1798→                WebkitBackgroundClip: "text",
+  1799→                WebkitTextFillColor: "transparent",
+  1800→                backgroundClip: "text",
+  1801→                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
+  1802→              }}>ASTUTE OB54</h2>
+  1803→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1804→                Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
+  1805→              </p>
+  1806→            </div>
+  1807→          </Reveal>
+  1808→          <Reveal delay={140}>
+  1809→            <div className="flex flex-col gap-4 mb-8">
+  1810→              <DownloadBar count={downloadCount} max={5000} />
+  1811→              <StatusBar dotColor="cyan" label="FILE SIZE" value="284 MB" valueColor="cyan" />
+  1812→            </div>
+  1813→          </Reveal>
+  1814→          <Reveal delay={210}>
+  1815→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+  1816→              <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1817→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Download</span>
+  1818→            </div>
+  1819→            <LinkBox
+  1820→              title="FF MAX ORIGINAL NEW"
+  1821→              url="https://play.google.com/store/apps/details?id=com.dts.freefiremax"
+  1822→              desc="Download Free Fire MAX Original dari Google Play Store"
+  1823→              icon={<Download className="w-5 h-5 text-white" />}
+  1824→              onLinkClick={bumpDownload}
+  1825→            />
+  1826→            <LinkBox
+  1827→              title="FF BIASA ORIGINAL NEW"
+  1828→              url="https://play.google.com/store/apps/details?id=com.dts.freefireth"
+  1829→              desc="Download Free Fire Original dari Google Play Store"
+  1830→              icon={<Download className="w-5 h-5 text-white" />}
+  1831→              onLinkClick={bumpDownload}
+  1832→            />
+  1833→            <LinkBox
+  1834→              title="JSON ASTUTE"
+  1835→              url="https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file"
+  1836→              desc="Download file config JSON"
+  1837→              icon={<FileArchive className="w-5 h-5 text-white" />}
+  1838→            />
+  1839→          </Reveal>
+  1840→          <Reveal delay={280}>
+  1841→            <div className="mt-6">
+  1842→              <FeatureItem num="01" theme="blue" title="Auto Update" desc="Otomatis update ke versi terbaru tanpa reinstall" />
+  1843→              <FeatureItem num="02" theme="blue" title="Anti-Ban System" desc="Proteksi 3 layer agar akun tetap aman" />
+  1844→              <FeatureItem num="03" theme="blue" title="All Skin Unlocked" desc="Semua skin dan bundle tersedia gratis" />
+  1845→              <FeatureItem num="04" theme="blue" title="Stable Server" desc="99.9% uptime dengan latency rendah" />
+  1846→            </div>
+  1847→          </Reveal>
+  1848→        </PageWrapper>
+  1849→
+  1850→        {/* ═══ PANEL PAGE ═══ */}
+  1851→        <PageWrapper pageName="panel" currentPage={currentPage}>
+  1852→          <Reveal>
+  1853→            <button onClick={() => goPage("home")} type="button"
+  1854→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1855→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1856→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1857→            </button>
+  1858→          </Reveal>
+  1859→          <Reveal delay={70}>
+  1860→            <div className="text-center mb-8">
+  1861→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1862→                <Settings className="w-[60px] h-[60px] text-white opacity-90" />
+  1863→              </div>
+  1864→              <h2 className="text-[22px] font-extrabold mb-1.5">PANEL <span style={{ color: "var(--ast-cyan)" }}>ASTUTE</span></h2>
+  1865→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1866→                Control panel untuk konfigurasi server, proxy, dan manage fitur mod
+  1867→              </p>
+  1868→            </div>
+  1869→          </Reveal>
+  1870→          <Reveal delay={140}>
+  1871→            <div className="flex flex-col gap-4 mb-8">
+  1872→              <StatusBar dotColor="green" label="PANEL STATUS" value="ACTIVE" valueColor="green" live />
+  1873→              <StatusBar dotColor="blue" label="VERSION" value="v2.4.1" valueColor="blue" />
+  1874→            </div>
+  1875→          </Reveal>
+  1876→          <Reveal delay={210}>
+  1877→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+  1878→              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1879→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Panel</span>
+  1880→            </div>
+  1881→            <LinkBox
+  1882→              title="DASHBOARD ASTUTE"
+  1883→              url="https://dash.unlockffbeta.com/"
+  1884→              desc="Buka dashboard control panel"
+  1885→              icon={<Settings className="w-5 h-5 text-white" />}
+  1886→            />
+  1887→          </Reveal>
+  1888→          <Reveal delay={280}>
+  1889→            <div className="mt-6">
+  1890→              <FeatureItem num="01" theme="cyan" title="Proxy Manager" desc="Setup dan ganti proxy dalam 1 klik" />
+  1891→              <FeatureItem num="02" theme="cyan" title="Config Editor" desc="Edit config server langsung dari app" />
+  1892→              <FeatureItem num="03" theme="cyan" title="Auto Patch" desc="Patch otomatis saat ada update baru" />
+  1893→              <FeatureItem num="04" theme="cyan" title="Log Monitor" desc="Pantau log koneksi real-time" />
+  1894→            </div>
+  1895→          </Reveal>
+  1896→        </PageWrapper>
+  1897→
+  1898→        {/* ═══ VERIF PAGE ═══ */}
+  1899→        <PageWrapper pageName="verif" currentPage={currentPage}>
+  1900→          <Reveal>
+  1901→            <button onClick={() => goPage("home")} type="button"
+  1902→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1903→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1904→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1905→            </button>
+  1906→          </Reveal>
+  1907→          <Reveal delay={70}>
+  1908→            <div className="text-center mb-8">
+  1909→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1910→                <ShieldCheck className="w-[60px] h-[60px] text-white opacity-90" />
+  1911→              </div>
+  1912→              <h2 className="text-[22px] font-extrabold mb-1.5">VERIF <span style={{ color: "var(--ast-green)" }}>MANUAL</span></h2>
+  1913→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1914→                Tool bypass verifikasi untuk mengaktifkan fitur premium tanpa limit
+  1915→              </p>
+  1916→            </div>
+  1917→          </Reveal>
+  1918→          <Reveal delay={140}>
+  1919→            <div className="flex flex-col gap-4 mb-8">
+  1920→              <StatusBar dotColor="green" label="VERIF STATUS" value="READY" valueColor="green" live />
+  1921→              <StatusBar dotColor="blue" label="SUCCESS RATE" value="99.2%" valueColor="blue" />
+  1922→            </div>
+  1923→          </Reveal>
+  1924→          <Reveal delay={210}>
+  1925→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+  1926→              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1927→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Verifikasi</span>
+  1928→            </div>
+  1929→            <LinkBox
+  1930→              title="UNLOCK ASTUTE"
+  1931→              url="https://www.unlockffbeta.com"
+  1932→              desc="Unlock fitur premium ASTUTE"
+  1933→              icon={<ShieldCheck className="w-5 h-5 text-white" />}
+  1934→            />
+  1935→          </Reveal>
+  1936→          <Reveal delay={280}>
+  1937→            <div className="mt-6">
+  1938→              <FeatureItem num="01" theme="green" title="One-Click Bypass" desc="Verifikasi otomatis tanpa survey" />
+  1939→              <FeatureItem num="02" theme="green" title="Device Spoofer" desc="Mask device ID agar tidak terdeteksi" />
+  1940→              <FeatureItem num="03" theme="green" title="Token Generator" desc="Generate token akses premium" />
+  1941→              <FeatureItem num="04" theme="green" title="Safe Mode" desc="Mode aman untuk pengguna baru" />
+  1942→            </div>
+  1943→          </Reveal>
+  1944→        </PageWrapper>
+  1945→
+  1946→        {/* ═══ DISCORD PAGE ═══ */}
+  1947→        <PageWrapper pageName="discord" currentPage={currentPage}>
+  1948→          <Reveal>
+  1949→            <button onClick={() => goPage("home")} type="button"
+  1950→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1951→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1952→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1953→            </button>
+  1954→          </Reveal>
+  1955→          <Reveal delay={70}>
+  1956→            <div className="text-center mb-8">
+  1957→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1958→                <DiscordIcon className="w-[60px] h-[60px] text-white opacity-90" />
+  1959→              </div>
+  1960→              <h2 className="text-[22px] font-extrabold mb-1.5">DISCORD <span style={{ color: "var(--ast-purple)" }}>SERVER</span></h2>
+  1961→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1962→                Join komunitas ASTUTE — dapatkan bantuan, info update, dan diskusi sesama player
+  1963→              </p>
+  1964→            </div>
+  1965→          </Reveal>
+  1966→          <Reveal delay={140}>
+  1967→            <div className="flex flex-col gap-4 mb-8">
+  1968→              <StatusBar dotColor="green" label="SERVER STATUS" value="ONLINE" valueColor="green" live />
+  1969→              <StatusBar dotColor="blue" label="MEMBERS" value="1,247" valueColor="blue" />
+  1970→            </div>
+  1971→          </Reveal>
+  1972→          <Reveal delay={210}>
+  1973→            <LinkBox
+  1974→              title="JOIN DISCORD SERVER"
+  1975→              url="https://discord.gg/astutetech"
+  1976→              desc="Gabung komunitas ASTUTE di Discord"
+  1977→              icon={<DiscordIcon className="w-5 h-5 text-white" />}
+  1978→            />
+  1979→          </Reveal>
+  1980→          <Reveal delay={280}>
+  1981→            <div className="mt-6">
+  1982→              <FeatureItem num="01" theme="purple" title="24/7 Support" desc="Tim support siap bantu kapan saja" />
+  1983→              <FeatureItem num="02" theme="purple" title="Announcements" desc="Info update dan event terbaru" />
+  1984→              <FeatureItem num="03" theme="purple" title="Giveaway" desc="Giveaway akun dan item secara rutin" />
+  1985→              <FeatureItem num="04" theme="purple" title="1,200+ Members" desc="Komunitas aktif dan ramah" />
+  1986→            </div>
+  1987→          </Reveal>
+  1988→        </PageWrapper>
+  1989→
+  1990→        {/* ═══ TUTORIAL PAGE ═══ */}
+  1991→        <PageWrapper pageName="tutorial" currentPage={currentPage}>
+  1992→          <Reveal>
+  1993→            <button onClick={() => goPage("home")} type="button"
+  1994→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1995→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1996→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1997→            </button>
+  1998→          </Reveal>
+  1999→          <Reveal delay={70}>
+  2000→            <div className="text-center mb-8">
+
+[showing lines 1-2000 of 2208; use offset=2001 with limit to continue reading]

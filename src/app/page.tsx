@@ -1227,7 +1227,7 @@ export default function AstuteApp() {
     { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
     { name: "tutorial", icon: <PlayCircle className="w-6 h-6" />, title: "VIDEO TUTORIAL", desc: "Step by step guide" },
     { name: "changelog", icon: <FileText className="w-6 h-6" />, title: "FITUR VIP ACCESS", desc: "VIP features list" },
-    { name: "vip", icon: <Crown className="w-6 h-6" />, title: "PEMBELIAN VIP", desc: "Beli VIP & chat admin" },
+    { name: "vip", icon: <Crown className="w-6 h-6" />, title: "PEMBELIAN VIP", desc: "VIP features list" },
   ];
 
   return (
@@ -1283,6 +1283,16 @@ export default function AstuteApp() {
         @keyframes pageSlideIn {
           0% { opacity: 0; transform: translateX(40px); }
           100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes profile-float {
+          0%, 100% { transform: scale(1) translateY(0); }
+          25% { transform: scale(1.12) translateY(-6px); }
+          50% { transform: scale(0.92) translateY(4px); }
+          75% { transform: scale(1.08) translateY(-3px); }
+        }
+        @keyframes profile-glow {
+          0%, 100% { box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 0 0 rgba(37,99,235,0); }
+          50% { box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 25px rgba(37,99,235,0.4), 0 0 50px rgba(37,99,235,0.15); }
         }
         @keyframes marquee-scroll {
           0% { transform: translateX(100%); }
@@ -1590,10 +1600,10 @@ export default function AstuteApp() {
           <Reveal>
             <div className="text-center pt-4">
               <div className="relative inline-block mb-5">
-                <div className="w-[92px] h-[92px] rounded-[20px] overflow-hidden"
+                <div className="w-[92px] h-[92px] rounded-[20px] overflow-hidden relative"
                   style={{
-                    border: "3px solid rgba(37,99,235,0.15)",
-                    boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
+                    border: "3px solid rgba(37,99,235,0.2)",
+                    animation: "3.5s ease-in-out infinite profile-float",
                   }}>
                   <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
                 </div>
@@ -1621,80 +1631,63 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={70}>
-            <div className="my-6">
-              {/* 3 status cards — like reference site */}
-              <div className="grid grid-cols-3 gap-2.5 mb-3">
-                {/* STATUS */}
-                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
-                  background: "var(--ast-bar-bg)",
-                  borderColor: "rgba(34,197,94,0.1)",
-                }}>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-[5px] h-[5px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
-                      background: "var(--ast-green)", boxShadow: "0 0 6px rgba(34,197,94,0.5)",
-                    }} />
-                    <span className="text-[8px] font-semibold tracking-[0.1em] uppercase" style={{ color: "var(--ast-gray)" }}>STATUS</span>
-                  </div>
-                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-green)" }}>ONLINE</span>
-                </div>
-
-                {/* BERHASIL DOWNLOAD */}
-                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
-                  background: "var(--ast-bar-bg)",
-                  borderColor: "var(--ast-border)",
-                }}>
-                  <div className="flex items-center gap-1.5">
-                    <Download className="w-[10px] h-[10px]" style={{ color: "var(--ast-blue-l)" }} />
-                    <span className="text-[7px] font-semibold tracking-[0.08em] uppercase" style={{ color: "var(--ast-gray)" }}>DOWNLOAD</span>
-                  </div>
-                  <span className="font-mono text-[13px] font-bold" style={{
-                    color: "#ffffff",
-                    textShadow: "none",
-                  }}>{downloadCount.toLocaleString("en-US")}</span>
-                </div>
-
-                {/* SERVER REGION */}
-                <div className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border" style={{
-                  background: "var(--ast-bar-bg)",
-                  borderColor: "var(--ast-border)",
-                }}>
-                  <div className="flex items-center gap-1.5">
-                    <svg className="w-[10px] h-[10px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-blue-l)" }}>
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="2" y1="12" x2="22" y2="12" />
-                      <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-                    </svg>
-                    <span className="text-[7px] font-semibold tracking-[0.08em] uppercase" style={{ color: "var(--ast-gray)" }}>REGION</span>
-                  </div>
-                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-blue-l)" }}>INDONESIA</span>
-                </div>
+            <div className="flex flex-col items-center gap-[14px] my-7">
+              {/* STATUS ONLINE pill bar — matches jujumarketv2 exactly */}
+              <div className="flex items-center gap-2.5 py-[10px] px-[16px] mx-auto" style={{
+                background: "rgba(30,36,50,0.65)",
+                border: "1px solid rgba(55,65,90,0.25)",
+                borderRadius: "22px",
+                width: "76%",
+                maxWidth: "295px",
+                transition: "0.3s cubic-bezier(0.16,1,0.3,1)",
+                minHeight: "40px",
+              }}>
+                <span className="w-[7px] h-[7px] rounded-full shrink-0 animate-[dot-blink_2s_ease-in-out_infinite]" style={{ background: "rgb(34,197,94)" }} />
+                <span className="text-[10px] font-semibold tracking-[0.1em] uppercase" style={{ color: "rgb(122,133,153)" }}>Status</span>
+                <span className="flex-1" />
+                <span className="font-mono text-[11.5px] font-bold tracking-wide" style={{ color: "rgb(34,197,94)" }}>ONLINE</span>
               </div>
 
-              {/* Download progress bar */}
-              <div className="rounded-xl border overflow-hidden" style={{
-                background: "var(--ast-bar-bg)",
-                borderColor: "var(--ast-border)",
+              {/* BERHASIL DOWNLOAD pill bar */}
+              <div className="flex items-center gap-2.5 py-[10px] px-[16px] mx-auto" style={{
+                background: "rgba(30,36,50,0.65)",
+                border: "1px solid rgba(55,65,90,0.25)",
+                borderRadius: "22px",
+                width: "76%",
+                maxWidth: "295px",
+                transition: "0.3s cubic-bezier(0.16,1,0.3,1)",
+                minHeight: "40px",
               }}>
-                <div className="flex items-center justify-between px-3.5 py-2" style={{
-                  borderBottom: "1px solid var(--ast-border)",
-                }}>
-                  <div className="flex items-center gap-2">
-                    <Download className="w-3 h-3" style={{ color: "var(--ast-blue-l)" }} />
-                    <span className="text-[9px] font-semibold tracking-[0.1em] uppercase" style={{ color: "var(--ast-gray)" }}>BERHASIL DOWNLOAD</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-mono text-[12px] font-bold" style={{ color: "#ffffff", textShadow: "none" }}>{downloadCount.toLocaleString("en-US")}</span>
-                    <span className="text-[8px]" style={{ color: "var(--ast-gray2)" }}>/ 5,000</span>
-                  </div>
-                </div>
-                <div className="h-[4px] w-full" style={{ background: "rgba(37,99,235,0.08)" }}>
-                  <div className="h-full" style={{
-                    width: `${Math.min(100, (downloadCount / 5000) * 100)}%`,
-                    background: "linear-gradient(90deg, #1d4ed8, #3b82f6, #60a5fa)",
-                    boxShadow: "0 0 8px rgba(37,99,235,0.4)",
-                    transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
-                  }} />
-                </div>
+                <span className="w-[7px] h-[7px] rounded-full shrink-0 animate-[dot-blink_2s_ease-in-out_infinite]" style={{ background: "rgb(96,165,250)" }} />
+                <span className="text-[10px] font-semibold tracking-[0.1em] uppercase" style={{ color: "rgb(122,133,153)" }}>Berhasil Download</span>
+                <span className="flex-1" />
+                <span className="font-mono text-[11.5px] font-bold tracking-wide" style={{
+                  background: "linear-gradient(135deg, rgb(30,58,95), rgb(29,78,216), rgb(96,165,250))",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}>{downloadCount.toLocaleString("en-US")}</span>
+              </div>
+
+              {/* SERVER REGION pill bar */}
+              <div className="flex items-center gap-2.5 py-[10px] px-[16px] mx-auto" style={{
+                background: "rgba(30,36,50,0.65)",
+                border: "1px solid rgba(55,65,90,0.25)",
+                borderRadius: "22px",
+                width: "76%",
+                maxWidth: "295px",
+                transition: "0.3s cubic-bezier(0.16,1,0.3,1)",
+                minHeight: "40px",
+              }}>
+                <span className="w-[7px] h-[7px] rounded-full shrink-0 animate-[dot-blink_2s_ease-in-out_infinite]" style={{ background: "rgb(34,211,238)" }} />
+                <span className="text-[10px] font-semibold tracking-[0.1em] uppercase" style={{ color: "rgb(122,133,153)" }}>Server Region</span>
+                <span className="flex-1" />
+                <span className="font-mono text-[11.5px] font-bold tracking-wide" style={{
+                  background: "linear-gradient(135deg, rgb(30,58,95), rgb(29,78,216), rgb(96,165,250))",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}>INDONESIA</span>
               </div>
             </div>
           </Reveal>
@@ -1730,27 +1723,33 @@ export default function AstuteApp() {
               <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
               <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
               <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
-              <AppBar icon={<Crown className="w-[18px] h-[18px]" />} text="PEMBELIAN VIP" desc="Beli VIP" highlight onClick={() => goPage("vip")} />
             </div>
           </Reveal>
 
           <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
 
           <Reveal delay={350}>
-            <div className="rounded-2xl p-5 mb-6 relative overflow-hidden border"
-              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]"
-                style={{ background: "linear-gradient(90deg,var(--ast-blue-d),var(--ast-blue),var(--ast-cyan))", opacity: 0.35 }} />
-              <h3 className="text-[13px] font-bold mb-3 flex items-center gap-[7px]" style={{ color: "var(--ast-blue-l)" }}>
-                <Info className="w-4 h-4" /> Cara Setup Astute Method Terbaru
-              </h3>
-              <ol className="pl-4 text-xs leading-[2.2] list-decimal" style={{ color: "var(--ast-gray)" }}>
-                <li>Download file <strong className="text-white font-semibold">ASTUTE OB54</strong> di atas</li>
-                <li>Install <strong className="text-white font-semibold">Panel ASTUTE</strong> terlebih dahulu</li>
-                <li>Buka panel, lakukan <strong className="text-white font-semibold">Verif Manual</strong></li>
-                <li>Set proxy sesuai tutorial di <strong className="text-white font-semibold">Discord</strong></li>
-                <li>Jalankan game — <strong className="text-white font-semibold">done!</strong></li>
-              </ol>
+            <div className="mb-6">
+              <div className="relative overflow-hidden rounded-2xl border select-none" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", touchAction: "pan-y" }}>
+                <div className="absolute top-0 left-0 right-0 h-[2px]"
+                  style={{ background: "linear-gradient(90deg,var(--ast-blue-d),var(--ast-blue),var(--ast-cyan))", opacity: 0.35, zIndex: 10 }} />
+                <div style={{ position: "relative", overflow: "hidden" }}>
+                  <div className="p-5">
+                    <h3 className="text-[13px] font-bold mb-3 flex items-center gap-[7px]" style={{ color: "var(--ast-blue-l)" }}>
+                      <Info className="w-4 h-4" /> Cara Setup Astute Method Terbaru
+                    </h3>
+                    <div className="overflow-y-auto pl-1 pr-1" style={{ maxHeight: "180px", scrollBehavior: "smooth", scrollbarWidth: "thin", scrollbarColor: "rgba(37,99,235,0.15) transparent" }}>
+                      <ol className="pl-4 text-xs leading-[2.4] list-decimal" style={{ color: "var(--ast-gray)" }}>
+                        <li>Download file yang berada di <strong className="text-white font-semibold">ASTUTE OB54</strong> di atas</li>
+                        <li>Yang perlu kalian download itu <strong className="text-white font-semibold">FF 64 bit atau 32 bit</strong> yang mana kalian enak pake itu</li>
+                        <li>Download <strong className="text-white font-semibold">JSON Astute</strong> juga lalu kalian tempel di files FF nya</li>
+                        <li>Verify akun kalian dengan link di atas yang bertulisan <strong className="text-white font-semibold">Verif Manual</strong></li>
+                        <li>Login <span style={{ background: "linear-gradient(135deg, rgb(21,128,61), rgb(34,197,94), rgb(74,222,128))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontWeight: 700 }}>donee!!</span></li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </Reveal>
 
