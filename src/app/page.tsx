@@ -17,6 +17,7 @@ import {
   VolumeX,
   Crown,
   MessageCircle,
+  Smartphone,
 } from "lucide-react";
 
 // ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
@@ -1070,7 +1071,13 @@ export default function AstuteApp() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
-  const [downloadCount, setDownloadCount] = useState(1300);
+  const [downloadCount, setDownloadCount] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('astute-download-count');
+      return saved ? parseInt(saved, 10) : 1300;
+    }
+    return 1300;
+  });
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -1170,18 +1177,19 @@ export default function AstuteApp() {
     return () => clearInterval(iv);
   }, []);
 
-  // Download counter — smooth unlimited increment
+  // Download counter — smooth unlimited increment (persists across refresh)
   useEffect(() => {
     let mounted = true;
-    let lastTick = performance.now();
     function tick() {
       if (!mounted) return;
-      // Smooth: 800ms–2200ms interval, increment 1–2
       const delay = Math.floor(Math.random() * 1400) + 800;
       setTimeout(() => {
         if (!mounted) return;
-        setDownloadCount((c) => c + Math.floor(Math.random() * 2) + 1);
-        lastTick = performance.now();
+        setDownloadCount((c) => {
+          const next = c + Math.floor(Math.random() * 2) + 1;
+          if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
+          return next;
+        });
         tick();
       }, delay);
     }
@@ -1206,7 +1214,11 @@ export default function AstuteApp() {
 
   const handleDownload = useCallback((name: string) => {
     showToast(`Preparing: ${name}...`);
-    setDownloadCount((c) => c + Math.floor(Math.random() * 3) + 1);
+    setDownloadCount((c) => {
+      const next = c + Math.floor(Math.random() * 3) + 1;
+      if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
+      return next;
+    });
   }, [showToast]);
 
   const togglePanel = useCallback(() => {
@@ -1229,7 +1241,11 @@ export default function AstuteApp() {
 
   // Increment download count when PlayStore link clicked
   const bumpDownload = useCallback(() => {
-    setDownloadCount(prev => prev + 1);
+    setDownloadCount(prev => {
+      const next = prev + 1;
+      if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
+      return next;
+    });
   }, []);
 
   const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
@@ -1851,6 +1867,12 @@ export default function AstuteApp() {
               desc="Download file config JSON"
               icon={<FileArchive className="w-5 h-5 text-white" />}
             />
+            <LinkBox
+              title="SCRIPT iOS"
+              url="https://www.mediafire.com/file/crl6iuhbn5saqli/FFASTUTECH_FREE-VIP.json/file"
+              desc="Download script iOS (iPhone 11 - baru)"
+              icon={<Smartphone className="w-5 h-5 text-white" />}
+            />
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
@@ -2044,6 +2066,12 @@ export default function AstuteApp() {
               url="https://vt.tiktok.com/ZSx8GpjvY/"
               desc="Cara pakai dashboard panel ASTUTE"
               icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="TUTORIAL iOS (iPhone 11 - Baru)"
+              url="https://youtube.com/shorts/QbZsXjfisFQ"
+              desc="Panduan setup ASTUTE di iPhone 11 dan model terbaru"
+              icon={<Smartphone className="w-5 h-5 text-white" />}
             />
           </Reveal>
           <Reveal delay={280}>
