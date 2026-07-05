@@ -2439,11 +2439,11 @@ export default function AstuteApp() {
           <Reveal delay={70}>
             <div className="text-center mb-6 relative">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140px] h-[140px] rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%)", filter: "blur(12px)" }} />
+                style={{ background: "radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)", filter: "blur(12px)" }} />
               <div className="relative inline-flex items-center justify-center mb-4 w-[72px] h-[72px] rounded-full"
                 style={{
-                  background: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
-                  boxShadow: "0 0 30px rgba(245,158,11,0.3), 0 0 60px rgba(245,158,11,0.1)",
+                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                  boxShadow: "0 0 30px rgba(37,99,235,0.3), 0 0 60px rgba(37,99,235,0.1)",
                 }}>
                 <svg className="w-[38px] h-[38px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="7" height="7" rx="1" />
@@ -2455,7 +2455,7 @@ export default function AstuteApp() {
                   <line x1="17" y1="18" x2="17.01" y2="18" />
                 </svg>
               </div>
-              <h2 className="text-[22px] font-black" style={{ color: "#fbbf24" }}>PEMBAYARAN QRIS</h2>
+              <h2 className="text-[22px] font-black" style={{ color: "#60a5fa" }}>PEMBAYARAN QRIS</h2>
               <p className="text-[12px] mt-2 leading-relaxed" style={{ color: "var(--ast-gray)" }}>
                 Scan QR code di bawah menggunakan aplikasi e-wallet<br />atau mobile banking untuk melakukan pembayaran
               </p>
@@ -2464,22 +2464,22 @@ export default function AstuteApp() {
 
           {/* ─── QRIS Image Card ─── */}
           <Reveal delay={140}>
-            <div className="rounded-2xl border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "rgba(245,158,11,0.2)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)" }} />
+            <div className="rounded-2xl border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)" }} />
               
               {/* QRIS Badge */}
               <div className="flex items-center justify-center gap-2 pt-5 pb-3">
-                <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #92400e, #f59e0b)", color: "#fff" }}>
+                <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)", color: "#fff" }}>
                   QRIS
                 </div>
-                <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "rgba(245,158,11,0.1)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.2)" }}>
+                <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "rgba(37,99,235,0.1)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.2)" }}>
                   ACCEPTED
                 </div>
               </div>
 
               {/* QR Code Image */}
               <div className="flex items-center justify-center px-6 pb-4">
-                <div className="rounded-xl p-3 border" style={{ background: "#ffffff", borderColor: "rgba(245,158,11,0.15)" }}>
+                <div className="rounded-xl p-3 border" style={{ background: "#ffffff", borderColor: "rgba(37,99,235,0.15)" }}>
                   <img 
                     src="/QRIS.png" 
                     alt="QRIS Payment Code" 
@@ -2502,10 +2502,10 @@ export default function AstuteApp() {
                   }}
                   className="w-full py-3 rounded-xl text-[13px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
                   style={{
-                    background: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
-                    color: "#1a1a1a",
+                    background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                    color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-                    boxShadow: "0 4px 20px rgba(245,158,11,0.3)",
+                    boxShadow: "0 4px 20px rgba(37,99,235,0.3)",
                   }}>
                   <Download className="w-4 h-4" />
                   DOWNLOAD QRIS
@@ -2533,7 +2533,7 @@ export default function AstuteApp() {
           {/* ─── Payment Steps ─── */}
           <Reveal delay={280}>
             <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-6">
-              <Info className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <Info className="w-3 h-3" style={{ color: "#60a5fa" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Cara Bayar via QRIS</span>
             </div>
             <div className="rounded-2xl p-4 border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
@@ -2547,7 +2547,7 @@ export default function AstuteApp() {
                 ].map((s) => (
                   <div key={s.step} className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-extrabold" style={{
-                      background: "linear-gradient(135deg, #92400e, #f59e0b)",
+                      background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)",
                       color: "#fff",
                     }}>{s.step}</div>
                     <span className="text-[11px] leading-relaxed pt-0.5" style={{ color: "var(--ast-gray)" }}>{s.text}</span>
@@ -2559,9 +2559,9 @@ export default function AstuteApp() {
 
           {/* ─── Important Notice ─── */}
           <Reveal delay={350}>
-            <div className="mt-6 rounded-2xl p-4 border" style={{ background: "rgba(245,158,11,0.04)", borderColor: "rgba(245,158,11,0.1)" }}>
+            <div className="mt-6 rounded-2xl p-4 border" style={{ background: "rgba(37,99,235,0.04)", borderColor: "rgba(37,99,235,0.1)" }}>
               <div className="flex items-start gap-3">
-                <ShieldCheck className="w-4 h-4 mt-[2px] shrink-0" style={{ color: "var(--ast-amber)" }} />
+                <ShieldCheck className="w-4 h-4 mt-[2px] shrink-0" style={{ color: "#60a5fa" }} />
                 <div className="text-[11px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
                   <strong style={{ color: "var(--ast-white)" }}>Penting!</strong> Setelah pembayaran berhasil, kirim bukti screenshot ke admin via WhatsApp atau Telegram untuk konfirmasi aktivasi VIP.
                 </div>
@@ -2572,7 +2572,7 @@ export default function AstuteApp() {
           {/* ─── Contact Admin ─── */}
           <Reveal delay={420}>
             <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-6">
-              <MessageCircle className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <MessageCircle className="w-3 h-3" style={{ color: "#60a5fa" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Kirim Bukti ke Admin</span>
             </div>
             <LinkBox
