@@ -702,9 +702,9 @@ function VipFeatureBox({ theme = "blue" }: { theme?: string }) {
     { icon: <IconCharacterSkin className="w-4 h-4" />, title: "Karakter & Skin",
       features: ["Semua karakter terbuka dan bisa digunakan", "Main skin terbawa semua (tidak bisa damage)", "Skill karakter kebawa di ingame (tidak untuk di room)"] },
     { icon: <IconEmoteInteract className="w-4 h-4" />, title: "Emote & Interaksi",
-      features: ["Emote tembus ke akun original", "Emote berubah dan tembus ke akun original", "Terlihat sesama pengguna Beta Astute", "Bisa melakukan spin wheel"] },
+      features: ["Emote tembus ke akun original", "Emote berubah dan tembus ke akun original", "Terlihat sesama pengguna JUJU", "Bisa melakukan spin wheel"] },
     { icon: <IconCombatSpecial className="w-4 h-4" />, title: "Combat & Spesial",
-      features: ["Glowall & terlihat di lu & sesama FF Astute", "Damage & ga kerasa seperti skin aslinya (no skin)", "Skills pet kebawa di ingame"] },
+      features: ["Glowall & terlihat di lu & sesama FF JUJU", "Damage & ga kerasa seperti skin aslinya (no skin)", "Skills pet kebawa di ingame"] },
   ];
 
   return (
@@ -1065,7 +1065,7 @@ function PageWrapper({ pageName, currentPage, children }: {
 
 // ─── Main App ────────────────────────────────────────────────────────────────
 
-export default function AstuteApp() {
+export default function JujuApp() {
   const [currentPage, setCurrentPage] = useState<PageName>("home");
   const [panelOpen, setPanelOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
@@ -1233,8 +1233,8 @@ export default function AstuteApp() {
   }, []);
 
   const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
-    { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB54", desc: "Download main APK" },
-    { name: "panel", icon: <Settings className="w-6 h-6" />, title: "PANEL ASTUTE", desc: "Control panel & config" },
+    { name: "download", icon: <Flame className="w-6 h-6" />, title: "JUJU PS", desc: "Download main APK" },
+    { name: "panel", icon: <Settings className="w-6 h-6" />, title: "PANEL JUJU", desc: "Control panel & config" },
     { name: "verif", icon: <ShieldCheck className="w-6 h-6" />, title: "VERIF MANUAL", desc: "Bypass verification" },
     { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
     { name: "tutorial", icon: <PlayCircle className="w-6 h-6" />, title: "VIDEO TUTORIAL", desc: "Step by step guide" },
@@ -1556,7 +1556,7 @@ export default function AstuteApp() {
       >
         <div className="p-6 pb-5 border-b flex items-center justify-between" style={{ borderColor: "var(--ast-border)" }}>
           <h2 className="text-[17px] font-extrabold">
-            <span style={{ color: "var(--ast-blue-l)" }}>ASTUTE</span> Menu
+            <span style={{ color: "var(--ast-blue-l)" }}>JUJU</span> Menu
           </h2>
           <button onClick={togglePanel}
             className="w-[30px] h-[30px] rounded-full flex items-center justify-center cursor-pointer"
@@ -1597,7 +1597,7 @@ export default function AstuteApp() {
 
         <div className="p-5 border-t text-center shrink-0" style={{ borderColor: "var(--ast-border)" }}>
           <div className="font-mono text-[10px] tracking-[0.1em]" style={{ color: "var(--ast-gray2)" }}>
-            ASTUTE v54.0 · BUILD 2025
+            JUJU v2.0 · BUILD 2025
           </div>
           <div className="inline-flex items-center gap-1.5 mt-2.5 px-3.5 py-[5px] rounded-full border font-mono text-[9px] font-bold tracking-[0.1em]"
             style={{ background: "rgba(34,197,94,0.06)", borderColor: "rgba(34,197,94,0.12)", color: "var(--ast-green)" }}>
@@ -1639,7 +1639,7 @@ export default function AstuteApp() {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 filter: "drop-shadow(0 0 8px rgba(37,99,235,0.35))",
-              }}>FFASTUTECH OB54</div>
+              }}>JUJU PS</div>
               <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Cara download, install, dan setup proxy server free terbaru — work 100%
               </p>
@@ -1724,8 +1724,8 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
             </div>
             <div className="flex flex-col gap-3.5 mb-5">
-              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB54" desc="Main APK" newBadge onClick={() => goPage("download")} />
-              <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
+              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="JUJU PS" desc="Main APK" newBadge onClick={() => goPage("download")} />
+              <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL JUJU" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
             </div>
           </Reveal>
@@ -1752,13 +1752,13 @@ export default function AstuteApp() {
                 <div style={{ position: "relative", overflow: "hidden" }}>
                   <div className="p-5">
                     <h3 className="text-[13px] font-bold mb-3 flex items-center gap-[7px]" style={{ color: "var(--ast-blue-l)" }}>
-                      <Info className="w-4 h-4" /> Cara Setup Astute Method Terbaru
+                      <Info className="w-4 h-4" /> Cara Setup JUJU Method Terbaru
                     </h3>
                     <div className="overflow-y-auto pl-1 pr-1" style={{ maxHeight: "180px", scrollBehavior: "smooth", scrollbarWidth: "thin", scrollbarColor: "rgba(37,99,235,0.15) transparent" }}>
                       <ol className="pl-4 text-xs leading-[2.4] list-decimal" style={{ color: "var(--ast-gray)" }}>
-                        <li>Download file yang berada di <strong className="text-white font-semibold">ASTUTE OB54</strong> di atas</li>
+                        <li>Download file yang berada di <strong className="text-white font-semibold">JUJU PS</strong> di atas</li>
                         <li>Yang perlu kalian download itu <strong className="text-white font-semibold">FF 64 bit atau 32 bit</strong> yang mana kalian enak pake itu</li>
-                        <li>Download <strong className="text-white font-semibold">JSON Astute</strong> juga lalu kalian tempel di files FF nya</li>
+                        <li>Download <strong className="text-white font-semibold">JSON JUJU</strong> juga lalu kalian tempel di files FF nya</li>
                         <li>Verify akun kalian dengan link di atas yang bertulisan <strong className="text-white font-semibold">Verif Manual</strong></li>
                         <li>Login <span style={{ background: "linear-gradient(135deg, rgb(21,128,61), rgb(34,197,94), rgb(74,222,128))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontWeight: 700 }}>donee!!</span></li>
                       </ol>
@@ -1788,7 +1788,7 @@ export default function AstuteApp() {
             </div>
             <div className="text-center pt-2">
               <div className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>
-                © 2025 <span style={{ color: "var(--ast-blue-l)", fontWeight: 600 }}>ASTUTE</span>
+                © 2025 <span style={{ color: "var(--ast-blue-l)", fontWeight: 600 }}>JUJU</span>
               </div>
             </div>
           </Reveal>
@@ -1814,7 +1814,7 @@ export default function AstuteApp() {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
-              }}>ASTUTE OB54</h2>
+              }}>JUJU PS</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
               </p>
@@ -1846,7 +1846,7 @@ export default function AstuteApp() {
               onLinkClick={bumpDownload}
             />
             <LinkBox
-              title="JSON ASTUTE"
+              title="JSON JUJU"
               url="https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file"
               desc="Download file config JSON"
               icon={<FileArchive className="w-5 h-5 text-white" />}
@@ -1876,7 +1876,7 @@ export default function AstuteApp() {
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <Settings className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">PANEL <span style={{ color: "var(--ast-cyan)" }}>ASTUTE</span></h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5">PANEL <span style={{ color: "var(--ast-cyan)" }}>JUJU</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Control panel untuk konfigurasi server, proxy, dan manage fitur mod
               </p>
@@ -1894,7 +1894,7 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Panel</span>
             </div>
             <LinkBox
-              title="DASHBOARD ASTUTE"
+              title="DASHBOARD JUJU"
               url="https://dash.unlockffbeta.com/"
               desc="Buka dashboard control panel"
               icon={<Settings className="w-5 h-5 text-white" />}
@@ -1942,9 +1942,9 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Verifikasi</span>
             </div>
             <LinkBox
-              title="UNLOCK ASTUTE"
+              title="UNLOCK JUJU"
               url="https://www.unlockffbeta.com"
-              desc="Unlock fitur premium ASTUTE"
+              desc="Unlock fitur premium JUJU"
               icon={<ShieldCheck className="w-5 h-5 text-white" />}
             />
           </Reveal>
@@ -1974,7 +1974,7 @@ export default function AstuteApp() {
               </div>
               <h2 className="text-[22px] font-extrabold mb-1.5">DISCORD <span style={{ color: "var(--ast-purple)" }}>SERVER</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
-                Join komunitas ASTUTE — dapatkan bantuan, info update, dan diskusi sesama player
+                Join komunitas JUJU — dapatkan bantuan, info update, dan diskusi sesama player
               </p>
             </div>
           </Reveal>
@@ -1988,7 +1988,7 @@ export default function AstuteApp() {
             <LinkBox
               title="JOIN DISCORD SERVER"
               url="https://discord.gg/astutetech"
-              desc="Gabung komunitas ASTUTE di Discord"
+              desc="Gabung komunitas JUJU di Discord"
               icon={<DiscordIcon className="w-5 h-5 text-white" />}
             />
           </Reveal>
@@ -2042,7 +2042,7 @@ export default function AstuteApp() {
             <LinkBox
               title="TUTORIAL GUNAKAN DASHBOARD"
               url="https://vt.tiktok.com/ZSx8GpjvY/"
-              desc="Cara pakai dashboard panel ASTUTE"
+              desc="Cara pakai dashboard panel JUJU"
               icon={<PlayCircle className="w-5 h-5 text-white" />}
             />
           </Reveal>
@@ -2077,7 +2077,7 @@ export default function AstuteApp() {
                 backgroundClip: "text",
               }}>ACCESS JUJU</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
-                Semua fitur premium yang kamu dapatkan sebagai VIP ACCESS di ASTUTE
+                Semua fitur premium yang kamu dapatkan sebagai VIP ACCESS di JUJU
               </p>
             </div>
           </Reveal>
@@ -2117,7 +2117,7 @@ export default function AstuteApp() {
                 backgroundClip: "text",
               }}>PEMBELIAN VIP</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
-                Dapatkan akses VIP ASTUTE dan nikmati semua fitur premium. Hubungi admin atau helper di bawah untuk pembelian.
+                Dapatkan akses VIP JUJU dan nikmati semua fitur premium. Hubungi admin atau helper di bawah untuk pembelian.
               </p>
             </div>
           </Reveal>

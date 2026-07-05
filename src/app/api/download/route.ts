@@ -15,7 +15,7 @@ async function readData(): Promise<Record<string, number>> {
     return JSON.parse(raw);
   } catch {
     try {
-      const raw = await readFile("/tmp/astute-download-count.json", "utf-8");
+      const raw = await readFile("/tmp/juju-download-count.json", "utf-8");
       return JSON.parse(raw);
     } catch {
       return { ...INITIAL_DATA };
@@ -31,7 +31,7 @@ async function writeData(data: Record<string, number>) {
     await writeFile(filePath, content, "utf-8");
   } catch {
     try {
-      await writeFile("/tmp/astute-download-count.json", content, "utf-8");
+      await writeFile("/tmp/juju-download-count.json", content, "utf-8");
     } catch {}
   }
 }

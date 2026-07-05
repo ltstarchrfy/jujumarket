@@ -3,10 +3,10 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "ASTUTE – Private Server Free Fire",
+  title: "JUJU - Reseller Private Server",
   description:
-    "Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection. Download ASTUTE OB54 sekarang!",
-  keywords: ["ASTUTE", "Free Fire", "Private Server", "OB54", "Mod", "Android"],
+    "Reseller private server terbaru dengan fitur lengkap dan anti-ban protection. Download JUJU sekarang!",
+  keywords: ["JUJU", "Reseller", "Private Server", "Mod", "Android"],
 };
 
 export default function RootLayout({
