@@ -1417,10 +1417,10 @@ export default function AstuteApp() {
         <div className="flex items-center gap-2.5 relative z-[1]">
           <div className="w-[38px] h-[38px] rounded-[11px] overflow-hidden"
             style={{ border: "2px solid rgba(37,99,235,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
-            <img src="/avatar.jpg" alt="ASTUTE SELLER" className="w-full h-full object-cover block" />
+            <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
           </div>
           <div className="flex flex-col">
-            <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "var(--ast-gray)", lineHeight: 1.2 }}>ASTUTE</span>
+            <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "var(--ast-gray)", lineHeight: 1.2 }}>JUJU</span>
             <span className="text-[16px] font-extrabold tracking-wide" style={{
               background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
               WebkitBackgroundClip: "text",
@@ -1644,11 +1644,11 @@ export default function AstuteApp() {
                     border: "3px solid rgba(37,99,235,0.2)",
                     animation: "3.5s ease-in-out infinite profile-float",
                   }}>
-                  <img src="/avatar.jpg" alt="ASTUTE SELLER" className="w-full h-full object-cover block" />
+                  <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
                 </div>
               </div>
               <h1 className="text-[26px] font-extrabold tracking-tight mb-1">
-                ASTUTE <span style={{
+                JUJU <span style={{
                   background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -1762,6 +1762,54 @@ export default function AstuteApp() {
               <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
               <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
               <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
+            </div>
+          </Reveal>
+
+          {/* ─── VIP Purchase Box ─── */}
+          <Reveal delay={400}>
+            <div className="mt-6 relative overflow-hidden rounded-2xl border cursor-pointer active:scale-[0.98]"
+              style={{
+                background: "linear-gradient(135deg, rgba(146,64,14,0.15), rgba(245,158,11,0.08))",
+                borderColor: "rgba(245,158,11,0.2)",
+                transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+              }}
+              onClick={() => goPage("vip")}>
+              {/* Top gradient line */}
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)" }} />
+              {/* Glow effect */}
+              <div className="absolute top-0 right-0 w-[100px] h-[100px] rounded-full"
+                style={{ background: "radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%)", filter: "blur(20px)" }} />
+              
+              <div className="p-5 relative z-[1]">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ background: "linear-gradient(135deg, #92400e, #f59e0b)", boxShadow: "0 4px 16px rgba(245,158,11,0.3)" }}>
+                    <Crown className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-[14px] font-extrabold" style={{ color: "#fbbf24" }}>UPGRADE TO VIP</div>
+                    <div className="text-[10px]" style={{ color: "var(--ast-gray)" }}>Buka semua fitur premium sekarang</div>
+                  </div>
+                  <div className="px-2 py-1 rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)", color: "#1a1a1a" }}>NEW</div>
+                </div>
+                
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  {["All Skin", "Anti-Ban", "Glowall", "Shop Edit", "24/7 Support"].map(f => (
+                    <span key={f} className="px-2 py-[2px] rounded-full text-[8px] font-semibold" style={{ background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.15)" }}>{f}</span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] line-through" style={{ color: "var(--ast-gray)" }}>100K</span>
+                    <span className="text-[18px] font-extrabold" style={{ color: "#fbbf24" }}>50K</span>
+                    <span className="text-[9px] font-mono" style={{ color: "var(--ast-gray)" }}>IDR</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] font-bold" style={{ color: "#fbbf24" }}>
+                    Mulai <Crown className="w-3 h-3" />
+                  </div>
+                </div>
+              </div>
             </div>
           </Reveal>
 
