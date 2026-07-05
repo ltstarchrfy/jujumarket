@@ -1385,36 +1385,18 @@ export default function AstuteApp() {
 
       <ParticleCanvas />
 
-      {/* ═══ TOPBAR — Sticky with Glass Blur (iPhone style) ══════════════════════════ */}
+      {/* ═══ TOPBAR — Fixed Header (locked at top) ══════════════════════════ */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 relative"
         style={{
-          background: scrolled
-            ? "rgba(15,18,30,0.55)"
-            : "linear-gradient(90deg, rgba(8,18,50,0.92) 0%, rgba(10,16,36,0.85) 40%, rgba(5,8,16,0.72) 100%)",
-          backdropFilter: scrolled
-            ? "blur(60px) saturate(2.5) brightness(0.9)"
-            : "blur(40px) saturate(1.8)",
-          WebkitBackdropFilter: scrolled
-            ? "blur(60px) saturate(2.5) brightness(0.9)"
-            : "blur(40px) saturate(1.8)",
-          borderBottom: scrolled
-            ? "1px solid rgba(120,140,180,0.08)"
-            : "1px solid var(--ast-border)",
-          boxShadow: scrolled
-            ? "0 0.5px 0 0 rgba(180,190,220,0.06), 0 4px 20px rgba(0,0,0,0.3)"
-            : "none",
+          background: "rgba(10,14,28,0.92)",
+          backdropFilter: "blur(40px) saturate(1.8)",
+          WebkitBackdropFilter: "blur(40px) saturate(1.8)",
+          borderBottom: "1px solid var(--ast-border)",
+          boxShadow: "none",
           transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
-        {/* Navy gradient glow on left side */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: scrolled
-            ? "radial-gradient(ellipse at 0% 50%, rgba(29,78,216,0.08) 0%, transparent 50%)"
-            : "radial-gradient(ellipse at 0% 50%, rgba(29,78,216,0.18) 0%, rgba(13,36,120,0.1) 30%, transparent 70%)",
-          transition: "background 0.5s cubic-bezier(0.16,1,0.3,1)",
-          zIndex: 0,
-        }} />
         <div className="flex items-center gap-2.5 relative z-[1]">
           <div className="w-[38px] h-[38px] rounded-[11px] overflow-hidden"
             style={{ border: "2px solid rgba(37,99,235,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
@@ -1770,43 +1752,40 @@ export default function AstuteApp() {
           <Reveal delay={400}>
             <div className="mt-6 relative overflow-hidden rounded-2xl border cursor-pointer active:scale-[0.98]"
               style={{
-                background: "linear-gradient(135deg, rgba(146,64,14,0.15), rgba(245,158,11,0.08))",
-                borderColor: "rgba(245,158,11,0.2)",
+                background: "linear-gradient(135deg, rgba(30,58,95,0.25), rgba(29,78,216,0.1))",
+                borderColor: "rgba(37,99,235,0.2)",
                 transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
               }}
               onClick={() => goPage("vip")}>
               {/* Top gradient line */}
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)" }} />
-              {/* Glow effect */}
-              <div className="absolute top-0 right-0 w-[100px] h-[100px] rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%)", filter: "blur(20px)" }} />
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)" }} />
               
               <div className="p-5 relative z-[1]">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: "linear-gradient(135deg, #92400e, #f59e0b)", boxShadow: "0 4px 16px rgba(245,158,11,0.3)" }}>
+                    style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)", boxShadow: "0 4px 16px rgba(37,99,235,0.3)" }}>
                     <Crown className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="text-[14px] font-extrabold" style={{ color: "#fbbf24" }}>UPGRADE TO VIP</div>
+                    <div className="text-[14px] font-extrabold" style={{ color: "#60a5fa" }}>UPGRADE TO VIP</div>
                     <div className="text-[10px]" style={{ color: "var(--ast-gray)" }}>Buka semua fitur premium sekarang</div>
                   </div>
-                  <div className="px-2 py-1 rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)", color: "#1a1a1a" }}>NEW</div>
+                  <div className="px-2 py-1 rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1d4ed8, #60a5fa)", color: "#fff" }}>NEW</div>
                 </div>
                 
                 <div className="flex flex-wrap gap-1.5 mb-3">
                   {["All Skin", "Anti-Ban", "Glowall", "Shop Edit", "24/7 Support"].map(f => (
-                    <span key={f} className="px-2 py-[2px] rounded-full text-[8px] font-semibold" style={{ background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.15)" }}>{f}</span>
+                    <span key={f} className="px-2 py-[2px] rounded-full text-[8px] font-semibold" style={{ background: "rgba(96,165,250,0.08)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.15)" }}>{f}</span>
                   ))}
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] line-through" style={{ color: "var(--ast-gray)" }}>500K</span>
-                    <span className="text-[18px] font-black" style={{ color: "#fbbf24" }}>300K</span>
+                    <span className="text-[18px] font-black" style={{ color: "#60a5fa" }}>300K</span>
                     <span className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</span>
                   </div>
-                  <div className="flex items-center gap-1 text-[10px] font-bold" style={{ color: "#fbbf24" }}>
+                  <div className="flex items-center gap-1 text-[10px] font-bold" style={{ color: "#60a5fa" }}>
                     Mulai <Crown className="w-3 h-3" />
                   </div>
                 </div>
