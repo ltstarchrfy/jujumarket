@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description:
     "Reseller private server terbaru dengan fitur lengkap dan anti-ban protection. Download ASTUTE sekarang!",
   keywords: ["ASTUTE", "Reseller", "Private Server", "Mod", "Android"],
+  icons: {
+    icon: ["/favicon.ico", "/avatar.jpg"],
+  },
 };
 
 export default function RootLayout({

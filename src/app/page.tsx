@@ -1049,6 +1049,7 @@ function PageWrapper({ pageName, currentPage, children }: {
   pageName: PageName; currentPage: PageName; children: React.ReactNode;
 }) {
   const active = pageName === currentPage;
+  const isHome = pageName === "home";
 
   if (!active) return null;
 
@@ -1056,7 +1057,7 @@ function PageWrapper({ pageName, currentPage, children }: {
     <div
       className="max-w-[480px] mx-auto px-4 pb-24"
       style={{
-        paddingTop: "80px",
+        paddingTop: isHome ? "80px" : "20px",
         animation: "pageSlideIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards",
       }}
     >
@@ -1385,8 +1386,8 @@ export default function AstuteApp() {
 
       <ParticleCanvas />
 
-      {/* ═══ TOPBAR — Fixed Header (locked at top) ══════════════════════════ */}
-      <header
+      {/* ═══ TOPBAR — Fixed Header (only on home page) ══════════════════════════ */}
+      {currentPage === "home" && <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3"
         style={{
           background: "rgba(10,14,28,0.92)",
@@ -1467,10 +1468,10 @@ export default function AstuteApp() {
             />
           </button>
         </div>
-      </header>
+      </header>}
 
-      {/* ═══ PANEL OVERLAY — Ultra Smooth ═══════════════════════════ */}
-      <div
+      {/* ═══ PANEL OVERLAY — Ultra Smooth (only on home page) ═══════════════════════════ */}
+      {currentPage === "home" && <div
         className="fixed inset-0 z-[90]"
         style={{
           background: panelOpen ? "rgba(0,0,0,0.45)" : "rgba(0,0,0,0)",
@@ -1481,10 +1482,10 @@ export default function AstuteApp() {
           pointerEvents: panelOpen ? "auto" : "none",
         }}
         onClick={togglePanel}
-      />
+      />}
 
-      {/* ═══ SIDE PANEL — Ultra Smooth + Swipe/Drag to Close ═════════════════════════════ */}
-      <nav
+      {/* ═══ SIDE PANEL — Ultra Smooth + Swipe/Drag to Close (only on home page) ═════════════════════════════ */}
+      {currentPage === "home" && <nav
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => {
           if (!panelOpen) return;
@@ -1612,7 +1613,7 @@ export default function AstuteApp() {
             ALL SYSTEMS ONLINE
           </div>
         </div>
-      </nav>
+      </nav>}
 
       {/* ═══ PAGE CONTENT ═══════════════════════════════════════════ */}
       <main className="relative z-[2] min-h-screen" style={{ WebkitOverflowScrolling: "touch" }}>
@@ -2174,20 +2175,20 @@ export default function AstuteApp() {
             <div className="text-center mb-6 relative">
               {/* Glow ring behind crown */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%)", filter: "blur(10px)" }} />
+                style={{ background: "radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%)", filter: "blur(10px)" }} />
               <div className="relative inline-flex items-center justify-center mb-5 w-[80px] h-[80px] rounded-full"
                 style={{
-                  background: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
-                  boxShadow: "0 0 30px rgba(245,158,11,0.3), 0 0 60px rgba(245,158,11,0.1)",
+                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                  boxShadow: "0 0 30px rgba(37,99,235,0.3), 0 0 60px rgba(37,99,235,0.1)",
                 }}>
                 <Crown className="w-[44px] h-[44px] text-white" />
               </div>
               <h2 className="text-[24px] font-extrabold mb-2" style={{
-                background: "linear-gradient(135deg, #fbbf24, #f59e0b, #d97706)",
+                background: "linear-gradient(135deg, #60a5fa, #1d4ed8, #1e3a5f)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 12px rgba(245,158,11,0.4))",
+                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.4))",
               }}>PEMBELIAN VIP</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Upgrade akun kamu ke VIP dan buka semua fitur premium ASTUTE. Pengalaman bermain yang lebih seru dan lengkap!
@@ -2198,7 +2199,7 @@ export default function AstuteApp() {
           {/* ─── Status Bars ─── */}
           <Reveal delay={100}>
             <div className="flex flex-col gap-3 mb-6">
-              <StatusBar dotColor="amber" label="VIP ACCESS" value="PREMIUM" valueColor="amber" live />
+              <StatusBar dotColor="seller" label="VIP ACCESS" value="PREMIUM" valueColor="seller" live />
               <StatusBar dotColor="green" label="SERVER STATUS" value="ONLINE" valueColor="green" />
             </div>
           </Reveal>
@@ -2206,69 +2207,69 @@ export default function AstuteApp() {
           {/* ─── Pricing Cards ─── */}
           <Reveal delay={140}>
             <div className="flex items-center gap-[7px] mb-3 px-[2px]">
-              <Crown className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <Crown className="w-3 h-3" style={{ color: "#60a5fa" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Pilih Paket VIP</span>
             </div>
 
             {/* VIP 1 Day */}
             <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden cursor-pointer active:scale-[0.98]"
               onClick={() => goPage("changelog")}
-              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b)", opacity: 0.4 }} />
+              style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.15)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8)", opacity: 0.4 }} />
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[16px] font-black" style={{ color: "var(--ast-amber)" }}>VIP PERHARI</div>
+                  <div className="text-[16px] font-black" style={{ color: "#60a5fa" }}>VIP PERHARI</div>
                   <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 24 jam</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[24px] font-black" style={{ color: "#fbbf24" }}>10K</div>
+                  <div className="text-[24px] font-black" style={{ color: "#60a5fa" }}>10K</div>
                   <div className="text-[10px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                 </div>
               </div>
               <div className="mt-3 flex items-center justify-between">
-                <span className="text-[11px] font-bold" style={{ color: "var(--ast-amber)" }}>FITUR →</span>
+                <span className="text-[11px] font-bold" style={{ color: "#60a5fa" }}>FITUR →</span>
               </div>
             </div>
 
             {/* VIP 1 Week */}
             <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden cursor-pointer active:scale-[0.98]"
               onClick={() => goPage("changelog")}
-              style={{ background: "var(--ast-bg2)", borderColor: "rgba(245,158,11,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)", opacity: 0.6 }} />
-              <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #92400e, #f59e0b)", color: "#fff" }}>POPULER</div>
+              style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)", opacity: 0.6 }} />
+              <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)", color: "#fff" }}>POPULER</div>
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[16px] font-black" style={{ color: "var(--ast-amber)" }}>VIP PERMINGGU</div>
+                  <div className="text-[16px] font-black" style={{ color: "#60a5fa" }}>VIP PERMINGGU</div>
                   <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 1 minggu</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[24px] font-black" style={{ color: "#fbbf24" }}>70K</div>
+                  <div className="text-[24px] font-black" style={{ color: "#60a5fa" }}>70K</div>
                   <div className="text-[10px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                 </div>
               </div>
               <div className="mt-3 flex items-center justify-between">
-                <span className="text-[11px] font-bold" style={{ color: "var(--ast-amber)" }}>FITUR →</span>
+                <span className="text-[11px] font-bold" style={{ color: "#60a5fa" }}>FITUR →</span>
               </div>
             </div>
 
             {/* VIP 1 Month */}
             <div className="rounded-2xl p-5 border relative overflow-hidden cursor-pointer active:scale-[0.98]"
               onClick={() => goPage("changelog")}
-              style={{ background: "linear-gradient(135deg, rgba(146,64,14,0.12), rgba(245,158,11,0.06))", borderColor: "rgba(245,158,11,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)" }} />
-              <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)", color: "#1a1a1a" }}>BEST VALUE</div>
+              style={{ background: "linear-gradient(135deg, rgba(30,58,95,0.12), rgba(29,78,216,0.06))", borderColor: "rgba(37,99,235,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)" }} />
+              <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1d4ed8, #60a5fa)", color: "#fff" }}>BEST VALUE</div>
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[16px] font-black" style={{ color: "#fbbf24" }}>VIP PERBULAN</div>
+                  <div className="text-[16px] font-black" style={{ color: "#60a5fa" }}>VIP PERBULAN</div>
                   <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 1 bulan</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[24px] font-black" style={{ color: "#fbbf24" }}>300K</div>
+                  <div className="text-[24px] font-black" style={{ color: "#60a5fa" }}>300K</div>
                   <div className="text-[10px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                 </div>
               </div>
               <div className="mt-3 flex items-center justify-between">
-                <span className="text-[11px] font-bold" style={{ color: "#fbbf24" }}>FITUR →</span>
+                <span className="text-[11px] font-bold" style={{ color: "#60a5fa" }}>FITUR →</span>
               </div>
             </div>
           </Reveal>
@@ -2276,18 +2277,18 @@ export default function AstuteApp() {
           {/* ─── Keuntungan VIP ─── */}
           <Reveal delay={210}>
             <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-8">
-              <Crown className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <Crown className="w-3 h-3" style={{ color: "#60a5fa" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Keuntungan VIP</span>
             </div>
             <button
               onClick={() => goPage("changelog")}
               className="w-full rounded-2xl p-5 border relative overflow-hidden cursor-pointer active:scale-[0.98]"
-              style={{ background: "linear-gradient(135deg, rgba(146,64,14,0.12), rgba(245,158,11,0.06))", borderColor: "rgba(245,158,11,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)" }} />
+              style={{ background: "linear-gradient(135deg, rgba(30,58,95,0.12), rgba(29,78,216,0.06))", borderColor: "rgba(37,99,235,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)" }} />
               <div className="flex items-center justify-center gap-3">
-                <Crown className="w-5 h-5" style={{ color: "#fbbf24" }} />
-                <span className="text-[16px] font-black" style={{ color: "#fbbf24" }}>LIHAT KEUNTUNGAN VIP</span>
-                <span className="text-[14px] font-bold" style={{ color: "var(--ast-amber)" }}>→</span>
+                <Crown className="w-5 h-5" style={{ color: "#60a5fa" }} />
+                <span className="text-[16px] font-black" style={{ color: "#60a5fa" }}>LIHAT KEUNTUNGAN VIP</span>
+                <span className="text-[14px] font-bold" style={{ color: "#60a5fa" }}>→</span>
               </div>
               <div className="text-center mt-2">
                 <span className="text-[11px]" style={{ color: "var(--ast-gray)" }}>Klik untuk melihat semua fitur & keuntungan VIP</span>
@@ -2299,7 +2300,7 @@ export default function AstuteApp() {
           <Reveal delay={240}>
             <div className="mt-6 grid grid-cols-3 gap-3">
               <div className="rounded-xl p-3 text-center border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
-                <div className="text-[18px] font-extrabold" style={{ color: "var(--ast-amber)" }}>2K+</div>
+                <div className="text-[18px] font-extrabold" style={{ color: "#60a5fa" }}>2K+</div>
                 <div className="text-[9px] font-semibold mt-0.5" style={{ color: "var(--ast-gray)" }}>VIP User</div>
               </div>
               <div className="rounded-xl p-3 text-center border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
@@ -2316,11 +2317,11 @@ export default function AstuteApp() {
           {/* ─── Cara Pembelian ─── */}
           <Reveal delay={270}>
             <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-8">
-              <Info className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <Info className="w-3 h-3" style={{ color: "#60a5fa" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Cara Pembelian</span>
             </div>
             <div className="rounded-2xl p-5 border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)", opacity: 0.3 }} />
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)", opacity: 0.3 }} />
               <div className="flex flex-col gap-4">
                 {[
                   { step: "01", text: "Pilih paket VIP yang kamu inginkan di atas" },
@@ -2330,9 +2331,9 @@ export default function AstuteApp() {
                 ].map((s) => (
                   <div key={s.step} className="flex items-start gap-3">
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-[11px] font-extrabold" style={{
-                      background: "linear-gradient(135deg, #92400e, #f59e0b)",
+                      background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)",
                       color: "#fff",
-                      boxShadow: "0 2px 8px rgba(245,158,11,0.2)",
+                      boxShadow: "0 2px 8px rgba(37,99,235,0.2)",
                     }}>{s.step}</div>
                     <span className="text-[12px] leading-relaxed pt-1" style={{ color: "var(--ast-gray)" }}>{s.text}</span>
                   </div>
@@ -2349,9 +2350,9 @@ export default function AstuteApp() {
             <button
               onClick={() => goPage("qris")}
               className="w-full rounded-2xl p-4 border relative overflow-hidden cursor-pointer active:scale-[0.98] flex items-center gap-4"
-              style={{ background: "var(--ast-bg2)", borderColor: "rgba(245,158,11,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)", opacity: 0.5 }} />
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, #92400e, #f59e0b)" }}>
+              style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)", opacity: 0.5 }} />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)" }}>
                 <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="7" height="7" rx="1" />
                   <rect x="14" y="3" width="7" height="7" rx="1" />
@@ -2363,17 +2364,17 @@ export default function AstuteApp() {
                 </svg>
               </div>
               <div className="flex-1 text-left">
-                <div className="text-[14px] font-bold" style={{ color: "#fbbf24" }}>QRIS</div>
+                <div className="text-[14px] font-bold" style={{ color: "#60a5fa" }}>QRIS</div>
                 <div className="text-[10px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Scan QR code untuk pembayaran</div>
               </div>
-              <span className="text-[12px] font-bold" style={{ color: "var(--ast-amber)" }}>→</span>
+              <span className="text-[12px] font-bold" style={{ color: "#60a5fa" }}>→</span>
             </button>
           </Reveal>
 
           {/* ─── Chat Untuk Pembelian ─── */}
           <Reveal delay={330}>
             <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-8">
-              <MessageCircle className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <MessageCircle className="w-3 h-3" style={{ color: "#60a5fa" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Chat Untuk Pembelian</span>
             </div>
             <LinkBox
@@ -2401,9 +2402,9 @@ export default function AstuteApp() {
 
           {/* ─── Disclaimer ─── */}
           <Reveal delay={360}>
-            <div className="mt-8 rounded-2xl p-4 border" style={{ background: "rgba(245,158,11,0.04)", borderColor: "rgba(245,158,11,0.1)" }}>
+            <div className="mt-8 rounded-2xl p-4 border" style={{ background: "rgba(37,99,235,0.04)", borderColor: "rgba(37,99,235,0.1)" }}>
               <div className="flex items-start gap-3">
-                <ShieldCheck className="w-4 h-4 mt-[2px] shrink-0" style={{ color: "var(--ast-amber)" }} />
+                <ShieldCheck className="w-4 h-4 mt-[2px] shrink-0" style={{ color: "#60a5fa" }} />
                 <div className="text-[11px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
                   <strong style={{ color: "var(--ast-white)" }}>Garansi aman!</strong> VIP dilindungi anti-ban system. Jika ada masalah, hubungi admin untuk bantuan. Pembayaran hanya melalui kontak resmi di atas.
                 </div>
