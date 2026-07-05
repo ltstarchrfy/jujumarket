@@ -1332,7 +1332,7 @@ export default function AstuteApp() {
           50% { box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 25px rgba(37,99,235,0.4), 0 0 50px rgba(37,99,235,0.15); }
         }
         @keyframes marquee-scroll {
-          0% { transform: translateX(100%); }
+          0% { transform: translateX(0%); }
           100% { transform: translateX(-100%); }
         }
         @keyframes music-pulse {
@@ -1345,8 +1345,17 @@ export default function AstuteApp() {
         }
         html {
           scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
         }
-        body { -webkit-font-smoothing: antialiased; }
+        * {
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+        }
+        body {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          overscroll-behavior: none;
+        }
         ::selection { background: var(--ast-blue); color: #fff; }
         /* Smooth scrollbar */
         ::-webkit-scrollbar { width: 3px; }
@@ -1356,6 +1365,7 @@ export default function AstuteApp() {
         .side-panel-scroll {
           -webkit-overflow-scrolling: touch;
           scroll-behavior: smooth;
+          overscroll-behavior: contain;
         }
         .side-panel-scroll::-webkit-scrollbar { width: 2px; }
         .side-panel-scroll::-webkit-scrollbar-track { background: transparent; }
@@ -1478,7 +1488,7 @@ export default function AstuteApp() {
           backdropFilter: panelOpen ? "blur(28px)" : "blur(0px)",
           WebkitBackdropFilter: panelOpen ? "blur(28px)" : "blur(0px)",
           visibility: panelOpen ? "visible" : "hidden",
-          transition: "background 0.55s cubic-bezier(0.22,1,0.36,1), backdrop-filter 0.55s cubic-bezier(0.22,1,0.36,1), visibility 0s linear " + (panelOpen ? "0s" : "0.55s"),
+          transition: "background 0.5s cubic-bezier(0.32,0.72,0,1), backdrop-filter 0.5s cubic-bezier(0.32,0.72,0,1), -webkit-backdrop-filter 0.5s cubic-bezier(0.32,0.72,0,1), visibility 0s linear " + (panelOpen ? "0s" : "0.5s"),
           pointerEvents: panelOpen ? "auto" : "none",
         }}
         onClick={togglePanel}
@@ -1555,8 +1565,8 @@ export default function AstuteApp() {
           borderLeft: "1px solid rgba(37,99,235,0.05)",
           boxShadow: panelOpen ? "-16px 0 60px rgba(0,0,0,0.5)" : "-16px 0 0px rgba(0,0,0,0)",
           transform: panelOpen ? "translateX(0)" : "translateX(100%)",
-          transition: "transform 0.55s cubic-bezier(0.22,1,0.36,1), box-shadow 0.55s cubic-bezier(0.22,1,0.36,1)",
-          willChange: "transform",
+          transition: "transform 0.5s cubic-bezier(0.32,0.72,0,1), box-shadow 0.5s cubic-bezier(0.32,0.72,0,1), opacity 0.5s cubic-bezier(0.32,0.72,0,1)",
+          willChange: "transform, opacity",
           overflowY: "auto",
           touchAction: "pan-y",
         }}
@@ -1604,7 +1614,7 @@ export default function AstuteApp() {
 
         <div className="p-5 border-t text-center shrink-0" style={{ borderColor: "var(--ast-border)" }}>
           <div className="font-mono text-[10px] tracking-[0.1em]" style={{ color: "var(--ast-gray2)" }}>
-            ASTUTE v54.0 · BUILD 2025
+            JUJU v54.0 · BUILD 2026
           </div>
           <div className="inline-flex items-center gap-1.5 mt-2.5 px-3.5 py-[5px] rounded-full border font-mono text-[9px] font-bold tracking-[0.1em]"
             style={{ background: "rgba(34,197,94,0.06)", borderColor: "rgba(34,197,94,0.12)", color: "var(--ast-green)" }}>
@@ -1829,18 +1839,19 @@ export default function AstuteApp() {
                   border: "1px solid rgba(120,130,160,0.1)",
                   minWidth: "200px",
                 }}>
-                <div className="whitespace-nowrap inline-block" style={{
-                  animation: "marquee-scroll 7s linear infinite",
+                <div className="whitespace-nowrap inline-flex items-center" style={{
+                  animation: "marquee-scroll 12s linear infinite",
+                  willChange: "transform",
                 }}>
-                  <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff" }}>
-                    SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
+                  <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff", paddingRight: "80px" }}>
+                    SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥&emsp;&emsp;SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥&emsp;&emsp;SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
                   </span>
                 </div>
               </div>
             </div>
             <div className="text-center pt-2">
               <div className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>
-                © 2025 <span style={{ color: "var(--ast-blue-l)", fontWeight: 600 }}>ASTUTE</span>
+                © 2026 <span style={{ color: "var(--ast-blue-l)", fontWeight: 600 }}>JUJU.MY.ID</span>
               </div>
             </div>
           </Reveal>
