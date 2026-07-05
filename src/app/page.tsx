@@ -1071,13 +1071,7 @@ export default function AstuteApp() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
-  const [downloadCount, setDownloadCount] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('astute-download-count');
-      return saved ? parseInt(saved, 10) : 1300;
-    }
-    return 1300;
-  });
+  const [downloadCount, setDownloadCount] = useState(1300);
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -1085,6 +1079,19 @@ export default function AstuteApp() {
   const panelSwipeRef = useRef<{ startX: number; currentX: number; swiping: boolean }>({ startX: 0, currentX: 0, swiping: false });
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
   const musicAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  // ─── Load persisted download count after hydration ────────────────────────
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('astute-download-count');
+      if (saved) {
+        const parsed = parseInt(saved, 10);
+        if (!isNaN(parsed) && parsed > 1300) {
+          setDownloadCount(parsed);
+        }
+      }
+    } catch {}
+  }, []);
 
   // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
   const clickAudioRef = useRef<HTMLAudioElement | null>(null);
