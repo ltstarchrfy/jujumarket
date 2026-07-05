@@ -3,7 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "ASTUTE - Reseller Private Server",
+  title: "LINK DOWNLOAD BY JUJU - PRIVATE SERVER ASTUTE",
   description:
     "Reseller private server terbaru dengan fitur lengkap dan anti-ban protection. Download ASTUTE sekarang!",
   keywords: ["ASTUTE", "Reseller", "Private Server", "Mod", "Android"],
