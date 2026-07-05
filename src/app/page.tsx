@@ -2299,7 +2299,20 @@ export default function AstuteApp() {
               <Crown className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Keuntungan VIP</span>
             </div>
-            <VipFeatureBox theme="amber" />
+            <button
+              onClick={() => goPage("changelog")}
+              className="w-full rounded-2xl p-5 border relative overflow-hidden cursor-pointer active:scale-[0.98]"
+              style={{ background: "linear-gradient(135deg, rgba(146,64,14,0.12), rgba(245,158,11,0.06))", borderColor: "rgba(245,158,11,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)" }} />
+              <div className="flex items-center justify-center gap-3">
+                <Crown className="w-5 h-5" style={{ color: "#fbbf24" }} />
+                <span className="text-[16px] font-black" style={{ color: "#fbbf24" }}>LIHAT KEUNTUNGAN VIP</span>
+                <span className="text-[14px] font-bold" style={{ color: "var(--ast-amber)" }}>→</span>
+              </div>
+              <div className="text-center mt-2">
+                <span className="text-[11px]" style={{ color: "var(--ast-gray)" }}>Klik untuk melihat semua fitur & keuntungan VIP</span>
+              </div>
+            </button>
           </Reveal>
 
           {/* ─── Testimonial / Stats ─── */}
