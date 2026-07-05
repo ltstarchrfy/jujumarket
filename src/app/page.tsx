@@ -1177,16 +1177,17 @@ export default function AstuteApp() {
     return () => clearInterval(iv);
   }, []);
 
-  // Download counter — smooth unlimited increment (persists across refresh)
+  // Download counter — realistic slow increment, +1 each time (persists across refresh)
   useEffect(() => {
     let mounted = true;
     function tick() {
       if (!mounted) return;
-      const delay = Math.floor(Math.random() * 1400) + 800;
+      // Realistic interval: 3–8 seconds between each +1
+      const delay = Math.floor(Math.random() * 5000) + 3000;
       setTimeout(() => {
         if (!mounted) return;
         setDownloadCount((c) => {
-          const next = c + Math.floor(Math.random() * 2) + 1;
+          const next = c + 1;
           if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
           return next;
         });
@@ -1215,7 +1216,7 @@ export default function AstuteApp() {
   const handleDownload = useCallback((name: string) => {
     showToast(`Preparing: ${name}...`);
     setDownloadCount((c) => {
-      const next = c + Math.floor(Math.random() * 3) + 1;
+      const next = c + 1;
       if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
       return next;
     });
