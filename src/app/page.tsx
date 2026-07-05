@@ -1387,7 +1387,7 @@ export default function AstuteApp() {
 
       {/* ═══ TOPBAR — Fixed Header (locked at top) ══════════════════════════ */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 relative"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3"
         style={{
           background: "rgba(10,14,28,0.92)",
           backdropFilter: "blur(40px) saturate(1.8)",
