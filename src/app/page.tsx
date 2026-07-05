@@ -40,7 +40,8 @@ type PageName =
   | "discord"
   | "tutorial"
   | "changelog"
-  | "vip";
+  | "vip"
+  | "qris";
 
 // ─── WhatsApp Icon ────────────────────────────────────────────────────────────
 
@@ -2366,15 +2367,28 @@ export default function AstuteApp() {
             <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-8">
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Metode Pembayaran</span>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {["Dana", "OVO", "GoPay", "Pulsa", "QRIS"].map(m => (
-                <div key={m} className="px-3 py-1.5 rounded-lg text-[10px] font-semibold border" style={{
-                  background: "var(--ast-bg3)",
-                  borderColor: "var(--ast-border2)",
-                  color: "var(--ast-white)",
-                }}>{m}</div>
-              ))}
-            </div>
+            <button
+              onClick={() => goPage("qris")}
+              className="w-full rounded-2xl p-4 border relative overflow-hidden cursor-pointer active:scale-[0.98] flex items-center gap-4"
+              style={{ background: "var(--ast-bg2)", borderColor: "rgba(245,158,11,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)", opacity: 0.5 }} />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, #92400e, #f59e0b)" }}>
+                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="3" height="3" />
+                  <line x1="21" y1="14" x2="21" y2="14.01" />
+                  <line x1="21" y1="21" x2="21" y2="21.01" />
+                  <line x1="17" y1="18" x2="17.01" y2="18" />
+                </svg>
+              </div>
+              <div className="flex-1 text-left">
+                <div className="text-[14px] font-bold" style={{ color: "#fbbf24" }}>QRIS</div>
+                <div className="text-[10px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Scan QR code untuk pembayaran</div>
+              </div>
+              <span className="text-[12px] font-bold" style={{ color: "var(--ast-amber)" }}>→</span>
+            </button>
           </Reveal>
 
           {/* ─── Chat Untuk Pembelian ─── */}
@@ -2416,6 +2430,173 @@ export default function AstuteApp() {
                 </div>
               </div>
             </div>
+          </Reveal>
+        </PageWrapper>
+
+        {/* ═══ QRIS PAYMENT PAGE ═══ */}
+        <PageWrapper pageName="qris" currentPage={currentPage}>
+          <Reveal>
+            <button onClick={() => goPage("vip")} type="button"
+              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <ArrowLeft className="w-4 h-4" /> Kembali
+            </button>
+          </Reveal>
+
+          {/* ─── QRIS Hero ─── */}
+          <Reveal delay={70}>
+            <div className="text-center mb-6 relative">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140px] h-[140px] rounded-full"
+                style={{ background: "radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%)", filter: "blur(12px)" }} />
+              <div className="relative inline-flex items-center justify-center mb-4 w-[72px] h-[72px] rounded-full"
+                style={{
+                  background: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
+                  boxShadow: "0 0 30px rgba(245,158,11,0.3), 0 0 60px rgba(245,158,11,0.1)",
+                }}>
+                <svg className="w-[38px] h-[38px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="3" height="3" />
+                  <line x1="21" y1="14" x2="21" y2="14.01" />
+                  <line x1="21" y1="21" x2="21" y2="21.01" />
+                  <line x1="17" y1="18" x2="17.01" y2="18" />
+                </svg>
+              </div>
+              <h2 className="text-[22px] font-black" style={{ color: "#fbbf24" }}>PEMBAYARAN QRIS</h2>
+              <p className="text-[12px] mt-2 leading-relaxed" style={{ color: "var(--ast-gray)" }}>
+                Scan QR code di bawah menggunakan aplikasi e-wallet<br />atau mobile banking untuk melakukan pembayaran
+              </p>
+            </div>
+          </Reveal>
+
+          {/* ─── QRIS Image Card ─── */}
+          <Reveal delay={140}>
+            <div className="rounded-2xl border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "rgba(245,158,11,0.2)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)" }} />
+              
+              {/* QRIS Badge */}
+              <div className="flex items-center justify-center gap-2 pt-5 pb-3">
+                <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #92400e, #f59e0b)", color: "#fff" }}>
+                  QRIS
+                </div>
+                <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "rgba(245,158,11,0.1)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.2)" }}>
+                  ACCEPTED
+                </div>
+              </div>
+
+              {/* QR Code Image */}
+              <div className="flex items-center justify-center px-6 pb-4">
+                <div className="rounded-xl p-3 border" style={{ background: "#ffffff", borderColor: "rgba(245,158,11,0.15)" }}>
+                  <img 
+                    src="/QRIS.png" 
+                    alt="QRIS Payment Code" 
+                    className="w-full max-w-[260px] h-auto block"
+                    style={{ imageRendering: "crisp-edges" }}
+                  />
+                </div>
+              </div>
+
+              {/* Download Button */}
+              <div className="px-6 pb-5">
+                <button
+                  onClick={() => {
+                    const link = document.createElement("a");
+                    link.href = "/QRIS.png";
+                    link.download = "QRIS_JUJU_SELLER.png";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="w-full py-3 rounded-xl text-[13px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
+                  style={{
+                    background: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
+                    color: "#1a1a1a",
+                    transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                    boxShadow: "0 4px 20px rgba(245,158,11,0.3)",
+                  }}>
+                  <Download className="w-4 h-4" />
+                  DOWNLOAD QRIS
+                </button>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* ─── Supported Apps ─── */}
+          <Reveal delay={210}>
+            <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-6">
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Supported Apps</span>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {["Dana", "OVO", "GoPay", "ShopeePay", "LinkAja", "Bank App"].map(app => (
+                <div key={app} className="rounded-xl py-2.5 px-2 text-center text-[10px] font-semibold border" style={{
+                  background: "var(--ast-bg2)",
+                  borderColor: "var(--ast-border2)",
+                  color: "var(--ast-white)",
+                }}>{app}</div>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* ─── Payment Steps ─── */}
+          <Reveal delay={280}>
+            <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-6">
+              <Info className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Cara Bayar via QRIS</span>
+            </div>
+            <div className="rounded-2xl p-4 border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+              <div className="flex flex-col gap-3">
+                {[
+                  { step: "1", text: "Buka aplikasi e-wallet atau mobile banking" },
+                  { step: "2", text: "Pilih menu Scan / Scan QR" },
+                  { step: "3", text: "Arahkan kamera ke QR code di atas" },
+                  { step: "4", text: "Masukkan nominal sesuai paket VIP" },
+                  { step: "5", text: "Konfirmasi pembayaran & screenshot bukti" },
+                ].map((s) => (
+                  <div key={s.step} className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-extrabold" style={{
+                      background: "linear-gradient(135deg, #92400e, #f59e0b)",
+                      color: "#fff",
+                    }}>{s.step}</div>
+                    <span className="text-[11px] leading-relaxed pt-0.5" style={{ color: "var(--ast-gray)" }}>{s.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* ─── Important Notice ─── */}
+          <Reveal delay={350}>
+            <div className="mt-6 rounded-2xl p-4 border" style={{ background: "rgba(245,158,11,0.04)", borderColor: "rgba(245,158,11,0.1)" }}>
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="w-4 h-4 mt-[2px] shrink-0" style={{ color: "var(--ast-amber)" }} />
+                <div className="text-[11px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
+                  <strong style={{ color: "var(--ast-white)" }}>Penting!</strong> Setelah pembayaran berhasil, kirim bukti screenshot ke admin via WhatsApp atau Telegram untuk konfirmasi aktivasi VIP.
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* ─── Contact Admin ─── */}
+          <Reveal delay={420}>
+            <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-6">
+              <MessageCircle className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Kirim Bukti ke Admin</span>
+            </div>
+            <LinkBox
+              title="admin (WhatsApp)"
+              url="https://wa.me/6281218320975"
+              desc="Kirim bukti pembayaran QRIS ke admin"
+              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
+              item="qris-wa-admin"
+            />
+            <LinkBox
+              title="admin (Telegram)"
+              url="https://t.me/ftrjna"
+              desc="Kirim bukti pembayaran QRIS via Telegram"
+              icon={<TelegramIcon className="w-5 h-5 text-white" />}
+              item="qris-tele-admin"
+            />
           </Reveal>
         </PageWrapper>
       </main>
