@@ -1263,7 +1263,6 @@ export default function AstuteApp() {
     { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
     { name: "tutorial", icon: <PlayCircle className="w-6 h-6" />, title: "VIDEO TUTORIAL", desc: "Step by step guide" },
     { name: "changelog", icon: <FileText className="w-6 h-6" />, title: "FITUR VIP ACCESS", desc: "VIP features list" },
-    { name: "vip", icon: <Crown className="w-6 h-6" />, title: "PEMBELIAN VIP", desc: "VIP features list" },
   ];
 
   return (
@@ -2141,40 +2140,186 @@ export default function AstuteApp() {
               <ArrowLeft className="w-4 h-4" /> Kembali
             </button>
           </Reveal>
+
+          {/* ─── VIP Hero Section ─── */}
           <Reveal delay={70}>
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
-                <Crown className="w-[60px] h-[60px] text-white opacity-90" />
+            <div className="text-center mb-6 relative">
+              {/* Glow ring behind crown */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] rounded-full"
+                style={{ background: "radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%)", filter: "blur(10px)" }} />
+              <div className="relative inline-flex items-center justify-center mb-5 w-[80px] h-[80px] rounded-full"
+                style={{
+                  background: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
+                  boxShadow: "0 0 30px rgba(245,158,11,0.3), 0 0 60px rgba(245,158,11,0.1)",
+                }}>
+                <Crown className="w-[44px] h-[44px] text-white" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5" style={{
-                background: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
+              <h2 className="text-[24px] font-extrabold mb-2" style={{
+                background: "linear-gradient(135deg, #fbbf24, #f59e0b, #d97706)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
+                filter: "drop-shadow(0 0 12px rgba(245,158,11,0.4))",
               }}>PEMBELIAN VIP</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
-                Dapatkan akses VIP ASTUTE dan nikmati semua fitur premium. Hubungi admin atau helper di bawah untuk pembelian.
+                Upgrade akun kamu ke VIP dan buka semua fitur premium ASTUTE. Pengalaman bermain yang lebih seru dan lengkap!
               </p>
             </div>
           </Reveal>
-          <Reveal delay={140}>
-            <div className="flex flex-col gap-4 mb-8">
-              <StatusBar dotColor="green" label="VIP STATUS" value="ACTIVE" valueColor="green" live />
-              <StatusBar dotColor="amber" label="PAYMENT" value="MANUAL" valueColor="amber" />
+
+          {/* ─── Status Bars ─── */}
+          <Reveal delay={100}>
+            <div className="flex flex-col gap-3 mb-6">
+              <StatusBar dotColor="amber" label="VIP ACCESS" value="PREMIUM" valueColor="amber" live />
+              <StatusBar dotColor="green" label="SERVER STATUS" value="ONLINE" valueColor="green" />
             </div>
           </Reveal>
 
-          {/* Keuntungan VIP */}
-          <Reveal delay={210}>
+          {/* ─── Pricing Cards ─── */}
+          <Reveal delay={140}>
             <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+              <Crown className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Pilih Paket VIP</span>
+            </div>
+
+            {/* VIP 1 Day */}
+            <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border2)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b)", opacity: 0.4 }} />
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <div className="text-[15px] font-extrabold" style={{ color: "var(--ast-amber)" }}>VIP 1 HARI</div>
+                  <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 24 jam</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[20px] font-extrabold" style={{ color: "#fbbf24" }}>5K</div>
+                  <div className="text-[9px] font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {["All Skin", "All Character", "Emote", "Glowall"].map(f => (
+                  <span key={f} className="px-2 py-[3px] rounded-full text-[9px] font-semibold" style={{ background: "rgba(245,158,11,0.08)", color: "var(--ast-amber)", border: "1px solid rgba(245,158,11,0.15)" }}>{f}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* VIP 1 Week */}
+            <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "rgba(245,158,11,0.2)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)", opacity: 0.6 }} />
+              {/* Popular badge */}
+              <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #92400e, #f59e0b)", color: "#fff" }}>POPULER</div>
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <div className="text-[15px] font-extrabold" style={{ color: "var(--ast-amber)" }}>VIP 7 HARI</div>
+                  <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 1 minggu</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[20px] font-extrabold" style={{ color: "#fbbf24" }}>20K</div>
+                  <div className="text-[9px] font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {["All Skin", "All Character", "Emote", "Glowall", "Shop Edit", "Vault Ghoib", "Badge"].map(f => (
+                  <span key={f} className="px-2 py-[3px] rounded-full text-[9px] font-semibold" style={{ background: "rgba(245,158,11,0.08)", color: "var(--ast-amber)", border: "1px solid rgba(245,158,11,0.15)" }}>{f}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* VIP Permanent */}
+            <div className="rounded-2xl p-5 border relative overflow-hidden" style={{ background: "linear-gradient(135deg, rgba(146,64,14,0.12), rgba(245,158,11,0.06))", borderColor: "rgba(245,158,11,0.25)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)" }} />
+              {/* Best Value badge */}
+              <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)", color: "#1a1a1a" }}>BEST VALUE</div>
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <div className="text-[15px] font-extrabold" style={{ color: "#fbbf24" }}>VIP PERMANENT</div>
+                  <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses selamanya tanpa batas waktu</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[20px] font-extrabold" style={{ color: "#fbbf24" }}>50K</div>
+                  <div className="text-[9px] font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {["All Skin", "All Character", "Emote", "Glowall", "Shop Edit", "Vault Ghoib", "Badge", "Prime Lv8", "Anti-Ban", "Auto Update"].map(f => (
+                  <span key={f} className="px-2 py-[3px] rounded-full text-[9px] font-semibold" style={{ background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" }}>{f}</span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* ─── Keuntungan VIP ─── */}
+          <Reveal delay={210}>
+            <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-8">
               <Crown className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Keuntungan VIP</span>
             </div>
             <VipFeatureBox theme="amber" />
           </Reveal>
 
-          {/* Kontak Pembelian */}
-          <Reveal delay={280}>
+          {/* ─── Testimonial / Stats ─── */}
+          <Reveal delay={240}>
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              <div className="rounded-xl p-3 text-center border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+                <div className="text-[18px] font-extrabold" style={{ color: "var(--ast-amber)" }}>2K+</div>
+                <div className="text-[9px] font-semibold mt-0.5" style={{ color: "var(--ast-gray)" }}>VIP User</div>
+              </div>
+              <div className="rounded-xl p-3 text-center border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+                <div className="text-[18px] font-extrabold" style={{ color: "var(--ast-green)" }}>99.9%</div>
+                <div className="text-[9px] font-semibold mt-0.5" style={{ color: "var(--ast-gray)" }}>Uptime</div>
+              </div>
+              <div className="rounded-xl p-3 text-center border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+                <div className="text-[18px] font-extrabold" style={{ color: "var(--ast-cyan)" }}>24/7</div>
+                <div className="text-[9px] font-semibold mt-0.5" style={{ color: "var(--ast-gray)" }}>Support</div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* ─── Cara Pembelian ─── */}
+          <Reveal delay={270}>
+            <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-8">
+              <Info className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Cara Pembelian</span>
+            </div>
+            <div className="rounded-2xl p-5 border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #92400e, #f59e0b, #fbbf24)", opacity: 0.3 }} />
+              <div className="flex flex-col gap-4">
+                {[
+                  { step: "01", text: "Pilih paket VIP yang kamu inginkan di atas" },
+                  { step: "02", text: "Hubungi admin atau helper via WhatsApp / Telegram" },
+                  { step: "03", text: "Lakukan pembayaran sesuai harga paket" },
+                  { step: "04", text: "Tunggu konfirmasi, VIP langsung aktif!" },
+                ].map((s) => (
+                  <div key={s.step} className="flex items-start gap-3">
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-[11px] font-extrabold" style={{
+                      background: "linear-gradient(135deg, #92400e, #f59e0b)",
+                      color: "#fff",
+                      boxShadow: "0 2px 8px rgba(245,158,11,0.2)",
+                    }}>{s.step}</div>
+                    <span className="text-[12px] leading-relaxed pt-1" style={{ color: "var(--ast-gray)" }}>{s.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* ─── Metode Pembayaran ─── */}
+          <Reveal delay={300}>
+            <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-8">
+              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Metode Pembayaran</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {["Dana", "OVO", "GoPay", "Pulsa", "QRIS"].map(m => (
+                <div key={m} className="px-3 py-1.5 rounded-lg text-[10px] font-semibold border" style={{
+                  background: "var(--ast-bg3)",
+                  borderColor: "var(--ast-border2)",
+                  color: "var(--ast-white)",
+                }}>{m}</div>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* ─── Chat Untuk Pembelian ─── */}
+          <Reveal delay={330}>
             <div className="flex items-center gap-[7px] mb-3 px-[2px] mt-8">
               <MessageCircle className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Chat Untuk Pembelian</span>
@@ -2202,15 +2347,13 @@ export default function AstuteApp() {
             />
           </Reveal>
 
-          <Reveal delay={350}>
-            <div className="mt-8 rounded-2xl p-5 border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+          {/* ─── Disclaimer ─── */}
+          <Reveal delay={360}>
+            <div className="mt-8 rounded-2xl p-4 border" style={{ background: "rgba(245,158,11,0.04)", borderColor: "rgba(245,158,11,0.1)" }}>
               <div className="flex items-start gap-3">
-                <Info className="w-4 h-4 mt-[2px] shrink-0" style={{ color: "var(--ast-amber)" }} />
-                <div>
-                  <div className="text-[13px] font-bold mb-1" style={{ color: "var(--ast-white)" }}>Cara Pembelian</div>
-                  <div className="text-[12px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
-                    Hubungi admin atau helper melalui link di atas. Pembayaran dilakukan secara manual, dan VIP akan diaktifkan setelah konfirmasi pembayaran.
-                  </div>
+                <ShieldCheck className="w-4 h-4 mt-[2px] shrink-0" style={{ color: "var(--ast-amber)" }} />
+                <div className="text-[11px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
+                  <strong style={{ color: "var(--ast-white)" }}>Garansi aman!</strong> VIP dilindungi anti-ban system. Jika ada masalah, hubungi admin untuk bantuan. Pembayaran hanya melalui kontak resmi di atas.
                 </div>
               </div>
             </div>
