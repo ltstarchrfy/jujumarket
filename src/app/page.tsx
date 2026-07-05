@@ -298,7 +298,7 @@ function Toast({ message, visible }: { message: string; visible: boolean }) {
 // ─── Download Progress Bar (WhatsApp Style) ──────────────────────────────────
 
 function DownloadBar({ count, max }: { count: number; max: number }) {
-  const pct = Math.min(100, (count / max) * 100);
+  const pct = max > 0 ? Math.min(100, (count / max) * 100) : 100;
   return (
     <div className="rounded-2xl border overflow-hidden" style={{
       background: "var(--ast-bar-bg)",
@@ -330,14 +330,23 @@ function DownloadBar({ count, max }: { count: number; max: number }) {
           textShadow: "none",
         }}>{count.toLocaleString("en-US")}</span>
       </div>
-      {/* WhatsApp-style green progress bar */}
+      {/* Animated progress bar — full width pulse when unlimited */}
       <div className="h-[5px] w-full" style={{ background: "rgba(34,197,94,0.08)" }}>
-        <div className="h-full" style={{
-          width: `${pct}%`,
-          background: "linear-gradient(90deg, #16a34a, #22c55e, #4ade80)",
-          boxShadow: "0 0 8px rgba(34,197,94,0.4)",
-          transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
-        }} />
+        {max > 0 ? (
+          <div className="h-full" style={{
+            width: `${pct}%`,
+            background: "linear-gradient(90deg, #16a34a, #22c55e, #4ade80)",
+            boxShadow: "0 0 8px rgba(34,197,94,0.4)",
+            transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
+          }} />
+        ) : (
+          <div className="h-full" style={{
+            width: "100%",
+            background: "linear-gradient(90deg, #16a34a, #22c55e, #4ade80, #22c55e, #16a34a)",
+            backgroundSize: "200% 100%",
+            animation: "shimmer-bar 2s linear infinite",
+          }} />
+        )}
       </div>
     </div>
   );
@@ -1161,15 +1170,18 @@ export default function AstuteApp() {
     return () => clearInterval(iv);
   }, []);
 
-  // Download counter
+  // Download counter — smooth unlimited increment
   useEffect(() => {
     let mounted = true;
+    let lastTick = performance.now();
     function tick() {
       if (!mounted) return;
-      const delay = Math.floor(Math.random() * 4500) + 1500;
+      // Smooth: 800ms–2200ms interval, increment 1–2
+      const delay = Math.floor(Math.random() * 1400) + 800;
       setTimeout(() => {
         if (!mounted) return;
-        setDownloadCount((c) => c + Math.floor(Math.random() * 4) + 1);
+        setDownloadCount((c) => c + Math.floor(Math.random() * 2) + 1);
+        lastTick = performance.now();
         tick();
       }, delay);
     }
@@ -1301,6 +1313,10 @@ export default function AstuteApp() {
         @keyframes music-pulse {
           0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
           50% { box-shadow: 0 0 0 8px rgba(37,99,235,0); }
+        }
+        @keyframes shimmer-bar {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
         }
         html {
           scroll-behavior: smooth;
@@ -1806,7 +1822,7 @@ export default function AstuteApp() {
           </Reveal>
           <Reveal delay={140}>
             <div className="flex flex-col gap-4 mb-8">
-              <DownloadBar count={downloadCount} max={5000} />
+              <DownloadBar count={downloadCount} max={0} />
               <StatusBar dotColor="cyan" label="FILE SIZE" value="284 MB" valueColor="cyan" />
             </div>
           </Reveal>
