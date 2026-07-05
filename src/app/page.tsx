@@ -1332,7 +1332,8 @@ export default function AstuteApp() {
           50% { box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 25px rgba(37,99,235,0.4), 0 0 50px rgba(37,99,235,0.15); }
         }
         @keyframes marquee-scroll {
-          0% { transform: translateX(0%); }
+          0% { transform: translateX(100%); }
+          85% { transform: translateX(-100%); }
           100% { transform: translateX(-100%); }
         }
         @keyframes music-pulse {
@@ -1840,11 +1841,11 @@ export default function AstuteApp() {
                   minWidth: "200px",
                 }}>
                 <div className="whitespace-nowrap inline-flex items-center" style={{
-                  animation: "marquee-scroll 12s linear infinite",
+                  animation: "marquee-scroll 10s linear infinite",
                   willChange: "transform",
                 }}>
-                  <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff", paddingRight: "80px" }}>
-                    SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥&emsp;&emsp;SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥&emsp;&emsp;SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
+                  <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff" }}>
+                    SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
                   </span>
                 </div>
               </div>
