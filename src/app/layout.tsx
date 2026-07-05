@@ -3,10 +3,10 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "JUJU - Reseller Private Server",
+  title: "ASTUTE - Reseller Private Server",
   description:
-    "Reseller private server terbaru dengan fitur lengkap dan anti-ban protection. Download JUJU sekarang!",
-  keywords: ["JUJU", "Reseller", "Private Server", "Mod", "Android"],
+    "Reseller private server terbaru dengan fitur lengkap dan anti-ban protection. Download ASTUTE sekarang!",
+  keywords: ["ASTUTE", "Reseller", "Private Server", "Mod", "Android"],
 };
 
 export default function RootLayout({
