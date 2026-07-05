@@ -2185,13 +2185,10 @@ export default function AstuteApp() {
           {/* ─── VIP Hero Section ─── */}
           <Reveal delay={70}>
             <div className="text-center mb-6 relative">
-              {/* Glow ring behind crown */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%)", filter: "blur(10px)" }} />
               <div className="relative inline-flex items-center justify-center mb-5 w-[80px] h-[80px] rounded-full"
                 style={{
                   background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
-                  boxShadow: "0 0 30px rgba(37,99,235,0.3), 0 0 60px rgba(37,99,235,0.1)",
+                  boxShadow: "none",
                 }}>
                 <Crown className="w-[44px] h-[44px] text-white" />
               </div>
@@ -2200,7 +2197,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.4))",
+                filter: "none",
               }}>PEMBELIAN VIP</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Upgrade akun kamu ke VIP dan buka semua fitur premium ASTUTE. Pengalaman bermain yang lebih seru dan lengkap!
@@ -2345,7 +2342,7 @@ export default function AstuteApp() {
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-[11px] font-extrabold" style={{
                       background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)",
                       color: "#fff",
-                      boxShadow: "0 2px 8px rgba(37,99,235,0.2)",
+                      boxShadow: "none",
                     }}>{s.step}</div>
                     <span className="text-[12px] leading-relaxed pt-1" style={{ color: "var(--ast-gray)" }}>{s.text}</span>
                   </div>
