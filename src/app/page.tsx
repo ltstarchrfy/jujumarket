@@ -1186,13 +1186,12 @@ export default function AstuteApp() {
     return () => clearInterval(iv);
   }, []);
 
-  // Download counter — realistic slow increment, +1 each time (persists across refresh)
+  // Download counter — auto increment every 2-4 seconds (real-time, persists)
   useEffect(() => {
     let mounted = true;
     function tick() {
       if (!mounted) return;
-      // Realistic interval: 3–8 seconds between each +1
-      const delay = Math.floor(Math.random() * 5000) + 3000;
+      const delay = Math.floor(Math.random() * 2000) + 2000;
       setTimeout(() => {
         if (!mounted) return;
         setDownloadCount((c) => {
@@ -1225,7 +1224,7 @@ export default function AstuteApp() {
   const handleDownload = useCallback((name: string) => {
     showToast(`Preparing: ${name}...`);
     setDownloadCount((c) => {
-      const next = c + 1;
+      const next = c + 3;
       if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
       return next;
     });
@@ -2396,18 +2395,25 @@ export default function AstuteApp() {
               item="vip-tele-admin"
             />
             <LinkBox
-              title="admin (WhatsApp)"
-              url="https://wa.me/6281218320975"
-              desc="Chat admin via WhatsApp untuk pembelian VIP"
+              title="admin 1 (WhatsApp)"
+              url="https://wa.me/628812882145"
+              desc="Chat admin 1 via WhatsApp untuk pembelian VIP"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
-              item="vip-wa-admin"
+              item="vip-wa-admin1"
             />
             <LinkBox
-              title="helper (WhatsApp)"
-              url="https://wa.me/628812882145"
-              desc="Chat helper via WhatsApp untuk bantuan pembelian"
+              title="admin 2 (WhatsApp)"
+              url="https://wa.me/6283119880784"
+              desc="Chat admin 2 via WhatsApp untuk pembelian VIP"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
-              item="vip-wa-helper"
+              item="vip-wa-admin2"
+            />
+            <LinkBox
+              title="admin 3 (WhatsApp)"
+              url="https://wa.me/6281350984276"
+              desc="Chat admin 3 via WhatsApp untuk pembelian VIP"
+              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
+              item="vip-wa-admin3"
             />
           </Reveal>
 
@@ -2575,11 +2581,25 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Kirim Bukti ke Admin</span>
             </div>
             <LinkBox
-              title="admin (WhatsApp)"
+              title="admin 1 (WhatsApp)"
               url="https://wa.me/628812882145"
-              desc="Kirim bukti pembayaran QRIS ke admin"
+              desc="Kirim bukti pembayaran QRIS ke admin 1"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
-              item="qris-wa-admin"
+              item="qris-wa-admin1"
+            />
+            <LinkBox
+              title="admin 2 (WhatsApp)"
+              url="https://wa.me/6283119880784"
+              desc="Kirim bukti pembayaran QRIS ke admin 2"
+              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
+              item="qris-wa-admin2"
+            />
+            <LinkBox
+              title="admin 3 (WhatsApp)"
+              url="https://wa.me/6281350984276"
+              desc="Kirim bukti pembayaran QRIS ke admin 3"
+              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
+              item="qris-wa-admin3"
             />
             <LinkBox
               title="admin (Telegram)"
