@@ -1186,24 +1186,16 @@ export default function AstuteApp() {
     return () => clearInterval(iv);
   }, []);
 
-  // Download counter — auto increment every 2-4 seconds (real-time, persists)
+  // Download counter — auto increment every 1-2 seconds (real-time, persists)
   useEffect(() => {
-    let mounted = true;
-    function tick() {
-      if (!mounted) return;
-      const delay = Math.floor(Math.random() * 2000) + 2000;
-      setTimeout(() => {
-        if (!mounted) return;
-        setDownloadCount((c) => {
-          const next = c + 1;
-          if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
-          return next;
-        });
-        tick();
-      }, delay);
-    }
-    tick();
-    return () => { mounted = false; };
+    const iv = setInterval(() => {
+      setDownloadCount((c) => {
+        const next = c + 1;
+        if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
+        return next;
+      });
+    }, 1500);
+    return () => clearInterval(iv);
   }, []);
 
   // Page navigation - smooth
@@ -1224,7 +1216,7 @@ export default function AstuteApp() {
   const handleDownload = useCallback((name: string) => {
     showToast(`Preparing: ${name}...`);
     setDownloadCount((c) => {
-      const next = c + 3;
+      const next = c + 5;
       if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
       return next;
     });
@@ -1248,10 +1240,10 @@ export default function AstuteApp() {
 
   const formattedCount = downloadCount.toLocaleString("en-US");
 
-  // Increment download count when PlayStore link clicked
+  // Increment download count when any download link or FF ASTUTE box is clicked
   const bumpDownload = useCallback(() => {
     setDownloadCount(prev => {
-      const next = prev + 1;
+      const next = prev + 3;
       if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
       return next;
     });
@@ -1740,7 +1732,7 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
             </div>
             <div className="flex flex-col gap-3.5 mb-5">
-              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB54" desc="Main APK" newBadge onClick={() => goPage("download")} />
+              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB54" desc="Main APK" newBadge onClick={() => { bumpDownload(); goPage("download"); }} />
               <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
             </div>
@@ -1915,12 +1907,14 @@ export default function AstuteApp() {
               url="https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file"
               desc="Download file config JSON"
               icon={<FileArchive className="w-5 h-5 text-white" />}
+              onLinkClick={bumpDownload}
             />
             <LinkBox
               title="SCRIPT iOS"
               url="https://www.mediafire.com/file/crl6iuhbn5saqli/FFASTUTECH_FREE-VIP.json/file"
               desc="Download script iOS (iPhone 11 - baru)"
               icon={<Smartphone className="w-5 h-5 text-white" />}
+              onLinkClick={bumpDownload}
             />
           </Reveal>
           <Reveal delay={280}>
@@ -2395,23 +2389,23 @@ export default function AstuteApp() {
               item="vip-tele-admin"
             />
             <LinkBox
-              title="admin 1 (WhatsApp)"
-              url="https://wa.me/628812882145"
-              desc="Chat admin 1 via WhatsApp untuk pembelian VIP"
-              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
-              item="vip-wa-admin1"
-            />
-            <LinkBox
-              title="admin 2 (WhatsApp)"
+              title="DEV/ADMIN JUJU (WhatsApp)"
               url="https://wa.me/6283119880784"
-              desc="Chat admin 2 via WhatsApp untuk pembelian VIP"
+              desc="Chat DEV/ADMIN JUJU via WhatsApp untuk pembelian VIP"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
               item="vip-wa-admin2"
             />
             <LinkBox
-              title="admin 3 (WhatsApp)"
+              title="ADMIN RASYA (WhatsApp)"
+              url="https://wa.me/628812882145"
+              desc="Chat ADMIN RASYA via WhatsApp untuk pembelian VIP"
+              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
+              item="vip-wa-admin1"
+            />
+            <LinkBox
+              title="HELPER VYN (WhatsApp)"
               url="https://wa.me/6281350984276"
-              desc="Chat admin 3 via WhatsApp untuk pembelian VIP"
+              desc="Chat HELPER VYN via WhatsApp untuk pembelian VIP"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
               item="vip-wa-admin3"
             />
@@ -2581,23 +2575,23 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Kirim Bukti ke Admin</span>
             </div>
             <LinkBox
-              title="admin 1 (WhatsApp)"
-              url="https://wa.me/628812882145"
-              desc="Kirim bukti pembayaran QRIS ke admin 1"
-              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
-              item="qris-wa-admin1"
-            />
-            <LinkBox
-              title="admin 2 (WhatsApp)"
+              title="DEV/ADMIN JUJU (WhatsApp)"
               url="https://wa.me/6283119880784"
-              desc="Kirim bukti pembayaran QRIS ke admin 2"
+              desc="Kirim bukti pembayaran QRIS ke DEV/ADMIN JUJU"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
               item="qris-wa-admin2"
             />
             <LinkBox
-              title="admin 3 (WhatsApp)"
+              title="ADMIN RASYA (WhatsApp)"
+              url="https://wa.me/628812882145"
+              desc="Kirim bukti pembayaran QRIS ke ADMIN RASYA"
+              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
+              item="qris-wa-admin1"
+            />
+            <LinkBox
+              title="HELPER VYN (WhatsApp)"
               url="https://wa.me/6281350984276"
-              desc="Kirim bukti pembayaran QRIS ke admin 3"
+              desc="Kirim bukti pembayaran QRIS ke HELPER VYN"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
               item="qris-wa-admin3"
             />
