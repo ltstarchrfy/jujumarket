@@ -19,6 +19,8 @@ import {
   MessageCircle,
   Smartphone,
 } from "lucide-react";
+import { db, isFirebaseEnabled } from "@/lib/firebase";
+import { ref as dbRef, onValue, runTransaction, get, set } from "firebase/database";
 
 // ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
 
@@ -1082,26 +1084,45 @@ export default function AstuteApp() {
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
   const musicAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  // ─── Fetch shared download count from server API ────────────────────────
-  // Count is stored on server, shared across ALL devices — never resets
+  // ─── Firebase Realtime Download Counter ─────────────────────────────────
+  // Shared across ALL devices — never resets on any phone
+  const firebaseCountRef = useRef(db ? dbRef(db, "downloadCount") : null);
+  
   useEffect(() => {
-    let intervalId: ReturnType<typeof setInterval>;
-    async function fetchCount() {
-      try {
-        const res = await fetch('/api/count');
-        if (res.ok) {
-          const data = await res.json();
-          if (typeof data.count === 'number' && data.count > 0) {
-            setDownloadCount(data.count);
-          }
+    if (isFirebaseEnabled && db && firebaseCountRef.current) {
+      // Firebase mode: real-time sync across all devices
+      get(firebaseCountRef.current).then((snapshot) => {
+        if (!snapshot.exists()) {
+          set(firebaseCountRef.current!, 2000);
         }
-      } catch {}
+      }).catch(() => {});
+
+      const unsubscribe = onValue(firebaseCountRef.current, (snapshot) => {
+        const val = snapshot.val();
+        if (typeof val === "number" && val >= 2000) {
+          setDownloadCount(val);
+        }
+      });
+
+      return () => unsubscribe();
+    } else {
+      // API fallback mode: poll server every 6 seconds
+      let intervalId: ReturnType<typeof setInterval>;
+      async function fetchCount() {
+        try {
+          const res = await fetch('/api/count');
+          if (res.ok) {
+            const data = await res.json();
+            if (typeof data.count === 'number' && data.count > 0) {
+              setDownloadCount(data.count);
+            }
+          }
+        } catch {}
+      }
+      fetchCount();
+      intervalId = setInterval(fetchCount, 6000);
+      return () => clearInterval(intervalId);
     }
-    // Fetch immediately on mount
-    fetchCount();
-    // Then poll every 6 seconds to stay in sync with server auto-increment
-    intervalId = setInterval(fetchCount, 6000);
-    return () => clearInterval(intervalId);
   }, []);
 
   // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
@@ -1195,17 +1216,29 @@ export default function AstuteApp() {
     return () => clearInterval(iv);
   }, []);
 
-  // Download counter — auto-increment is handled by server API (time-based)
-  // Client just polls /api/count every 6s — no more localStorage
+  // Download counter — Firebase handles real-time sync automatically
 
-  // Page navigation - smooth, +1 counter via API when visiting ASTUTE OB54 download page
+  // Firebase atomic increment helper (with API fallback)
+  const firebaseIncrement = useCallback((add: number) => {
+    if (isFirebaseEnabled && db && firebaseCountRef.current) {
+      runTransaction(firebaseCountRef.current, (current) => {
+        if (current === null) return 2000 + add;
+        return (current as number) + add;
+      }).catch(() => {});
+    } else {
+      // API fallback
+      fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add }) }).catch(() => {});
+      setDownloadCount((c) => c + add);
+    }
+  }, []);
+
+  // Page navigation - smooth, +1 counter via Firebase when visiting ASTUTE OB54 download page
   const goPage = useCallback((name: PageName) => {
     playClickSound();
     setCurrentPage(name);
-    // Auto +1 via API when someone enters the download/ASTUTE OB54 page
+    // Auto +1 via Firebase when someone enters the download/ASTUTE OB54 page
     if (name === "download") {
-      fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add: 1 }) }).catch(() => {});
-      setDownloadCount((c) => c + 1);
+      firebaseIncrement(1);
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [playClickSound]);
@@ -1220,9 +1253,8 @@ export default function AstuteApp() {
 
   const handleDownload = useCallback((name: string) => {
     showToast(`Preparing: ${name}...`);
-    setDownloadCount((c) => c + 3);
-    fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add: 3 }) }).catch(() => {});
-  }, [showToast]);
+    firebaseIncrement(3);
+  }, [showToast, firebaseIncrement]);
 
   const togglePanel = useCallback(() => {
     playClickSound();
@@ -1242,11 +1274,10 @@ export default function AstuteApp() {
 
   const formattedCount = downloadCount.toLocaleString("en-US");
 
-  // Increment download count via API when any download link is clicked
+  // Increment download count via Firebase when any download link is clicked
   const bumpDownload = useCallback(() => {
-    setDownloadCount(prev => prev + 1);
-    fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add: 1 }) }).catch(() => {});
-  }, []);
+    firebaseIncrement(1);
+  }, [firebaseIncrement]);
 
   const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
     { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB54", desc: "Download main APK" },
