@@ -2349,7 +2349,7 @@ export default function AstuteApp() {
                   onClick={() => goPage("qris")}
                   style={{ background: "rgba(37,99,235,0.08)", transition: "all 0.3s" }}>
                   <div>
-                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERHARI</div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>1 HARI</div>
                   </div>
                   <div className="text-right">
                     <div className="text-[18px] font-black" style={{
@@ -2358,7 +2358,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
-                    }}>20K</div>
+                    }}>30K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2369,7 +2369,7 @@ export default function AstuteApp() {
                   style={{ background: "rgba(37,99,235,0.12)", transition: "all 0.3s" }}>
                   <div className="absolute top-1 right-1 px-1.5 py-[1px] rounded-full text-[7px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)", color: "#fff" }}>POPULER</div>
                   <div>
-                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERMINGGU</div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>7 HARI</div>
                   </div>
                   <div className="text-right">
                     <div className="text-[18px] font-black" style={{
@@ -2378,7 +2378,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
-                    }}>95K</div>
+                    }}>150K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2388,7 +2388,7 @@ export default function AstuteApp() {
                   onClick={() => goPage("qris")}
                   style={{ background: "rgba(37,99,235,0.08)", transition: "all 0.3s" }}>
                   <div>
-                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERBULAN</div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>30 HARI</div>
                   </div>
                   <div className="text-right">
                     <div className="text-[18px] font-black" style={{
@@ -2397,7 +2397,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
-                    }}>305K</div>
+                    }}>450K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2424,7 +2424,7 @@ export default function AstuteApp() {
                   onClick={() => goPage("qris")}
                   style={{ background: "rgba(37,99,235,0.08)", transition: "all 0.3s" }}>
                   <div>
-                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERMINGGU</div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>7 HARI</div>
                   </div>
                   <div className="text-right">
                     <div className="text-[18px] font-black" style={{
@@ -2433,7 +2433,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
-                    }}>150K</div>
+                    }}>250K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2443,7 +2443,7 @@ export default function AstuteApp() {
                   onClick={() => goPage("qris")}
                   style={{ background: "rgba(37,99,235,0.12)", transition: "all 0.3s" }}>
                   <div>
-                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERBULAN</div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>30 HARI</div>
                   </div>
                   <div className="text-right">
                     <div className="text-[18px] font-black" style={{
@@ -2452,7 +2452,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
-                    }}>500K</div>
+                    }}>780K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2462,7 +2462,7 @@ export default function AstuteApp() {
                   onClick={() => goPage("qris")}
                   style={{ background: "linear-gradient(135deg, rgba(29,78,216,0.12), rgba(96,165,250,0.06))", transition: "all 0.3s" }}>
                   <div>
-                    <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>DOBBLE BULAN</div>
+                    <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>60 HARI</div>
                   </div>
                   <div className="text-right">
                     <div className="text-[18px] font-black" style={{
@@ -2471,7 +2471,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
-                    }}>900K</div>
+                    }}>1.3JT</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2506,7 +2506,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "drop-shadow(0 0 6px rgba(139,92,246,0.4))",
-                    }}>85K</div>
+                    }}>150K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2525,7 +2525,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "drop-shadow(0 0 6px rgba(139,92,246,0.4))",
-                    }}>400K</div>
+                    }}>450K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
