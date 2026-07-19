@@ -290,7 +290,7 @@ function Toast({ message, visible }: { message: string; visible: boolean }) {
         background: "var(--ast-bg3)",
         borderColor: "var(--ast-border2)",
         color: "var(--ast-blue-l)",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+        boxShadow: "none",
         transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.55s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
@@ -315,7 +315,7 @@ function DownloadBar({ count, max }: { count: number; max: number }) {
       }}>
         <div className="flex items-center gap-2">
           <span className="w-[8px] h-[8px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
-            background: "var(--ast-green)", boxShadow: "0 0 8px rgba(34,197,94,0.5)",
+            background: "var(--ast-green)", boxShadow: "none",
           }} />
           <span className="text-[10px] font-semibold tracking-[0.12em] uppercase" style={{ color: "var(--ast-gray)" }}>STATUS</span>
         </div>
@@ -340,7 +340,7 @@ function DownloadBar({ count, max }: { count: number; max: number }) {
           <div className="h-full" style={{
             width: `${pct}%`,
             background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
-            boxShadow: "0 0 8px rgba(34,197,94,0.4)",
+            boxShadow: "none",
             transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
           }} />
         ) : (
@@ -395,14 +395,14 @@ function ChannelBar({
         {/* Channel profile icon — like WA channel avatar */}
         <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 relative" style={{
           background: barGradient,
-          boxShadow: `0 3px 12px ${barColor}50`,
+          boxShadow: "none",
         }}>
           {icon}
           {/* Online indicator dot — like WA profile online dot */}
           <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-[2.5px]" style={{
             background: barColor,
             borderColor: "var(--ast-bar-bg)",
-            boxShadow: `0 0 6px ${barColor}88`,
+            boxShadow: "none",
           }} />
         </div>
 
@@ -418,7 +418,7 @@ function ChannelBar({
           <div className="flex items-center gap-1.5 mt-[2px]">
             <span className="w-[5px] h-[5px] rounded-full shrink-0 animate-[dot-blink_1.5s_ease-in-out_infinite]" style={{
               background: dotColor,
-              boxShadow: `0 0 4px ${barColor}66`,
+              boxShadow: "none",
             }} />
             <span className="text-[10px] font-medium" style={{ color: "var(--ast-gray)" }}>{subtitle}</span>
           </div>
@@ -442,7 +442,7 @@ function ChannelBar({
           <div className="h-full" style={{
             width: `${pct}%`,
             background: barGradient,
-            boxShadow: `0 0 6px ${barColor}55`,
+            boxShadow: "none",
             transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
           }} />
         </div>
@@ -459,7 +459,7 @@ function ChannelBar({
 
   const hoverIn = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.borderColor = `${barColor}30`;
-    e.currentTarget.style.boxShadow = `0 4px 20px ${barColor}15`;
+    e.currentTarget.style.boxShadow = "none";
   };
   const hoverOut = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.borderColor = "var(--ast-border)";
@@ -500,10 +500,10 @@ function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, 
   dotColor: string; label: string; value: string; valueColor: string; valueGradient?: boolean; live?: boolean; bigDot?: boolean;
 }) {
   const dotStyles: Record<string, React.CSSProperties> = {
-    green: { background: "var(--ast-green)", boxShadow: "0 0 8px rgba(34,197,94,0.5)" },
-    blue: { background: "var(--ast-blue)", boxShadow: "0 0 8px rgba(37,99,235,0.45)" },
-    cyan: { background: "var(--ast-cyan)", boxShadow: "0 0 8px rgba(34,211,238,0.35)" },
-    amber: { background: "var(--ast-amber)", boxShadow: "0 0 8px rgba(245,158,11,0.5)" },
+    green: { background: "var(--ast-green)", boxShadow: "none" },
+    blue: { background: "var(--ast-blue)", boxShadow: "none" },
+    cyan: { background: "var(--ast-cyan)", boxShadow: "none" },
+    amber: { background: "var(--ast-amber)", boxShadow: "none" },
   };
   const valStyles: Record<string, React.CSSProperties> = {
     green: { color: "var(--ast-green)" },
@@ -517,7 +517,7 @@ function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, 
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     backgroundClip: "text",
-    filter: "drop-shadow(0 0 6px rgba(37,99,235,0.3))",
+    filter: "none",
   };
 
   return (
@@ -562,7 +562,7 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
         style={highlight ? undefined : { color: "var(--ast-gray)" }}>
         {text}
         {newBadge && (
-          <span className="font-mono text-[7px] font-bold bg-gradient-to-br from-[#1d4ed8] to-[#2563eb] text-white px-1.5 py-[1px] rounded-[3px] ml-1 tracking-wider shadow-[0_0_8px_rgba(37,99,235,0.2)]">
+          <span className="font-mono text-[7px] font-bold bg-gradient-to-br from-[#1d4ed8] to-[#2563eb] text-white px-1.5 py-[1px] rounded-[3px] ml-1 tracking-wider">
             NEW
           </span>
         )}
@@ -606,7 +606,7 @@ function LinkBox({ title, url, desc, icon, onLinkClick }: {
       <div className="w-[40px] h-[40px] rounded-xl flex items-center justify-center shrink-0"
         style={{
           background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
-          boxShadow: "0 2px 12px rgba(37,99,235,0.25)",
+          boxShadow: "none",
           transition: "box-shadow 0.4s cubic-bezier(0.16,1,0.3,1)",
         }}>
         {icon}
@@ -627,13 +627,13 @@ function DownloadButton({ theme, icon, text, onClick, style }: {
   icon: React.ReactNode; text: string; onClick: () => void; style?: React.CSSProperties;
 }) {
   const gradients: Record<string, React.CSSProperties> = {
-    blue: { background: "linear-gradient(135deg,#1d4ed8,#3b82f6)", boxShadow: "0 6px 24px rgba(37,99,235,0.25)" },
-    cyan: { background: "linear-gradient(135deg,#0e7490,#22d3ee)", boxShadow: "0 6px 24px rgba(34,211,238,0.2)" },
-    green: { background: "linear-gradient(135deg,#15803d,#22c55e)", boxShadow: "0 6px 24px rgba(34,197,94,0.2)" },
-    purple: { background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 6px 24px rgba(168,85,247,0.2)" },
-    amber: { background: "linear-gradient(135deg,#92400e,#f59e0b)", boxShadow: "0 6px 24px rgba(245,158,11,0.2)" },
-    red: { background: "linear-gradient(135deg,#991b1b,#ef4444)", boxShadow: "0 6px 24px rgba(239,68,68,0.2)" },
-    seller: { background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)", boxShadow: "0 6px 24px rgba(37,99,235,0.45)" },
+    blue: { background: "linear-gradient(135deg,#1d4ed8,#3b82f6)", boxShadow: "none" },
+    cyan: { background: "linear-gradient(135deg,#0e7490,#22d3ee)", boxShadow: "none" },
+    green: { background: "linear-gradient(135deg,#15803d,#22c55e)", boxShadow: "none" },
+    purple: { background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "none" },
+    amber: { background: "linear-gradient(135deg,#92400e,#f59e0b)", boxShadow: "none" },
+    red: { background: "linear-gradient(135deg,#991b1b,#ef4444)", boxShadow: "none" },
+    seller: { background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)", boxShadow: "none" },
   };
 
   return (
@@ -726,7 +726,7 @@ function VipFeatureBox({ theme = "blue" }: { theme?: string }) {
                 background: theme === "amber"
                   ? "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)"
                   : "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
-                boxShadow: `0 2px 8px ${theme === "amber" ? "rgba(245,158,11,0.25)" : "rgba(37,99,235,0.25)"}`,
+                boxShadow: "none",
               }}>
                 {cat.icon}
               </div>
@@ -774,18 +774,18 @@ function FeatureCarousel({ items, theme = "blue" }: {
   }> = {
     blue: {
       boxGradient: "linear-gradient(135deg, rgba(37,99,235,0.10) 0%, rgba(37,99,235,0.02) 60%, var(--ast-bg2) 100%)",
-      boxShadow: "0 4px 24px rgba(37,99,235,0.12), 0 1px 3px rgba(0,0,0,0.3)",
+      boxShadow: "none",
       chipGradient: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
-      chipShadow: "0 2px 10px rgba(37,99,235,0.30)",
+      chipShadow: "none",
       accent: "var(--ast-blue-l)",
       indicatorActive: "var(--ast-blue-l)",
       labelColor: "var(--ast-blue-l)",
     },
     amber: {
       boxGradient: "linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.02) 60%, var(--ast-bg2) 100%)",
-      boxShadow: "0 4px 24px rgba(245,158,11,0.14), 0 1px 3px rgba(0,0,0,0.3)",
+      boxShadow: "none",
       chipGradient: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
-      chipShadow: "0 2px 10px rgba(245,158,11,0.32)",
+      chipShadow: "none",
       accent: "var(--ast-amber)",
       indicatorActive: "var(--ast-amber)",
       labelColor: "var(--ast-amber)",
@@ -1349,16 +1349,16 @@ export default function AstuteApp() {
           75% { transform: scale(1.08) translateY(-3px); }
         }
         @keyframes profile-glow {
-          0%, 100% { box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 0 0 rgba(37,99,235,0); }
-          50% { box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 25px rgba(37,99,235,0.4), 0 0 50px rgba(37,99,235,0.15); }
+          0%, 100% { box-shadow: none; }
+          50% { box-shadow: none; }
         }
         @keyframes marquee-scroll {
           0% { transform: translateX(0%); }
           100% { transform: translateX(-50%); }
         }
         @keyframes music-pulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
-          50% { box-shadow: 0 0 0 8px rgba(37,99,235,0); }
+          0%, 100% { box-shadow: none; }
+          50% { box-shadow: none; }
         }
         @keyframes shimmer-bar {
           0% { background-position: 200% 0; }
@@ -1431,7 +1431,7 @@ export default function AstuteApp() {
       >
         <div className="flex items-center gap-2.5 relative z-[1]">
           <div className="w-[38px] h-[38px] rounded-[11px] overflow-hidden"
-            style={{ border: "2px solid rgba(37,99,235,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
+            style={{ border: "2px solid rgba(37,99,235,0.15)", boxShadow: "none" }}>
             <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
           </div>
           <div className="flex flex-col">
@@ -1442,7 +1442,7 @@ export default function AstuteApp() {
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
               textShadow: "none",
-              filter: "drop-shadow(0 0 12px rgba(37,99,235,0.6))",
+              filter: "none",
               lineHeight: 1.2,
             }}>SELLER</span>
           </div>
@@ -1584,7 +1584,7 @@ export default function AstuteApp() {
           backdropFilter: "blur(60px) saturate(2.2)",
           WebkitBackdropFilter: "blur(60px) saturate(2.2)",
           borderLeft: "1px solid rgba(37,99,235,0.05)",
-          boxShadow: panelOpen ? "-16px 0 60px rgba(0,0,0,0.5)" : "-16px 0 0px rgba(0,0,0,0)",
+          boxShadow: "none",
           transform: panelOpen ? "translateX(0)" : "translateX(100%)",
           transition: "transform 0.5s cubic-bezier(0.32,0.72,0,1), box-shadow 0.5s cubic-bezier(0.32,0.72,0,1), opacity 0.5s cubic-bezier(0.32,0.72,0,1)",
           willChange: "transform, opacity",
@@ -1640,7 +1640,7 @@ export default function AstuteApp() {
           <div className="inline-flex items-center gap-1.5 mt-2.5 px-3.5 py-[5px] rounded-full border font-mono text-[9px] font-bold tracking-[0.1em]"
             style={{ background: "rgba(34,197,94,0.06)", borderColor: "rgba(34,197,94,0.12)", color: "var(--ast-green)" }}>
             <span className="w-[5px] h-[5px] rounded-full animate-[dot-blink_1.5s_ease-in-out_infinite]"
-              style={{ background: "var(--ast-green)", boxShadow: "0 0 4px var(--ast-green)" }} />
+              style={{ background: "var(--ast-green)", boxShadow: "none" }} />
             ALL SYSTEMS ONLINE
           </div>
         </div>
@@ -1668,7 +1668,7 @@ export default function AstuteApp() {
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
-                  filter: "drop-shadow(0 0 14px rgba(37,99,235,0.6))",
+                  filter: "none",
                 }}>JUJU SELLER</span>
               </h1>
               <div className="font-mono text-xs font-bold tracking-wider inline-block mb-2" style={{
@@ -1676,7 +1676,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+                filter: "none",
               }}>ASTUTE OB54</div>
               <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Cara download, install, dan setup proxy server free terbaru — work 100%
@@ -1749,7 +1749,7 @@ export default function AstuteApp() {
           <Reveal delay={140}>
             <div className="flex items-center gap-1.5 font-mono text-[11px] justify-center mb-4" style={{ color: "var(--ast-gray)" }}>
               <span className="w-1 h-1 rounded-full animate-[dot-blink_2s_ease-in-out_infinite]"
-                style={{ background: "var(--ast-blue)", boxShadow: "0 0 5px var(--ast-blue)" }} />
+                style={{ background: "var(--ast-blue)", boxShadow: "none" }} />
               {clock}
             </div>
           </Reveal>
@@ -1795,7 +1795,7 @@ export default function AstuteApp() {
               <div className="p-5 relative z-[1]">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)", boxShadow: "0 4px 16px rgba(37,99,235,0.3)" }}>
+                    style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)", boxShadow: "none" }}>
                     <Crown className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
@@ -1804,7 +1804,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.5))",
+                      filter: "none",
                     }}>UPGRADE TO VIP</div>
                     <div className="text-[10px]" style={{ color: "var(--ast-gray)" }}>Buka semua fitur premium sekarang</div>
                   </div>
@@ -1825,7 +1825,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                      filter: "none",
                     }}>300K</span>
                     <span className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</span>
                   </div>
@@ -1898,7 +1898,7 @@ export default function AstuteApp() {
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                   fontWeight: 700,
-                  filter: "drop-shadow(0 0 4px rgba(37,99,235,0.4))",
+                  filter: "none",
                 }}>JUJU.MY.ID</span>
               </div>
             </div>
@@ -1924,7 +1924,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 14px rgba(37,99,235,0.6))",
+                filter: "none",
               }}>ASTUTE OB54</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
@@ -2000,7 +2000,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+                filter: "none",
               }}>PANEL ASTUTE</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Control panel untuk konfigurasi server, proxy, dan manage fitur mod
@@ -2054,7 +2054,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+                filter: "none",
               }}>VERIF MANUAL</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Tool bypass verifikasi untuk mengaktifkan fitur premium tanpa limit
@@ -2108,7 +2108,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+                filter: "none",
               }}>DISCORD SERVER</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Join komunitas ASTUTE — dapatkan bantuan, info update, dan diskusi sesama player
@@ -2158,7 +2158,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+                filter: "none",
               }}>VIDEO TUTORIAL</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Panduan lengkap dari install sampai main — ikutin aja step by step
@@ -2260,7 +2260,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+                filter: "none",
               }}>FITUR VIP ACCESS ASTUTE</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Semua fitur premium yang kamu dapatkan sebagai VIP ACCESS di ASTUTE
@@ -2307,7 +2307,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 14px rgba(37,99,235,0.6))",
+                filter: "none",
               }}>PEMBELIAN VIP</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Upgrade akun kamu ke VIP dan buka semua fitur premium ASTUTE. Pengalaman bermain yang lebih seru dan lengkap!
@@ -2339,7 +2339,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.5))",
+                filter: "none",
               }}>VIP BIASA</div>
               <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>NO FITUR GIFT</div>
 
@@ -2357,7 +2357,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                      filter: "none",
                     }}>30K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
@@ -2377,7 +2377,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                      filter: "none",
                     }}>150K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
@@ -2396,7 +2396,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                      filter: "none",
                     }}>450K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
@@ -2414,7 +2414,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.5))",
+                filter: "none",
               }}>VIP HIGH</div>
               <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>AKSES GIFT BUNDLE BEST VALUE</div>
 
@@ -2432,7 +2432,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                      filter: "none",
                     }}>250K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
@@ -2451,7 +2451,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                      filter: "none",
                     }}>780K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
@@ -2470,7 +2470,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                      filter: "none",
                     }}>1.3JT</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
@@ -2487,7 +2487,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 8px rgba(139,92,246,0.5))",
+                filter: "none",
               }}>ONLY AKTIF GIFT</div>
               <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>Akses gift tanpa VIP lainnya</div>
 
@@ -2505,7 +2505,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(139,92,246,0.4))",
+                      filter: "none",
                     }}>150K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
@@ -2524,7 +2524,7 @@ export default function AstuteApp() {
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: "drop-shadow(0 0 6px rgba(139,92,246,0.4))",
+                      filter: "none",
                     }}>450K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
@@ -2551,7 +2551,7 @@ export default function AstuteApp() {
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
-                  filter: "drop-shadow(0 0 8px rgba(37,99,235,0.5))",
+                  filter: "none",
                 }}>LIHAT KEUNTUNGAN VIP</span>
                 <span className="text-[14px] font-bold" style={{
                   background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa)",
@@ -2575,7 +2575,7 @@ export default function AstuteApp() {
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
-                  filter: "drop-shadow(0 0 6px rgba(37,99,235,0.5))",
+                  filter: "none",
                 }}>2K+</div>
                 <div className="text-[9px] font-semibold mt-0.5" style={{ color: "var(--ast-gray)" }}>VIP User</div>
               </div>
@@ -2734,7 +2734,7 @@ export default function AstuteApp() {
               <div className="relative inline-flex items-center justify-center mb-4 w-[72px] h-[72px] rounded-full"
                 style={{
                   background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
-                  boxShadow: "0 0 30px rgba(37,99,235,0.3), 0 0 60px rgba(37,99,235,0.1)",
+                  boxShadow: "none",
                 }}>
                 <svg className="w-[38px] h-[38px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="7" height="7" rx="1" />
@@ -2751,7 +2751,7 @@ export default function AstuteApp() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 14px rgba(37,99,235,0.6))",
+                filter: "none",
               }}>PEMBAYARAN QRIS</h2>
               <p className="text-[12px] mt-2 leading-relaxed" style={{ color: "var(--ast-gray)" }}>
                 Scan QR code di bawah menggunakan aplikasi e-wallet<br />atau mobile banking untuk melakukan pembayaran
@@ -2802,7 +2802,7 @@ export default function AstuteApp() {
                     background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                     color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-                    boxShadow: "0 4px 20px rgba(37,99,235,0.3)",
+                    boxShadow: "none",
                   }}>
                   <Download className="w-4 h-4" />
                   DOWNLOAD QRIS
@@ -2925,9 +2925,7 @@ export default function AstuteApp() {
             ? "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)"
             : "#0e1428",
           border: "1px solid " + (musicPlaying ? "rgba(37,99,235,0.3)" : "rgba(37,99,235,0.08)"),
-          boxShadow: musicPlaying
-            ? "0 0 20px rgba(37,99,235,0.35), 0 4px 16px rgba(0,0,0,0.5)"
-            : "0 4px 16px rgba(0,0,0,0.4)",
+          boxShadow: "none",
           animation: musicPlaying ? "music-pulse 2s ease-in-out infinite" : "none",
           transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
         }}
