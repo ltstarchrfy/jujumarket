@@ -1074,12 +1074,14 @@ export default function AstuteApp() {
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
   const [downloadCount, setDownloadCount] = useState(() => {
-    // Force reset: start from 2000, clear old stale values
+    // Start from 2000, but keep saved count if exists (never reset on reload)
     const startCount = 2000;
     try {
-      // Always clear old cached value and reset to 2000
-      localStorage.removeItem('astute-download-count');
-      localStorage.setItem('astute-download-count', String(startCount));
+      const saved = localStorage.getItem('astute-download-count');
+      if (saved) {
+        const parsed = parseInt(saved, 10);
+        if (!isNaN(parsed) && parsed >= startCount) return parsed;
+      }
     } catch {}
     return startCount;
   });
@@ -1185,12 +1187,12 @@ export default function AstuteApp() {
     return () => clearInterval(iv);
   }, []);
 
-  // Download counter — real-time auto increment, never stuck, never decreases
+  // Download counter — real-time auto increment, slow & natural, never stuck, never decreases
   useEffect(() => {
-    // Random interval between 1.5-4s for natural feel
+    // Random interval between 5-12 seconds for realistic real-time feel
     let timeoutId: ReturnType<typeof setTimeout>;
     function scheduleNext() {
-      const delay = 1500 + Math.random() * 2500; // 1.5s–4s
+      const delay = 5000 + Math.random() * 7000; // 5s–12s
       timeoutId = setTimeout(() => {
         setDownloadCount((c) => {
           const next = c + 1;
