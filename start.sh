@@ -1,10 +1,5 @@
 #!/bin/bash
-cd /home/z/my-project/.next/standalone
-while true; do
-  PORT=3000 node server.js &
-  SERVER_PID=$!
-  # Keep alive for 10 minutes, then restart
-  sleep 600
-  kill $SERVER_PID 2>/dev/null
-  sleep 2
-done
+cd /home/z/my-project
+fuser -k 3000/tcp 2>/dev/null
+sleep 1
+exec bunx next dev -p 3000 2>&1 | tee /home/z/my-project/dev.log
