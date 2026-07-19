@@ -1073,18 +1073,7 @@ export default function AstuteApp() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
-  const [downloadCount, setDownloadCount] = useState(() => {
-    // Start from 2000, but keep saved count if exists (never reset on reload)
-    const startCount = 2000;
-    try {
-      const saved = localStorage.getItem('astute-download-count');
-      if (saved) {
-        const parsed = parseInt(saved, 10);
-        if (!isNaN(parsed) && parsed >= startCount) return parsed;
-      }
-    } catch {}
-    return startCount;
-  });
+  const [downloadCount, setDownloadCount] = useState(2000);
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -1093,8 +1082,27 @@ export default function AstuteApp() {
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
   const musicAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  // ─── Load persisted download count after hydration ────────────────────────
-  // (handled in useState initializer above — always takes the highest value)
+  // ─── Fetch shared download count from server API ────────────────────────
+  // Count is stored on server, shared across ALL devices — never resets
+  useEffect(() => {
+    let intervalId: ReturnType<typeof setInterval>;
+    async function fetchCount() {
+      try {
+        const res = await fetch('/api/count');
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.count === 'number' && data.count > 0) {
+            setDownloadCount(data.count);
+          }
+        }
+      } catch {}
+    }
+    // Fetch immediately on mount
+    fetchCount();
+    // Then poll every 6 seconds to stay in sync with server auto-increment
+    intervalId = setInterval(fetchCount, 6000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
   const clickAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -1187,36 +1195,17 @@ export default function AstuteApp() {
     return () => clearInterval(iv);
   }, []);
 
-  // Download counter — real-time auto increment, slow & natural, never stuck, never decreases
-  useEffect(() => {
-    // Random interval between 5-12 seconds for realistic real-time feel
-    let timeoutId: ReturnType<typeof setTimeout>;
-    function scheduleNext() {
-      const delay = 5000 + Math.random() * 7000; // 5s–12s
-      timeoutId = setTimeout(() => {
-        setDownloadCount((c) => {
-          const next = c + 1;
-          try { localStorage.setItem('astute-download-count', String(next)); } catch {}
-          return next;
-        });
-        scheduleNext(); // schedule next increment
-      }, delay);
-    }
-    scheduleNext();
-    return () => clearTimeout(timeoutId);
-  }, []);
+  // Download counter — auto-increment is handled by server API (time-based)
+  // Client just polls /api/count every 6s — no more localStorage
 
-  // Page navigation - smooth, +1 counter when visiting ASTUTE OB54 download page
+  // Page navigation - smooth, +1 counter via API when visiting ASTUTE OB54 download page
   const goPage = useCallback((name: PageName) => {
     playClickSound();
     setCurrentPage(name);
-    // Auto +1 when someone enters the download/ASTUTE OB54 page
+    // Auto +1 via API when someone enters the download/ASTUTE OB54 page
     if (name === "download") {
-      setDownloadCount((c) => {
-        const next = c + 1;
-        try { localStorage.setItem('astute-download-count', String(next)); } catch {}
-        return next;
-      });
+      fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add: 1 }) }).catch(() => {});
+      setDownloadCount((c) => c + 1);
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [playClickSound]);
@@ -1231,11 +1220,8 @@ export default function AstuteApp() {
 
   const handleDownload = useCallback((name: string) => {
     showToast(`Preparing: ${name}...`);
-    setDownloadCount((c) => {
-      const next = c + 3;
-      try { localStorage.setItem('astute-download-count', String(next)); } catch {}
-      return next;
-    });
+    setDownloadCount((c) => c + 3);
+    fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add: 3 }) }).catch(() => {});
   }, [showToast]);
 
   const togglePanel = useCallback(() => {
@@ -1256,13 +1242,10 @@ export default function AstuteApp() {
 
   const formattedCount = downloadCount.toLocaleString("en-US");
 
-  // Increment download count when any download link or FF ASTUTE box is clicked
+  // Increment download count via API when any download link is clicked
   const bumpDownload = useCallback(() => {
-    setDownloadCount(prev => {
-      const next = prev + 1;
-      try { localStorage.setItem('astute-download-count', String(next)); } catch {}
-      return next;
-    });
+    setDownloadCount(prev => prev + 1);
+    fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add: 1 }) }).catch(() => {});
   }, []);
 
   const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
