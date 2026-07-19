@@ -1074,14 +1074,12 @@ export default function AstuteApp() {
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
   const [downloadCount, setDownloadCount] = useState(() => {
-    // Start from 2000, always grows, never stuck
+    // Force reset: start from 2000, clear old stale values
     const startCount = 2000;
     try {
-      const saved = localStorage.getItem('astute-download-count');
-      if (saved) {
-        const parsed = parseInt(saved, 10);
-        if (!isNaN(parsed) && parsed > startCount) return parsed;
-      }
+      // Always clear old cached value and reset to 2000
+      localStorage.removeItem('astute-download-count');
+      localStorage.setItem('astute-download-count', String(startCount));
     } catch {}
     return startCount;
   });
