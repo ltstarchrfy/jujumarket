@@ -2215,65 +2215,139 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Pilih Paket VIP</span>
             </div>
 
-            {/* VIP 1 Day */}
-            <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden cursor-pointer active:scale-[0.98]"
-              onClick={() => goPage("changelog")}
-              style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.15)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8)", opacity: 0.4 }} />
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-[16px] font-black" style={{ color: "#60a5fa" }}>VIP PERHARI</div>
-                  <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 24 jam</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-[24px] font-black" style={{ color: "#60a5fa" }}>10K</div>
-                  <div className="text-[10px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                </div>
-              </div>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-[11px] font-bold" style={{ color: "#60a5fa" }}>FITUR →</span>
-              </div>
-            </div>
-
-            {/* VIP 1 Week */}
-            <div className="rounded-2xl p-5 border mb-3 relative overflow-hidden cursor-pointer active:scale-[0.98]"
-              onClick={() => goPage("changelog")}
-              style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+            {/* ═══ VIP BIASA ═══ */}
+            <div className="rounded-2xl p-4 border mb-3 relative overflow-hidden"
+              style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.18)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)", opacity: 0.6 }} />
-              <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)", color: "#fff" }}>POPULER</div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-[16px] font-black" style={{ color: "#60a5fa" }}>VIP PERMINGGU</div>
-                  <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 1 minggu</div>
+              <div className="text-[15px] font-black mb-1" style={{ color: "#60a5fa" }}>VIP BIASA</div>
+              <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>NO FITUR GIFT</div>
+
+              <div className="flex flex-col gap-2">
+                {/* PERHARI */}
+                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
+                  onClick={() => goPage("qris")}
+                  style={{ background: "rgba(37,99,235,0.08)", transition: "all 0.3s" }}>
+                  <div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERHARI</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>29K</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-[24px] font-black" style={{ color: "#60a5fa" }}>70K</div>
-                  <div className="text-[10px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+
+                {/* PERMINGGU */}
+                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98] relative"
+                  onClick={() => goPage("qris")}
+                  style={{ background: "rgba(37,99,235,0.12)", transition: "all 0.3s" }}>
+                  <div className="absolute top-1 right-1 px-1.5 py-[1px] rounded-full text-[7px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)", color: "#fff" }}>POPULER</div>
+                  <div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERMINGGU</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>115K</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-[11px] font-bold" style={{ color: "#60a5fa" }}>FITUR →</span>
+
+                {/* PERBULAN */}
+                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
+                  onClick={() => goPage("qris")}
+                  style={{ background: "rgba(37,99,235,0.08)", transition: "all 0.3s" }}>
+                  <div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERBULAN</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>450K</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* VIP 1 Month */}
-            <div className="rounded-2xl p-5 border relative overflow-hidden cursor-pointer active:scale-[0.98]"
-              onClick={() => goPage("changelog")}
+            {/* ═══ VIP HIGH ═══ */}
+            <div className="rounded-2xl p-4 border mb-3 relative overflow-hidden"
               style={{ background: "linear-gradient(135deg, rgba(30,58,95,0.12), rgba(29,78,216,0.06))", borderColor: "rgba(37,99,235,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)" }} />
-              <div className="absolute top-3 right-3 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1d4ed8, #60a5fa)", color: "#fff" }}>BEST VALUE</div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-[16px] font-black" style={{ color: "#60a5fa" }}>VIP PERBULAN</div>
-                  <div className="text-[11px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Akses fitur premium selama 1 bulan</div>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1d4ed8, #60a5fa, #a78bfa)" }} />
+              <div className="absolute top-2 right-2 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1d4ed8, #60a5fa)", color: "#fff" }}>BEST VALUE</div>
+              <div className="text-[15px] font-black mb-1" style={{ color: "#60a5fa" }}>VIP HIGH</div>
+              <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>AKSES GIFT BUNDLE BEST VALUE</div>
+
+              <div className="flex flex-col gap-2">
+                {/* PERMINGGU */}
+                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
+                  onClick={() => goPage("qris")}
+                  style={{ background: "rgba(37,99,235,0.08)", transition: "all 0.3s" }}>
+                  <div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERMINGGU</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>200K</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-[24px] font-black" style={{ color: "#60a5fa" }}>300K</div>
-                  <div className="text-[10px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+
+                {/* PERBULAN */}
+                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
+                  onClick={() => goPage("qris")}
+                  style={{ background: "rgba(37,99,235,0.12)", transition: "all 0.3s" }}>
+                  <div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERBULAN</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>755K</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  </div>
+                </div>
+
+                {/* DOBBLE BULAN */}
+                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
+                  onClick={() => goPage("qris")}
+                  style={{ background: "linear-gradient(135deg, rgba(29,78,216,0.12), rgba(96,165,250,0.06))", transition: "all 0.3s" }}>
+                  <div>
+                    <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>DOBBLE BULAN</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>1.250K</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  </div>
                 </div>
               </div>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-[11px] font-bold" style={{ color: "#60a5fa" }}>FITUR →</span>
+            </div>
+
+            {/* ═══ ONLY AKTIF GIFT ═══ */}
+            <div className="rounded-2xl p-4 border relative overflow-hidden"
+              style={{ background: "var(--ast-bg2)", borderColor: "rgba(139,92,246,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #7c3aed, #a78bfa, #c4b5fd)" }} />
+              <div className="text-[15px] font-black mb-1" style={{ color: "#a78bfa" }}>ONLY AKTIF GIFT</div>
+              <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>Akses gift tanpa VIP lainnya</div>
+
+              <div className="flex flex-col gap-2">
+                {/* 7 HARI */}
+                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
+                  onClick={() => goPage("qris")}
+                  style={{ background: "rgba(139,92,246,0.08)", transition: "all 0.3s" }}>
+                  <div>
+                    <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>7 HARI</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[18px] font-black" style={{ color: "#a78bfa" }}>145K</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  </div>
+                </div>
+
+                {/* 30 HARI */}
+                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
+                  onClick={() => goPage("qris")}
+                  style={{ background: "rgba(139,92,246,0.12)", transition: "all 0.3s" }}>
+                  <div>
+                    <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>30 HARI</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[18px] font-black" style={{ color: "#a78bfa" }}>360K</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  </div>
+                </div>
               </div>
             </div>
           </Reveal>
