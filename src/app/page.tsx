@@ -2942,3 +2942,4 @@ export default function AstuteApp() {
     </div>
   );
 }
+
