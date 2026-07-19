@@ -1,8 +1,8 @@
 #!/bin/bash
+cd /home/z/my-project
 while true; do
-  if ! curl -s -o /dev/null http://localhost:3000 2>/dev/null; then
-    cd /home/z/my-project && npx next dev -p 3000 >> /tmp/nx.log 2>&1 &
-    sleep 8
-  fi
-  sleep 5
+  echo "[$(date)] Starting Next.js dev server..."
+  npx next dev -p 3000 -H 0.0.0.0 2>&1
+  echo "[$(date)] Server exited, restarting in 3s..."
+  sleep 3
 done
