@@ -1073,7 +1073,21 @@ export default function AstuteApp() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
-  const [downloadCount, setDownloadCount] = useState(1300);
+  const [downloadCount, setDownloadCount] = useState(() => {
+    // Base count derived from timestamp — always grows, never stuck
+    const now = Date.now();
+    const baseFromTime = Math.floor(now / 4000); // ~+1 every 4 seconds since epoch
+    const savedBase = Math.floor(1700000000000 / 4000); // anchor point (Nov 2023)
+    const baseCount = 1300 + (baseFromTime - savedBase);
+    try {
+      const saved = localStorage.getItem('astute-download-count');
+      if (saved) {
+        const parsed = parseInt(saved, 10);
+        if (!isNaN(parsed) && parsed > baseCount) return parsed;
+      }
+    } catch {}
+    return baseCount;
+  });
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -1083,17 +1097,7 @@ export default function AstuteApp() {
   const musicAudioRef = useRef<HTMLAudioElement | null>(null);
 
   // ─── Load persisted download count after hydration ────────────────────────
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('astute-download-count');
-      if (saved) {
-        const parsed = parseInt(saved, 10);
-        if (!isNaN(parsed) && parsed > 1300) {
-          setDownloadCount(parsed);
-        }
-      }
-    } catch {}
-  }, []);
+  // (handled in useState initializer above — always takes the highest value)
 
   // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
   const clickAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -1186,22 +1190,37 @@ export default function AstuteApp() {
     return () => clearInterval(iv);
   }, []);
 
-  // Download counter — auto increment every 1-2 seconds (real-time, persists)
+  // Download counter — real-time auto increment, never stuck, never decreases
   useEffect(() => {
-    const iv = setInterval(() => {
-      setDownloadCount((c) => {
-        const next = c + 1;
-        if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
-        return next;
-      });
-    }, 1500);
-    return () => clearInterval(iv);
+    // Random interval between 1.5-4s for natural feel
+    let timeoutId: ReturnType<typeof setTimeout>;
+    function scheduleNext() {
+      const delay = 1500 + Math.random() * 2500; // 1.5s–4s
+      timeoutId = setTimeout(() => {
+        setDownloadCount((c) => {
+          const next = c + 1;
+          try { localStorage.setItem('astute-download-count', String(next)); } catch {}
+          return next;
+        });
+        scheduleNext(); // schedule next increment
+      }, delay);
+    }
+    scheduleNext();
+    return () => clearTimeout(timeoutId);
   }, []);
 
-  // Page navigation - smooth
+  // Page navigation - smooth, +1 counter when visiting ASTUTE OB54 download page
   const goPage = useCallback((name: PageName) => {
     playClickSound();
     setCurrentPage(name);
+    // Auto +1 when someone enters the download/ASTUTE OB54 page
+    if (name === "download") {
+      setDownloadCount((c) => {
+        const next = c + 1;
+        try { localStorage.setItem('astute-download-count', String(next)); } catch {}
+        return next;
+      });
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [playClickSound]);
 
@@ -1216,8 +1235,8 @@ export default function AstuteApp() {
   const handleDownload = useCallback((name: string) => {
     showToast(`Preparing: ${name}...`);
     setDownloadCount((c) => {
-      const next = c + 5;
-      if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
+      const next = c + 3;
+      try { localStorage.setItem('astute-download-count', String(next)); } catch {}
       return next;
     });
   }, [showToast]);
@@ -1243,8 +1262,8 @@ export default function AstuteApp() {
   // Increment download count when any download link or FF ASTUTE box is clicked
   const bumpDownload = useCallback(() => {
     setDownloadCount(prev => {
-      const next = prev + 3;
-      if (typeof window !== 'undefined') localStorage.setItem('astute-download-count', String(next));
+      const next = prev + 1;
+      try { localStorage.setItem('astute-download-count', String(next)); } catch {}
       return next;
     });
   }, []);
