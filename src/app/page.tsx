@@ -2163,9 +2163,45 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Video Tutorial</span>
             </div>
             <LinkBox
-              title="TUTORIAL FULL STUP PROXY"
-              url="https://vt.tiktok.com/ZSmQPyen2/"
+              title="TUTORIAL FULL SETUP PROXY"
+              url="https://vt.tiktok.com/ZSXHW1BSL/"
               desc="Panduan setup proxy dari awal sampai connect"
+              icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="CARA SETTING VAULT DI ASTUTE"
+              url="https://vt.tiktok.com/ZSXHWHGKN/"
+              desc="Tutorial setting vault di ASTUTE"
+              icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="TUTORIAL VERIF EASY"
+              url="https://vt.tiktok.com/ZSXHWHSHN/"
+              desc="Tutorial verifikasi easy yang work"
+              icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="CARA MAIN RANK DI FF ASTUTE"
+              url="https://vt.tiktok.com/ZSXHW57jY/"
+              desc="Panduan main rank di FF ASTUTE"
+              icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="CARA NGEDAMAGE DI FF ASTUTE"
+              url="https://vt.tiktok.com/ZSXHWYqHy/"
+              desc="Tutorial damage di FF ASTUTE"
+              icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="CARA PAKE SKILL FF ASTUTE"
+              url="https://vt.tiktok.com/ZSXHWodF8/"
+              desc="Cara menggunakan skill di FF ASTUTE"
+              icon={<PlayCircle className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="CARA MATIIN SAFE MODE"
+              url="https://vt.tiktok.com/ZSXH7JpoL/"
+              desc="Tutorial mematikan safe mode"
               icon={<PlayCircle className="w-5 h-5 text-white" />}
             />
             <LinkBox
