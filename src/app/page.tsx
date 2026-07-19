@@ -337,14 +337,14 @@ function DownloadBar({ count, max }: { count: number; max: number }) {
         {max > 0 ? (
           <div className="h-full" style={{
             width: `${pct}%`,
-            background: "linear-gradient(90deg, #16a34a, #22c55e, #4ade80)",
+            background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
             boxShadow: "0 0 8px rgba(34,197,94,0.4)",
             transition: "width 0.8s cubic-bezier(0.16,1,0.3,1)",
           }} />
         ) : (
           <div className="h-full" style={{
             width: "100%",
-            background: "linear-gradient(90deg, #16a34a, #22c55e, #4ade80, #22c55e, #16a34a)",
+            background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd, #60a5fa, #1d4ed8)",
             backgroundSize: "200% 100%",
             animation: "shimmer-bar 2s linear infinite",
           }} />
@@ -511,7 +511,7 @@ function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, 
   };
 
   const gradientStyle: React.CSSProperties = {
-    background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     backgroundClip: "text",
@@ -603,7 +603,7 @@ function LinkBox({ title, url, desc, icon, onLinkClick }: {
     >
       <div className="w-[40px] h-[40px] rounded-xl flex items-center justify-center shrink-0"
         style={{
-          background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+          background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
           boxShadow: "0 2px 12px rgba(37,99,235,0.25)",
           transition: "box-shadow 0.4s cubic-bezier(0.16,1,0.3,1)",
         }}>
@@ -631,7 +631,7 @@ function DownloadButton({ theme, icon, text, onClick, style }: {
     purple: { background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 6px 24px rgba(168,85,247,0.2)" },
     amber: { background: "linear-gradient(135deg,#92400e,#f59e0b)", boxShadow: "0 6px 24px rgba(245,158,11,0.2)" },
     red: { background: "linear-gradient(135deg,#991b1b,#ef4444)", boxShadow: "0 6px 24px rgba(239,68,68,0.2)" },
-    seller: { background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)", boxShadow: "0 6px 24px rgba(37,99,235,0.3)" },
+    seller: { background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)", boxShadow: "0 6px 24px rgba(37,99,235,0.45)" },
   };
 
   return (
@@ -723,7 +723,7 @@ function VipFeatureBox({ theme = "blue" }: { theme?: string }) {
               <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{
                 background: theme === "amber"
                   ? "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)"
-                  : "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                  : "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                 boxShadow: `0 2px 8px ${theme === "amber" ? "rgba(245,158,11,0.25)" : "rgba(37,99,235,0.25)"}`,
               }}>
                 {cat.icon}
@@ -773,7 +773,7 @@ function FeatureCarousel({ items, theme = "blue" }: {
     blue: {
       boxGradient: "linear-gradient(135deg, rgba(37,99,235,0.10) 0%, rgba(37,99,235,0.02) 60%, var(--ast-bg2) 100%)",
       boxShadow: "0 4px 24px rgba(37,99,235,0.12), 0 1px 3px rgba(0,0,0,0.3)",
-      chipGradient: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+      chipGradient: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
       chipShadow: "0 2px 10px rgba(37,99,235,0.30)",
       accent: "var(--ast-blue-l)",
       indicatorActive: "var(--ast-blue-l)",
@@ -1366,19 +1366,19 @@ export default function AstuteApp() {
       {/* ─── Background Effects ──────────────────────────────────── */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0" style={{
-          backgroundImage: "linear-gradient(rgba(37,99,235,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.02) 1px,transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(37,99,235,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.05) 1px,transparent 1px)",
           backgroundSize: "44px 44px",
         }} />
         <div className="absolute rounded-full" style={{
           width: 500, height: 500,
-          background: "radial-gradient(circle,rgba(29,78,216,0.1),transparent 65%)",
+          background: "radial-gradient(circle,rgba(29,78,216,0.18),transparent 65%)",
           top: "-25%", left: "50%", transform: "translateX(-50%)",
           filter: "blur(140px)", opacity: 0.4,
           animation: "orb-float 28s ease-in-out infinite",
         }} />
         <div className="absolute rounded-full" style={{
           width: 300, height: 300,
-          background: "radial-gradient(circle,rgba(34,211,238,0.04),transparent 65%)",
+          background: "radial-gradient(circle,rgba(34,211,238,0.08),transparent 65%)",
           bottom: "5%", right: "-5%",
           filter: "blur(140px)", opacity: 0.4,
           animation: "orb-float 22s ease-in-out infinite reverse",
@@ -1407,12 +1407,12 @@ export default function AstuteApp() {
           <div className="flex flex-col">
             <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "var(--ast-gray)", lineHeight: 1.2 }}>JUJU</span>
             <span className="text-[16px] font-extrabold tracking-wide" style={{
-              background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+              background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
               textShadow: "none",
-              filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
+              filter: "drop-shadow(0 0 12px rgba(37,99,235,0.6))",
               lineHeight: 1.2,
             }}>SELLER</span>
           </div>
@@ -1633,20 +1633,20 @@ export default function AstuteApp() {
                 </div>
               </div>
               <h1 className="text-[26px] font-extrabold tracking-tight mb-1">
-                JUJU <span style={{
-                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                <span style={{
+                  background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
-                  filter: "drop-shadow(0 0 10px rgba(37,99,235,0.4))",
-                }}>SELLER</span>
+                  filter: "drop-shadow(0 0 14px rgba(37,99,235,0.6))",
+                }}>JUJU SELLER</span>
               </h1>
               <div className="font-mono text-xs font-bold tracking-wider inline-block mb-2" style={{
-                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.35))",
+                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
               }}>ASTUTE OB54</div>
               <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Cara download, install, dan setup proxy server free terbaru — work 100%
@@ -1760,16 +1760,22 @@ export default function AstuteApp() {
               }}
               onClick={() => goPage("vip")}>
               {/* Top gradient line */}
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)" }} />
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
               
               <div className="p-5 relative z-[1]">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)", boxShadow: "0 4px 16px rgba(37,99,235,0.3)" }}>
+                    style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)", boxShadow: "0 4px 16px rgba(37,99,235,0.3)" }}>
                     <Crown className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="text-[14px] font-extrabold" style={{ color: "#60a5fa" }}>UPGRADE TO VIP</div>
+                    <div className="text-[14px] font-extrabold" style={{
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.5))",
+                    }}>UPGRADE TO VIP</div>
                     <div className="text-[10px]" style={{ color: "var(--ast-gray)" }}>Buka semua fitur premium sekarang</div>
                   </div>
                   <div className="px-2 py-1 rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1d4ed8, #60a5fa)", color: "#fff" }}>NEW</div>
@@ -1784,10 +1790,21 @@ export default function AstuteApp() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] line-through" style={{ color: "var(--ast-gray)" }}>500K</span>
-                    <span className="text-[18px] font-black" style={{ color: "#60a5fa" }}>300K</span>
+                    <span className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                    }}>300K</span>
                     <span className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</span>
                   </div>
-                  <div className="flex items-center gap-1 text-[10px] font-bold" style={{ color: "#60a5fa" }}>
+                  <div className="flex items-center gap-1 text-[10px] font-bold" style={{
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}>
                     Mulai <Crown className="w-3 h-3" />
                   </div>
                 </div>
@@ -1845,7 +1862,14 @@ export default function AstuteApp() {
             </div>
             <div className="text-center pt-2">
               <div className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>
-                © 2026 <span style={{ color: "var(--ast-blue-l)", fontWeight: 600 }}>JUJU.MY.ID</span>
+                © 2026 <span style={{
+                  background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  fontWeight: 700,
+                  filter: "drop-shadow(0 0 4px rgba(37,99,235,0.4))",
+                }}>JUJU.MY.ID</span>
               </div>
             </div>
           </Reveal>
@@ -1866,11 +1890,11 @@ export default function AstuteApp() {
                 <Flame className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
               <h2 className="text-[22px] font-extrabold mb-1.5" style={{
-                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
+                filter: "drop-shadow(0 0 14px rgba(37,99,235,0.6))",
               }}>ASTUTE OB54</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
@@ -1941,7 +1965,13 @@ export default function AstuteApp() {
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <Settings className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">PANEL <span style={{ color: "var(--ast-cyan)" }}>ASTUTE</span></h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5"><span style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+              }}>PANEL ASTUTE</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Control panel untuk konfigurasi server, proxy, dan manage fitur mod
               </p>
@@ -1989,7 +2019,13 @@ export default function AstuteApp() {
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <ShieldCheck className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">VERIF <span style={{ color: "var(--ast-green)" }}>MANUAL</span></h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5"><span style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+              }}>VERIF MANUAL</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Tool bypass verifikasi untuk mengaktifkan fitur premium tanpa limit
               </p>
@@ -2037,7 +2073,13 @@ export default function AstuteApp() {
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <DiscordIcon className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">DISCORD <span style={{ color: "var(--ast-purple)" }}>SERVER</span></h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5"><span style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+              }}>DISCORD SERVER</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Join komunitas ASTUTE — dapatkan bantuan, info update, dan diskusi sesama player
               </p>
@@ -2081,7 +2123,13 @@ export default function AstuteApp() {
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <PlayCircle className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">VIDEO <span style={{ color: "var(--ast-amber)" }}>TUTORIAL</span></h2>
+              <h2 className="text-[22px] font-extrabold mb-1.5"><span style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+              }}>VIDEO TUTORIAL</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Panduan lengkap dari install sampai main — ikutin aja step by step
               </p>
@@ -2141,12 +2189,13 @@ export default function AstuteApp() {
               <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
                 <ShieldCheck className="w-[60px] h-[60px] text-white opacity-90" />
               </div>
-              <h2 className="text-[22px] font-extrabold mb-1.5">FITUR VIP <span style={{
-                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+              <h2 className="text-[22px] font-extrabold mb-1.5"><span style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-              }}>ACCESS ASTUTE</span></h2>
+                filter: "drop-shadow(0 0 12px rgba(37,99,235,0.5))",
+              }}>FITUR VIP ACCESS ASTUTE</span></h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Semua fitur premium yang kamu dapatkan sebagai VIP ACCESS di ASTUTE
               </p>
@@ -2182,17 +2231,17 @@ export default function AstuteApp() {
             <div className="text-center mb-6 relative">
               <div className="relative inline-flex items-center justify-center mb-5 w-[80px] h-[80px] rounded-full"
                 style={{
-                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                  background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                   boxShadow: "none",
                 }}>
                 <Crown className="w-[44px] h-[44px] text-white" />
               </div>
               <h2 className="text-[24px] font-extrabold mb-2" style={{
-                background: "linear-gradient(135deg, #60a5fa, #1d4ed8, #1e3a5f)",
+                background: "linear-gradient(135deg, #93c5fd, #60a5fa, #1d4ed8, #0c2d5a)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "none",
+                filter: "drop-shadow(0 0 14px rgba(37,99,235,0.6))",
               }}>PEMBELIAN VIP</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Upgrade akun kamu ke VIP dan buka semua fitur premium ASTUTE. Pengalaman bermain yang lebih seru dan lengkap!
@@ -2218,8 +2267,14 @@ export default function AstuteApp() {
             {/* ═══ VIP BIASA ═══ */}
             <div className="rounded-2xl p-4 border mb-3 relative overflow-hidden"
               style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.18)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)", opacity: 0.6 }} />
-              <div className="text-[15px] font-black mb-1" style={{ color: "#60a5fa" }}>VIP BIASA</div>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)", opacity: 0.8 }} />
+              <div className="text-[15px] font-black mb-1" style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.5))",
+              }}>VIP BIASA</div>
               <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>NO FITUR GIFT</div>
 
               <div className="flex flex-col gap-2">
@@ -2231,7 +2286,13 @@ export default function AstuteApp() {
                     <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERHARI</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>29K</div>
+                    <div className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                    }}>29K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2240,12 +2301,18 @@ export default function AstuteApp() {
                 <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98] relative"
                   onClick={() => goPage("qris")}
                   style={{ background: "rgba(37,99,235,0.12)", transition: "all 0.3s" }}>
-                  <div className="absolute top-1 right-1 px-1.5 py-[1px] rounded-full text-[7px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)", color: "#fff" }}>POPULER</div>
+                  <div className="absolute top-1 right-1 px-1.5 py-[1px] rounded-full text-[7px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)", color: "#fff" }}>POPULER</div>
                   <div>
                     <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERMINGGU</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>115K</div>
+                    <div className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                    }}>115K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2258,7 +2325,13 @@ export default function AstuteApp() {
                     <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERBULAN</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>450K</div>
+                    <div className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                    }}>450K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2270,7 +2343,13 @@ export default function AstuteApp() {
               style={{ background: "linear-gradient(135deg, rgba(30,58,95,0.12), rgba(29,78,216,0.06))", borderColor: "rgba(37,99,235,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1d4ed8, #60a5fa, #a78bfa)" }} />
               <div className="absolute top-2 right-2 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1d4ed8, #60a5fa)", color: "#fff" }}>BEST VALUE</div>
-              <div className="text-[15px] font-black mb-1" style={{ color: "#60a5fa" }}>VIP HIGH</div>
+              <div className="text-[15px] font-black mb-1" style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.5))",
+              }}>VIP HIGH</div>
               <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>AKSES GIFT BUNDLE BEST VALUE</div>
 
               <div className="flex flex-col gap-2">
@@ -2282,7 +2361,13 @@ export default function AstuteApp() {
                     <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERMINGGU</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>200K</div>
+                    <div className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                    }}>200K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2295,7 +2380,13 @@ export default function AstuteApp() {
                     <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>PERBULAN</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>755K</div>
+                    <div className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                    }}>755K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2308,7 +2399,13 @@ export default function AstuteApp() {
                     <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>DOBBLE BULAN</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[18px] font-black" style={{ color: "#60a5fa" }}>1.250K</div>
+                    <div className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(37,99,235,0.4))",
+                    }}>1.250K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2319,7 +2416,13 @@ export default function AstuteApp() {
             <div className="rounded-2xl p-4 border relative overflow-hidden"
               style={{ background: "var(--ast-bg2)", borderColor: "rgba(139,92,246,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #7c3aed, #a78bfa, #c4b5fd)" }} />
-              <div className="text-[15px] font-black mb-1" style={{ color: "#a78bfa" }}>ONLY AKTIF GIFT</div>
+              <div className="text-[15px] font-black mb-1" style={{
+                background: "linear-gradient(135deg, #5b21b6, #7c3aed, #a78bfa, #c4b5fd)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 8px rgba(139,92,246,0.5))",
+              }}>ONLY AKTIF GIFT</div>
               <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>Akses gift tanpa VIP lainnya</div>
 
               <div className="flex flex-col gap-2">
@@ -2331,7 +2434,13 @@ export default function AstuteApp() {
                     <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>7 HARI</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[18px] font-black" style={{ color: "#a78bfa" }}>145K</div>
+                    <div className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #5b21b6, #7c3aed, #a78bfa, #c4b5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(139,92,246,0.4))",
+                    }}>145K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2344,7 +2453,13 @@ export default function AstuteApp() {
                     <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>30 HARI</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[18px] font-black" style={{ color: "#a78bfa" }}>360K</div>
+                    <div className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #5b21b6, #7c3aed, #a78bfa, #c4b5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "drop-shadow(0 0 6px rgba(139,92,246,0.4))",
+                    }}>360K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2362,11 +2477,22 @@ export default function AstuteApp() {
               onClick={() => goPage("changelog")}
               className="w-full rounded-2xl p-5 border relative overflow-hidden cursor-pointer active:scale-[0.98]"
               style={{ background: "linear-gradient(135deg, rgba(30,58,95,0.12), rgba(29,78,216,0.06))", borderColor: "rgba(37,99,235,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)" }} />
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
               <div className="flex items-center justify-center gap-3">
                 <Crown className="w-5 h-5" style={{ color: "#60a5fa" }} />
-                <span className="text-[16px] font-black" style={{ color: "#60a5fa" }}>LIHAT KEUNTUNGAN VIP</span>
-                <span className="text-[14px] font-bold" style={{ color: "#60a5fa" }}>→</span>
+                <span className="text-[16px] font-black" style={{
+                  background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  filter: "drop-shadow(0 0 8px rgba(37,99,235,0.5))",
+                }}>LIHAT KEUNTUNGAN VIP</span>
+                <span className="text-[14px] font-bold" style={{
+                  background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}>→</span>
               </div>
               <div className="text-center mt-2">
                 <span className="text-[11px]" style={{ color: "var(--ast-gray)" }}>Klik untuk melihat semua fitur & keuntungan VIP</span>
@@ -2378,15 +2504,31 @@ export default function AstuteApp() {
           <Reveal delay={240}>
             <div className="mt-6 grid grid-cols-3 gap-3">
               <div className="rounded-xl p-3 text-center border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
-                <div className="text-[18px] font-extrabold" style={{ color: "#60a5fa" }}>2K+</div>
+                <div className="text-[18px] font-extrabold" style={{
+                  background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  filter: "drop-shadow(0 0 6px rgba(37,99,235,0.5))",
+                }}>2K+</div>
                 <div className="text-[9px] font-semibold mt-0.5" style={{ color: "var(--ast-gray)" }}>VIP User</div>
               </div>
               <div className="rounded-xl p-3 text-center border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
-                <div className="text-[18px] font-extrabold" style={{ color: "var(--ast-green)" }}>99.9%</div>
+                <div className="text-[18px] font-extrabold" style={{
+                  background: "linear-gradient(135deg, #15803d, #22c55e, #4ade80)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}>99.9%</div>
                 <div className="text-[9px] font-semibold mt-0.5" style={{ color: "var(--ast-gray)" }}>Uptime</div>
               </div>
               <div className="rounded-xl p-3 text-center border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
-                <div className="text-[18px] font-extrabold" style={{ color: "var(--ast-cyan)" }}>24/7</div>
+                <div className="text-[18px] font-extrabold" style={{
+                  background: "linear-gradient(135deg, #0e7490, #22d3ee, #67e8f9)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}>24/7</div>
                 <div className="text-[9px] font-semibold mt-0.5" style={{ color: "var(--ast-gray)" }}>Support</div>
               </div>
             </div>
@@ -2399,7 +2541,7 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Cara Pembelian</span>
             </div>
             <div className="rounded-2xl p-5 border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)", opacity: 0.3 }} />
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)", opacity: 0.5 }} />
               <div className="flex flex-col gap-4">
                 {[
                   { step: "01", text: "Pilih paket VIP yang kamu inginkan di atas" },
@@ -2409,7 +2551,7 @@ export default function AstuteApp() {
                 ].map((s) => (
                   <div key={s.step} className="flex items-start gap-3">
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-[11px] font-extrabold" style={{
-                      background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)",
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)",
                       color: "#fff",
                       boxShadow: "none",
                     }}>{s.step}</div>
@@ -2429,8 +2571,8 @@ export default function AstuteApp() {
               onClick={() => goPage("qris")}
               className="w-full rounded-2xl p-4 border relative overflow-hidden cursor-pointer active:scale-[0.98] flex items-center gap-4"
               style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)", opacity: 0.5 }} />
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)", opacity: 0.5 }} />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)" }}>
                 <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="7" height="7" rx="1" />
                   <rect x="14" y="3" width="7" height="7" rx="1" />
@@ -2442,10 +2584,20 @@ export default function AstuteApp() {
                 </svg>
               </div>
               <div className="flex-1 text-left">
-                <div className="text-[14px] font-bold" style={{ color: "#60a5fa" }}>QRIS</div>
+                <div className="text-[14px] font-bold" style={{
+                  background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}>QRIS</div>
                 <div className="text-[10px] mt-0.5" style={{ color: "var(--ast-gray)" }}>Scan QR code untuk pembayaran</div>
               </div>
-              <span className="text-[12px] font-bold" style={{ color: "#60a5fa" }}>→</span>
+              <span className="text-[12px] font-bold" style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}>→</span>
             </button>
           </Reveal>
 
@@ -2515,7 +2667,7 @@ export default function AstuteApp() {
                 style={{ background: "radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)", filter: "blur(12px)" }} />
               <div className="relative inline-flex items-center justify-center mb-4 w-[72px] h-[72px] rounded-full"
                 style={{
-                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                  background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                   boxShadow: "0 0 30px rgba(37,99,235,0.3), 0 0 60px rgba(37,99,235,0.1)",
                 }}>
                 <svg className="w-[38px] h-[38px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -2528,7 +2680,13 @@ export default function AstuteApp() {
                   <line x1="17" y1="18" x2="17.01" y2="18" />
                 </svg>
               </div>
-              <h2 className="text-[22px] font-black" style={{ color: "#60a5fa" }}>PEMBAYARAN QRIS</h2>
+              <h2 className="text-[22px] font-black" style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 14px rgba(37,99,235,0.6))",
+              }}>PEMBAYARAN QRIS</h2>
               <p className="text-[12px] mt-2 leading-relaxed" style={{ color: "var(--ast-gray)" }}>
                 Scan QR code di bawah menggunakan aplikasi e-wallet<br />atau mobile banking untuk melakukan pembayaran
               </p>
@@ -2538,11 +2696,11 @@ export default function AstuteApp() {
           {/* ─── QRIS Image Card ─── */}
           <Reveal delay={140}>
             <div className="rounded-2xl border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1e3a5f, #1d4ed8, #60a5fa)" }} />
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
               
               {/* QRIS Badge */}
               <div className="flex items-center justify-center gap-2 pt-5 pb-3">
-                <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)", color: "#fff" }}>
+                <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)", color: "#fff" }}>
                   QRIS
                 </div>
                 <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "rgba(37,99,235,0.1)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.2)" }}>
@@ -2575,7 +2733,7 @@ export default function AstuteApp() {
                   }}
                   className="w-full py-3 rounded-xl text-[13px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
                   style={{
-                    background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                     color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
                     boxShadow: "0 4px 20px rgba(37,99,235,0.3)",
@@ -2620,7 +2778,7 @@ export default function AstuteApp() {
                 ].map((s) => (
                   <div key={s.step} className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-extrabold" style={{
-                      background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)",
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)",
                       color: "#fff",
                     }}>{s.step}</div>
                     <span className="text-[11px] leading-relaxed pt-0.5" style={{ color: "var(--ast-gray)" }}>{s.text}</span>
@@ -2698,7 +2856,7 @@ export default function AstuteApp() {
           justifyContent: "center",
           cursor: "pointer",
           background: musicPlaying
-            ? "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)"
+            ? "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)"
             : "#0e1428",
           border: "1px solid " + (musicPlaying ? "rgba(37,99,235,0.3)" : "rgba(37,99,235,0.08)"),
           boxShadow: musicPlaying
