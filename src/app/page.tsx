@@ -2406,7 +2406,7 @@ export default function AstuteApp() {
 
             {/* ═══ VIP HIGH ═══ */}
             <div className="rounded-2xl p-4 border mb-3 relative overflow-hidden"
-              style={{ background: "linear-gradient(135deg, rgba(30,58,95,0.12), rgba(29,78,216,0.06))", borderColor: "rgba(37,99,235,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+              style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.25)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #1d4ed8, #60a5fa, #a78bfa)" }} />
               <div className="absolute top-2 right-2 px-2 py-[2px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #1d4ed8, #60a5fa)", color: "#fff" }}>BEST VALUE</div>
               <div className="text-[15px] font-black mb-1" style={{
