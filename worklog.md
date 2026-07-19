@@ -24,3 +24,25 @@ Stage Summary:
 - Fix: Used init-fullstack.sh to properly start and persist the dev server
 - Preview now works correctly through the Caddy reverse proxy
 - All features (website, API counter, download count) are functional
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix preview still showing file code instead of website (second attempt)
+
+Work Log:
+- Checked dev server - was dead again
+- Restarted using `curl https://z-cdn.chatglm.cn/fullstack/init-fullstack.sh | bash`
+- This properly starts the dev server as a child of tini (PID 1)
+- Verified process has PPID=1, meaning it won't be killed when bash commands exit
+- Used agent-browser to verify website renders correctly (dark theme, ASTUTE branding, stats cards)
+- Fixed download-count.json sync in dev.sh (always copies latest from project root)
+- Ensured static files and public folder are synced in dev.sh
+- Server stable for 5+ minutes with no crashes
+
+Stage Summary:
+- Root cause: dev server process was not running, Caddy proxy had nothing to serve
+- Fix: init-fullstack.sh registers process with tini (PID 1) for persistence
+- Server now properly adopted by init system (PPID=1)
+- Website fully functional: title, API counter, all pages work
+- Auto-restart: running init-fullstack.sh again will restart the server if it dies
