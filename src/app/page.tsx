@@ -1074,19 +1074,16 @@ export default function AstuteApp() {
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
   const [downloadCount, setDownloadCount] = useState(() => {
-    // Base count derived from timestamp — always grows, never stuck
-    const now = Date.now();
-    const baseFromTime = Math.floor(now / 4000); // ~+1 every 4 seconds since epoch
-    const savedBase = Math.floor(1700000000000 / 4000); // anchor point (Nov 2023)
-    const baseCount = 1300 + (baseFromTime - savedBase);
+    // Start from 2000, always grows, never stuck
+    const startCount = 2000;
     try {
       const saved = localStorage.getItem('astute-download-count');
       if (saved) {
         const parsed = parseInt(saved, 10);
-        if (!isNaN(parsed) && parsed > baseCount) return parsed;
+        if (!isNaN(parsed) && parsed > startCount) return parsed;
       }
     } catch {}
-    return baseCount;
+    return startCount;
   });
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
