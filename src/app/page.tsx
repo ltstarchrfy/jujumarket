@@ -2694,13 +2694,6 @@ export default function AstuteApp() {
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
               item="vip-wa-admin1"
             />
-            <LinkBox
-              title="HELPER EJAA (WhatsApp)"
-              url="https://wa.me/628812882145"
-              desc="Chat HELPER EJAA via WhatsApp untuk pembelian VIP"
-              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
-              item="vip-wa-admin4"
-            />
           </Reveal>
 
           {/* ─── Disclaimer ─── */}
@@ -2885,13 +2878,6 @@ export default function AstuteApp() {
               desc="Kirim bukti pembayaran QRIS ke ADMIN RASYA"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
               item="qris-wa-admin1"
-            />
-            <LinkBox
-              title="HELPER EJAA (WhatsApp)"
-              url="https://wa.me/628812882145"
-              desc="Kirim bukti pembayaran QRIS ke HELPER EJAA"
-              icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
-              item="qris-wa-admin4"
             />
             <LinkBox
               title="admin (Telegram)"
