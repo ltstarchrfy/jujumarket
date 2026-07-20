@@ -6,15 +6,13 @@ if [ -f /home/z/my-project/download-count.json ]; then
   cp /home/z/my-project/download-count.json ./
 fi
 
-# Ensure static files exist
-if [ ! -d .next/static ]; then
-  cp -r /home/z/my-project/.next/static .next/ 2>/dev/null
-fi
+# Always sync static files (copy fresh every start)
+rm -rf .next/static
+cp -r /home/z/my-project/.next/static .next/ 2>/dev/null
 
-# Ensure public folder exists
-if [ ! -d public ]; then
-  cp -r /home/z/my-project/public . 2>/dev/null
-fi
+# Always sync public folder (copy fresh every start)
+rm -rf public
+cp -r /home/z/my-project/public . 2>/dev/null
 
 export NODE_ENV=production
 export PORT=3000
