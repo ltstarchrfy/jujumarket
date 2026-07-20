@@ -2775,12 +2775,12 @@ export default function AstuteApp() {
               </div>
 
               {/* QR Code Image */}
-              <div className="flex items-center justify-center px-6 pb-4">
-                <div className="rounded-xl p-3 border" style={{ background: "#ffffff", borderColor: "rgba(37,99,235,0.15)" }}>
+              <div className="flex items-center justify-center px-4 pb-4">
+                <div className="rounded-xl p-4 border" style={{ background: "#ffffff", borderColor: "rgba(37,99,235,0.15)" }}>
                   <img 
                     src="/QRIS.jpeg" 
                     alt="QRIS Payment Code" 
-                    className="w-full max-w-[260px] h-auto block"
+                    className="w-full max-w-[320px] h-auto block"
                     style={{ imageRendering: "crisp-edges" }}
                   />
                 </div>
