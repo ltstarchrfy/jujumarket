@@ -2543,7 +2543,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "none",
-                    }}>145K</div>
+                    }}>430K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2562,7 +2562,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "none",
-                    }}>420K</div>
+                    }}>890K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
