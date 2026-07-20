@@ -17,5 +17,9 @@ cp -r /home/z/my-project/public . 2>/dev/null
 export NODE_ENV=production
 export PORT=3000
 export HOSTNAME=0.0.0.0
+# Optimize Node.js for performance
+export NODE_OPTIONS="--max-old-space-size=384"
+export KEEP_ALIVE_TIMEOUT=65000
+
 echo "[DEV] Starting Next.js server on port 3000..."
 exec node server.js

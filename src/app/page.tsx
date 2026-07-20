@@ -174,35 +174,45 @@ function ParticleCanvas() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     let w = 0, h = 0;
+    let running = true;
+    let lastTime = 0;
+    const TARGET_FPS = 30;
+    const FRAME_INTERVAL = 1000 / TARGET_FPS;
 
     function resize() {
       if (!canvas) return;
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     resize();
     window.addEventListener("resize", resize);
 
     const isMobile = window.innerWidth < 768;
-    const count = isMobile ? 25 : 55;
+    const count = isMobile ? 12 : 22;
 
     function createParticle(init: boolean): Particle {
       return {
         x: Math.random() * w,
         y: init ? Math.random() * h : -20,
-        size: Math.random() * 5 + 2,
-        speedY: Math.random() * 0.8 + 0.3,
-        speedX: Math.random() * 0.4 - 0.2,
+        size: Math.random() * 4 + 1.5,
+        speedY: Math.random() * 0.5 + 0.15,
+        speedX: Math.random() * 0.25 - 0.12,
         rotation: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.02,
-        swayAmp: Math.random() * 0.8 + 0.3,
-        swaySpeed: Math.random() * 0.015 + 0.005,
+        rotSpeed: (Math.random() - 0.5) * 0.012,
+        swayAmp: Math.random() * 0.5 + 0.2,
+        swaySpeed: Math.random() * 0.01 + 0.003,
         swayOffset: Math.random() * Math.PI * 2,
-        alpha: Math.random() * 0.25 + 0.05,
+        alpha: Math.random() * 0.18 + 0.04,
         type: Math.floor(Math.random() * 3),
         color:
           Math.random() < 0.5
@@ -217,39 +227,49 @@ function ParticleCanvas() {
     for (let i = 0; i < count; i++) leaves.push(createParticle(true));
     particlesRef.current = leaves;
 
-    function drawParticle(p: Particle, t: number) {
+    function drawParticle(p: Particle) {
       if (!ctx) return;
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rotation);
       ctx.globalAlpha = p.alpha;
 
       if (p.type === 0) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
         ctx.beginPath();
         ctx.moveTo(0, -p.size);
         ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.5, p.size * 0.8, p.size * 0.5, 0, p.size);
         ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.8, -p.size * 0.5, 0, -p.size);
         ctx.fillStyle = `rgba(${p.color},1)`;
         ctx.fill();
+        ctx.restore();
       } else if (p.type === 1) {
         ctx.beginPath();
-        ctx.arc(0, 0, p.size * 0.5, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size * 0.5, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${p.color},1)`;
         ctx.fill();
       } else {
         const s = p.size * 0.6;
+        const cx = p.x, cy = p.y;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(p.rotation);
         ctx.strokeStyle = `rgba(${p.color},1)`;
         ctx.lineWidth = 0.8;
         ctx.beginPath(); ctx.moveTo(-s, 0); ctx.lineTo(s, 0); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(0, -s); ctx.lineTo(0, s); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(-s * 0.6, -s * 0.6); ctx.lineTo(s * 0.6, s * 0.6); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(s * 0.6, -s * 0.6); ctx.lineTo(-s * 0.6, s * 0.6); ctx.stroke();
+        ctx.restore();
       }
       ctx.globalAlpha = 1;
-      ctx.restore();
     }
 
-    function loop() {
+    function loop(timestamp: number) {
+      if (!running) return;
+      animRef.current = requestAnimationFrame(loop);
+      
+      const delta = timestamp - lastTime;
+      if (delta < FRAME_INTERVAL) return;
+      lastTime = timestamp - (delta % FRAME_INTERVAL);
+      
       if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, w, h);
       timeRef.current++;
@@ -261,19 +281,19 @@ function ParticleCanvas() {
         if (p.y > h + 20) Object.assign(p, createParticle(false));
         if (p.x < -20) p.x = w + 20;
         if (p.x > w + 20) p.x = -20;
-        drawParticle(p, t);
+        drawParticle(p);
       }
-      animRef.current = requestAnimationFrame(loop);
     }
-    loop();
+    animRef.current = requestAnimationFrame(loop);
 
     return () => {
+      running = false;
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(animRef.current);
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="fixed inset-0 z-[1] pointer-events-none" aria-hidden="true" />;
+  return <canvas ref={canvasRef} className="fixed inset-0 z-[1] pointer-events-none" aria-hidden="true" style={{ willChange: "transform" }} />;
 }
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
@@ -1377,6 +1397,22 @@ export default function AstuteApp() {
           -moz-osx-font-smoothing: grayscale;
           overscroll-behavior: none;
         }
+        /* GPU acceleration for smooth animations */
+        img, video, canvas, svg {
+          will-change: transform;
+          -webkit-transform: translateZ(0);
+          backface-visibility: hidden;
+        }
+        button, a, [role="button"] {
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+        }
+        /* Reduce paint on transitions */
+        .gpu-accel {
+          transform: translateZ(0);
+          will-change: transform, opacity;
+          backface-visibility: hidden;
+        }
         ::selection { background: var(--ast-blue); color: #fff; }
         /* Smooth scrollbar */
         ::-webkit-scrollbar { width: 3px; }
@@ -1387,6 +1423,7 @@ export default function AstuteApp() {
           -webkit-overflow-scrolling: touch;
           scroll-behavior: smooth;
           overscroll-behavior: contain;
+          will-change: scroll-position;
         }
         .side-panel-scroll::-webkit-scrollbar { width: 2px; }
         .side-panel-scroll::-webkit-scrollbar-track { background: transparent; }
