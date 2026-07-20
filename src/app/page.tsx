@@ -2778,7 +2778,7 @@ export default function AstuteApp() {
               <div className="flex items-center justify-center px-6 pb-4">
                 <div className="rounded-xl p-3 border" style={{ background: "#ffffff", borderColor: "rgba(37,99,235,0.15)" }}>
                   <img 
-                    src="/QRIS.png" 
+                    src="/QRIS.jpeg" 
                     alt="QRIS Payment Code" 
                     className="w-full max-w-[260px] h-auto block"
                     style={{ imageRendering: "crisp-edges" }}
@@ -2791,8 +2791,8 @@ export default function AstuteApp() {
                 <button
                   onClick={() => {
                     const link = document.createElement("a");
-                    link.href = "/QRIS.png";
-                    link.download = "QRIS_JUJU_SELLER.png";
+                    link.href = "/QRIS.jpeg";
+                    link.download = "QRIS_JUJU_SELLER.jpeg";
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
