@@ -2470,7 +2470,7 @@ export default function AstuteApp() {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "none",
-                    }}>320K</div>
+                    }}>420K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
                   </div>
                 </div>
@@ -2515,59 +2515,6 @@ export default function AstuteApp() {
               </div>
             </div>
 
-            {/* ═══ ONLY AKTIF GIFT ═══ */}
-            <div className="rounded-2xl p-4 border relative overflow-hidden"
-              style={{ background: "var(--ast-bg2)", borderColor: "rgba(139,92,246,0.2)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #7c3aed, #a78bfa, #c4b5fd)" }} />
-              <div className="text-[15px] font-black mb-1" style={{
-                background: "linear-gradient(135deg, #5b21b6, #7c3aed, #a78bfa, #c4b5fd)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                filter: "none",
-              }}>ONLY AKTIF GIFT</div>
-              <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>Akses gift tanpa VIP lainnya</div>
-
-              <div className="flex flex-col gap-2">
-                {/* 7 HARI */}
-                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
-                  onClick={() => goPage("qris")}
-                  style={{ background: "rgba(139,92,246,0.08)", transition: "all 0.3s" }}>
-                  <div>
-                    <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>7 HARI</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-[18px] font-black" style={{
-                      background: "linear-gradient(135deg, #5b21b6, #7c3aed, #a78bfa, #c4b5fd)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                      filter: "none",
-                    }}>430K</div>
-                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                  </div>
-                </div>
-
-                {/* 30 HARI */}
-                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
-                  onClick={() => goPage("qris")}
-                  style={{ background: "rgba(139,92,246,0.12)", transition: "all 0.3s" }}>
-                  <div>
-                    <div className="text-[12px] font-bold" style={{ color: "#c4b5fd" }}>30 HARI</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-[18px] font-black" style={{
-                      background: "linear-gradient(135deg, #5b21b6, #7c3aed, #a78bfa, #c4b5fd)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                      filter: "none",
-                    }}>890K</div>
-                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </Reveal>
 
           {/* ─── Keuntungan VIP ─── */}
