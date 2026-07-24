@@ -2456,6 +2456,25 @@ export default function AstuteApp() {
               <div className="text-[10px] mb-3" style={{ color: "var(--ast-gray)" }}>AKSES GIFT BUNDLE BEST VALUE</div>
 
               <div className="flex flex-col gap-2">
+                {/* PERHARI */}
+                <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
+                  onClick={() => goPage("qris")}
+                  style={{ background: "rgba(37,99,235,0.06)", transition: "all 0.3s" }}>
+                  <div>
+                    <div className="text-[12px] font-bold" style={{ color: "#93c5fd" }}>1 HARI</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[18px] font-black" style={{
+                      background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: "none",
+                    }}>60K</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                  </div>
+                </div>
+
                 {/* PERMINGGU */}
                 <div className="rounded-xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.98]"
                   onClick={() => goPage("qris")}
