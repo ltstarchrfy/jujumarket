@@ -2691,11 +2691,11 @@ export default function AstuteApp() {
               item="vip-wa-admin2"
             />
             <LinkBox
-              title="ADMIN RASYA (WhatsApp)"
-              url="https://wa.me/628812882145"
-              desc="Chat ADMIN RASYA via WhatsApp untuk pembelian VIP"
+              title="HELPER VYN (WhatsApp)"
+              url="https://wa.me/6281350984276"
+              desc="Chat HELPER VYN via WhatsApp untuk pembelian VIP"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
-              item="vip-wa-admin1"
+              item="vip-wa-admin3"
             />
           </Reveal>
 
@@ -2876,11 +2876,11 @@ export default function AstuteApp() {
               item="qris-wa-admin2"
             />
             <LinkBox
-              title="ADMIN RASYA (WhatsApp)"
-              url="https://wa.me/628812882145"
-              desc="Kirim bukti pembayaran QRIS ke ADMIN RASYA"
+              title="HELPER VYN (WhatsApp)"
+              url="https://wa.me/6281350984276"
+              desc="Kirim bukti pembayaran QRIS ke HELPER VYN"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
-              item="qris-wa-admin1"
+              item="qris-wa-admin3"
             />
             <LinkBox
               title="admin (Telegram)"
