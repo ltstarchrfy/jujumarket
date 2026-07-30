@@ -2397,6 +2397,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>30K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $1.9 USD</div>
                   </div>
                 </div>
 
@@ -2417,6 +2418,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>190K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $11.9 USD</div>
                   </div>
                 </div>
 
@@ -2436,6 +2438,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>530K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $33.1 USD</div>
                   </div>
                 </div>
               </div>
@@ -2472,6 +2475,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>60K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $3.8 USD</div>
                   </div>
                 </div>
 
@@ -2491,6 +2495,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>420K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $26.3 USD</div>
                   </div>
                 </div>
 
@@ -2510,6 +2515,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>899K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $56.2 USD</div>
                   </div>
                 </div>
 
@@ -2529,6 +2535,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>1.5JT</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $93.8 USD</div>
                   </div>
                 </div>
               </div>
