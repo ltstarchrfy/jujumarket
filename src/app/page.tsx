@@ -1099,6 +1099,7 @@ export default function AstuteApp() {
   const [clock, setClock] = useState("00:00:00");
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const [vipPopupOpen, setVipPopupOpen] = useState(false);
   const musicAutoStartedRef = useRef(false);
   const panelSwipeRef = useRef<{ startX: number; currentX: number; swiping: boolean }>({ startX: 0, currentX: 0, swiping: false });
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -1262,6 +1263,14 @@ export default function AstuteApp() {
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [playClickSound]);
+
+  // ─── VIP Popup: show when entering VIP page ────────────────────────────────
+  useEffect(() => {
+    if (currentPage === "vip") {
+      const t = setTimeout(() => setVipPopupOpen(true), 350);
+      return () => clearTimeout(t);
+    }
+  }, [currentPage]);
 
   // Toast
   const showToast = useCallback((msg: string) => {
@@ -2397,7 +2406,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>30K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $1.9 USD</div>
+
                   </div>
                 </div>
 
@@ -2418,7 +2427,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>190K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $11.9 USD</div>
+
                   </div>
                 </div>
 
@@ -2438,7 +2447,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>530K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $33.1 USD</div>
+
                   </div>
                 </div>
               </div>
@@ -2475,7 +2484,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>60K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $3.8 USD</div>
+
                   </div>
                 </div>
 
@@ -2495,7 +2504,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>420K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $26.3 USD</div>
+
                   </div>
                 </div>
 
@@ -2515,7 +2524,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>899K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $56.2 USD</div>
+
                   </div>
                 </div>
 
@@ -2535,7 +2544,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>1.5JT</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
-                    <div className="text-[9px] font-bold font-mono" style={{ color: "rgba(147,197,253,0.6)" }}>≈ $93.8 USD</div>
+
                   </div>
                 </div>
               </div>
@@ -2933,6 +2942,428 @@ export default function AstuteApp() {
           : <VolumeX style={{ width: 20, height: 20, color: "#6b7ba8" }} />
         }
       </button>
+
+      {/* ═══ VIP POPUP MODAL ═══════════════════════════════════════════════════ */}
+      {vipPopupOpen && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 99999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.75)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            padding: "16px",
+            animation: "fadeIn 0.3s ease",
+          }}
+          onClick={() => setVipPopupOpen(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "380px",
+              maxHeight: "90vh",
+              overflowY: "auto",
+              borderRadius: "20px",
+              background: "linear-gradient(170deg, #0a0f1c 0%, #0c1631 40%, #0a0f1c 100%)",
+              border: "1px solid rgba(37,99,235,0.25)",
+              boxShadow: "0 0 60px rgba(29,78,216,0.15), 0 0 120px rgba(96,165,250,0.05)",
+              padding: "0",
+              animation: "popIn 0.35s cubic-bezier(0.16,1,0.3,1)",
+            }}
+          >
+            {/* ─── Top Glow Bar ─── */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "3px",
+              background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd, #60a5fa, #1d4ed8, #0c2d5a)",
+              borderRadius: "20px 20px 0 0",
+            }} />
+
+            {/* ─── Close Button ─── */}
+            <button
+              onClick={() => setVipPopupOpen(false)}
+              style={{
+                position: "absolute",
+                top: "12px",
+                right: "12px",
+                width: "28px",
+                height: "28px",
+                borderRadius: "50%",
+                background: "rgba(37,99,235,0.1)",
+                border: "1px solid rgba(37,99,235,0.2)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                color: "var(--ast-gray)",
+                fontSize: "14px",
+                fontWeight: 700,
+                zIndex: 10,
+                transition: "all 0.2s",
+              }}
+            >
+              <X style={{ width: 14, height: 14 }} />
+            </button>
+
+            {/* ─── Header ─── */}
+            <div style={{ textAlign: "center", padding: "24px 20px 12px" }}>
+              <div style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "56px",
+                height: "56px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                marginBottom: "12px",
+                boxShadow: "0 0 30px rgba(96,165,250,0.3)",
+              }}>
+                <Crown style={{ width: 28, height: 28, color: "#fff" }} />
+              </div>
+              <h2 style={{
+                fontSize: "22px",
+                fontWeight: 900,
+                background: "linear-gradient(135deg, #93c5fd, #60a5fa, #1d4ed8, #0c2d5a)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                marginBottom: "4px",
+              }}>LIST HARGA VIP</h2>
+              <p style={{ fontSize: "11px", color: "var(--ast-gray)", lineHeight: 1.5 }}>
+                Pilih paket VIP yang sesuai kebutuhanmu
+              </p>
+            </div>
+
+            {/* ─── VIP BIASA Section ─── */}
+            <div style={{ padding: "0 16px 8px" }}>
+              <div style={{
+                borderRadius: "14px",
+                border: "1px solid rgba(37,99,235,0.2)",
+                background: "rgba(37,99,235,0.04)",
+                overflow: "hidden",
+              }}>
+                <div style={{
+                  padding: "10px 14px 6px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}>
+                  <div style={{
+                    width: "6px",
+                    height: "6px",
+                    borderRadius: "2px",
+                    background: "linear-gradient(135deg, #1d4ed8, #60a5fa)",
+                    transform: "rotate(45deg)",
+                  }} />
+                  <span style={{
+                    fontSize: "13px",
+                    fontWeight: 800,
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}>VIP BIASA</span>
+                  <span style={{ fontSize: "9px", color: "var(--ast-gray)", fontWeight: 600 }}>NO FITUR GIFT</span>
+                </div>
+
+                {/* Price rows */}
+                {[
+                  { dur: "1 HARI", price: "30K" },
+                  { dur: "7 HARI", price: "190K", badge: "POPULER" },
+                  { dur: "30 HARI", price: "530K" },
+                ].map((item, i) => (
+                  <div key={i} style={{
+                    margin: "0 8px 4px",
+                    padding: "8px 12px",
+                    borderRadius: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    background: item.badge ? "rgba(37,99,235,0.1)" : "rgba(37,99,235,0.05)",
+                    position: "relative",
+                  }}>
+                    {item.badge && (
+                      <span style={{
+                        position: "absolute",
+                        top: "3px",
+                        right: "6px",
+                        fontSize: "6px",
+                        fontWeight: 700,
+                        letterSpacing: "0.08em",
+                        color: "#93c5fd",
+                        background: "rgba(29,78,216,0.3)",
+                        padding: "1px 5px",
+                        borderRadius: "6px",
+                      }}>{item.badge}</span>
+                    )}
+                    <span style={{ fontSize: "11px", fontWeight: 700, color: "#93c5fd" }}>{item.dur}</span>
+                    <div style={{ textAlign: "right" }}>
+                      <span style={{
+                        fontSize: "16px",
+                        fontWeight: 900,
+                        background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}>{item.price}</span>
+                      <span style={{ fontSize: "8px", fontWeight: 600, color: "var(--ast-gray)", marginLeft: "3px" }}>IDR</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ─── VIP HIGH Section ─── */}
+            <div style={{ padding: "0 16px 8px" }}>
+              <div style={{
+                borderRadius: "14px",
+                border: "1px solid rgba(37,99,235,0.3)",
+                background: "linear-gradient(135deg, rgba(29,78,216,0.06), rgba(96,165,250,0.03))",
+                overflow: "hidden",
+                position: "relative",
+              }}>
+                {/* Best Value badge */}
+                <div style={{
+                  position: "absolute",
+                  top: "8px",
+                  right: "10px",
+                  fontSize: "7px",
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  color: "#fff",
+                  background: "linear-gradient(135deg, #1d4ed8, #60a5fa)",
+                  padding: "2px 7px",
+                  borderRadius: "8px",
+                }}>BEST VALUE</div>
+
+                <div style={{
+                  padding: "10px 14px 6px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}>
+                  <Crown style={{ width: 12, height: 12, color: "#60a5fa" }} />
+                  <span style={{
+                    fontSize: "13px",
+                    fontWeight: 800,
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}>VIP HIGH</span>
+                  <span style={{ fontSize: "9px", color: "var(--ast-gray)", fontWeight: 600 }}>GIFT BEST VALUE</span>
+                </div>
+
+                {[
+                  { dur: "1 HARI", price: "60K" },
+                  { dur: "7 HARI", price: "420K" },
+                  { dur: "30 HARI", price: "899K" },
+                  { dur: "60 HARI", price: "1.5JT" },
+                ].map((item, i) => (
+                  <div key={i} style={{
+                    margin: "0 8px 4px",
+                    padding: "8px 12px",
+                    borderRadius: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    background: i === 3 ? "linear-gradient(135deg, rgba(29,78,216,0.1), rgba(96,165,250,0.05))" : "rgba(37,99,235,0.05)",
+                  }}>
+                    <span style={{ fontSize: "11px", fontWeight: 700, color: i === 3 ? "#c4b5fd" : "#93c5fd" }}>{item.dur}</span>
+                    <div style={{ textAlign: "right" }}>
+                      <span style={{
+                        fontSize: "16px",
+                        fontWeight: 900,
+                        background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}>{item.price}</span>
+                      <span style={{ fontSize: "8px", fontWeight: 600, color: "var(--ast-gray)", marginLeft: "3px" }}>IDR</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ─── Feature Comparison ─── */}
+            <div style={{ padding: "4px 16px 8px", display: "flex", gap: "8px" }}>
+              {/* VIP BIASA Features */}
+              <div style={{
+                flex: 1,
+                borderRadius: "12px",
+                border: "1px solid rgba(37,99,235,0.18)",
+                background: "rgba(37,99,235,0.03)",
+                padding: "10px",
+              }}>
+                <div style={{
+                  fontSize: "10px",
+                  fontWeight: 800,
+                  color: "#60a5fa",
+                  marginBottom: "6px",
+                  textAlign: "center",
+                }}>VIP BIASA</div>
+                {[
+                  "Semua fitur utama",
+                  "Tanpa fitur Gift",
+                  "Cocok bermain santai",
+                  "Harga terjangkau",
+                ].map((feat, i) => (
+                  <div key={i} style={{
+                    fontSize: "8px",
+                    color: "var(--ast-gray)",
+                    padding: "2px 0",
+                    display: "flex",
+                    gap: "4px",
+                    alignItems: "flex-start",
+                  }}>
+                    <span style={{ color: "#60a5fa", fontSize: "8px" }}>✓</span>
+                    {feat}
+                  </div>
+                ))}
+                <div style={{
+                  marginTop: "6px",
+                  fontSize: "7px",
+                  fontWeight: 700,
+                  color: "#60a5fa",
+                  textAlign: "center",
+                  padding: "3px 0",
+                  borderRadius: "6px",
+                  background: "rgba(37,99,235,0.08)",
+                }}>KONTEN CREATOR</div>
+              </div>
+
+              {/* VIP HIGH Features */}
+              <div style={{
+                flex: 1,
+                borderRadius: "12px",
+                border: "1px solid rgba(37,99,235,0.3)",
+                background: "linear-gradient(135deg, rgba(29,78,216,0.06), rgba(96,165,250,0.03))",
+                padding: "10px",
+              }}>
+                <div style={{
+                  fontSize: "10px",
+                  fontWeight: 800,
+                  color: "#c4b5fd",
+                  marginBottom: "6px",
+                  textAlign: "center",
+                }}>VIP HIGH</div>
+                {[
+                  "Semua fitur VIP Biasa",
+                  "Gift Best Value",
+                  "Bonus gift eksklusif",
+                  "Semua fitur premium",
+                ].map((feat, i) => (
+                  <div key={i} style={{
+                    fontSize: "8px",
+                    color: "var(--ast-gray)",
+                    padding: "2px 0",
+                    display: "flex",
+                    gap: "4px",
+                    alignItems: "flex-start",
+                  }}>
+                    <span style={{ color: "#c4b5fd", fontSize: "8px" }}>✓</span>
+                    {feat}
+                  </div>
+                ))}
+                <div style={{
+                  marginTop: "6px",
+                  fontSize: "7px",
+                  fontWeight: 700,
+                  color: "#c4b5fd",
+                  textAlign: "center",
+                  padding: "3px 0",
+                  borderRadius: "6px",
+                  background: "rgba(96,165,250,0.08)",
+                }}>STREAMER LIVE</div>
+              </div>
+            </div>
+
+            {/* ─── Trust Badges ─── */}
+            <div style={{
+              padding: "4px 16px 8px",
+              display: "flex",
+              gap: "6px",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}>
+              {[
+                { icon: "🛡️", text: "100% AMAN" },
+                { icon: "⚡", text: "FAST PROCESS" },
+                { icon: "🎧", text: "SUPPORT 24JAM" },
+                { icon: "💎", text: "PREMIUM" },
+              ].map((badge, i) => (
+                <div key={i} style={{
+                  fontSize: "7px",
+                  fontWeight: 700,
+                  color: "var(--ast-gray)",
+                  padding: "3px 7px",
+                  borderRadius: "6px",
+                  background: "rgba(37,99,235,0.06)",
+                  border: "1px solid rgba(37,99,235,0.1)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "3px",
+                }}>
+                  <span style={{ fontSize: "9px" }}>{badge.icon}</span>
+                  {badge.text}
+                </div>
+              ))}
+            </div>
+
+            {/* ─── Order Button ─── */}
+            <div style={{ padding: "4px 16px 16px" }}>
+              <button
+                onClick={() => { setVipPopupOpen(false); }}
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  borderRadius: "12px",
+                  border: "none",
+                  cursor: "pointer",
+                  background: "linear-gradient(135deg, #1d4ed8, #60a5fa)",
+                  color: "#fff",
+                  fontSize: "14px",
+                  fontWeight: 800,
+                  letterSpacing: "0.04em",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  boxShadow: "0 0 20px rgba(96,165,250,0.2)",
+                  transition: "all 0.3s",
+                }}
+              >
+                <Crown style={{ width: 16, height: 16 }} />
+                ORDER SEKARANG!
+              </button>
+              <div style={{
+                textAlign: "center",
+                fontSize: "8px",
+                color: "var(--ast-gray)",
+                marginTop: "6px",
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+              }}>CEPAT • AMAN • TERPERCAYA</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══ VIP Popup Animations ═══════════════════════════════════════════════ */}
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+      `}</style>
     </div>
   );
 }
