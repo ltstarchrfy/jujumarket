@@ -2790,7 +2790,7 @@ export default function AstuteApp() {
               <div className="flex items-center justify-center px-4 pb-4">
                 <div className="rounded-xl p-4 border" style={{ background: "#ffffff", borderColor: "rgba(37,99,235,0.15)" }}>
                   <img 
-                    src="/QRIS.jpeg" 
+                    src="/QRIS.png" 
                     alt="QRIS Payment Code" 
                     className="w-full max-w-[320px] h-auto block"
                     style={{ imageRendering: "crisp-edges" }}
