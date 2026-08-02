@@ -2979,34 +2979,51 @@ export default function AstuteApp() {
               animation: "popIn 0.4s cubic-bezier(0.16,1,0.3,1)",
             }}
           >
-            {/* ─── Close Button (transparan + blur ke gambar) ─── */}
-            <button
-              onClick={() => setVipPopupOpen(false)}
+            {/* ─── Close Button (bulat transparan + blur gambar) ─── */}
+            <div
               style={{
                 position: "absolute",
                 top: "10px",
                 right: "10px",
-                width: "36px",
-                height: "36px",
+                width: "38px",
+                height: "38px",
                 borderRadius: "50%",
-                background: "rgba(0,0,0,0.2)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-                border: "none",
-                outline: "none",
+                overflow: "hidden",
+                zIndex: 10,
+                cursor: "pointer",
+                border: "1.5px solid rgba(255,255,255,0.15)",
+              }}
+              onClick={() => setVipPopupOpen(false)}
+            >
+              {/* Blur overlay — mengambil gambar di belakang dan blur */}
+              <div style={{
+                position: "absolute",
+                inset: "-12px",
+                backgroundImage: "url(/api/vip-popup)",
+                backgroundSize: "calc(100% + 24px) auto",
+                backgroundPosition: "top right",
+                filter: "blur(8px)",
+                WebkitFilter: "blur(8px)",
+              }} />
+              {/* Dark tint agar icon X kelihatan */}
+              <div style={{
+                position: "absolute",
+                inset: 0,
+                background: "rgba(0,0,0,0.35)",
+                borderRadius: "50%",
+              }} />
+              {/* X icon */}
+              <div style={{
+                position: "absolute",
+                inset: 0,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                cursor: "pointer",
-                color: "rgba(255,255,255,0.85)",
-                zIndex: 10,
-                boxShadow: "none",
-                transition: "all 0.2s",
-                padding: 0,
-              }}
-            >
-              <X style={{ width: 18, height: 18, strokeWidth: 2.5 }} />
-            </button>
+                color: "rgba(255,255,255,0.9)",
+              }}>
+                <X style={{ width: 18, height: 18, strokeWidth: 2.5 }} />
+              </div>
+            </div>
 
             {/* ─── VIP Promotional Image ─── */}
             <img
