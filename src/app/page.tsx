@@ -2977,25 +2977,27 @@ export default function AstuteApp() {
               animation: "popIn 0.4s cubic-bezier(0.16,1,0.3,1)",
             }}
           >
-            {/* ─── Close Button ─── */}
+            {/* ─── Close Button (transparan + blur ke gambar) ─── */}
             <button
               onClick={() => setVipPopupOpen(false)}
               style={{
                 position: "absolute",
-                top: "-8px",
-                right: "-8px",
+                top: "8px",
+                right: "8px",
                 width: "30px",
                 height: "30px",
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #1d4ed8, #60a5fa)",
-                border: "2px solid rgba(96,165,250,0.4)",
+                background: "rgba(0,0,0,0.25)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+                border: "none",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
-                color: "#fff",
+                color: "rgba(255,255,255,0.9)",
                 zIndex: 10,
-                boxShadow: "0 0 15px rgba(96,165,250,0.3)",
+                boxShadow: "none",
                 transition: "all 0.2s",
               }}
             >
@@ -3009,8 +3011,8 @@ export default function AstuteApp() {
               style={{
                 width: "100%",
                 borderRadius: "16px",
-                border: "1px solid rgba(37,99,235,0.3)",
-                boxShadow: "0 0 40px rgba(29,78,216,0.2), 0 0 80px rgba(96,165,250,0.08)",
+                border: "none",
+                boxShadow: "none",
                 display: "block",
               }}
             />
