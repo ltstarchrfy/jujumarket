@@ -2974,6 +2974,8 @@ export default function AstuteApp() {
               position: "relative",
               width: "100%",
               maxWidth: "400px",
+              overflow: "hidden",
+              borderRadius: "16px",
               animation: "popIn 0.4s cubic-bezier(0.16,1,0.3,1)",
             }}
           >
@@ -2982,26 +2984,28 @@ export default function AstuteApp() {
               onClick={() => setVipPopupOpen(false)}
               style={{
                 position: "absolute",
-                top: "8px",
-                right: "8px",
-                width: "30px",
-                height: "30px",
+                top: "10px",
+                right: "10px",
+                width: "36px",
+                height: "36px",
                 borderRadius: "50%",
-                background: "rgba(0,0,0,0.25)",
-                backdropFilter: "blur(8px)",
-                WebkitBackdropFilter: "blur(8px)",
+                background: "rgba(0,0,0,0.2)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
                 border: "none",
+                outline: "none",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
-                color: "rgba(255,255,255,0.9)",
+                color: "rgba(255,255,255,0.85)",
                 zIndex: 10,
                 boxShadow: "none",
                 transition: "all 0.2s",
+                padding: 0,
               }}
             >
-              <X style={{ width: 14, height: 14 }} />
+              <X style={{ width: 18, height: 18, strokeWidth: 2.5 }} />
             </button>
 
             {/* ─── VIP Promotional Image ─── */}
