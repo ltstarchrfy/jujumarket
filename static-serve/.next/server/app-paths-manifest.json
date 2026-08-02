@@ -4,5 +4,6 @@
   "/api/count/route": "app/api/count/route.js",
   "/api/download/route": "app/api/download/route.js",
   "/api/route": "app/api/route.js",
+  "/api/vip-popup/route": "app/api/vip-popup/route.js",
   "/page": "app/page.js"
 }

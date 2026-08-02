@@ -46,3 +46,23 @@ Stage Summary:
 - Server now properly adopted by init system (PPID=1)
 - Website fully functional: title, API counter, all pages work
 - Auto-restart: running init-fullstack.sh again will restart the server if it dies
+
+---
+Task ID: 1
+Agent: Main Agent
+Task: Add VIP popup image and remove USD conversion
+
+Work Log:
+- Removed all 7 USD price lines from VIP BIASA and VIP HIGH packages
+- Created VIP popup modal that auto-shows when user enters the VIP page
+- Replaced text-based popup content with promotional image (pasted_image_1785674820901.png)
+- Created /api/vip-popup API route to serve the image from the public directory
+- Rebuilt the Next.js project and updated static-serve directory
+- Verified the API route serves the image correctly (2.3MB PNG)
+- Verified the popup JS chunk contains the image reference
+
+Stage Summary:
+- USD conversion removed from all VIP packages
+- VIP popup now shows promotional image with close button and blur background
+- Image served via /api/vip-popup API route
+- Server running on port 3000

@@ -58,6 +58,12 @@
       "regex": "^/api/download(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/download(?:/)?$"
+    },
+    {
+      "page": "/api/vip-popup",
+      "regex": "^/api/vip\\-popup(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/vip\\-popup(?:/)?$"
     }
   ],
   "dataRoutes": [],
