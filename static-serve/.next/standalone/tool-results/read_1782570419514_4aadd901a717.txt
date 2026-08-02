@@ -1,0 +1,2002 @@
+     1→"use client";
+     2→
+     3→import React, { useState, useEffect, useRef, useCallback } from "react";
+     4→import {
+     5→  Flame,
+     6→  Settings,
+     7→  ShieldCheck,
+     8→  PlayCircle,
+     9→  FileText,
+    10→  ArrowLeft,
+    11→  Download,
+    12→  FileArchive,
+    13→  X,
+    14→  Info,
+    15→  ExternalLink,
+    16→  Volume2,
+    17→  VolumeX,
+    18→  Crown,
+    19→  MessageCircle,
+    20→} from "lucide-react";
+    21→
+    22→// ─── Discord Icon (Real App Icon) ──────────────────────────────────────────
+    23→
+    24→function DiscordIcon({ className }: { className?: string }) {
+    25→  return (
+    26→    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    27→      <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+    28→    </svg>
+    29→  );
+    30→}
+    31→
+    32→// ─── WhatsApp Icon ────────────────────────────────────────────────────────────
+    33→
+    34→function WhatsAppIcon({ className }: { className?: string }) {
+    35→  return (
+    36→    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    37→      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    38→    </svg>
+    39→  );
+    40→}
+    41→
+    42→// ─── Telegram Icon ────────────────────────────────────────────────────────────
+    43→
+    44→function TelegramIcon({ className }: { className?: string }) {
+    45→  return (
+    46→    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    47→      <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.139-5.061 3.345-.479.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.442-.751-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+    48→    </svg>
+    49→  );
+    50→}
+    51→
+    52→// ─── Types ───────────────────────────────────────────────────────────────────
+    53→
+    54→type PageName =
+    55→  | "home"
+    56→  | "download"
+    57→  | "panel"
+    58→  | "verif"
+    59→  | "discord"
+    60→  | "tutorial"
+    61→  | "changelog"
+    62→  | "vip";
+    63→
+    64→interface Particle {
+    65→  x: number;
+    66→  y: number;
+    67→  size: number;
+    68→  speedY: number;
+    69→  speedX: number;
+    70→  rotation: number;
+    71→  rotSpeed: number;
+    72→  swayAmp: number;
+    73→  swaySpeed: number;
+    74→  swayOffset: number;
+    75→  alpha: number;
+    76→  type: number;
+    77→  color: string;
+    78→}
+    79→
+    80→// ─── Particle Canvas ─────────────────────────────────────────────────────────
+    81→
+    82→function ParticleCanvas() {
+    83→  const canvasRef = useRef<HTMLCanvasElement>(null);
+    84→  const particlesRef = useRef<Particle[]>([]);
+    85→  const timeRef = useRef(0);
+    86→  const animRef = useRef<number>(0);
+    87→
+    88→  useEffect(() => {
+    89→    const canvas = canvasRef.current;
+    90→    if (!canvas) return;
+    91→    const ctx = canvas.getContext("2d");
+    92→    if (!ctx) return;
+    93→
+    94→    let w = 0, h = 0;
+    95→
+    96→    function resize() {
+    97→      if (!canvas) return;
+    98→      w = canvas.width = window.innerWidth;
+    99→      h = canvas.height = window.innerHeight;
+   100→    }
+   101→    resize();
+   102→    window.addEventListener("resize", resize);
+   103→
+   104→    const isMobile = window.innerWidth < 768;
+   105→    const count = isMobile ? 25 : 55;
+   106→
+   107→    function createParticle(init: boolean): Particle {
+   108→      return {
+   109→        x: Math.random() * w,
+   110→        y: init ? Math.random() * h : -20,
+   111→        size: Math.random() * 5 + 2,
+   112→        speedY: Math.random() * 0.8 + 0.3,
+   113→        speedX: Math.random() * 0.4 - 0.2,
+   114→        rotation: Math.random() * Math.PI * 2,
+   115→        rotSpeed: (Math.random() - 0.5) * 0.02,
+   116→        swayAmp: Math.random() * 0.8 + 0.3,
+   117→        swaySpeed: Math.random() * 0.015 + 0.005,
+   118→        swayOffset: Math.random() * Math.PI * 2,
+   119→        alpha: Math.random() * 0.25 + 0.05,
+   120→        type: Math.floor(Math.random() * 3),
+   121→        color:
+   122→          Math.random() < 0.5
+   123→            ? "37,99,235"
+   124→            : Math.random() < 0.8
+   125→              ? "96,165,250"
+   126→              : "34,211,238",
+   127→      };
+   128→    }
+   129→
+   130→    const leaves: Particle[] = [];
+   131→    for (let i = 0; i < count; i++) leaves.push(createParticle(true));
+   132→    particlesRef.current = leaves;
+   133→
+   134→    function drawParticle(p: Particle, t: number) {
+   135→      if (!ctx) return;
+   136→      ctx.save();
+   137→      ctx.translate(p.x, p.y);
+   138→      ctx.rotate(p.rotation);
+   139→      ctx.globalAlpha = p.alpha;
+   140→
+   141→      if (p.type === 0) {
+   142→        ctx.beginPath();
+   143→        ctx.moveTo(0, -p.size);
+   144→        ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.5, p.size * 0.8, p.size * 0.5, 0, p.size);
+   145→        ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.8, -p.size * 0.5, 0, -p.size);
+   146→        ctx.fillStyle = `rgba(${p.color},1)`;
+   147→        ctx.fill();
+   148→      } else if (p.type === 1) {
+   149→        ctx.beginPath();
+   150→        ctx.arc(0, 0, p.size * 0.5, 0, Math.PI * 2);
+   151→        ctx.fillStyle = `rgba(${p.color},1)`;
+   152→        ctx.fill();
+   153→      } else {
+   154→        const s = p.size * 0.6;
+   155→        ctx.strokeStyle = `rgba(${p.color},1)`;
+   156→        ctx.lineWidth = 0.8;
+   157→        ctx.beginPath(); ctx.moveTo(-s, 0); ctx.lineTo(s, 0); ctx.stroke();
+   158→        ctx.beginPath(); ctx.moveTo(0, -s); ctx.lineTo(0, s); ctx.stroke();
+   159→        ctx.beginPath(); ctx.moveTo(-s * 0.6, -s * 0.6); ctx.lineTo(s * 0.6, s * 0.6); ctx.stroke();
+   160→        ctx.beginPath(); ctx.moveTo(s * 0.6, -s * 0.6); ctx.lineTo(-s * 0.6, s * 0.6); ctx.stroke();
+   161→      }
+   162→      ctx.globalAlpha = 1;
+   163→      ctx.restore();
+   164→    }
+   165→
+   166→    function loop() {
+   167→      if (!ctx || !canvas) return;
+   168→      ctx.clearRect(0, 0, w, h);
+   169→      timeRef.current++;
+   170→      const t = timeRef.current;
+   171→      for (const p of particlesRef.current) {
+   172→        p.y += p.speedY;
+   173→        p.x += p.speedX + Math.sin(t * p.swaySpeed + p.swayOffset) * p.swayAmp * 0.3;
+   174→        p.rotation += p.rotSpeed;
+   175→        if (p.y > h + 20) Object.assign(p, createParticle(false));
+   176→        if (p.x < -20) p.x = w + 20;
+   177→        if (p.x > w + 20) p.x = -20;
+   178→        drawParticle(p, t);
+   179→      }
+   180→      animRef.current = requestAnimationFrame(loop);
+   181→    }
+   182→    loop();
+   183→
+   184→    return () => {
+   185→      window.removeEventListener("resize", resize);
+   186→      cancelAnimationFrame(animRef.current);
+   187→    };
+   188→  }, []);
+   189→
+   190→  return <canvas ref={canvasRef} className="fixed inset-0 z-[1] pointer-events-none" aria-hidden="true" />;
+   191→}
+   192→
+   193→// ─── Toast ────────────────────────────────────────────────────────────────────
+   194→
+   195→function Toast({ message, visible }: { message: string; visible: boolean }) {
+   196→  return (
+   197→    <div
+   198→      className={`fixed bottom-6 left-1/2 z-[200] font-mono text-xs font-bold px-5 py-2.5 rounded-xl border pointer-events-none will-change-transform ${
+   199→        visible
+   200→          ? "translate-x-[-50%] translate-y-0 opacity-100"
+   201→          : "translate-x-[-50%] translate-y-20 opacity-0"
+   202→      }`}
+   203→      style={{
+   204→        background: "var(--ast-bg3)",
+   205→        borderColor: "var(--ast-border2)",
+   206→        color: "var(--ast-blue-l)",
+   207→        boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+   208→        transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.55s cubic-bezier(0.16,1,0.3,1)",
+   209→      }}
+   210→    >
+   211→      ⬇ {message}
+   212→    </div>
+   213→  );
+   214→}
+   215→
+   216→// ─── Status Bar ──────────────────────────────────────────────────────────────
+   217→
+   218→function StatusBar({ dotColor, label, value, valueColor, valueGradient = false, live = false, bigDot = false, bump = false }: {
+   219→  dotColor: string; label: string; value: string; valueColor: string; valueGradient?: boolean; live?: boolean; bigDot?: boolean; bump?: boolean;
+   220→}) {
+   221→  // WhatsApp-style: uniform gray bar, rounded pill shape, subtle dot (no glow)
+   222→  const dotColors: Record<string, string> = {
+   223→    green: "var(--ast-green)",
+   224→    blue: "var(--ast-blue-l)",
+   225→    cyan: "var(--ast-cyan)",
+   226→    amber: "var(--ast-amber)",
+   227→  };
+   228→  const valColors: Record<string, string> = {
+   229→    green: "var(--ast-green)",
+   230→    blue: "var(--ast-blue-l)",
+   231→    cyan: "var(--ast-cyan)",
+   232→    white: "#ffffff",
+   233→    amber: "var(--ast-amber)",
+   234→  };
+   235→  const isWhite = valueColor === "white";
+   236→  const dotColorVal = dotColors[dotColor] || dotColors.green;
+   237→  const dotSize = bigDot ? 10 : 8;
+   238→
+   239→  return (
+   240→    <div
+   241→      className="mx-auto flex items-center justify-center gap-2.5 py-2.5 px-5 rounded-full border"
+   242→      style={{
+   243→        width: "76%",
+   244→        maxWidth: "295px",
+   245→        background: "rgba(30,36,50,0.65)",
+   246→        borderColor: "rgba(255,255,255,0.04)",
+   247→        transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+   248→        backdropFilter: "blur(8px)",
+   249→      }}
+   250→    >
+   251→      <span
+   252→        className={`rounded-full shrink-0 ${live ? "animate-[dot-ping_1.5s_ease-out_infinite]" : ""}`}
+   253→        style={{
+   254→          width: `${dotSize}px`,
+   255→          height: `${dotSize}px`,
+   256→          background: dotColorVal,
+   257→          color: dotColorVal,
+   258→        }}
+   259→      />
+   260→      <span className="text-[10.5px] font-semibold tracking-wider" style={{ color: "var(--ast-gray)" }}>{label}</span>
+   261→      <span className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>·</span>
+   262→      <span
+   263→        className={`font-mono tracking-wide ${isWhite ? "text-[14px] font-extrabold" : "text-[12px] font-bold"} ${bump ? "animate-[count-bump_0.5s_ease-out]" : ""}`}
+   264→        style={{
+   265→          color: valColors[valueColor],
+   266→          textShadow: "none",
+   267→        }}
+   268→      >
+   269→        {value}
+   270→      </span>
+   271→    </div>
+   272→  );
+   273→}
+   274→
+   275→// ─── App Bar ─────────────────────────────────────────────────────────────────
+   276→
+   277→function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick }: {
+   278→  icon: React.ReactNode; text: string; desc: string; highlight?: boolean; newBadge?: boolean; onClick: () => void;
+   279→}) {
+   280→  return (
+   281→    <button
+   282→      onClick={onClick}
+   283→      type="button"
+   284→      className={`flex items-center gap-3 py-4 px-6 rounded-2xl border w-full group ${
+   285→        highlight ? "bg-[rgba(37,99,235,0.04)] border-[rgba(37,99,235,0.1)]" : ""
+   286→      }`}
+   287→      style={{
+   288→        background: highlight ? undefined : "var(--ast-bar-bg)",
+   289→        borderColor: highlight ? undefined : "var(--ast-border)",
+   290→        transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+   291→      }}
+   292→    >
+   293→      <span className="shrink-0 flex items-center justify-center w-[24px] [&_svg]:opacity-80 [&_svg]:text-white group-hover:scale-110" style={{ transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+   294→        {icon}
+   295→      </span>
+   296→      <span className={`text-[13px] font-bold tracking-wide ${highlight ? "text-[var(--ast-blue-b)]" : ""}`}
+   297→        style={highlight ? undefined : { color: "var(--ast-gray)" }}>
+   298→        {text}
+   299→        {newBadge && (
+   300→          <span className="font-mono text-[7px] font-bold bg-gradient-to-br from-[#1d4ed8] to-[#2563eb] text-white px-1.5 py-[1px] rounded-[3px] ml-1 tracking-wider shadow-[0_0_8px_rgba(37,99,235,0.2)]">
+   301→            NEW
+   302→          </span>
+   303→        )}
+   304→      </span>
+   305→      <span className="flex-1" />
+   306→      <span className="text-[11px] font-medium" style={{ color: "var(--ast-gray)" }}>{desc}</span>
+   307→    </button>
+   308→  );
+   309→}
+   310→
+   311→// ─── Link Box ────────────────────────────────────────────────────────────────
+   312→
+   313→function LinkBox({ title, url, desc, icon, item = "total", onDownload, size }: {
+   314→  title: string; url: string; desc: string; icon: React.ReactNode;
+   315→  item?: string; onDownload?: (item: string) => void; size?: string;
+   316→}) {
+   317→  return (
+   318→    <a
+   319→      href={url}
+   320→      target="_blank"
+   321→      rel="noopener noreferrer"
+   322→      onClick={() => onDownload?.(item)}
+   323→      className="flex items-center gap-4 py-4 px-5 rounded-2xl border group cursor-pointer"
+   324→      style={{
+   325→        background: "var(--ast-bg2)",
+   326→        borderColor: "var(--ast-border)",
+   327→        transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+   328→        textDecoration: "none",
+   329→        marginBottom: "10px",
+   330→      }}
+   331→      onMouseEnter={(e) => {
+   332→        e.currentTarget.style.borderColor = "rgba(37,99,235,0.15)";
+   333→        e.currentTarget.style.background = "rgba(37,99,235,0.03)";
+   334→        e.currentTarget.style.transform = "translateX(3px)";
+   335→      }}
+   336→      onMouseLeave={(e) => {
+   337→        e.currentTarget.style.borderColor = "var(--ast-border)";
+   338→        e.currentTarget.style.background = "var(--ast-bg2)";
+   339→        e.currentTarget.style.transform = "translateX(0)";
+   340→      }}
+   341→    >
+   342→      <div className="w-[40px] h-[40px] rounded-xl flex items-center justify-center shrink-0"
+   343→        style={{
+   344→          background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+   345→          boxShadow: "0 2px 12px rgba(37,99,235,0.25)",
+   346→          transition: "box-shadow 0.4s cubic-bezier(0.16,1,0.3,1)",
+   347→        }}>
+   348→        {icon}
+   349→      </div>
+   350→      <div className="flex-1 min-w-0">
+   351→        <div className="flex items-center gap-2 flex-wrap">
+   352→          <div className="text-[13px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{title}</div>
+   353→          {size && (
+   354→            <span className="font-mono text-[9px] font-bold px-1.5 py-[1px] rounded-[3px] tracking-wider"
+   355→              style={{
+   356→                background: "rgba(34,211,238,0.08)",
+   357→                border: "1px solid rgba(34,211,238,0.18)",
+   358→                color: "var(--ast-cyan)",
+   359→              }}>
+   360→              {size}
+   361→            </span>
+   362→          )}
+   363→        </div>
+   364→        <div className="text-[11px] mt-[2px] truncate" style={{ color: "var(--ast-gray)" }}>{desc}</div>
+   365→      </div>
+   366→      <ExternalLink className="w-4 h-4 shrink-0 opacity-40 group-hover:opacity-80" style={{ color: "var(--ast-blue-l)", transition: "opacity 0.3s" }} />
+   367→    </a>
+   368→  );
+   369→}
+   370→
+   371→// ─── Download Button ─────────────────────────────────────────────────────────
+   372→
+   373→function DownloadButton({ theme, icon, text, onClick, style }: {
+   374→  theme: "blue" | "cyan" | "green" | "purple" | "amber" | "red" | "seller";
+   375→  icon: React.ReactNode; text: string; onClick: () => void; style?: React.CSSProperties;
+   376→}) {
+   377→  const gradients: Record<string, React.CSSProperties> = {
+   378→    blue: { background: "linear-gradient(135deg,#1d4ed8,#3b82f6)", boxShadow: "0 6px 24px rgba(37,99,235,0.25)" },
+   379→    cyan: { background: "linear-gradient(135deg,#0e7490,#22d3ee)", boxShadow: "0 6px 24px rgba(34,211,238,0.2)" },
+   380→    green: { background: "linear-gradient(135deg,#15803d,#22c55e)", boxShadow: "0 6px 24px rgba(34,197,94,0.2)" },
+   381→    purple: { background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 6px 24px rgba(168,85,247,0.2)" },
+   382→    amber: { background: "linear-gradient(135deg,#92400e,#f59e0b)", boxShadow: "0 6px 24px rgba(245,158,11,0.2)" },
+   383→    red: { background: "linear-gradient(135deg,#991b1b,#ef4444)", boxShadow: "0 6px 24px rgba(239,68,68,0.2)" },
+   384→    seller: { background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)", boxShadow: "0 6px 24px rgba(37,99,235,0.3)" },
+   385→  };
+   386→
+   387→  return (
+   388→    <button
+   389→      onClick={onClick}
+   390→      className="relative flex items-center justify-center gap-2.5 w-full py-[18px] rounded-2xl border-none text-white cursor-pointer font-['Plus_Jakarta_Sans'] text-[15px] font-extrabold overflow-hidden will-change-transform group"
+   391→      style={{
+   392→        ...gradients[theme],
+   393→        ...style,
+   394→        transition: "transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s cubic-bezier(0.16,1,0.3,1)",
+   395→        marginBottom: "12px",
+   396→      }}
+   397→      onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; }}
+   398→      onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; }}
+   399→      onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(0) scale(0.98)"; }}
+   400→      onMouseUp={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; }}
+   401→    >
+   402→      <span className="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/15 to-transparent" style={{ transition: "left 0.6s cubic-bezier(0.16,1,0.3,1)" }} />
+   403→      {icon}
+   404→      {text}
+   405→    </button>
+   406→  );
+   407→}
+   408→
+   409→// ─── Feature Item ────────────────────────────────────────────────────────────
+   410→
+   411→function FeatureItem({ num, theme, title, desc, dark }: {
+   412→  num: string; theme: string; title: string; desc: string; dark?: boolean;
+   413→}) {
+   414→  const colorMap: Record<string, { bg: string; color: string }> = {
+   415→    blue: { bg: "rgba(37,99,235,0.08)", color: "var(--ast-blue-l)" },
+   416→    cyan: { bg: "rgba(34,211,238,0.08)", color: "var(--ast-cyan)" },
+   417→    green: { bg: "rgba(34,197,94,0.08)", color: "var(--ast-green)" },
+   418→    purple: { bg: "rgba(168,85,247,0.08)", color: "var(--ast-purple)" },
+   419→    amber: { bg: "rgba(245,158,11,0.08)", color: "var(--ast-amber)" },
+   420→    red: { bg: "rgba(239,68,68,0.08)", color: "var(--ast-red)" },
+   421→  };
+   422→  const c = colorMap[theme] || colorMap.blue;
+   423→
+   424→  return (
+   425→    <div className="flex items-start gap-3 py-4 border-b border-[var(--ast-border)] last:border-b-0" style={{ transition: "padding-left 0.3s cubic-bezier(0.16,1,0.3,1)" }}
+   426→      onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "4px"; }}
+   427→      onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "0"; }}
+   428→    >
+   429→      <div className="w-7 h-7 rounded-lg flex items-center justify-center font-mono text-[11px] font-bold shrink-0" style={{ background: dark ? "rgba(107,123,168,0.06)" : c.bg, color: dark ? "#4a5568" : c.color, fontSize: num.length > 2 ? "13px" : undefined }}>
+   430→        {num}
+   431→      </div>
+   432→      <div className="text-xs leading-relaxed" style={{ color: dark ? "#6b7280" : "var(--ast-gray)" }}>
+   433→        <strong className={dark ? "" : "text-white"} style={dark ? { color: "#6b7280", fontWeight: 600 } : { fontWeight: 600 }}>{title}</strong>{dark ? " — " : " — "}{desc}
+   434→      </div>
+   435→    </div>
+   436→  );
+   437→}
+   438→
+   439→// ─── Reveal ──────────────────────────────────────────────────────────────────
+   440→
+   441→function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+   442→  const [visible, setVisible] = useState(false);
+   443→  useEffect(() => {
+   444→    const timer = setTimeout(() => setVisible(true), delay + 80);
+   445→    return () => clearTimeout(timer);
+   446→  }, [delay]);
+   447→
+   448→  return (
+   449→    <div
+   450→      className="will-change-transform"
+   451→      style={{
+   452→        opacity: visible ? 1 : 0,
+   453→        transform: visible ? "translateY(0)" : "translateY(20px)",
+   454→        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+   455→      }}
+   456→    >
+   457→      {children}
+   458→    </div>
+   459→  );
+   460→}
+   461→
+   462→// ─── Swipeable Feature Carousel (Box + Sound on swipe, Smooth) ──────────────
+   463→
+   464→function FeatureCarousel({ items, theme = "blue" }: {
+   465→  items: { num: string; title: string; desc: string; features?: string[] }[];
+   466→  theme?: string;
+   467→}) {
+   468→  const scrollRef = useRef<HTMLDivElement | null>(null);
+   469→  const audioRef = useRef<HTMLAudioElement | null>(null);
+   470→  const lastIdxRef = useRef<number>(0);
+   471→  const rafRef = useRef<number | null>(null);
+   472→  const [activeIdx, setActiveIdx] = useState<number>(0);
+   473→
+   474→  // Color theme — kept identical between blue/amber so layout is consistent
+   475→  const themeStyles: Record<string, {
+   476→    boxGradient: string;
+   477→    boxShadow: string;
+   478→    chipGradient: string;
+   479→    chipShadow: string;
+   480→    accent: string;
+   481→    indicatorActive: string;
+   482→    labelColor: string;
+   483→  }> = {
+   484→    blue: {
+   485→      boxGradient: "linear-gradient(135deg, rgba(37,99,235,0.10) 0%, rgba(37,99,235,0.02) 60%, var(--ast-bg2) 100%)",
+   486→      boxShadow: "0 4px 24px rgba(37,99,235,0.12), 0 1px 3px rgba(0,0,0,0.3)",
+   487→      chipGradient: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+   488→      chipShadow: "0 2px 10px rgba(37,99,235,0.30)",
+   489→      accent: "var(--ast-blue-l)",
+   490→      indicatorActive: "var(--ast-blue-l)",
+   491→      labelColor: "var(--ast-blue-l)",
+   492→    },
+   493→    amber: {
+   494→      boxGradient: "linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.02) 60%, var(--ast-bg2) 100%)",
+   495→      boxShadow: "0 4px 24px rgba(245,158,11,0.14), 0 1px 3px rgba(0,0,0,0.3)",
+   496→      chipGradient: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
+   497→      chipShadow: "0 2px 10px rgba(245,158,11,0.32)",
+   498→      accent: "var(--ast-amber)",
+   499→      indicatorActive: "var(--ast-amber)",
+   500→      labelColor: "var(--ast-amber)",
+   501→    },
+   502→  };
+   503→  const ts = themeStyles[theme] || themeStyles.blue;
+   504→
+   505→  // Play swipe sound — single Audio instance, reset to 0 each time
+   506→  const playSwipeSound = useCallback(() => {
+   507→    try {
+   508→      if (!audioRef.current) {
+   509→        const a = new Audio("/flip.mp3");
+   510→        a.volume = 0.3;
+   511→        a.preload = "auto";
+   512→        audioRef.current = a;
+   513→      }
+   514→      audioRef.current.currentTime = 0;
+   515→      audioRef.current.play().catch(() => {});
+   516→    } catch {}
+   517→  }, []);
+   518→
+   519→  // Compute current visible index based on scroll position
+   520→  const computeIdx = useCallback(() => {
+   521→    const el = scrollRef.current;
+   522→    if (!el) return 0;
+   523→    // Each child has flex-basis ~82% width + gap 12px
+   524→    const firstChild = el.firstElementChild as HTMLElement | null;
+   525→    if (!firstChild) return 0;
+   526→    const step = firstChild.offsetWidth + 12; // 12 = gap
+   527→    const idx = Math.round(el.scrollLeft / step);
+   528→    return Math.max(0, Math.min(items.length - 1, idx));
+   529→  }, [items.length]);
+   530→
+   531→  // Throttled scroll handler using rAF for smoothness
+   532→  const handleScroll = useCallback(() => {
+   533→    if (rafRef.current != null) return;
+   534→    rafRef.current = requestAnimationFrame(() => {
+   535→      rafRef.current = null;
+   536→      const idx = computeIdx();
+   537→      if (idx !== lastIdxRef.current) {
+   538→        lastIdxRef.current = idx;
+   539→        setActiveIdx(idx);
+   540→        playSwipeSound();
+   541→      }
+   542→    });
+   543→  }, [computeIdx, playSwipeSound]);
+   544→
+   545→  // Smooth scroll to a specific box index
+   546→  const scrollToIdx = useCallback((idx: number) => {
+   547→    const el = scrollRef.current;
+   548→    if (!el) return;
+   549→    const firstChild = el.firstElementChild as HTMLElement | null;
+   550→    if (!firstChild) return;
+   551→    const step = firstChild.offsetWidth + 12;
+   552→    const target = Math.max(0, Math.min(items.length - 1, idx));
+   553→    const targetLeft = target * step;
+   554→
+   555→    // Use native smooth scroll, with a small fallback for browsers that don't honor it
+   556→    el.scrollTo({ left: targetLeft, behavior: "smooth" });
+   557→    if (lastIdxRef.current !== target) {
+   558→      lastIdxRef.current = target;
+   559→      setActiveIdx(target);
+   560→      playSwipeSound();
+   561→    }
+   562→  }, [items.length, playSwipeSound]);
+   563→
+   564→  const scrollByBox = useCallback((dir: 1 | -1) => {
+   565→    scrollToIdx(lastIdxRef.current + dir);
+   566→  }, [scrollToIdx]);
+   567→
+   568→  // Cleanup rAF on unmount
+   569→  useEffect(() => {
+   570→    return () => {
+   571→      if (rafRef.current != null) {
+   572→        cancelAnimationFrame(rafRef.current);
+   573→      }
+   574→    };
+   575→  }, []);
+   576→
+   577→  return (
+   578→    <div className="relative">
+   579→      {/* Arrows (desktop) */}
+   580→      <button
+   581→        type="button"
+   582→        aria-label="Previous"
+   583→        onClick={() => scrollByBox(-1)}
+   584→        className="hidden sm:flex absolute -left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full items-center justify-center cursor-pointer border"
+   585→        style={{
+   586→          background: "var(--ast-bg2)",
+   587→          borderColor: "var(--ast-border)",
+   588→          color: "var(--ast-gray)",
+   589→        }}
+   590→      >
+   591→        <ArrowLeft className="w-4 h-4" />
+   592→      </button>
+   593→      <button
+   594→        type="button"
+   595→        aria-label="Next"
+   596→        onClick={() => scrollByBox(1)}
+   597→        className="hidden sm:flex absolute -right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full items-center justify-center cursor-pointer border"
+   598→        style={{
+   599→          background: "var(--ast-bg2)",
+   600→          borderColor: "var(--ast-border)",
+   601→          color: "var(--ast-gray)",
+   602→        }}
+   603→      >
+   604→        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+   605→          <line x1="5" y1="12" x2="19" y2="12" />
+   606→          <polyline points="12 5 19 12 12 19" />
+   607→        </svg>
+   608→      </button>
+   609→
+   610→      {/* Horizontal scroll container — smooth + momentum */}
+   611→      <div
+   612→        ref={scrollRef}
+   613→        onScroll={handleScroll}
+   614→        className="feature-carousel-scroll flex gap-3 overflow-x-auto pb-3 -mx-1 px-1"
+   615→        style={{
+   616→          scrollSnapType: "x mandatory",
+   617→          scrollBehavior: "smooth",
+   618→          willChange: "scroll-position",
+   619→          transform: "translateZ(0)",
+   620→          scrollPaddingLeft: "4px",
+   621→          scrollPaddingRight: "4px",
+   622→        } as React.CSSProperties}
+   623→      >
+   624→        {items.map((it, i) => (
+   625→          <div
+   626→            key={i}
+   627→            className="shrink-0 snap-start"
+   628→            style={{
+   629→              flexBasis: it.features ? "90%" : "82%",
+   630→              maxWidth: it.features ? "90%" : "82%",
+   631→              // GPU acceleration per-box
+   632→              transform: "translateZ(0)",
+   633→              willChange: "transform",
+   634→            }}
+   635→          >
+   636→            {/* Feature box — gradient bg, depth shadow, prominent icon chip */}
+   637→            <div
+   638→              className="rounded-2xl p-5 border relative overflow-hidden"
+   639→              style={{
+   640→                background: ts.boxGradient,
+   641→                borderColor: "var(--ast-border)",
+   642→                boxShadow: ts.boxShadow,
+   643→                transition: "border-color 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
+   644→                minHeight: it.features ? "200px" : "auto",
+   645→              }}
+   646→            >
+   647→              {/* Top row: gradient chip + feature label */}
+   648→              <div className="flex items-center gap-2.5 mb-3">
+   649→                <div
+   650→                  className="w-10 h-10 rounded-xl flex items-center justify-center font-mono text-[14px] font-bold shrink-0"
+   651→                  style={{
+   652→                    background: ts.chipGradient,
+   653→                    boxShadow: ts.chipShadow,
+   654→                    color: "#fff",
+   655→                  }}
+   656→                >
+   657→                  {it.num}
+   658→                </div>
+   659→                <div className="flex flex-col">
+   660→                  <div className="font-mono text-[8px] tracking-[0.18em] uppercase font-bold" style={{ color: ts.labelColor }}>
+   661→                    {it.features ? "KATEGORI" : "FEATURE"} {String(i + 1).padStart(2, "0")}
+   662→                  </div>
+   663→                  <div className="text-[15px] font-extrabold leading-tight" style={{ color: "var(--ast-white)" }}>
+   664→                    {it.title}
+   665→                  </div>
+   666→                </div>
+   667→              </div>
+   668→
+   669→              {/* Grouped feature list or single desc */}
+   670→              {it.features ? (
+   671→                <div className="flex flex-col gap-1.5 mt-1">
+   672→                  {it.features.map((feat, fi) => (
+   673→                    <div key={fi} className="flex items-start gap-2">
+   674→                      <span className="text-[11px] mt-[2px] shrink-0" style={{ color: ts.accent }}>✅</span>
+   675→                      <span className="text-[12px] leading-snug" style={{ color: "var(--ast-gray)" }}>{feat}</span>
+   676→                    </div>
+   677→                  ))}
+   678→                </div>
+   679→              ) : (
+   680→                <>
+   681→                  {/* Title (for non-grouped items) — shown below chip row only when no features list */}
+   682→                  <div className="text-[14.5px] font-extrabold mb-1.5 leading-tight" style={{ color: "var(--ast-white)" }}>
+   683→                    {it.title}
+   684→                  </div>
+   685→                  {/* Desc */}
+   686→                  <div className="text-[11.5px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
+   687→                    {it.desc}
+   688→                  </div>
+   689→                </>
+   690→              )}
+   691→
+   692→              {/* Top accent line */}
+   693→              <div
+   694→                className="absolute top-0 left-0 right-0 h-[2px] opacity-80 pointer-events-none"
+   695→                style={{ background: `linear-gradient(90deg, transparent, ${ts.accent}, transparent)` }}
+   696→              />
+   697→              {/* Decorative corner accent (subtle) */}
+   698→              <div
+   699→                className="absolute -bottom-8 -right-8 w-24 h-24 rounded-full opacity-25 pointer-events-none"
+   700→                style={{ background: `radial-gradient(circle, ${ts.accent}, transparent 70%)` }}
+   701→              />
+   702→            </div>
+   703→          </div>
+   704→        ))}
+   705→      </div>
+   706→
+   707→      {/* Page indicator dots + hint */}
+   708→      <div className="flex flex-col items-center gap-2 mt-2.5">
+   709→        <div className="flex items-center gap-1.5">
+   710→          {items.map((_, i) => (
+   711→            <button
+   712→              key={i}
+   713→              type="button"
+   714→              aria-label={`Go to feature ${i + 1}`}
+   715→              onClick={() => scrollToIdx(i)}
+   716→              className="rounded-full transition-all duration-300 cursor-pointer"
+   717→              style={{
+   718→                width: i === activeIdx ? 16 : 5,
+   719→                height: 5,
+   720→                background: i === activeIdx ? ts.indicatorActive : "rgba(255,255,255,0.15)",
+   721→                border: "none",
+   722→                padding: 0,
+   723→              }}
+   724→            />
+   725→          ))}
+   726→        </div>
+   727→        <div className="flex items-center justify-center gap-1.5">
+   728→          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-gray2)" }}>
+   729→            <polyline points="15 18 9 12 15 6" />
+   730→          </svg>
+   731→          <span className="font-mono text-[9px] tracking-[0.16em] uppercase font-bold" style={{ color: "var(--ast-gray2)" }}>
+   732→            Geser untuk lihat semua
+   733→          </span>
+   734→        </div>
+   735→      </div>
+   736→    </div>
+   737→  );
+   738→}
+   739→
+   740→// ─── Page Wrapper ────────────────────────────────────────────────────────────
+   741→
+   742→function PageWrapper({ pageName, currentPage, children }: {
+   743→  pageName: PageName; currentPage: PageName; children: React.ReactNode;
+   744→}) {
+   745→  const active = pageName === currentPage;
+   746→
+   747→  if (!active) return null;
+   748→
+   749→  return (
+   750→    <div
+   751→      className="max-w-[480px] mx-auto px-4 pb-24"
+   752→      style={{
+   753→        paddingTop: "80px",
+   754→        animation: "pageSlideIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards",
+   755→      }}
+   756→    >
+   757→      {children}
+   758→    </div>
+   759→  );
+   760→}
+   761→
+   762→// ─── Main App ────────────────────────────────────────────────────────────────
+   763→
+   764→export default function AstuteApp() {
+   765→  const [currentPage, setCurrentPage] = useState<PageName>("home");
+   766→  const [panelOpen, setPanelOpen] = useState(false);
+   767→  const [toastMsg, setToastMsg] = useState("");
+   768→  const [toastVisible, setToastVisible] = useState(false);
+   769→  const [downloadCount, setDownloadCount] = useState(1200);
+   770→  const [countBump, setCountBump] = useState(false);
+   771→  const [clock, setClock] = useState("00:00:00");
+   772→  const [scrolled, setScrolled] = useState(false);
+   773→  const [musicPlaying, setMusicPlaying] = useState(false);
+   774→  const musicAutoStartedRef = useRef(false);
+   775→  const panelSwipeRef = useRef<{ startX: number; currentX: number; swiping: boolean }>({ startX: 0, currentX: 0, swiping: false });
+   776→  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
+   777→  const musicAudioRef = useRef<HTMLAudioElement | null>(null);
+   778→
+   779→  // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
+   780→  const clickAudioRef = useRef<HTMLAudioElement | null>(null);
+   781→  const playClickSound = useCallback(() => {
+   782→    try {
+   783→      if (!clickAudioRef.current) {
+   784→        clickAudioRef.current = new Audio("/click.mp3");
+   785→        clickAudioRef.current.volume = 0.4;
+   786→      }
+   787→      clickAudioRef.current.currentTime = 0;
+   788→      clickAudioRef.current.play().catch(() => {});
+   789→    } catch {}
+   790→  }, []);
+   791→
+   792→  // ─── Background Music (MP3) ─────────────────────────────────────────────────
+   793→  const startMusic = useCallback(() => {
+   794→    try {
+   795→      if (!musicAudioRef.current) {
+   796→        const audio = new Audio("/music.mp3");
+   797→        audio.volume = 0.35;
+   798→        audio.loop = true;
+   799→        audio.preload = "auto";
+   800→        musicAudioRef.current = audio;
+   801→      }
+   802→      const audio = musicAudioRef.current;
+   803→      audio.play().then(() => {
+   804→        setMusicPlaying(true);
+   805→      }).catch(() => {
+   806→        setMusicPlaying(false);
+   807→      });
+   808→    } catch {
+   809→      setMusicPlaying(false);
+   810→    }
+   811→  }, []);
+   812→
+   813→  const stopMusic = useCallback(() => {
+   814→    try {
+   815→      if (musicAudioRef.current) {
+   816→        musicAudioRef.current.pause();
+   817→      }
+   818→      setMusicPlaying(false);
+   819→    } catch {}
+   820→  }, []);
+   821→
+   822→  const toggleMusic = useCallback(() => {
+   823→    if (musicPlaying) {
+   824→      stopMusic();
+   825→    } else {
+   826→      startMusic();
+   827→    }
+   828→  }, [musicPlaying, startMusic, stopMusic]);
+   829→
+   830→  // Auto-start background music on first user interaction
+   831→  useEffect(() => {
+   832→    function onFirstInteraction() {
+   833→      if (musicAutoStartedRef.current) return;
+   834→      musicAutoStartedRef.current = true;
+   835→      startMusic();
+   836→      ["click", "touchstart", "keydown"].forEach(evt =>
+   837→        document.removeEventListener(evt, onFirstInteraction)
+   838→      );
+   839→    }
+   840→    ["click", "touchstart", "keydown"].forEach(evt =>
+   841→      document.addEventListener(evt, onFirstInteraction, { once: false })
+   842→    );
+   843→    return () => {
+   844→      ["click", "touchstart", "keydown"].forEach(evt =>
+   845→        document.removeEventListener(evt, onFirstInteraction)
+   846→      );
+   847→    };
+   848→  }, [startMusic]);
+   849→
+   850→  // Scroll detection for glass effect
+   851→  useEffect(() => {
+   852→    function onScroll() {
+   853→      setScrolled(window.scrollY > 10);
+   854→    }
+   855→    window.addEventListener("scroll", onScroll, { passive: true });
+   856→    return () => window.removeEventListener("scroll", onScroll);
+   857→  }, []);
+   858→
+   859→  // Clock
+   860→  useEffect(() => {
+   861→    function updateClock() {
+   862→      const n = new Date();
+   863→      setClock(`${String(n.getHours()).padStart(2, "0")}:${String(n.getMinutes()).padStart(2, "0")}:${String(n.getSeconds()).padStart(2, "0")}`);
+   864→    }
+   865→    updateClock();
+   866→    const iv = setInterval(updateClock, 1000);
+   867→    return () => clearInterval(iv);
+   868→  }, []);
+   869→
+   870→  // ─── Real-time download counter (Firebase + SSE fallback) ──────────────
+   871→  // Tries Firebase Realtime Database first; if unavailable, falls back to
+   872→  // our own /api/download?stream=1 SSE endpoint. Either way, count updates
+   873→  // live whenever anyone (this user or anyone else) clicks a download link.
+   874→  const sseRef = useRef<EventSource | null>(null);
+   875→  const fbUnsubRef = useRef<(() => void) | null>(null);
+   876→
+   877→  useEffect(() => {
+   878→    let mounted = true;
+   879→
+   880→    async function initFirebase() {
+   881→      try {
+   882→        const mod = await import("@/lib/firebase");
+   883→        const { db, firebaseEnabled } = mod;
+   884→        if (!mounted || !db || !firebaseEnabled) return false;
+   885→        const { ref, onValue } = await import("firebase/database");
+   886→        const countRef = ref(db, "downloads/total");
+   887→        fbUnsubRef.current = onValue(countRef, (snap) => {
+   888→          if (!mounted) return;
+   889→          const val = typeof snap.val() === "number" ? snap.val() : 1200;
+   890→          setDownloadCount((prev) => {
+   891→            if (val > prev) setCountBump(true);
+   892→            return val;
+   893→          });
+   894→        });
+   895→        return true;
+   896→      } catch {
+   897→        return false;
+   898→      }
+   899→    }
+   900→
+   901→    function initSSE() {
+   902→      if (!mounted) return;
+   903→      // Don't create duplicate polling loops
+   904→      if (sseRef.current) return;
+   905→      // Use polling instead of SSE because the preview proxy buffers
+   906→      // streaming responses. Polling works through any HTTP proxy.
+   907→      let stopped = false;
+   908→      // @ts-ignore - we store the stop function in sseRef
+   909→      sseRef.current = { close: () => { stopped = true; } } as any;
+   910→
+   911→      async function poll() {
+   912→        // Initial fetch immediately
+   913→        try {
+   914→          const r = await fetch("/api/download", { cache: "no-store" });
+   915→          if (r.ok) {
+   916→            const j = await r.json();
+   917→            if (j && typeof j.count === "number") {
+   918→              setDownloadCount((prev) => {
+   919→                if (j.count > prev) setCountBump(true);
+   920→                return j.count;
+   921→              });
+   922→            }
+   923→          }
+   924→        } catch {}
+   925→
+   926→        // Then poll every 3 seconds
+   927→        while (!stopped && mounted) {
+   928→          await new Promise((res) => setTimeout(res, 3000));
+   929→          if (stopped || !mounted) break;
+   930→          try {
+   931→            const r = await fetch("/api/download", { cache: "no-store" });
+   932→            if (!r.ok) continue;
+   933→            const j = await r.json();
+   934→            if (j && typeof j.count === "number") {
+   935→              setDownloadCount((prev) => {
+   936→                if (j.count !== prev) {
+   937→                  if (j.count > prev) setCountBump(true);
+   938→                  return j.count;
+   939→                }
+   940→                return prev;
+   941→              });
+   942→            }
+   943→          } catch {}
+   944→        }
+   945→      }
+   946→      poll();
+   947→    }
+   948→
+   949→    (async () => {
+   950→      const ok = await initFirebase();
+   951→      if (!ok && mounted) initSSE();
+   952→    })();
+   953→
+   954→    return () => {
+   955→      mounted = false;
+   956→      if (fbUnsubRef.current) {
+   957→        try { fbUnsubRef.current(); } catch {}
+   958→        fbUnsubRef.current = null;
+   959→      }
+   960→      if (sseRef.current) {
+   961→        try { sseRef.current.close(); } catch {}
+   962→        sseRef.current = null;
+   963→      }
+   964→    };
+   965→  }, []);
+   966→
+   967→  // Clear bump flag right after it's set so the next increment can retrigger it
+   968→  useEffect(() => {
+   969→    if (!countBump) return;
+   970→    const t = setTimeout(() => setCountBump(false), 600);
+   971→    return () => clearTimeout(t);
+   972→  }, [countBump]);
+   973→
+   974→  // ─── Organic growth — simulate other users clicking so the counter feels alive
+   975→  // Schedules a +1 at a random interval between 12s and 28s, only when the page
+   976→  // is visible. Each fire re-schedules a new random timeout.
+   977→  const organicTimerRef = useRef<NodeJS.Timeout | null>(null);
+   978→  useEffect(() => {
+   979→    function scheduleNext() {
+   980→      const delay = 12000 + Math.floor(Math.random() * 16000); // 12s – 28s
+   981→      organicTimerRef.current = setTimeout(async () => {
+   982→        // Only fire when the tab is visible (don't burn backend while hidden)
+   983→        if (document.visibilityState === "visible") {
+   984→          try {
+   985→            await fetch("/api/download", {
+   986→              method: "POST",
+   987→              headers: { "Content-Type": "application/json" },
+   988→              body: JSON.stringify({ item: "total" }),
+   989→            });
+   990→          } catch {}
+   991→        }
+   992→        scheduleNext();
+   993→      }, delay);
+   994→    }
+   995→    scheduleNext();
+   996→    return () => {
+   997→      if (organicTimerRef.current) clearTimeout(organicTimerRef.current);
+   998→    };
+   999→  }, []);
+  1000→
+  1001→  // ─── Increment counter when a download link is clicked ─────────────────
+  1002→  const incrementDownload = useCallback(async (item: string = "total") => {
+  1003→    // Optimistic local bump for instant feedback
+  1004→    setDownloadCount((c) => c + 1);
+  1005→    setCountBump(true);
+  1006→
+  1007→    // Try Firebase first
+  1008→    try {
+  1009→      const mod = await import("@/lib/firebase");
+  1010→      const { db, firebaseEnabled } = mod;
+  1011→      if (db && firebaseEnabled) {
+  1012→        const { ref, runTransaction } = await import("firebase/database");
+  1013→        await runTransaction(ref(db, "downloads/total"), (cur) => (cur || 0) + 1);
+  1014→        if (item !== "total") {
+  1015→          await runTransaction(ref(db, `downloads/${item}`), (cur) => (cur || 0) + 1);
+  1016→        }
+  1017→        return;
+  1018→      }
+  1019→    } catch {}
+  1020→
+  1021→    // Fallback: POST /api/download (server broadcasts via SSE to all clients)
+  1022→    try {
+  1023→      await fetch("/api/download", {
+  1024→        method: "POST",
+  1025→        headers: { "Content-Type": "application/json" },
+  1026→        body: JSON.stringify({ item }),
+  1027→      });
+  1028→    } catch {}
+  1029→  }, []);
+  1030→
+  1031→  // Page navigation - smooth
+  1032→  const goPage = useCallback((name: PageName) => {
+  1033→    playClickSound();
+  1034→    setCurrentPage(name);
+  1035→    window.scrollTo({ top: 0, behavior: "smooth" });
+  1036→  }, [playClickSound]);
+  1037→
+  1038→  // Toast
+  1039→  const showToast = useCallback((msg: string) => {
+  1040→    setToastMsg(msg);
+  1041→    setToastVisible(true);
+  1042→    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+  1043→    toastTimerRef.current = setTimeout(() => setToastVisible(false), 2400);
+  1044→  }, []);
+  1045→
+  1046→  const handleDownload = useCallback((name: string) => {
+  1047→    showToast(`Preparing: ${name}...`);
+  1048→    incrementDownload(name.toLowerCase().includes("max") ? "ffmax"
+  1049→      : name.toLowerCase().includes("biasa") ? "ffbiasa"
+  1050→      : name.toLowerCase().includes("json") ? "json"
+  1051→      : "total");
+  1052→  }, [showToast, incrementDownload]);
+  1053→
+  1054→  const togglePanel = useCallback(() => {
+  1055→    playClickSound();
+  1056→    setPanelOpen((p) => !p);
+  1057→  }, [playClickSound]);
+  1058→
+  1059→  // Clear inline swipe transform when panel re-opens
+  1060→  useEffect(() => {
+  1061→    if (panelOpen) {
+  1062→      const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+  1063→      if (nav) {
+  1064→        nav.style.transform = "";
+  1065→        nav.style.transition = "";
+  1066→      }
+  1067→    }
+  1068→  }, [panelOpen]);
+  1069→
+  1070→  const formattedCount = downloadCount.toLocaleString("en-US");
+  1071→
+  1072→  const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
+  1073→    { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB 54", desc: "Download main APK" },
+  1074→    { name: "panel", icon: <Settings className="w-6 h-6" />, title: "PANEL ASTUTE", desc: "Control panel & config" },
+  1075→    { name: "verif", icon: <ShieldCheck className="w-6 h-6" />, title: "VERIF MANUAL", desc: "Bypass verification" },
+  1076→    { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
+  1077→    { name: "tutorial", icon: <PlayCircle className="w-6 h-6" />, title: "VIDEO TUTORIAL", desc: "Step by step guide" },
+  1078→    { name: "changelog", icon: <FileText className="w-6 h-6" />, title: "FITUR VIP ACCESS", desc: "VIP features list" },
+  1079→    { name: "vip", icon: <Crown className="w-6 h-6" />, title: "PEMBELIAN VIP", desc: "Beli VIP & chat admin" },
+  1080→  ];
+  1081→
+  1082→  return (
+  1083→    <div
+  1084→      className="min-h-screen overflow-x-hidden antialiased relative"
+  1085→      style={{
+  1086→        fontFamily: "'Plus Jakarta Sans', sans-serif",
+  1087→        background: "var(--ast-bg)",
+  1088→        color: "var(--ast-white)",
+  1089→        WebkitOverflowScrolling: "touch",
+  1090→      }}
+  1091→    >
+  1092→      {/* ─── CSS Variables & Animations ────────────────────────────── */}
+  1093→      <style>{`
+  1094→        :root {
+  1095→          --ast-bg: #050810;
+  1096→          --ast-bg2: #0a0f1c;
+  1097→          --ast-bg3: #0e1428;
+  1098→          --ast-bg4: #131b30;
+  1099→          --ast-blue: #2563eb;
+  1100→          --ast-blue-l: #60a5fa;
+  1101→          --ast-blue-b: #93c5fd;
+  1102→          --ast-blue-d: #1d4ed8;
+  1103→          --ast-cyan: #22d3ee;
+  1104→          --ast-green: #22c55e;
+  1105→          --ast-purple: #a855f7;
+  1106→          --ast-amber: #f59e0b;
+  1107→          --ast-red: #ef4444;
+  1108→          --ast-wa: #25D366;
+  1109→          --ast-white: #e8edf5;
+  1110→          --ast-gray: #6b7ba8;
+  1111→          --ast-gray2: #3d4c73;
+  1112→          --ast-gray3: #151d38;
+  1113→          --ast-bar-bg: #0a1020;
+  1114→          --ast-border: rgba(37,99,235,0.06);
+  1115→          --ast-border2: rgba(37,99,235,0.12);
+  1116→        }
+  1117→        @keyframes dot-blink {
+  1118→          0%, 100% { opacity: 1; transform: scale(1); }
+  1119→          50% { opacity: 0.3; transform: scale(0.7); }
+  1120→        }
+  1121→        @keyframes dot-blink-strong {
+  1122→          0%, 100% {
+  1123→            opacity: 1;
+  1124→            transform: scale(1);
+  1125→            box-shadow: 0 0 0 0 currentColor, 0 0 6px currentColor;
+  1126→          }
+  1127→          50% {
+  1128→            opacity: 0.45;
+  1129→            transform: scale(1.6);
+  1130→            box-shadow: 0 0 0 4px rgba(34,197,94,0), 0 0 14px 4px currentColor;
+  1131→          }
+  1132→        }
+  1133→        @keyframes dot-ping {
+  1134→          0% {
+  1135→            box-shadow: 0 0 0 0 rgba(34,197,94,0.7), 0 0 6px rgba(34,197,94,0.5);
+  1136→          }
+  1137→          70% {
+  1138→            box-shadow: 0 0 0 12px rgba(34,197,94,0), 0 0 6px rgba(34,197,94,0.5);
+  1139→          }
+  1140→          100% {
+  1141→            box-shadow: 0 0 0 0 rgba(34,197,94,0), 0 0 6px rgba(34,197,94,0.5);
+  1142→          }
+  1143→        }
+  1144→        @keyframes bar-blink {
+  1145→          0%, 100% { background: var(--ast-bar-bg); border-color: var(--ast-border); }
+  1146→          50% { background: rgba(34,197,94,0.03); border-color: rgba(34,197,94,0.1); }
+  1147→        }
+  1148→        @keyframes spin {
+  1149→          to { transform: rotate(360deg); }
+  1150→        }
+  1151→        @keyframes orb-float {
+  1152→          0%, 100% { transform: translateX(-50%) translateY(0); }
+  1153→          50% { transform: translateX(-50%) translateY(20px); }
+  1154→        }
+  1155→        @keyframes pageSlideIn {
+  1156→          0% { opacity: 0; transform: translateX(40px); }
+  1157→          100% { opacity: 1; transform: translateX(0); }
+  1158→        }
+  1159→        @keyframes marquee-scroll {
+  1160→          0% { transform: translateX(100%); }
+  1161→          100% { transform: translateX(-100%); }
+  1162→        }
+  1163→        @keyframes music-pulse {
+  1164→          0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
+  1165→          50% { box-shadow: 0 0 0 8px rgba(37,99,235,0); }
+  1166→        }
+  1167→        @keyframes count-bump {
+  1168→          0% { transform: scale(1); }
+  1169→          30% { transform: scale(1.25); }
+  1170→          60% { transform: scale(0.95); }
+  1171→          100% { transform: scale(1); }
+  1172→        }
+  1173→        html {
+  1174→          scroll-behavior: smooth;
+  1175→        }
+  1176→        body { -webkit-font-smoothing: antialiased; }
+  1177→        ::selection { background: var(--ast-blue); color: #fff; }
+  1178→        /* Smooth scrollbar */
+  1179→        ::-webkit-scrollbar { width: 3px; }
+  1180→        ::-webkit-scrollbar-track { background: var(--ast-bg); }
+  1181→        ::-webkit-scrollbar-thumb { background: var(--ast-bg4); border-radius: 2px; }
+  1182→        /* Sidebar smooth scroll */
+  1183→        .side-panel-scroll {
+  1184→          -webkit-overflow-scrolling: touch;
+  1185→          scroll-behavior: smooth;
+  1186→        }
+  1187→        .side-panel-scroll::-webkit-scrollbar { width: 2px; }
+  1188→        .side-panel-scroll::-webkit-scrollbar-track { background: transparent; }
+  1189→        .side-panel-scroll::-webkit-scrollbar-thumb { background: rgba(37,99,235,0.1); border-radius: 2px; }
+  1190→      `}</style>
+  1191→
+  1192→      {/* ─── Background Effects ──────────────────────────────────── */}
+  1193→      <div className="fixed inset-0 z-0 pointer-events-none">
+  1194→        <div className="absolute inset-0" style={{
+  1195→          backgroundImage: "linear-gradient(rgba(37,99,235,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.02) 1px,transparent 1px)",
+  1196→          backgroundSize: "44px 44px",
+  1197→        }} />
+  1198→        <div className="absolute rounded-full" style={{
+  1199→          width: 500, height: 500,
+  1200→          background: "radial-gradient(circle,rgba(29,78,216,0.1),transparent 65%)",
+  1201→          top: "-25%", left: "50%", transform: "translateX(-50%)",
+  1202→          filter: "blur(140px)", opacity: 0.4,
+  1203→          animation: "orb-float 28s ease-in-out infinite",
+  1204→        }} />
+  1205→        <div className="absolute rounded-full" style={{
+  1206→          width: 300, height: 300,
+  1207→          background: "radial-gradient(circle,rgba(34,211,238,0.04),transparent 65%)",
+  1208→          bottom: "5%", right: "-5%",
+  1209→          filter: "blur(140px)", opacity: 0.4,
+  1210→          animation: "orb-float 22s ease-in-out infinite reverse",
+  1211→        }} />
+  1212→      </div>
+  1213→
+  1214→      <ParticleCanvas />
+  1215→
+  1216→      {/* ═══ TOPBAR — Sticky with Glass Blur (iPhone style) ══════════════════════════ */}
+  1217→      <header
+  1218→        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3"
+  1219→        style={{
+  1220→          background: scrolled
+  1221→            ? "rgba(15,18,30,0.55)"
+  1222→            : "linear-gradient(90deg, rgba(8,18,50,0.92) 0%, rgba(10,16,36,0.85) 40%, rgba(5,8,16,0.72) 100%)",
+  1223→          backdropFilter: scrolled
+  1224→            ? "blur(60px) saturate(2.5) brightness(0.9)"
+  1225→            : "blur(40px) saturate(1.8)",
+  1226→          WebkitBackdropFilter: scrolled
+  1227→            ? "blur(60px) saturate(2.5) brightness(0.9)"
+  1228→            : "blur(40px) saturate(1.8)",
+  1229→          borderBottom: scrolled
+  1230→            ? "1px solid rgba(120,140,180,0.08)"
+  1231→            : "1px solid var(--ast-border)",
+  1232→          boxShadow: scrolled
+  1233→            ? "0 0.5px 0 0 rgba(180,190,220,0.06), 0 4px 20px rgba(0,0,0,0.3)"
+  1234→            : "none",
+  1235→          transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
+  1236→        }}
+  1237→      >
+  1238→        <div className="flex items-center gap-2.5 relative z-[1]">
+  1239→          <div className="w-[38px] h-[38px] rounded-[11px] overflow-hidden"
+  1240→            style={{ border: "2px solid rgba(37,99,235,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
+  1241→            <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
+  1242→          </div>
+  1243→          <div className="flex flex-col">
+  1244→            <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "var(--ast-gray)", lineHeight: 1.2 }}>JUJU</span>
+  1245→            <span className="text-[16px] font-extrabold tracking-wide" style={{
+  1246→              background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+  1247→              WebkitBackgroundClip: "text",
+  1248→              WebkitTextFillColor: "transparent",
+  1249→              backgroundClip: "text",
+  1250→              filter: "none",
+  1251→              lineHeight: 1.2,
+  1252→            }}>SELLER</span>
+  1253→          </div>
+  1254→        </div>
+  1255→        <div className="flex items-center gap-2 relative z-[1]">
+  1256→          <a href="https://whatsapp.com/channel/0029VbBxPsuDeONChEGz5D1Q" target="_blank" rel="noopener noreferrer"
+  1257→            className="flex items-center gap-1.5 py-[5px] px-3 rounded-full"
+  1258→            style={{
+  1259→              background: "rgba(120,130,160,0.1)",
+  1260→              border: "1px solid rgba(120,130,160,0.1)",
+  1261→              color: "var(--ast-gray)",
+  1262→              transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+  1263→              fontSize: "10px",
+  1264→              fontWeight: 600,
+  1265→              letterSpacing: "0.02em",
+  1266→            }}
+  1267→            title="WhatsApp Saluran"
+  1268→          >
+  1269→            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" style={{ color: "var(--ast-wa)" }}>
+  1270→              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  1271→            </svg>
+  1272→            <span>CHANNEL</span>
+  1273→          </a>
+  1274→          <button
+  1275→            onClick={togglePanel}
+  1276→            className="w-[38px] h-[38px] rounded-[11px] flex flex-col items-center justify-center gap-[4.5px] cursor-pointer"
+  1277→            style={{
+  1278→              background: "var(--ast-bg3)", border: "1px solid var(--ast-border)",
+  1279→              transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+  1280→            }}
+  1281→            aria-label="Toggle menu"
+  1282→          >
+  1283→            <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
+  1284→              style={{
+  1285→                background: "#9ca3af",
+  1286→                transform: panelOpen ? "translateY(6px) rotate(45deg)" : "none",
+  1287→                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.35s",
+  1288→              }}
+  1289→            />
+  1290→            <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
+  1291→              style={{
+  1292→                background: "#9ca3af",
+  1293→                opacity: panelOpen ? 0 : 1,
+  1294→                transform: panelOpen ? "scaleX(0)" : "none",
+  1295→                transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
+  1296→              }}
+  1297→            />
+  1298→            <span className="block w-[17px] h-[1.5px] rounded-[2px] origin-center"
+  1299→              style={{
+  1300→                background: "#9ca3af",
+  1301→                transform: panelOpen ? "translateY(-6px) rotate(-45deg)" : "none",
+  1302→                transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.35s",
+  1303→              }}
+  1304→            />
+  1305→          </button>
+  1306→        </div>
+  1307→      </header>
+  1308→
+  1309→      {/* ═══ PANEL OVERLAY — Ultra Smooth ═══════════════════════════ */}
+  1310→      <div
+  1311→        className="fixed inset-0 z-[90]"
+  1312→        style={{
+  1313→          background: panelOpen ? "rgba(0,0,0,0.45)" : "rgba(0,0,0,0)",
+  1314→          backdropFilter: panelOpen ? "blur(28px)" : "blur(0px)",
+  1315→          WebkitBackdropFilter: panelOpen ? "blur(28px)" : "blur(0px)",
+  1316→          visibility: panelOpen ? "visible" : "hidden",
+  1317→          transition: "background 0.55s cubic-bezier(0.22,1,0.36,1), backdrop-filter 0.55s cubic-bezier(0.22,1,0.36,1), visibility 0s linear " + (panelOpen ? "0s" : "0.55s"),
+  1318→          pointerEvents: panelOpen ? "auto" : "none",
+  1319→        }}
+  1320→        onClick={togglePanel}
+  1321→      />
+  1322→
+  1323→      {/* ═══ SIDE PANEL — Ultra Smooth + Swipe/Drag to Close ═════════════════════════════ */}
+  1324→      <nav
+  1325→        onClick={(e) => e.stopPropagation()}
+  1326→        onTouchStart={(e) => {
+  1327→          if (!panelOpen) return;
+  1328→          panelSwipeRef.current = { startX: e.touches[0].clientX, currentX: e.touches[0].clientX, swiping: true };
+  1329→        }}
+  1330→        onTouchMove={(e) => {
+  1331→          if (!panelSwipeRef.current.swiping) return;
+  1332→          panelSwipeRef.current.currentX = e.touches[0].clientX;
+  1333→          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+  1334→          if (diff > 0) {
+  1335→            e.preventDefault();
+  1336→            const nav = e.currentTarget;
+  1337→            nav.style.transition = "none";
+  1338→            nav.style.transform = `translateX(${diff}px)`;
+  1339→          }
+  1340→        }}
+  1341→        onTouchEnd={() => {
+  1342→          if (!panelSwipeRef.current.swiping) return;
+  1343→          panelSwipeRef.current.swiping = false;
+  1344→          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+  1345→          const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+  1346→          if (nav) nav.style.transition = "";
+  1347→          if (diff > 80) {
+  1348→            setPanelOpen(false);
+  1349→          } else {
+  1350→            if (nav) nav.style.transform = "";
+  1351→          }
+  1352→        }}
+  1353→        onMouseDown={(e) => {
+  1354→          if (!panelOpen) return;
+  1355→          panelSwipeRef.current = { startX: e.clientX, currentX: e.clientX, swiping: true };
+  1356→        }}
+  1357→        onMouseMove={(e) => {
+  1358→          if (!panelSwipeRef.current.swiping) return;
+  1359→          panelSwipeRef.current.currentX = e.clientX;
+  1360→          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+  1361→          if (diff > 0) {
+  1362→            const nav = e.currentTarget;
+  1363→            nav.style.transition = "none";
+  1364→            nav.style.transform = `translateX(${diff}px)`;
+  1365→          }
+  1366→        }}
+  1367→        onMouseUp={() => {
+  1368→          if (!panelSwipeRef.current.swiping) return;
+  1369→          panelSwipeRef.current.swiping = false;
+  1370→          const diff = panelSwipeRef.current.currentX - panelSwipeRef.current.startX;
+  1371→          const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+  1372→          if (nav) nav.style.transition = "";
+  1373→          if (diff > 80) {
+  1374→            setPanelOpen(false);
+  1375→          } else {
+  1376→            if (nav) nav.style.transform = "";
+  1377→          }
+  1378→        }}
+  1379→        onMouseLeave={() => {
+  1380→          if (!panelSwipeRef.current.swiping) return;
+  1381→          panelSwipeRef.current.swiping = false;
+  1382→          const nav = document.querySelector('[data-panel-nav]') as HTMLElement;
+  1383→          if (nav) { nav.style.transition = ""; nav.style.transform = ""; }
+  1384→        }}
+  1385→        data-panel-nav
+  1386→        className="fixed top-0 right-0 z-[100] w-[78%] max-w-[320px] h-full flex flex-col side-panel-scroll"
+  1387→        style={{
+  1388→          background: "rgba(10,15,28,0.65)",
+  1389→          backdropFilter: "blur(60px) saturate(2.2)",
+  1390→          WebkitBackdropFilter: "blur(60px) saturate(2.2)",
+  1391→          borderLeft: "1px solid rgba(37,99,235,0.05)",
+  1392→          boxShadow: panelOpen ? "-16px 0 60px rgba(0,0,0,0.5)" : "-16px 0 0px rgba(0,0,0,0)",
+  1393→          transform: panelOpen ? "translateX(0)" : "translateX(100%)",
+  1394→          transition: "transform 0.55s cubic-bezier(0.22,1,0.36,1), box-shadow 0.55s cubic-bezier(0.22,1,0.36,1)",
+  1395→          willChange: "transform",
+  1396→          overflowY: "auto",
+  1397→          touchAction: "pan-y",
+  1398→        }}
+  1399→      >
+  1400→        <div className="p-6 pb-5 border-b flex items-center justify-between" style={{ borderColor: "var(--ast-border)" }}>
+  1401→          <h2 className="text-[17px] font-extrabold">
+  1402→            <span style={{ color: "var(--ast-blue-l)" }}>ASTUTE</span> Menu
+  1403→          </h2>
+  1404→          <button onClick={togglePanel}
+  1405→            className="w-[30px] h-[30px] rounded-full flex items-center justify-center cursor-pointer"
+  1406→            style={{
+  1407→              background: "var(--ast-bg3)", border: "1px solid var(--ast-border)", color: "var(--ast-gray)",
+  1408→              transition: "all 0.3s cubic-bezier(0.16,1,0.3,1)",
+  1409→            }}
+  1410→          >
+  1411→            <X className="w-3.5 h-3.5" />
+  1412→          </button>
+  1413→        </div>
+  1414→
+  1415→        <div className="p-3 flex-1">
+  1416→          {panelLinks.map((link, i) => (
+  1417→            <button
+  1418→              key={link.name}
+  1419→              onClick={() => { goPage(link.name); togglePanel(); }}
+  1420→              className="flex items-center gap-3.5 py-[11px] px-4 rounded-2xl text-white text-left w-full cursor-pointer"
+  1421→              style={{
+  1422→                transition: "all 0.45s cubic-bezier(0.22,1,0.36,1)",
+  1423→                transitionDelay: panelOpen ? `${i * 55}ms` : "0ms",
+  1424→                transform: panelOpen ? "translateX(0)" : "translateX(30px)",
+  1425→                opacity: panelOpen ? 1 : 0,
+  1426→              }}
+  1427→              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(37,99,235,0.05)"; e.currentTarget.style.paddingLeft = "6px"; }}
+  1428→              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.paddingLeft = "4px"; }}
+  1429→            >
+  1430→              <span className="shrink-0 flex items-center justify-center w-7 [&_svg]:text-white [&_svg]:opacity-85">
+  1431→                {link.icon}
+  1432→              </span>
+  1433→              <div>
+  1434→                <div className="text-sm font-bold">{link.title}</div>
+  1435→                <div className="text-[11px] mt-[1px]" style={{ color: "var(--ast-gray)" }}>{link.desc}</div>
+  1436→              </div>
+  1437→            </button>
+  1438→          ))}
+  1439→        </div>
+  1440→
+  1441→        <div className="p-5 border-t text-center shrink-0" style={{ borderColor: "var(--ast-border)" }}>
+  1442→          <div className="font-mono text-[10px] tracking-[0.1em]" style={{ color: "var(--ast-gray2)" }}>
+  1443→            JUJU v03.0 · BUILD 2026
+  1444→          </div>
+  1445→          <div className="inline-flex items-center gap-1.5 mt-2.5 px-3.5 py-[5px] rounded-full border font-mono text-[9px] font-bold tracking-[0.1em]"
+  1446→            style={{ background: "rgba(34,197,94,0.06)", borderColor: "rgba(34,197,94,0.12)", color: "var(--ast-green)" }}>
+  1447→            <span className="w-[5px] h-[5px] rounded-full animate-[dot-ping_1.5s_ease-out_infinite]"
+  1448→              style={{ background: "var(--ast-green)", color: "var(--ast-green)" }} />
+  1449→            ALL SYSTEMS ONLINE
+  1450→          </div>
+  1451→        </div>
+  1452→      </nav>
+  1453→
+  1454→      {/* ═══ PAGE CONTENT ═══════════════════════════════════════════ */}
+  1455→      <main className="relative z-[2] min-h-screen" style={{ WebkitOverflowScrolling: "touch" }}>
+  1456→
+  1457→        {/* ═══ HOME PAGE ═══ */}
+  1458→        <PageWrapper pageName="home" currentPage={currentPage}>
+  1459→          <Reveal>
+  1460→            <div className="text-center pt-4">
+  1461→              <div className="relative inline-block mb-5">
+  1462→                <div className="w-[92px] h-[92px] rounded-[20px] overflow-hidden"
+  1463→                  style={{
+  1464→                    border: "3px solid rgba(37,99,235,0.15)",
+  1465→                    boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
+  1466→                  }}>
+  1467→                  <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
+  1468→                </div>
+  1469→              </div>
+  1470→              <h1 className="text-[26px] font-extrabold tracking-tight mb-1">
+  1471→                JUJU <span style={{
+  1472→                  background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+  1473→                  WebkitBackgroundClip: "text",
+  1474→                  WebkitTextFillColor: "transparent",
+  1475→                  backgroundClip: "text",
+  1476→                  filter: "none",
+  1477→                }}>SELLER</span>
+  1478→              </h1>
+  1479→              <div className="font-mono text-xs font-bold tracking-wider inline-block mb-2" style={{
+  1480→                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+  1481→                WebkitBackgroundClip: "text",
+  1482→                WebkitTextFillColor: "transparent",
+  1483→                backgroundClip: "text",
+  1484→                filter: "none",
+  1485→              }}>FFASTUTECH OB 54</div>
+  1486→              <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1487→                Cara download, install, dan setup proxy server free terbaru — work 100%
+  1488→              </p>
+  1489→            </div>
+  1490→          </Reveal>
+  1491→
+  1492→          <Reveal delay={70}>
+  1493→            <div className="flex flex-col gap-2.5 my-6">
+  1494→              <StatusBar dotColor="green" label="STATUS" value="ONLINE" valueColor="green" live />
+  1495→              <StatusBar dotColor="green" label="BERHASIL DOWNLOAD" value={formattedCount} valueColor="white" bigDot live bump={countBump} />
+  1496→            </div>
+  1497→          </Reveal>
+  1498→
+  1499→          <Reveal delay={140}>
+  1500→            <div className="flex items-center gap-1.5 font-mono text-[11px] justify-center mb-4" style={{ color: "var(--ast-gray)" }}>
+  1501→              <span className="w-1 h-1 rounded-full animate-[dot-ping_1.5s_ease-out_infinite]"
+  1502→                style={{ background: "var(--ast-blue)", color: "var(--ast-blue)" }} />
+  1503→              {clock}
+  1504→            </div>
+  1505→          </Reveal>
+  1506→
+  1507→          <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
+  1508→
+  1509→          <Reveal delay={210}>
+  1510→            <div className="flex items-center justify-center gap-2 mb-3">
+  1511→              <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1512→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
+  1513→            </div>
+  1514→            <div className="flex flex-col gap-3.5 mb-5">
+  1515→              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB 54" desc="Main APK" newBadge onClick={() => goPage("download")} />
+  1516→              <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
+  1517→              <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
+  1518→            </div>
+  1519→          </Reveal>
+  1520→
+  1521→          <Reveal delay={350}>
+  1522→            <div className="flex items-center justify-center gap-2 mb-3">
+  1523→              <DiscordIcon className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1524→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Community</span>
+  1525→            </div>
+  1526→            <div className="flex flex-col gap-3.5">
+  1527→              <AppBar icon={<DiscordIcon className="w-[18px] h-[18px]" />} text="DISCORD SERVER" desc="Community" onClick={() => goPage("discord")} />
+  1528→              <AppBar icon={<PlayCircle className="w-[18px] h-[18px]" />} text="VIDEO TUTORIAL" desc="Step by step" onClick={() => goPage("tutorial")} />
+  1529→              <AppBar icon={<FileText className="w-[18px] h-[18px]" />} text="CHANGELOG" desc="VIP features" onClick={() => goPage("changelog")} />
+  1530→              <AppBar icon={<Crown className="w-[18px] h-[18px]" />} text="PEMBELIAN VIP" desc="Beli VIP" highlight onClick={() => goPage("vip")} />
+  1531→            </div>
+  1532→          </Reveal>
+  1533→
+  1534→          <div className="h-px my-5" style={{ background: "linear-gradient(90deg,transparent,var(--ast-gray3),transparent)" }} />
+  1535→
+  1536→          <Reveal delay={350}>
+  1537→            <div className="rounded-2xl p-5 mb-6 relative overflow-hidden border"
+  1538→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+  1539→              <div className="absolute top-0 left-0 right-0 h-[2px]"
+  1540→                style={{ background: "linear-gradient(90deg,var(--ast-blue-d),var(--ast-blue),var(--ast-cyan))", opacity: 0.35 }} />
+  1541→              <h3 className="text-[13px] font-bold mb-3 flex items-center gap-[7px]" style={{ color: "var(--ast-blue-l)" }}>
+  1542→                <Info className="w-4 h-4" /> Cara Install &amp; Setup
+  1543→              </h3>
+  1544→              <ol className="pl-4 text-xs leading-[2.2] list-decimal" style={{ color: "var(--ast-gray)" }}>
+  1545→                <li>Download file <strong className="text-white font-semibold">ASTUTE OB 54</strong> di atas</li>
+  1546→                <li>Install <strong className="text-white font-semibold">Panel ASTUTE</strong> terlebih dahulu</li>
+  1547→                <li>Buka panel, lakukan <strong className="text-white font-semibold">Verif Manual</strong></li>
+  1548→                <li>Set proxy sesuai tutorial di <strong className="text-white font-semibold">Discord</strong></li>
+  1549→                <li>Jalankan game — <strong className="text-white font-semibold">done!</strong></li>
+  1550→              </ol>
+  1551→            </div>
+  1552→          </Reveal>
+  1553→
+  1554→          <Reveal delay={420}>
+  1555→            <div className="flex items-center justify-center mb-4">
+  1556→              <div className="rounded-full py-2 px-4 overflow-hidden inline-flex items-center"
+  1557→                style={{
+  1558→                  background: "rgba(120,130,160,0.1)",
+  1559→                  border: "1px solid rgba(120,130,160,0.1)",
+  1560→                  minWidth: "200px",
+  1561→                }}>
+  1562→                <div className="whitespace-nowrap inline-block" style={{
+  1563→                  animation: "marquee-scroll 7s linear infinite",
+  1564→                }}>
+  1565→                  <span className="font-['Plus_Jakarta_Sans'] text-[12px] font-extrabold tracking-wide" style={{ color: "#ffffff" }}>
+  1566→                    SETUP NYA MUDAH KALO KALIAN NONTON TUTORIALNYA SAMPE HABIS🔥
+  1567→                  </span>
+  1568→                </div>
+  1569→              </div>
+  1570→            </div>
+  1571→            <div className="text-center pt-2">
+  1572→              <div className="text-[10px]" style={{ color: "var(--ast-gray2)" }}>
+  1573→                JujuMarket <span style={{ color: "var(--ast-blue-l)", fontWeight: 600 }}>©4RC</span>
+  1574→              </div>
+  1575→            </div>
+  1576→          </Reveal>
+  1577→        </PageWrapper>
+  1578→
+  1579→        {/* ═══ DOWNLOAD PAGE ═══ */}
+  1580→        <PageWrapper pageName="download" currentPage={currentPage}>
+  1581→          <Reveal>
+  1582→            <button onClick={() => goPage("home")} type="button"
+  1583→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1584→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1585→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1586→            </button>
+  1587→          </Reveal>
+  1588→          <Reveal delay={70}>
+  1589→            <div className="text-center mb-8">
+  1590→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1591→                <Flame className="w-[60px] h-[60px] text-white opacity-90" />
+  1592→              </div>
+  1593→              <h2 className="text-[22px] font-extrabold mb-1.5" style={{
+  1594→                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+  1595→                WebkitBackgroundClip: "text",
+  1596→                WebkitTextFillColor: "transparent",
+  1597→                backgroundClip: "text",
+  1598→                filter: "drop-shadow(0 0 8px rgba(37,99,235,0.4))",
+  1599→              }}>ASTUTE OB 54</h2>
+  1600→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1601→                Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
+  1602→              </p>
+  1603→            </div>
+  1604→          </Reveal>
+  1605→          <Reveal delay={140}>
+  1606→            <div className="flex flex-col gap-2.5 mb-8">
+  1607→              <StatusBar dotColor="green" label="STATUS SERVER" value="ONLINE" valueColor="green" live />
+  1608→              <StatusBar dotColor="green" label="TOTAL DOWNLOAD" value={formattedCount} valueColor="white" bigDot live bump={countBump} />
+  1609→              <StatusBar dotColor="cyan" label="FILE SIZE" value="~700 MB" valueColor="cyan" />
+  1610→            </div>
+  1611→          </Reveal>
+  1612→          <Reveal delay={210}>
+  1613→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+  1614→              <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1615→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Download</span>
+  1616→            </div>
+  1617→            <LinkBox
+  1618→              title="FF MAX ORIGINAL NEW"
+  1619→              url="https://play.google.com/store/apps/details?id=com.dts.freefiremax"
+  1620→              desc="Download Free Fire MAX Original dari Google Play Store"
+  1621→              icon={<Download className="w-5 h-5 text-white" />}
+  1622→              item="ffmax"
+  1623→              onDownload={incrementDownload}
+  1624→              size="~700 MB"
+  1625→            />
+  1626→            <LinkBox
+  1627→              title="FF BIASA ORIGINAL NEW"
+  1628→              url="https://play.google.com/store/apps/details?id=com.dts.freefireth"
+  1629→              desc="Download Free Fire Original dari Google Play Store"
+  1630→              icon={<Download className="w-5 h-5 text-white" />}
+  1631→              item="ffbiasa"
+  1632→              onDownload={incrementDownload}
+  1633→              size="~500 MB"
+  1634→            />
+  1635→            <LinkBox
+  1636→              title="JSON ASTUTE"
+  1637→              url="https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file"
+  1638→              desc="Download file config JSON"
+  1639→              icon={<FileArchive className="w-5 h-5 text-white" />}
+  1640→              item="json"
+  1641→              onDownload={incrementDownload}
+  1642→              size="~2 MB"
+  1643→            />
+  1644→            <LinkBox
+  1645→              title="script ios"
+  1646→              url="https://www.mediafire.com/file/crl6iuhbn5saqli/FFASTUTECH_FREE-VIP.json/file"
+  1647→              desc="Download script ios FFASTUTECH FREE VIP"
+  1648→              icon={<FileArchive className="w-5 h-5 text-white" />}
+  1649→              item="scriptios"
+  1650→              onDownload={incrementDownload}
+  1651→              size="~2 MB"
+  1652→            />
+  1653→          </Reveal>
+  1654→          <Reveal delay={280}>
+  1655→            <div className="mt-6">
+  1656→              <FeatureItem num="01" theme="blue" title="Auto Update" desc="Otomatis update ke versi terbaru tanpa reinstall" />
+  1657→              <FeatureItem num="02" theme="blue" title="Anti-Ban System" desc="Proteksi 3 layer agar akun tetap aman" />
+  1658→              <FeatureItem num="03" theme="blue" title="All Skin Unlocked" desc="Semua skin dan bundle tersedia gratis" />
+  1659→              <FeatureItem num="04" theme="blue" title="Stable Server" desc="99.9% uptime dengan latency rendah" />
+  1660→            </div>
+  1661→          </Reveal>
+  1662→        </PageWrapper>
+  1663→
+  1664→        {/* ═══ PANEL PAGE ═══ */}
+  1665→        <PageWrapper pageName="panel" currentPage={currentPage}>
+  1666→          <Reveal>
+  1667→            <button onClick={() => goPage("home")} type="button"
+  1668→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1669→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1670→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1671→            </button>
+  1672→          </Reveal>
+  1673→          <Reveal delay={70}>
+  1674→            <div className="text-center mb-8">
+  1675→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1676→                <Settings className="w-[60px] h-[60px] text-white opacity-90" />
+  1677→              </div>
+  1678→              <h2 className="text-[22px] font-extrabold mb-1.5">PANEL <span style={{ color: "var(--ast-cyan)" }}>ASTUTE</span></h2>
+  1679→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1680→                Control panel untuk konfigurasi server, proxy, dan manage fitur mod
+  1681→              </p>
+  1682→            </div>
+  1683→          </Reveal>
+  1684→          <Reveal delay={140}>
+  1685→            <div className="flex flex-col gap-4 mb-8">
+  1686→              <StatusBar dotColor="green" label="PANEL STATUS" value="ACTIVE" valueColor="green" live />
+  1687→              <StatusBar dotColor="blue" label="VERSION" value="v2.4.1" valueColor="blue" />
+  1688→            </div>
+  1689→          </Reveal>
+  1690→          <Reveal delay={210}>
+  1691→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+  1692→              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1693→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Panel</span>
+  1694→            </div>
+  1695→            <LinkBox
+  1696→              title="DASHBOARD ASTUTE"
+  1697→              url="https://dash.unlockffbeta.com/"
+  1698→              desc="Buka dashboard control panel"
+  1699→              icon={<Settings className="w-5 h-5 text-white" />}
+  1700→            />
+  1701→          </Reveal>
+  1702→          <Reveal delay={280}>
+  1703→            <div className="mt-6">
+  1704→              <FeatureItem num="01" theme="cyan" title="Proxy Manager" desc="Setup dan ganti proxy dalam 1 klik" />
+  1705→              <FeatureItem num="02" theme="cyan" title="Config Editor" desc="Edit config server langsung dari app" />
+  1706→              <FeatureItem num="03" theme="cyan" title="Auto Patch" desc="Patch otomatis saat ada update baru" />
+  1707→              <FeatureItem num="04" theme="cyan" title="Log Monitor" desc="Pantau log koneksi real-time" />
+  1708→            </div>
+  1709→          </Reveal>
+  1710→        </PageWrapper>
+  1711→
+  1712→        {/* ═══ VERIF PAGE ═══ */}
+  1713→        <PageWrapper pageName="verif" currentPage={currentPage}>
+  1714→          <Reveal>
+  1715→            <button onClick={() => goPage("home")} type="button"
+  1716→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1717→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1718→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1719→            </button>
+  1720→          </Reveal>
+  1721→          <Reveal delay={70}>
+  1722→            <div className="text-center mb-8">
+  1723→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1724→                <ShieldCheck className="w-[60px] h-[60px] text-white opacity-90" />
+  1725→              </div>
+  1726→              <h2 className="text-[22px] font-extrabold mb-1.5">VERIF <span style={{ color: "var(--ast-green)" }}>MANUAL</span></h2>
+  1727→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1728→                Tool bypass verifikasi untuk mengaktifkan fitur premium tanpa limit
+  1729→              </p>
+  1730→            </div>
+  1731→          </Reveal>
+  1732→          <Reveal delay={140}>
+  1733→            <div className="flex flex-col gap-4 mb-8">
+  1734→              <StatusBar dotColor="green" label="VERIF STATUS" value="READY" valueColor="green" live />
+  1735→              <StatusBar dotColor="blue" label="SUCCESS RATE" value="99.2%" valueColor="blue" />
+  1736→            </div>
+  1737→          </Reveal>
+  1738→          <Reveal delay={210}>
+  1739→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+  1740→              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1741→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Link Verifikasi</span>
+  1742→            </div>
+  1743→            <LinkBox
+  1744→              title="UNLOCK ASTUTE"
+  1745→              url="https://www.unlockffbeta.com"
+  1746→              desc="Unlock fitur premium ASTUTE"
+  1747→              icon={<ShieldCheck className="w-5 h-5 text-white" />}
+  1748→            />
+  1749→          </Reveal>
+  1750→          <Reveal delay={280}>
+  1751→            <div className="mt-6">
+  1752→              <FeatureItem num="01" theme="green" title="One-Click Bypass" desc="Verifikasi otomatis tanpa survey" />
+  1753→              <FeatureItem num="02" theme="green" title="Device Spoofer" desc="Mask device ID agar tidak terdeteksi" />
+  1754→              <FeatureItem num="03" theme="green" title="Token Generator" desc="Generate token akses premium" />
+  1755→              <FeatureItem num="04" theme="green" title="Safe Mode" desc="Mode aman untuk pengguna baru" />
+  1756→            </div>
+  1757→          </Reveal>
+  1758→        </PageWrapper>
+  1759→
+  1760→        {/* ═══ DISCORD PAGE ═══ */}
+  1761→        <PageWrapper pageName="discord" currentPage={currentPage}>
+  1762→          <Reveal>
+  1763→            <button onClick={() => goPage("home")} type="button"
+  1764→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1765→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1766→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1767→            </button>
+  1768→          </Reveal>
+  1769→          <Reveal delay={70}>
+  1770→            <div className="text-center mb-8">
+  1771→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1772→                <DiscordIcon className="w-[60px] h-[60px] text-white opacity-90" />
+  1773→              </div>
+  1774→              <h2 className="text-[22px] font-extrabold mb-1.5">DISCORD <span style={{ color: "var(--ast-purple)" }}>SERVER</span></h2>
+  1775→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1776→                Join komunitas ASTUTE — dapatkan bantuan, info update, dan diskusi sesama player
+  1777→              </p>
+  1778→            </div>
+  1779→          </Reveal>
+  1780→          <Reveal delay={140}>
+  1781→            <div className="flex flex-col gap-4 mb-8">
+  1782→              <StatusBar dotColor="green" label="SERVER STATUS" value="ONLINE" valueColor="green" live />
+  1783→              <StatusBar dotColor="blue" label="MEMBERS" value="1,247" valueColor="blue" />
+  1784→            </div>
+  1785→          </Reveal>
+  1786→          <Reveal delay={210}>
+  1787→            <LinkBox
+  1788→              title="JOIN DISCORD SERVER"
+  1789→              url="https://discord.gg/astutetech"
+  1790→              desc="Gabung komunitas ASTUTE di Discord"
+  1791→              icon={<DiscordIcon className="w-5 h-5 text-white" />}
+  1792→            />
+  1793→          </Reveal>
+  1794→          <Reveal delay={280}>
+  1795→            <div className="mt-6">
+  1796→              <FeatureItem num="01" theme="purple" title="24/7 Support" desc="Tim support siap bantu kapan saja" />
+  1797→              <FeatureItem num="02" theme="purple" title="Announcements" desc="Info update dan event terbaru" />
+  1798→              <FeatureItem num="03" theme="purple" title="Giveaway" desc="Giveaway akun dan item secara rutin" />
+  1799→              <FeatureItem num="04" theme="purple" title="1,200+ Members" desc="Komunitas aktif dan ramah" />
+  1800→            </div>
+  1801→          </Reveal>
+  1802→        </PageWrapper>
+  1803→
+  1804→        {/* ═══ TUTORIAL PAGE ═══ */}
+  1805→        <PageWrapper pageName="tutorial" currentPage={currentPage}>
+  1806→          <Reveal>
+  1807→            <button onClick={() => goPage("home")} type="button"
+  1808→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1809→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1810→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1811→            </button>
+  1812→          </Reveal>
+  1813→          <Reveal delay={70}>
+  1814→            <div className="text-center mb-8">
+  1815→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1816→                <PlayCircle className="w-[60px] h-[60px] text-white opacity-90" />
+  1817→              </div>
+  1818→              <h2 className="text-[22px] font-extrabold mb-1.5">VIDEO <span style={{ color: "var(--ast-amber)" }}>TUTORIAL</span></h2>
+  1819→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1820→                Panduan lengkap dari install sampai main — ikutin aja step by step
+  1821→              </p>
+  1822→            </div>
+  1823→          </Reveal>
+  1824→          <Reveal delay={140}>
+  1825→            <div className="flex flex-col gap-4 mb-8">
+  1826→              <StatusBar dotColor="green" label="GUIDE STATUS" value="UPDATED" valueColor="green" live />
+  1827→              <StatusBar dotColor="blue" label="DURATION" value="1 : 52 minute" valueColor="blue" />
+  1828→            </div>
+  1829→          </Reveal>
+  1830→          <Reveal delay={210}>
+  1831→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+  1832→              <ExternalLink className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
+  1833→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Video Tutorial</span>
+  1834→            </div>
+  1835→            <LinkBox
+  1836→              title="TUTORIAL FULL STUP PROXY"
+  1837→              url="https://vt.tiktok.com/ZSmQPyen2/"
+  1838→              desc="Panduan setup proxy dari awal sampai connect"
+  1839→              icon={<PlayCircle className="w-5 h-5 text-white" />}
+  1840→            />
+  1841→            <LinkBox
+  1842→              title="TUTORIAL GUNAKAN DASHBOARD"
+  1843→              url="https://vt.tiktok.com/ZSx8GpjvY/"
+  1844→              desc="Cara pakai dashboard panel ASTUTE"
+  1845→              icon={<PlayCircle className="w-5 h-5 text-white" />}
+  1846→            />
+  1847→            <LinkBox
+  1848→              title="TUTORIAL DAFTAR DASHBOARD & UNLOCK UID ASTUTE"
+  1849→              url="https://youtu.be/LTDAvSCcL6U"
+  1850→              desc="Cara daftar dashboard dan unlock UID ASTUTE"
+  1851→              icon={<PlayCircle className="w-5 h-5 text-white" />}
+  1852→            />
+  1853→          </Reveal>
+  1854→          <Reveal delay={280}>
+  1855→            <div className="mt-6">
+  1856→              <FeatureItem num="01" theme="amber" title="Install Guide" desc="Cara install APK + OBB dengan benar" />
+  1857→              <FeatureItem num="02" theme="amber" title="Proxy Setup" desc="Setting proxy agar server bisa connect" />
+  1858→              <FeatureItem num="03" theme="amber" title="Verif Steps" desc="Tutorial verifikasi manual yang work" />
+  1859→              <FeatureItem num="04" theme="amber" title="Troubleshoot" desc="Solusi untuk error yang sering muncul" />
+  1860→            </div>
+  1861→          </Reveal>
+  1862→        </PageWrapper>
+  1863→
+  1864→        {/* ═══ CHANGELOG / FITUR VIP ACCESS PAGE ═══ */}
+  1865→        <PageWrapper pageName="changelog" currentPage={currentPage}>
+  1866→          <Reveal>
+  1867→            <button onClick={() => goPage("home")} type="button"
+  1868→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1869→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1870→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1871→            </button>
+  1872→          </Reveal>
+  1873→          <Reveal delay={70}>
+  1874→            <div className="text-center mb-8">
+  1875→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1876→                <ShieldCheck className="w-[60px] h-[60px] text-white opacity-90" />
+  1877→              </div>
+  1878→              <h2 className="text-[22px] font-extrabold mb-1.5">FITUR VIP <span style={{
+  1879→                background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #60a5fa)",
+  1880→                WebkitBackgroundClip: "text",
+  1881→                WebkitTextFillColor: "transparent",
+  1882→                backgroundClip: "text",
+  1883→              }}>ACCESS JUJU</span></h2>
+  1884→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1885→                Semua fitur premium yang kamu dapatkan sebagai VIP ACCESS di ASTUTE
+  1886→              </p>
+  1887→            </div>
+  1888→          </Reveal>
+  1889→          <Reveal delay={140}>
+  1890→            <div className="flex flex-col gap-4 mb-8">
+  1891→              <StatusBar dotColor="green" label="VIP STATUS" value="ACTIVE" valueColor="green" live />
+  1892→              <StatusBar dotColor="blue" label="ACCESS LEVEL" value="VIP" valueColor="blue" valueGradient />
+  1893→            </div>
+  1894→          </Reveal>
+  1895→          <Reveal delay={210}>
+  1896→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+  1897→              <ShieldCheck className="w-3 h-3" style={{ color: "var(--ast-blue-l)" }} />
+  1898→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>VIP Features</span>
+  1899→            </div>
+  1900→            <FeatureCarousel theme="blue" items={[
+  1901→              { num: "✅", title: "Android/iPhone", desc: "Bisa digunakan di Android maupun iPhone" },
+  1902→              { num: "✅", title: "Tidak Mudah Terbanned", desc: "Proteksi anti-ban yang kuat dan aman" },
+  1903→              { num: "✅", title: "Claim Mail Seperti Asli", desc: "Bisa klaim mail seperti akun asli" },
+  1904→              { num: "✅", title: "Nambahin Item Di Shop & Dibeli", desc: "Bisa menambahkan item di shop dan membelinya" },
+  1905→              { num: "✅", title: "Badge Keliatan Di Lobby", desc: "Bisa terlihat badgenya di lobby" },
+  1906→              { num: "✅", title: "Prime Level 8 Diubah", desc: "Prime level 8 bisa diubah sesuai keinginan" },
+  1907→              { num: "✅", title: "Setting Region", desc: "Bisa setting region sesuai kebutuhan" },
+  1908→              { num: "✅", title: "Setting Nama", desc: "Bisa setting nama karakter" },
+  1909→              { num: "✅", title: "Bebas Setting Shop", desc: "Kebebasan mengatur shop sesuai selera" },
+  1910→              { num: "✅", title: "Terlihat Sesama Beta Astute", desc: "Bisa terlihat sesama pengguna Beta Astute" },
+  1911→              { num: "✅", title: "Emot Tembus Ori", desc: "Emote bisa tembus ke akun original" },
+  1912→              { num: "✅", title: "Bisa Spin", desc: "Bisa melakukan spin wheel" },
+  1913→              { num: "✅", title: "Karakter Kebuka Semua", desc: "Semua karakter terbuka dan bisa digunakan" },
+  1914→              { num: "✅", title: "Emote Berubah Tembus Ori", desc: "Emote berubah dan tembus ke akun original" },
+  1915→              { num: "✅", title: "Setting Vault Ghoib", desc: "Bisa setting vault ghoib" },
+  1916→              { num: "✅", title: "Main Skin Terbawa Semua", desc: "Bisa main skin terbuka semua (tidak bisa damage)" },
+  1917→              { num: "✅", title: "Setting Pertemanan", desc: "Bisa setting pertemanan" },
+  1918→              { num: "✅", title: "Glowall & Terlihat", desc: "Bisa glowall dan terlihat di lu & sesama FF Astute" },
+  1919→              { num: "✅", title: "Karakter Skill Kebawa", desc: "Skill karakter kebawa di ingame (tidak untuk di room)" },
+  1920→              { num: "✅", title: "Damage & Ga Kerasa", desc: "Bisa damage dan ga kerasa seperti skin aslinya (no skin)" },
+  1921→              { num: "✅", title: "Skills Pet Kebawa", desc: "Skills pet kebawa di ingame" },
+  1922→            ]} />
+  1923→          </Reveal>
+  1924→        </PageWrapper>
+  1925→
+  1926→        {/* ═══ PEMBELIAN VIP PAGE ═══ */}
+  1927→        <PageWrapper pageName="vip" currentPage={currentPage}>
+  1928→          <Reveal>
+  1929→            <button onClick={() => goPage("home")} type="button"
+  1930→              className="inline-flex items-center gap-2 py-2 px-4 rounded-xl text-white text-[13px] font-semibold cursor-pointer mb-7 border"
+  1931→              style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+  1932→              <ArrowLeft className="w-4 h-4" /> Kembali
+  1933→            </button>
+  1934→          </Reveal>
+  1935→          <Reveal delay={70}>
+  1936→            <div className="text-center mb-8">
+  1937→              <div className="inline-flex items-center justify-center mb-5 w-[72px] h-[72px]">
+  1938→                <Crown className="w-[60px] h-[60px] text-white opacity-90" />
+  1939→              </div>
+  1940→              <h2 className="text-[22px] font-extrabold mb-1.5" style={{
+  1941→                background: "linear-gradient(135deg, #92400e, #f59e0b, #fbbf24)",
+  1942→                WebkitBackgroundClip: "text",
+  1943→                WebkitTextFillColor: "transparent",
+  1944→                backgroundClip: "text",
+  1945→              }}>PEMBELIAN VIP</h2>
+  1946→              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+  1947→                Dapatkan akses VIP ASTUTE dan nikmati semua fitur premium. Hubungi admin atau helper di bawah untuk pembelian.
+  1948→              </p>
+  1949→            </div>
+  1950→          </Reveal>
+  1951→          <Reveal delay={140}>
+  1952→            <div className="flex flex-col gap-4 mb-8">
+  1953→              <StatusBar dotColor="green" label="VIP STATUS" value="ACTIVE" valueColor="green" live />
+  1954→              <StatusBar dotColor="amber" label="PAYMENT" value="MANUAL" valueColor="amber" />
+  1955→            </div>
+  1956→          </Reveal>
+  1957→
+  1958→          {/* Keuntungan VIP */}
+  1959→          <Reveal delay={210}>
+  1960→            <div className="flex items-center gap-[7px] mb-3 px-[2px]">
+  1961→              <Crown className="w-3 h-3" style={{ color: "var(--ast-amber)" }} />
+  1962→              <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Keuntungan VIP</span>
+  1963→            </div>
+  1964→            <FeatureCarousel theme="amber" items={[
+  1965→              { num: "📱", title: "Perangkat & Keamanan", desc: "",
+  1966→                features: [
+  1967→                  "Bisa digunakan di Android maupun iPhone",
+  1968→                  "Proteksi anti-ban yang kuat dan aman",
+  1969→                ] },
+  1970→              { num: "👤", title: "Akun & Profil", desc: "",
+  1971→                features: [
+  1972→                  "Bisa klaim mail seperti akun asli",
+  1973→                  "Setting nama karakter",
+  1974→                  "Setting region sesuai kebutuhan",
+  1975→                  "Badge terlihat di lobby",
+  1976→                  "Prime level 8 bisa diubah sesuai keinginan",
+  1977→                  "Setting pertemanan",
+  1978→                ] },
+  1979→              { num: "🛒", title: "Shop & Item", desc: "",
+  1980→                features: [
+  1981→                  "Nambahin item di shop & dibeli",
+  1982→                  "Kebebasan mengatur shop sesuai selera",
+  1983→                  "Setting vault ghoib",
+  1984→                ] },
+  1985→              { num: "🎭", title: "Karakter & Skin", desc: "",
+  1986→                features: [
+  1987→                  "Semua karakter terbuka dan bisa digunakan",
+  1988→                  "Main skin terbawa semua (tidak bisa damage)",
+  1989→                  "Skill karakter kebawa di ingame (tidak untuk di room)",
+  1990→                ] },
+  1991→              { num: "💃", title: "Emote & Interaksi", desc: "",
+  1992→                features: [
+  1993→                  "Emote tembus ke akun original",
+  1994→                  "Emote berubah dan tembus ke akun original",
+  1995→                  "Terlihat sesama pengguna Beta Astute",
+  1996→                  "Bisa melakukan spin wheel",
+  1997→                ] },
+  1998→              { num: "⚔️", title: "Combat & Spesial", desc: "",
+  1999→                features: [
+  2000→                  "Glowall & terlihat di lu & sesama FF Astute",
+
+[showing lines 1-2000 of 2090; use offset=2001 with limit to continue reading]
