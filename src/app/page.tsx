@@ -2406,6 +2406,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>30K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-mono" style={{ color: "rgba(148,163,184,0.6)" }}>1,70$</div>
 
                   </div>
                 </div>
@@ -2427,6 +2428,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>190K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-mono" style={{ color: "rgba(148,163,184,0.6)" }}>11$</div>
 
                   </div>
                 </div>
@@ -2447,6 +2449,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>530K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-mono" style={{ color: "rgba(148,163,184,0.6)" }}>30$</div>
 
                   </div>
                 </div>
@@ -2484,6 +2487,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>60K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-mono" style={{ color: "rgba(148,163,184,0.6)" }}>3,60$</div>
 
                   </div>
                 </div>
@@ -2504,6 +2508,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>420K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-mono" style={{ color: "rgba(148,163,184,0.6)" }}>24$</div>
 
                   </div>
                 </div>
@@ -2524,6 +2529,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>899K</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-mono" style={{ color: "rgba(148,163,184,0.6)" }}>50$</div>
 
                   </div>
                 </div>
@@ -2544,6 +2550,7 @@ export default function AstuteApp() {
                       filter: "none",
                     }}>1.5JT</div>
                     <div className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</div>
+                    <div className="text-[9px] font-mono" style={{ color: "rgba(148,163,184,0.6)" }}>83,25$</div>
 
                   </div>
                 </div>
