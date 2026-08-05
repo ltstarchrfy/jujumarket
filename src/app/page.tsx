@@ -1699,17 +1699,10 @@ export default function AstuteApp() {
         <PageWrapper pageName="home" currentPage={currentPage}>
           <Reveal>
             <div className="text-center pt-4">
-              {/* Banner / Cover image behind profile */}
-              <div className="relative w-full max-w-[420px] mx-auto mb-2 rounded-2xl overflow-hidden" style={{ height: "110px" }}>
-                <img src="/banner.png" alt="Banner" className="w-full h-full object-cover block" />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 50%, var(--ast-bg) 100%)" }} />
-              </div>
-              {/* Profile avatar overlapping banner */}
-              <div className="relative inline-block mb-5" style={{ marginTop: "-50px" }}>
+              <div className="relative inline-block mb-5">
                 <div className="w-[92px] h-[92px] rounded-[20px] overflow-hidden relative"
                   style={{
-                    border: "3px solid rgba(37,99,235,0.35)",
-                    boxShadow: "0 0 20px rgba(37,99,235,0.15)",
+                    border: "3px solid rgba(37,99,235,0.2)",
                     animation: "3.5s ease-in-out infinite profile-float",
                   }}>
                   <img src="/avatar.jpg" alt="JUJU SELLER" className="w-full h-full object-cover block" />
@@ -2802,14 +2795,12 @@ export default function AstuteApp() {
 
               {/* QR Code Image */}
               <div className="flex items-center justify-center px-4 pb-4">
-                <div className="w-full max-w-[320px] rounded-xl overflow-hidden" style={{ aspectRatio: "3/4" }}>
-                  <img 
-                    src="/QRIS.png" 
-                    alt="QRIS Payment Code" 
-                    className="w-full block"
-                    style={{ height: "110%", objectFit: "cover", objectPosition: "center 18%" }}
-                  />
-                </div>
+                <img 
+                  src="/QRIS.png" 
+                  alt="QRIS Payment Code" 
+                  className="w-full max-w-[320px] h-auto block rounded-xl"
+                  style={{ aspectRatio: "3/4" }}
+                />
               </div>
 
               {/* Download Button */}
