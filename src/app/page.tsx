@@ -2795,14 +2795,12 @@ export default function AstuteApp() {
 
               {/* QR Code Image */}
               <div className="flex items-center justify-center px-4 pb-4">
-                <div className="rounded-xl p-4 border" style={{ background: "#ffffff", borderColor: "rgba(37,99,235,0.15)" }}>
-                  <img 
-                    src="/QRIS.png" 
-                    alt="QRIS Payment Code" 
-                    className="w-full max-w-[320px] h-auto block"
-                    style={{ imageRendering: "crisp-edges" }}
-                  />
-                </div>
+                <img 
+                  src="/QRIS.png" 
+                  alt="QRIS Payment Code" 
+                  className="w-full max-w-[380px] h-auto block rounded-xl"
+                  style={{ aspectRatio: "4/3" }}
+                />
               </div>
 
               {/* Download Button */}
@@ -2810,8 +2808,8 @@ export default function AstuteApp() {
                 <button
                   onClick={() => {
                     const link = document.createElement("a");
-                    link.href = "/QRIS.jpeg";
-                    link.download = "QRIS_JUJU_SELLER.jpeg";
+                    link.href = "/QRIS.png";
+                    link.download = "QRIS_JUJU_SELLER.png";
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
