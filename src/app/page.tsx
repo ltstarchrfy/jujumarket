@@ -2798,7 +2798,7 @@ export default function AstuteApp() {
                 <img 
                   src="/QRIS.png" 
                   alt="QRIS Payment Code" 
-                  className="w-full max-w-[320px] h-auto block rounded-xl"
+                  className="w-full max-w-[360px] h-auto block rounded-xl"
                   style={{ aspectRatio: "3/4" }}
                 />
               </div>
