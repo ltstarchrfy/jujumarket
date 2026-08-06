@@ -2796,7 +2796,7 @@ export default function AstuteApp() {
               {/* QR Code Image */}
               <div className="flex items-center justify-center px-4 pb-4">
                 <img 
-                  src="/QRIS.png" 
+                  src="/QRIS.png?v=20260806" 
                   alt="QRIS Payment Code" 
                   className="w-full max-w-[360px] h-auto block rounded-xl"
                   style={{ aspectRatio: "3/4" }}
