@@ -1253,11 +1253,11 @@ export default function AstuteApp() {
     }
   }, []);
 
-  // Page navigation - smooth, +1 counter via Firebase when visiting ASTUTE OB54 download page
+  // Page navigation - smooth, +1 counter via Firebase when visiting ASTUTE OB55 download page
   const goPage = useCallback((name: PageName) => {
     playClickSound();
     setCurrentPage(name);
-    // Auto +1 via Firebase when someone enters the download/ASTUTE OB54 page
+    // Auto +1 via Firebase when someone enters the download/ASTUTE OB55 page
     if (name === "download") {
       firebaseIncrement(1);
     }
@@ -1309,7 +1309,7 @@ export default function AstuteApp() {
   }, [firebaseIncrement]);
 
   const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
-    { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB54", desc: "Download main APK" },
+    { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB55", desc: "Download main APK" },
     { name: "panel", icon: <Settings className="w-6 h-6" />, title: "PANEL ASTUTE", desc: "Control panel & config" },
     { name: "verif", icon: <ShieldCheck className="w-6 h-6" />, title: "VERIF MANUAL", desc: "Bypass verification" },
     { name: "discord", icon: <DiscordIcon className="w-6 h-6" />, title: "DISCORD SERVER", desc: "Community & support" },
@@ -1723,7 +1723,7 @@ export default function AstuteApp() {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 filter: "none",
-              }}>ASTUTE OB54</div>
+              }}>ASTUTE OB55</div>
               <p className="text-[13px] leading-relaxed max-w-[320px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Cara download, install, dan setup proxy server free terbaru — work 100%
               </p>
@@ -1808,7 +1808,7 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
             </div>
             <div className="flex flex-col gap-3.5 mb-5">
-              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB54" desc="Main APK" newBadge onClick={() => { bumpDownload(); goPage("download"); }} />
+              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB55" desc="Main APK" newBadge onClick={() => { bumpDownload(); goPage("download"); }} />
               <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
             </div>
@@ -1902,7 +1902,7 @@ export default function AstuteApp() {
                     </h3>
                     <div className="overflow-y-auto pl-1 pr-1" style={{ maxHeight: "180px", scrollBehavior: "smooth", scrollbarWidth: "thin", scrollbarColor: "rgba(37,99,235,0.15) transparent" }}>
                       <ol className="pl-4 text-xs leading-[2.4] list-decimal" style={{ color: "var(--ast-gray)" }}>
-                        <li>Download file yang berada di <strong className="text-white font-semibold">ASTUTE OB54</strong> di atas</li>
+                        <li>Download file yang berada di <strong className="text-white font-semibold">ASTUTE OB55</strong> di atas</li>
                         <li>Yang perlu kalian download itu <strong className="text-white font-semibold">FF 64 bit atau 32 bit</strong> yang mana kalian enak pake itu</li>
                         <li>Download <strong className="text-white font-semibold">JSON ASTUTE</strong> juga lalu kalian tempel di files FF nya</li>
                         <li>Verify akun kalian dengan link di atas yang bertulisan <strong className="text-white font-semibold">Verif Manual</strong></li>
@@ -1971,7 +1971,7 @@ export default function AstuteApp() {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 filter: "none",
-              }}>ASTUTE OB54</h2>
+              }}>ASTUTE OB55</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
                 Private server Free Fire terbaru dengan fitur lengkap dan anti-ban protection
               </p>
