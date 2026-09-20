@@ -12,6 +12,19 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Route each page path to the main SPA page
+  async rewrites() {
+    return [
+      { source: "/download", destination: "/" },
+      { source: "/panel", destination: "/" },
+      { source: "/verif", destination: "/" },
+      { source: "/discord", destination: "/" },
+      { source: "/tutorial", destination: "/" },
+      { source: "/changelog", destination: "/" },
+      { source: "/vip", destination: "/" },
+      { source: "/qris", destination: "/" },
+    ];
+  },
   turbopack: {
     root: path.resolve(__dirname),
     resolveAlias: {

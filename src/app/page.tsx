@@ -45,6 +45,16 @@ type PageName =
   | "vip"
   | "qris";
 
+// Valid pages for URL routing
+const VALID_PAGES: PageName[] = ["home", "download", "panel", "verif", "discord", "tutorial", "changelog", "vip", "qris"];
+
+// Read current page from URL pathname (e.g. /download → "download")
+function getPageFromURL(): PageName {
+  if (typeof window === "undefined") return "home";
+  const path = window.location.pathname.replace(/^\//, "").replace(/\/$/, "").toLowerCase();
+  return VALID_PAGES.includes(path as PageName) ? (path as PageName) : "home";
+}
+
 // ─── WhatsApp Icon ────────────────────────────────────────────────────────────
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -1091,7 +1101,7 @@ function PageWrapper({ pageName, currentPage, children }: {
 // ─── Main App ────────────────────────────────────────────────────────────────
 
 export default function AstuteApp() {
-  const [currentPage, setCurrentPage] = useState<PageName>("home");
+  const [currentPage, setCurrentPage] = useState<PageName>(() => getPageFromURL());
   const [panelOpen, setPanelOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
@@ -1257,12 +1267,26 @@ export default function AstuteApp() {
   const goPage = useCallback((name: PageName) => {
     playClickSound();
     setCurrentPage(name);
+    // Update browser URL to match the page (e.g. /download, /vip, /qris)
+    const url = name === "home" ? "/" : `/${name}`;
+    try {
+      window.history.pushState({ page: name }, "", url);
+    } catch {}
     // Auto +1 via Firebase when someone enters the download/ASTUTE OB55 page
     if (name === "download") {
       firebaseIncrement(1);
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [playClickSound]);
+
+  // Handle browser back/forward buttons — sync page with URL
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPage(getPageFromURL());
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   // ─── VIP Popup: show when entering VIP page ────────────────────────────────
   useEffect(() => {
