@@ -1,9 +1,0 @@
-{
-  "/_global-error/page": "/_global-error",
-  "/_not-found/page": "/_not-found",
-  "/api/count/route": "/api/count",
-  "/api/download/route": "/api/download",
-  "/api/route": "/api",
-  "/api/vip-popup/route": "/api/vip-popup",
-  "/page": "/"
-}
