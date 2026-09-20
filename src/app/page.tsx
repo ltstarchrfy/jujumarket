@@ -52,12 +52,12 @@ const VALID_PAGES: PageName[] = ["home", "download", "panel", "verif", "discord"
 const URL_TO_PAGE: Record<string, PageName> = {
   "": "home",
   "download": "download",
-  "verifikasi": "panel",
-  "verif": "verif",
+  "Dashboard": "panel",
+  "Verifikasi": "verif",
   "discord": "discord",
   "tutorial": "tutorial",
   "changelog": "changelog",
-  "buyvip": "vip",
+  "Buyvip": "vip",
   "qris": "qris",
 };
 
@@ -65,19 +65,19 @@ const URL_TO_PAGE: Record<string, PageName> = {
 const PAGE_TO_URL: Record<PageName, string> = {
   home: "/",
   download: "/download",
-  panel: "/verifikasi",
-  verif: "/verif",
+  panel: "/Dashboard",
+  verif: "/Verifikasi",
   discord: "/discord",
   tutorial: "/tutorial",
   changelog: "/changelog",
-  vip: "/buyvip",
+  vip: "/Buyvip",
   qris: "/qris",
 };
 
-// Read current page from URL pathname
+// Read current page from URL pathname (case-sensitive, must match exactly)
 function getPageFromURL(): PageName {
   if (typeof window === "undefined") return "home";
-  const path = window.location.pathname.replace(/^\//, "").replace(/\/$/, "").toLowerCase();
+  const path = window.location.pathname.replace(/^\//, "").replace(/\/$/, "");
   return URL_TO_PAGE[path] ?? "home";
 }
 
