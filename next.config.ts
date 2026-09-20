@@ -16,12 +16,12 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       { source: "/download", destination: "/" },
-      { source: "/panel", destination: "/" },
+      { source: "/verifikasi", destination: "/" },
       { source: "/verif", destination: "/" },
       { source: "/discord", destination: "/" },
       { source: "/tutorial", destination: "/" },
       { source: "/changelog", destination: "/" },
-      { source: "/vip", destination: "/" },
+      { source: "/buyvip", destination: "/" },
       { source: "/qris", destination: "/" },
     ];
   },

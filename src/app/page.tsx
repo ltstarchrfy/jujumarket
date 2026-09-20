@@ -45,14 +45,40 @@ type PageName =
   | "vip"
   | "qris";
 
-// Valid pages for URL routing
+// Valid pages for URL routing (internal page name)
 const VALID_PAGES: PageName[] = ["home", "download", "panel", "verif", "discord", "tutorial", "changelog", "vip", "qris"];
 
-// Read current page from URL pathname (e.g. /download → "download")
+// Map URL path → internal page name (for new public URLs)
+const URL_TO_PAGE: Record<string, PageName> = {
+  "": "home",
+  "download": "download",
+  "verifikasi": "panel",
+  "verif": "verif",
+  "discord": "discord",
+  "tutorial": "tutorial",
+  "changelog": "changelog",
+  "buyvip": "vip",
+  "qris": "qris",
+};
+
+// Map internal page name → URL path (for pushState)
+const PAGE_TO_URL: Record<PageName, string> = {
+  home: "/",
+  download: "/download",
+  panel: "/verifikasi",
+  verif: "/verif",
+  discord: "/discord",
+  tutorial: "/tutorial",
+  changelog: "/changelog",
+  vip: "/buyvip",
+  qris: "/qris",
+};
+
+// Read current page from URL pathname
 function getPageFromURL(): PageName {
   if (typeof window === "undefined") return "home";
   const path = window.location.pathname.replace(/^\//, "").replace(/\/$/, "").toLowerCase();
-  return VALID_PAGES.includes(path as PageName) ? (path as PageName) : "home";
+  return URL_TO_PAGE[path] ?? "home";
 }
 
 // ─── WhatsApp Icon ────────────────────────────────────────────────────────────
@@ -1267,8 +1293,8 @@ export default function AstuteApp() {
   const goPage = useCallback((name: PageName) => {
     playClickSound();
     setCurrentPage(name);
-    // Update browser URL to match the page (e.g. /download, /vip, /qris)
-    const url = name === "home" ? "/" : `/${name}`;
+    // Update browser URL to match the page (e.g. /download, /buyvip, /qris)
+    const url = PAGE_TO_URL[name] ?? "/";
     try {
       window.history.pushState({ page: name }, "", url);
     } catch {}
