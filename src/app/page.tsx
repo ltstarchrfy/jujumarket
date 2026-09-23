@@ -3093,6 +3093,68 @@ export default function AstuteApp() {
             </div>
           </Reveal>
 
+          {/* ─── Video Tutorial Boxes (Horizontal Scroll) ─── */}
+          <Reveal delay={250}>
+            <div className="mt-5">
+              <div className="flex items-center gap-2 mb-3 px-1">
+                <PlayCircle className="w-3.5 h-3.5" style={{ color: "#60a5fa" }} />
+                <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Video Tutorial</span>
+                <span className="ml-auto text-[9px]" style={{ color: "var(--ast-gray)" }}>← geser →</span>
+              </div>
+              <div
+                className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1"
+                style={{
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "rgba(37,99,235,0.3) transparent",
+                  scrollSnapType: "x mandatory",
+                  WebkitOverflowScrolling: "touch",
+                }}
+              >
+                {/* Video Box 1 */}
+                <div
+                  className="shrink-0 rounded-2xl border relative overflow-hidden"
+                  style={{
+                    width: "260px",
+                    height: "180px",
+                    background: "linear-gradient(135deg, rgba(30,58,95,0.4), rgba(29,78,216,0.15))",
+                    borderColor: "rgba(37,99,235,0.25)",
+                    scrollSnapAlign: "start",
+                  }}
+                >
+                  <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ background: "rgba(37,99,235,0.2)", border: "1px solid rgba(37,99,235,0.4)" }}>
+                      <PlayCircle className="w-6 h-6" style={{ color: "#60a5fa" }} />
+                    </div>
+                    <div className="text-[13px] font-bold text-center" style={{ color: "var(--ast-white)" }}>VIDEO 1</div>
+                    <div className="text-[10px] mt-1" style={{ color: "var(--ast-gray)" }}>Tunggu video diupload</div>
+                  </div>
+                </div>
+
+                {/* Video Box 2 */}
+                <div
+                  className="shrink-0 rounded-2xl border relative overflow-hidden"
+                  style={{
+                    width: "260px",
+                    height: "180px",
+                    background: "linear-gradient(135deg, rgba(30,58,95,0.4), rgba(29,78,216,0.15))",
+                    borderColor: "rgba(37,99,235,0.25)",
+                    scrollSnapAlign: "start",
+                  }}
+                >
+                  <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ background: "rgba(37,99,235,0.2)", border: "1px solid rgba(37,99,235,0.4)" }}>
+                      <PlayCircle className="w-6 h-6" style={{ color: "#60a5fa" }} />
+                    </div>
+                    <div className="text-[13px] font-bold text-center" style={{ color: "var(--ast-white)" }}>VIDEO 2</div>
+                    <div className="text-[10px] mt-1" style={{ color: "var(--ast-gray)" }}>Tunggu video diupload</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
           <Reveal delay={280}>
             <div className="rounded-2xl p-4 mt-5 border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
               <div className="flex items-center gap-2 mb-3">
@@ -3105,8 +3167,8 @@ export default function AstuteApp() {
                   <p>Soalnya versi 2K22 ini make sistem login lama. Discord kebuka cuma buat verifikasi doang, abis itu harus balik ke FF. Ini normal, bukan error.</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-[12.5px] mb-1" style={{ color: "var(--ast-white)" }}>Bisa dipake akun Guest?</p>
-                  <p>Bisa, tapi saran mending login Facebook biar data aman. Guest rentan hilang kalau lu uninstall atau clear data.</p>
+                  <p className="font-semibold text-[12.5px] mb-1" style={{ color: "var(--ast-white)" }}>Bisa login lewat mana aja?</p>
+                  <p>Gabisa sembarangan. Aksesnya murni lewat Facebook — itu salah satu metode login, tapi bukan login beneran. Nanti lu disuruh autentikasi lagi lewat Discord. Jadi Facebook cuma pintu masuknya, verifikasi aslinya lewat Discord.</p>
                 </div>
                 <div>
                   <p className="font-semibold text-[12.5px] mb-1" style={{ color: "var(--ast-white)" }}>Aman gak nih?</p>
