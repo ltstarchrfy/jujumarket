@@ -3039,31 +3039,32 @@ export default function AstuteApp() {
                   WAJIB JOIN DISCORD DULU BUAT VERIFIKASI
                 </div>
 
-                {/* Gambar dengan icon ✅ ❌ di atasnya */}
-                <div className="relative rounded-xl overflow-hidden mb-4" style={{ aspectRatio: "1/1", background: "#000" }}>
+                {/* Gambar banner ramping dengan icon ✅ ❌ di atasnya */}
+                <div className="relative rounded-xl overflow-hidden mb-4" style={{ height: "120px", background: "#000" }}>
                   <img
                     src="/discord-verify.png"
                     alt="Discord Verification"
                     className="w-full h-full object-cover block"
+                    style={{ objectPosition: "center" }}
                   />
                   {/* Overlay icon ✅ (oren) di pojok kiri atas */}
-                  <div className="absolute top-3 left-3 flex items-center gap-2 px-2.5 py-1.5 rounded-full" style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}>
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: "#f97316", border: "1.5px solid #fb923c" }}>
-                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 rounded-full" style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}>
+                    <div className="w-4 h-4 rounded-full flex items-center justify-center" style={{ background: "#f97316", border: "1.5px solid #fb923c" }}>
+                      <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                     </div>
-                    <span className="text-[10px] font-bold" style={{ color: "#f97316" }}>BERHASIL</span>
+                    <span className="text-[9px] font-bold" style={{ color: "#f97316" }}>BERHASIL</span>
                   </div>
                   {/* Overlay icon ❌ (putih) di pojok kanan atas */}
-                  <div className="absolute top-3 right-3 flex items-center gap-2 px-2.5 py-1.5 rounded-full" style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}>
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.8)" }}>
-                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="absolute top-2 right-2 flex items-center gap-1.5 px-2 py-1 rounded-full" style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}>
+                    <div className="w-4 h-4 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.8)" }}>
+                      <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="18" y1="6" x2="6" y2="18" />
                         <line x1="6" y1="6" x2="18" y2="18" />
                       </svg>
                     </div>
-                    <span className="text-[10px] font-bold" style={{ color: "#ffffff" }}>GAGAL</span>
+                    <span className="text-[9px] font-bold" style={{ color: "#ffffff" }}>GAGAL</span>
                   </div>
                 </div>
 
