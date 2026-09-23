@@ -1867,6 +1867,35 @@ export default function AstuteApp() {
             </div>
           </Reveal>
 
+          {/* ─── FF OLD 2K22 Box ─── */}
+          <Reveal delay={280}>
+            <div className="mt-4 relative overflow-hidden rounded-2xl border cursor-pointer active:scale-[0.98]"
+              style={{
+                background: "linear-gradient(135deg, rgba(30,58,95,0.3), rgba(29,78,216,0.15))",
+                borderColor: "rgba(37,99,235,0.25)",
+                transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+              }}
+              onClick={() => goPage("ff-old-2k22")}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+              <div className="p-4 relative z-[1] flex items-center gap-3">
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                  style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)", boxShadow: "none" }}>
+                  <Flame className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-[14px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>FF OLD 2K22</span>
+                    <span className="px-1.5 py-[1px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>OLD</span>
+                  </div>
+                  <div className="text-[11px]" style={{ color: "var(--ast-gray)" }}>Versi jadul, login FB + Discord</div>
+                </div>
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-gray)" }}>
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+            </div>
+          </Reveal>
+
           <Reveal delay={350}>
             <div className="flex items-center justify-center gap-2 mb-3">
               <DiscordIcon className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
@@ -3020,22 +3049,48 @@ export default function AstuteApp() {
           </Reveal>
 
           <Reveal delay={210}>
-            <a href="https://rewindmobile.online/" target="_blank" rel="noopener noreferrer"
-              className="block w-full py-4 rounded-2xl text-center text-[14px] font-bold mb-3 cursor-pointer active:scale-[0.98]"
-              style={{
-                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
-                color: "#fff",
-                transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-                boxShadow: "none",
-              }}>
-              <span className="inline-flex items-center gap-2">
-                <Download className="w-4 h-4" />
-                DOWNLOAD FF OLD 2K22
-              </span>
-            </a>
-            <p className="text-center text-[10px]" style={{ color: "var(--ast-gray)" }}>
-              Link akan membuka tab baru ke rewindmobile.online
-            </p>
+            <div className="rounded-2xl border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.25)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+
+              <div className="p-5">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)", color: "#fff" }}>
+                    APK FILE
+                  </div>
+                  <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "rgba(37,99,235,0.1)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.2)" }}>
+                    MEDIAFIRE
+                  </div>
+                </div>
+
+                <div className="text-center mb-4">
+                  <div className="text-[15px] font-bold mb-1" style={{ color: "var(--ast-white)" }}>FF OLD 2K22 APK</div>
+                  <div className="text-[11px]" style={{ color: "var(--ast-gray)" }}>Klik tombol di bawah buat mulai download</div>
+                </div>
+
+                <button
+                  onClick={() => {
+                    const link = document.createElement("a");
+                    link.href = "https://www.mediafire.com/file/xkq9qvte9otjj6q/";
+                    link.download = "";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="w-full py-4 rounded-xl text-[14px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] mb-2"
+                  style={{
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                    color: "#fff",
+                    transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                    boxShadow: "none",
+                  }}>
+                  <Download className="w-4 h-4" />
+                  DOWNLOAD APK
+                </button>
+                <p className="text-center text-[10px]" style={{ color: "var(--ast-gray)" }}>
+                  Download langsung dari Mediafire, ga keluar web
+                </p>
+              </div>
+            </div>
           </Reveal>
 
           <Reveal delay={280}>
