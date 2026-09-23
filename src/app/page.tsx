@@ -43,10 +43,11 @@ type PageName =
   | "tutorial"
   | "changelog"
   | "vip"
-  | "qris";
+  | "qris"
+  | "ff-old-2k22";
 
 // Valid pages for URL routing (internal page name)
-const VALID_PAGES: PageName[] = ["home", "download", "panel", "verif", "discord", "tutorial", "changelog", "vip", "qris"];
+const VALID_PAGES: PageName[] = ["home", "download", "panel", "verif", "discord", "tutorial", "changelog", "vip", "qris", "ff-old-2k22"];
 
 // Map URL path → internal page name (for new public URLs)
 const URL_TO_PAGE: Record<string, PageName> = {
@@ -59,6 +60,7 @@ const URL_TO_PAGE: Record<string, PageName> = {
   "changelog": "changelog",
   "Buyvip": "vip",
   "qris": "qris",
+  "ff-old-2k22": "ff-old-2k22",
 };
 
 // Map internal page name → URL path (for pushState)
@@ -72,6 +74,7 @@ const PAGE_TO_URL: Record<PageName, string> = {
   changelog: "/changelog",
   vip: "/Buyvip",
   qris: "/qris",
+  "ff-old-2k22": "/ff-old-2k22",
 };
 
 // Read current page from URL pathname (case-sensitive, must match exactly)
@@ -2960,6 +2963,102 @@ export default function AstuteApp() {
               icon={<TelegramIcon className="w-5 h-5 text-white" />}
               item="qris-tele-admin"
             />
+          </Reveal>
+        </PageWrapper>
+
+        {/* ═══ FF OLD 2K22 PAGE ═══ */}
+        <PageWrapper pageName="ff-old-2k22" currentPage={currentPage}>
+          <Reveal>
+            <button onClick={() => goPage("home")} type="button"
+              className="flex items-center gap-2 mb-6 text-[12px] font-semibold transition cursor-pointer"
+              style={{ color: "var(--ast-gray)" }}>
+              <ArrowLeft className="w-4 h-4" /> Kembali ke Beranda
+            </button>
+          </Reveal>
+
+          <Reveal delay={70}>
+            <div className="text-center mb-7 relative">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider mb-3" style={{ background: "rgba(37,99,235,0.12)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.25)" }}>
+                <Flame className="w-3 h-3" /> OLD VERSION
+              </div>
+              <h2 className="text-[24px] font-extrabold tracking-tight mb-2" style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "none",
+              }}>FF OLD 2K22</h2>
+              <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
+                Versi Free Fire lama tahun 2022 — buat yang mau nostalgia atau butuh versi lawas buat akun tertentu
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={140}>
+            <div className="rounded-2xl border p-5 mb-4" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
+              <h3 className="font-bold text-[15px] mb-3 flex items-center gap-2" style={{ color: "var(--ast-white)" }}>
+                <Info className="w-4 h-4" style={{ color: "#60a5fa" }} /> Baca Dulu Sebelum Download
+              </h3>
+              <div className="space-y-3 text-[12.5px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
+                <p>
+                  Oke sebelum download, ada beberapa hal yang harus lu tau biar nanti ga bingung pas mau masuk. Versi ini lumayan jadul tapi masih work buat login pake akun lama. Buat yang punya akun FB atau Discord, ada cara khususnya.
+                </p>
+                <div className="rounded-xl p-3" style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.15)" }}>
+                  <p className="font-semibold mb-1.5" style={{ color: "#60a5fa" }}>🔧 Cara Login (Penting!)</p>
+                  <p className="mb-2">
+                    Waktu lu buka FFnya, nanti muncul pilihan login. Pilih yang <strong className="text-white">Facebook</strong>. Kalau di HP lu ada app Discord kebuka pas mau login, <strong className="text-white">langsung login aja sekali pencet</strong>, terus <strong className="text-white">tutup Discord-nya cepet</strong>.
+                  </p>
+                  <p>
+                    Abis itu balik buka Free Fire lu, lanjut login lagi pake Facebook. Insyaallah masuk. Ini udah dites sama beberapa orang, work kok.
+                  </p>
+                </div>
+                <p>
+                  Catatan: jangan langsung login Discord terus diem aja, nanti ganggu proses login-nya. Pencet, tutup, balik ke FF — gitu doang.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={210}>
+            <a href="https://rewindmobile.online/" target="_blank" rel="noopener noreferrer"
+              className="block w-full py-4 rounded-2xl text-center text-[14px] font-bold mb-3 cursor-pointer active:scale-[0.98]"
+              style={{
+                background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                color: "#fff",
+                transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                boxShadow: "none",
+              }}>
+              <span className="inline-flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                DOWNLOAD FF OLD 2K22
+              </span>
+            </a>
+            <p className="text-center text-[10px]" style={{ color: "var(--ast-gray)" }}>
+              Link akan membuka tab baru ke rewindmobile.online
+            </p>
+          </Reveal>
+
+          <Reveal delay={280}>
+            <div className="rounded-2xl p-4 mt-5 border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
+              <div className="flex items-center gap-2 mb-3">
+                <ShieldCheck className="w-3.5 h-3.5" style={{ color: "#60a5fa" }} />
+                <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Yang Sering Ditanyain</span>
+              </div>
+              <div className="space-y-3 text-[12px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
+                <div>
+                  <p className="font-semibold text-[12.5px] mb-1" style={{ color: "var(--ast-white)" }}>Kenapa login-nya ribet gitu?</p>
+                  <p>Soalnya versi 2K22 ini make sistem login lama. Discord kebuka cuma buat verifikasi doang, abis itu harus balik ke FF. Ini normal, bukan error.</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-[12.5px] mb-1" style={{ color: "var(--ast-white)" }}>Bisa dipake akun Guest?</p>
+                  <p>Bisa, tapi saran mending login Facebook biar data aman. Guest rentan hilang kalau lu uninstall atau clear data.</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-[12.5px] mb-1" style={{ color: "var(--ast-white)" }}>Aman gak nih?</p>
+                  <p>Aman kok selama lu ngikutin caranya. Jangan skip langkah apapun, baca pelan-pelan.</p>
+                </div>
+              </div>
+            </div>
           </Reveal>
         </PageWrapper>
       </main>
