@@ -3039,6 +3039,34 @@ export default function AstuteApp() {
                   WAJIB JOIN DISCORD DULU BUAT VERIFIKASI
                 </div>
 
+                {/* Gambar dengan icon ✅ ❌ di atasnya */}
+                <div className="relative rounded-xl overflow-hidden mb-4" style={{ aspectRatio: "1/1", background: "#000" }}>
+                  <img
+                    src="/discord-verify.png"
+                    alt="Discord Verification"
+                    className="w-full h-full object-cover block"
+                  />
+                  {/* Overlay icon ✅ (oren) di pojok kiri atas */}
+                  <div className="absolute top-3 left-3 flex items-center gap-2 px-2.5 py-1.5 rounded-full" style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}>
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: "#f97316", border: "1.5px solid #fb923c" }}>
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                    <span className="text-[10px] font-bold" style={{ color: "#f97316" }}>BERHASIL</span>
+                  </div>
+                  {/* Overlay icon ❌ (putih) di pojok kanan atas */}
+                  <div className="absolute top-3 right-3 flex items-center gap-2 px-2.5 py-1.5 rounded-full" style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}>
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.8)" }}>
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                    </div>
+                    <span className="text-[10px] font-bold" style={{ color: "#ffffff" }}>GAGAL</span>
+                  </div>
+                </div>
+
                 <p className="text-[11.5px] leading-relaxed mb-4" style={{ color: "var(--ast-gray)" }}>
                   Sebelum download, lu wajib join server Discord utama kita. Ini buat mastiin lu beneran user aktif, bukan bot atau akun fake. Status lu bakal kecek otomatis.
                 </p>
@@ -3210,29 +3238,6 @@ export default function AstuteApp() {
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal delay={280}>
-            <div className="rounded-2xl p-4 mt-5 border" style={{ background: "var(--ast-bg2)", borderColor: "var(--ast-border)" }}>
-              <div className="flex items-center gap-2 mb-3">
-                <ShieldCheck className="w-3.5 h-3.5" style={{ color: "#60a5fa" }} />
-                <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Yang Sering Ditanyain</span>
-              </div>
-              <div className="space-y-3 text-[12px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
-                <div>
-                  <p className="font-semibold text-[12.5px] mb-1" style={{ color: "var(--ast-white)" }}>Kenapa login-nya ribet gitu?</p>
-                  <p>Soalnya versi 2K22 ini make sistem login lama. Discord kebuka cuma buat verifikasi doang, abis itu harus balik ke FF. Ini normal, bukan error.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-[12.5px] mb-1" style={{ color: "var(--ast-white)" }}>Bisa login lewat mana aja?</p>
-                  <p>Gabisa sembarangan. Aksesnya murni lewat Facebook — itu salah satu metode login, tapi bukan login beneran. Nanti lu disuruh autentikasi lagi lewat Discord. Jadi Facebook cuma pintu masuknya, verifikasi aslinya lewat Discord.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-[12.5px] mb-1" style={{ color: "var(--ast-white)" }}>Aman gak nih?</p>
-                  <p>Aman kok selama lu ngikutin caranya. Jangan skip langkah apapun, baca pelan-pelan.</p>
-                </div>
               </div>
             </div>
           </Reveal>
