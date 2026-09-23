@@ -1139,6 +1139,8 @@ export default function AstuteApp() {
   const [scrolled, setScrolled] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [vipPopupOpen, setVipPopupOpen] = useState(false);
+  const [videoPopupOpen, setVideoPopupOpen] = useState(false);
+  const [activeVideo, setActiveVideo] = useState<{ title: string; url: string } | null>(null);
   const musicAutoStartedRef = useRef(false);
   const panelSwipeRef = useRef<{ startX: number; currentX: number; swiping: boolean }>({ startX: 0, currentX: 0, swiping: false });
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -3110,47 +3112,40 @@ export default function AstuteApp() {
                   WebkitOverflowScrolling: "touch",
                 }}
               >
-                {/* Video Box 1 */}
-                <div
-                  className="shrink-0 rounded-2xl border relative overflow-hidden"
-                  style={{
-                    width: "260px",
-                    height: "180px",
-                    background: "linear-gradient(135deg, rgba(30,58,95,0.4), rgba(29,78,216,0.15))",
-                    borderColor: "rgba(37,99,235,0.25)",
-                    scrollSnapAlign: "start",
-                  }}
-                >
-                  <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ background: "rgba(37,99,235,0.2)", border: "1px solid rgba(37,99,235,0.4)" }}>
-                      <PlayCircle className="w-6 h-6" style={{ color: "#60a5fa" }} />
+                {[
+                  { title: "VIDEO 1", url: "" },
+                  { title: "VIDEO 2", url: "" },
+                ].map((vid, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => {
+                      if (vid.url) {
+                        setActiveVideo({ title: vid.title, url: vid.url });
+                        setVideoPopupOpen(true);
+                      } else {
+                        showToast("Video belum diupload, tunggu ya!");
+                      }
+                    }}
+                    className="shrink-0 rounded-2xl border relative overflow-hidden cursor-pointer active:scale-[0.97]"
+                    style={{
+                      width: "260px",
+                      height: "180px",
+                      background: "linear-gradient(135deg, rgba(30,58,95,0.4), rgba(29,78,216,0.15))",
+                      borderColor: "rgba(37,99,235,0.25)",
+                      scrollSnapAlign: "start",
+                      transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                    }}
+                  >
+                    <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ background: "rgba(37,99,235,0.2)", border: "1px solid rgba(37,99,235,0.4)" }}>
+                        <PlayCircle className="w-6 h-6" style={{ color: "#60a5fa" }} />
+                      </div>
+                      <div className="text-[13px] font-bold text-center" style={{ color: "var(--ast-white)" }}>{vid.title}</div>
+                      <div className="text-[10px] mt-1" style={{ color: "var(--ast-gray)" }}>{vid.url ? "Klik untuk putar" : "Tunggu video diupload"}</div>
                     </div>
-                    <div className="text-[13px] font-bold text-center" style={{ color: "var(--ast-white)" }}>VIDEO 1</div>
-                    <div className="text-[10px] mt-1" style={{ color: "var(--ast-gray)" }}>Tunggu video diupload</div>
                   </div>
-                </div>
-
-                {/* Video Box 2 */}
-                <div
-                  className="shrink-0 rounded-2xl border relative overflow-hidden"
-                  style={{
-                    width: "260px",
-                    height: "180px",
-                    background: "linear-gradient(135deg, rgba(30,58,95,0.4), rgba(29,78,216,0.15))",
-                    borderColor: "rgba(37,99,235,0.25)",
-                    scrollSnapAlign: "start",
-                  }}
-                >
-                  <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ background: "rgba(37,99,235,0.2)", border: "1px solid rgba(37,99,235,0.4)" }}>
-                      <PlayCircle className="w-6 h-6" style={{ color: "#60a5fa" }} />
-                    </div>
-                    <div className="text-[13px] font-bold text-center" style={{ color: "var(--ast-white)" }}>VIDEO 2</div>
-                    <div className="text-[10px] mt-1" style={{ color: "var(--ast-gray)" }}>Tunggu video diupload</div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </Reveal>
@@ -3301,6 +3296,95 @@ export default function AstuteApp() {
                 display: "block",
               }}
             />
+          </div>
+        </div>
+      )}
+
+      {/* ═══ VIDEO POPUP MODAL ═══════════════════════════════════════════════ */}
+      {videoPopupOpen && activeVideo && (
+        <div
+          onClick={() => setVideoPopupOpen(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.85)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            zIndex: 99999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "20px",
+            animation: "fadeIn 0.3s ease-out",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "500px",
+              borderRadius: "20px",
+              overflow: "hidden",
+              background: "var(--ast-bg2)",
+              border: "1px solid rgba(37,99,235,0.3)",
+              boxShadow: "none",
+              animation: "popIn 0.35s cubic-bezier(0.16,1,0.3,1)",
+            }}
+          >
+            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+
+            {/* Header with title + close */}
+            <div className="flex items-center justify-between p-4 pb-3">
+              <div className="flex items-center gap-2">
+                <PlayCircle className="w-4 h-4" style={{ color: "#60a5fa" }} />
+                <span className="text-[13px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>{activeVideo.title}</span>
+              </div>
+              <button
+                onClick={() => setVideoPopupOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
+                style={{ background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)" }}
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
+            </div>
+
+            {/* Video Player */}
+            <div style={{ width: "100%", aspectRatio: "16/9", background: "#000" }}>
+              {activeVideo.url.includes("youtube") || activeVideo.url.includes("youtu.be") ? (
+                <iframe
+                  src={activeVideo.url.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/")}
+                  title={activeVideo.title}
+                  style={{ width: "100%", height: "100%", border: "none" }}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={activeVideo.url}
+                  controls
+                  autoPlay
+                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                />
+              )}
+            </div>
+
+            {/* Footer with skip button */}
+            <div className="p-4 pt-3 flex items-center justify-between gap-3">
+              <span className="text-[10px]" style={{ color: "var(--ast-gray)" }}>Tonton videonya sampai habis ya</span>
+              <button
+                onClick={() => setVideoPopupOpen(false)}
+                className="px-4 py-2 rounded-xl text-[12px] font-bold cursor-pointer active:scale-[0.97]"
+                style={{
+                  background: "rgba(37,99,235,0.15)",
+                  color: "#60a5fa",
+                  border: "1px solid rgba(37,99,235,0.3)",
+                  transition: "all 0.3s",
+                }}
+              >
+                Skip / Tutup
+              </button>
+            </div>
           </div>
         </div>
       )}
