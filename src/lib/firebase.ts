@@ -23,7 +23,7 @@
 //
 // Without Firebase, the counter uses the server API as fallback (still shared across devices)
 
-const USE_FIREBASE = typeof window !== 'undefined' && process.env.NEXT_PUBLIC_USE_FIREBASE === "true";
+const USE_FIREBASE = typeof window !== 'undefined' && (process.env.NEXT_PUBLIC_USE_FIREBASE === "true" || true);
 
 let firebaseDb: any = null;
 
@@ -33,13 +33,13 @@ if (USE_FIREBASE) {
     const { getDatabase } = require("firebase/database");
 
     const firebaseConfig = {
-      apiKey: process.env.NEXT_PUBLIC_FB_API_KEY || "",
-      authDomain: process.env.NEXT_PUBLIC_FB_AUTH_DOMAIN || "",
-      databaseURL: process.env.NEXT_PUBLIC_FB_DATABASE_URL || "",
-      projectId: process.env.NEXT_PUBLIC_FB_PROJECT_ID || "",
-      storageBucket: process.env.NEXT_PUBLIC_FB_STORAGE_BUCKET || "",
-      messagingSenderId: process.env.NEXT_PUBLIC_FB_MESSAGING_SENDER_ID || "",
-      appId: process.env.NEXT_PUBLIC_FB_APP_ID || "",
+      apiKey: process.env.NEXT_PUBLIC_FB_API_KEY || "AIzaSyDNZP_FdatBlV4K1ATNO-xAIEU7LSNDMsM",
+      authDomain: process.env.NEXT_PUBLIC_FB_AUTH_DOMAIN || "jujumarket.firebaseapp.com",
+      databaseURL: process.env.NEXT_PUBLIC_FB_DATABASE_URL || "https://jujumarket-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: process.env.NEXT_PUBLIC_FB_PROJECT_ID || "jujumarket",
+      storageBucket: process.env.NEXT_PUBLIC_FB_STORAGE_BUCKET || "jujumarket.firebasestorage.app",
+      messagingSenderId: process.env.NEXT_PUBLIC_FB_MESSAGING_SENDER_ID || "909104969540",
+      appId: process.env.NEXT_PUBLIC_FB_APP_ID || "1:909104969540:web:bcbcdc4de7c25a6e9ac911",
     };
 
     if (firebaseConfig.databaseURL) {
