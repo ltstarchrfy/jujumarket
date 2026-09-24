@@ -2240,7 +2240,7 @@ export default function AstuteApp() {
                   <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>FF MOD ASTUTE BETA V2</span>
                   <span className="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>APK</span>
                 </div>
-                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download ASTUTE BETA OB55 v2 (arm32 + arm64) langsung tanpa keluar web</p>
+                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download ASTUTE BETA OB55 v2 (arm32 + arm64)</p>
                 <button
                   onClick={() => downloadFromMediafire("https://www.mediafire.com/file/j7ywjtchqot65fi/ASTUTE_BETA_OB55_v2_%2528arm32%252Barm64%2529.apk/file?dkey=z8ng50z928a&r=774", "FF MOD ASTUTE BETA V2")}
                   disabled={downloadingFile === "FF MOD ASTUTE BETA V2"}
@@ -2266,7 +2266,7 @@ export default function AstuteApp() {
                   <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>JSON ASTUTE</span>
                   <span className="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>JSON</span>
                 </div>
-                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download file config JSON ASTUTE langsung tanpa keluar web</p>
+                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download file config JSON ASTUTE</p>
                 <button
                   onClick={() => downloadFromMediafire("https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file", "JSON ASTUTE")}
                   disabled={downloadingFile === "JSON ASTUTE"}
@@ -2292,7 +2292,7 @@ export default function AstuteApp() {
                   <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>SCRIPT iOS</span>
                   <span className="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>iOS</span>
                 </div>
-                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download script iOS (iPhone 11 - baru) langsung tanpa keluar web</p>
+                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download script iOS (iPhone 11 - baru)</p>
                 <button
                   onClick={() => downloadFromMediafire("https://www.mediafire.com/file/crl6iuhbn5saqli/FFASTUTECH_FREE-VIP.json/file", "SCRIPT iOS")}
                   disabled={downloadingFile === "SCRIPT iOS"}
@@ -2318,7 +2318,7 @@ export default function AstuteApp() {
                   <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>CERT iOS</span>
                   <span className="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>CRT</span>
                 </div>
-                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download certificate iOS (ProxyPinCA.crt) langsung tanpa keluar web</p>
+                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download certificate iOS (ProxyPinCA.crt)</p>
                 <button
                   onClick={() => downloadFromMediafire("https://www.mediafire.com/file/xrtdv7lv5xctt6e/ProxyPinCA.crt/file", "CERT iOS")}
                   disabled={downloadingFile === "CERT iOS"}
@@ -3318,7 +3318,7 @@ export default function AstuteApp() {
                   {downloadingFile === "FF OLD 2K22" ? "MENYIAPKAN..." : "DOWNLOAD APK"}
                 </button>
                 <p className="text-center text-[10px]" style={{ color: "var(--ast-gray)" }}>
-                  Download langsung dari Mediafire, ga keluar web
+                  Download dari Mediafire
                 </p>
               </div>
             </div>
