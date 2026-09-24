@@ -2040,15 +2040,14 @@ export default function AstuteApp() {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] line-through" style={{ color: "var(--ast-gray)" }}>500K</span>
-                    <span className="text-[18px] font-black" style={{
+                    <span className="text-[10px]" style={{ color: "var(--ast-gray)" }}>Start From</span>
+                    <span className="text-[15px] font-black" style={{
                       background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: "none",
-                    }}>300K</span>
-                    <span className="text-[9px] font-bold font-mono" style={{ color: "var(--ast-gray)" }}>IDR</span>
+                    }}>30RB - 1.8JT</span>
                   </div>
                   <div className="flex items-center gap-1 text-[10px] font-bold" style={{
                     background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa)",
