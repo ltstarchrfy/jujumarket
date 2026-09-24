@@ -1169,40 +1169,50 @@ export default function AstuteApp() {
   const firebaseCountRef = useRef(db ? dbRef(db, "downloadCount") : null);
   
   useEffect(() => {
+    let unsubscribe: (() => void) | null = null;
+    let apiIntervalId: ReturnType<typeof setInterval> | null = null;
+
+    async function fetchFromAPI() {
+      try {
+        const res = await fetch('/api/count', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.count === 'number' && data.count > 0) {
+            setDownloadCount(prev => data.count > prev ? data.count : prev);
+          }
+        }
+      } catch {}
+    }
+
     if (isFirebaseEnabled && db && firebaseCountRef.current) {
-      // Firebase mode: real-time sync across all devices
+      // Initialize Firebase value if doesn't exist
       get(firebaseCountRef.current).then((snapshot) => {
         if (!snapshot.exists()) {
-          set(firebaseCountRef.current!, 2000);
+          set(firebaseCountRef.current!, 2000).catch(() => {});
         }
       }).catch(() => {});
 
-      const unsubscribe = onValue(firebaseCountRef.current, (snapshot) => {
+      // Real-time listener — updates instantly across all devices
+      unsubscribe = onValue(firebaseCountRef.current, (snapshot) => {
         const val = snapshot.val();
-        if (typeof val === "number" && val >= 2000) {
+        if (typeof val === "number" && val > 0) {
           setDownloadCount(val);
         }
       });
 
-      return () => unsubscribe();
+      // Also poll API every 8 seconds as backup (in case Firebase listener misses)
+      fetchFromAPI();
+      apiIntervalId = setInterval(fetchFromAPI, 8000);
     } else {
       // API fallback mode: poll server every 6 seconds
-      let intervalId: ReturnType<typeof setInterval>;
-      async function fetchCount() {
-        try {
-          const res = await fetch('/api/count');
-          if (res.ok) {
-            const data = await res.json();
-            if (typeof data.count === 'number' && data.count > 0) {
-              setDownloadCount(data.count);
-            }
-          }
-        } catch {}
-      }
-      fetchCount();
-      intervalId = setInterval(fetchCount, 6000);
-      return () => clearInterval(intervalId);
+      fetchFromAPI();
+      apiIntervalId = setInterval(fetchFromAPI, 6000);
     }
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+      if (apiIntervalId) clearInterval(apiIntervalId);
+    };
   }, []);
 
   // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
@@ -1302,11 +1312,20 @@ export default function AstuteApp() {
   const firebaseIncrement = useCallback((add: number) => {
     try {
       if (isFirebaseEnabled && db && firebaseCountRef.current) {
+        // Optimistic local update first (instant feedback)
+        setDownloadCount(prev => prev + add);
+        // Then sync to Firebase
         runTransaction(firebaseCountRef.current, (current) => {
           if (current === null) return 2000 + add;
           return (current as number) + add;
         }).catch((e) => {
-          console.warn("Firebase transaction error:", e);
+          console.warn("Firebase transaction error, falling back to API:", e);
+          // Fallback: use server API
+          fetch('/api/count', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ add })
+          }).catch(() => {});
         });
       } else {
         // API fallback
@@ -1315,6 +1334,9 @@ export default function AstuteApp() {
       }
     } catch (e) {
       console.warn("firebaseIncrement error:", e);
+      // Final fallback
+      fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add }) }).catch(() => {});
+      setDownloadCount((c) => c + add);
     }
   }, []);
 
