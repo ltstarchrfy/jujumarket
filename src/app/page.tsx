@@ -2487,7 +2487,13 @@ export default function AstuteApp() {
           </Reveal>
           <Reveal delay={210}>
             <LinkBox
-              title="JOIN DISCORD SERVER"
+              title="Rassyabet x Jujumarket"
+              url="https://discord.gg/9TQ6TqBe2"
+              desc="Gabung komunitas Rassyabet x Jujumarket di Discord"
+              icon={<DiscordIcon className="w-5 h-5 text-white" />}
+            />
+            <LinkBox
+              title="ASTUTE SERVER"
               url="https://discord.gg/astutetech"
               desc="Gabung komunitas ASTUTE di Discord"
               icon={<DiscordIcon className="w-5 h-5 text-white" />}
