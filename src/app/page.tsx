@@ -603,15 +603,23 @@ function AppBar({ icon, text, desc, highlight = false, newBadge = false, onClick
 }) {
   return (
     <button
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+          onClick();
+        } catch (err) {
+          console.warn("AppBar onClick error:", err);
+        }
+      }}
       type="button"
-      className={`flex items-center gap-3 py-4 px-6 rounded-2xl border w-full group ${
-        highlight ? "bg-[rgba(37,99,235,0.04)] border-[rgba(37,99,235,0.1)]" : ""
-      }`}
+      className="flex items-center gap-3 py-4 px-6 rounded-2xl border w-full group cursor-pointer"
       style={{
-        background: highlight ? undefined : "var(--ast-bar-bg)",
-        borderColor: highlight ? undefined : "var(--ast-border)",
+        background: highlight ? "rgba(37,99,235,0.04)" : "var(--ast-bar-bg)",
+        borderColor: highlight ? "rgba(37,99,235,0.1)" : "var(--ast-border)",
         transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+        position: "relative",
+        zIndex: 1,
       }}
     >
       <span className="shrink-0 flex items-center justify-center w-[24px] [&_svg]:opacity-80 [&_svg]:text-white group-hover:scale-110" style={{ transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
@@ -1282,33 +1290,41 @@ export default function AstuteApp() {
 
   // Firebase atomic increment helper (with API fallback)
   const firebaseIncrement = useCallback((add: number) => {
-    if (isFirebaseEnabled && db && firebaseCountRef.current) {
-      runTransaction(firebaseCountRef.current, (current) => {
-        if (current === null) return 2000 + add;
-        return (current as number) + add;
-      }).catch(() => {});
-    } else {
-      // API fallback
-      fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add }) }).catch(() => {});
-      setDownloadCount((c) => c + add);
+    try {
+      if (isFirebaseEnabled && db && firebaseCountRef.current) {
+        runTransaction(firebaseCountRef.current, (current) => {
+          if (current === null) return 2000 + add;
+          return (current as number) + add;
+        }).catch((e) => {
+          console.warn("Firebase transaction error:", e);
+        });
+      } else {
+        // API fallback
+        fetch('/api/count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ add }) }).catch(() => {});
+        setDownloadCount((c) => c + add);
+      }
+    } catch (e) {
+      console.warn("firebaseIncrement error:", e);
     }
   }, []);
 
   // Page navigation - smooth, +1 counter via Firebase when visiting ASTUTE OB55 download page
   const goPage = useCallback((name: PageName) => {
-    playClickSound();
-    setCurrentPage(name);
-    // Update browser URL to match the page (e.g. /download, /buyvip, /qris)
-    const url = PAGE_TO_URL[name] ?? "/";
     try {
-      window.history.pushState({ page: name }, "", url);
-    } catch {}
-    // Auto +1 via Firebase when someone enters the download/ASTUTE OB55 page
-    if (name === "download") {
-      firebaseIncrement(1);
+      playClickSound();
+      setCurrentPage(name);
+      const url = PAGE_TO_URL[name] ?? "/";
+      try {
+        window.history.pushState({ page: name }, "", url);
+      } catch {}
+      if (name === "download") {
+        firebaseIncrement(1);
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (e) {
+      console.warn("goPage error:", e);
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [playClickSound]);
+  }, [playClickSound, firebaseIncrement]);
 
   // Handle browser back/forward buttons — sync page with URL
   useEffect(() => {
