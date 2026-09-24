@@ -3305,12 +3305,14 @@ export default function AstuteApp() {
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
 
               <div className="p-5">
-                <div className="flex items-center justify-center gap-2 mb-4">
-                  <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "linear-gradient(135deg, #0c2d5a, #1d4ed8)", color: "#fff" }}>
-                    APK FILE
-                  </div>
-                  <div className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider" style={{ background: "rgba(37,99,235,0.1)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.2)" }}>
-                    MEDIAFIRE
+                {/* Icon kotak seperti Play Store */}
+                <div className="flex justify-center mb-4">
+                  <div className="rounded-2xl overflow-hidden" style={{ width: "100px", height: "100px", border: "2px solid rgba(37,99,235,0.3)", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}>
+                    <img
+                      src="/ff-old-icon.jpg"
+                      alt="FF OLD 2K22"
+                      className="w-full h-full object-cover block"
+                    />
                   </div>
                 </div>
 
