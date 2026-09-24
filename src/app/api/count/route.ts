@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 // ─── Download Counter API ──────────────────────────────────────────────
-// Uses Firebase Realtime Database REST API (no admin SDK needed, works on Vercel)
+// Uses Firebase Realtime Database REST API with conditional update (transaction)
 // Falls back to time-based mock if Firebase fails
 
 const FIREBASE_DB_URL = "https://jujumarket-default-rtdb.asia-southeast1.firebasedatabase.app";
@@ -28,20 +28,65 @@ async function getFirebaseCount(): Promise<number | null> {
   }
 }
 
+// Atomic increment using Firebase conditional PUT (ETag-based transaction)
+// This prevents race conditions when multiple users click at the same time
 async function incrementFirebase(add: number): Promise<number | null> {
   try {
-    // Get current value
-    const current = await getFirebaseCount();
-    const newValue = (current ?? START_COUNT) + add;
-    // Update via PUT
-    const res = await fetch(COUNT_PATH, {
+    // Step 1: GET with ETag header
+    const getRes = await fetch(COUNT_PATH, {
+      cache: "no-store",
+      headers: { "X-Firebase-ETag": "true" },
+    });
+    if (!getRes.ok) {
+      // Path doesn't exist yet, create it
+      const initRes = await fetch(COUNT_PATH, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(START_COUNT + add),
+        cache: "no-store",
+      });
+      if (!initRes.ok) return null;
+      return START_COUNT + add;
+    }
+
+    const etag = getRes.headers.get("etag") || "";
+    const currentVal = await getRes.json();
+    const current = typeof currentVal === "number" ? currentVal : START_COUNT;
+    const newValue = current + add;
+
+    // Step 2: Conditional PUT with if-match
+    const putRes = await fetch(COUNT_PATH, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "if-match": etag,
+      },
       body: JSON.stringify(newValue),
       cache: "no-store",
     });
-    if (!res.ok) return null;
-    return newValue;
+
+    if (putRes.ok) {
+      return newValue;
+    }
+
+    // If conflict (412), retry once with fresh GET
+    if (putRes.status === 412) {
+      const retryGet = await fetch(COUNT_PATH, { cache: "no-store" });
+      if (!retryGet.ok) return null;
+      const retryVal = await retryGet.json();
+      const retryCurrent = typeof retryVal === "number" ? retryVal : START_COUNT;
+      const retryNew = retryCurrent + add;
+      const retryPut = await fetch(COUNT_PATH, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(retryNew),
+        cache: "no-store",
+      });
+      if (retryPut.ok) return retryNew;
+      return null;
+    }
+
+    return null;
   } catch {
     return null;
   }
@@ -51,18 +96,32 @@ async function incrementFirebase(add: number): Promise<number | null> {
 export async function GET() {
   const fbCount = await getFirebaseCount();
   const count = fbCount ?? getTimeBasedCount();
-  return NextResponse.json({ count, source: fbCount !== null ? "firebase" : "time-based" });
+  return NextResponse.json({
+    count,
+    source: fbCount !== null ? "firebase" : "time-based",
+    timestamp: Date.now(),
+  });
 }
 
-// POST /api/count — increment by clicks
+// POST /api/count — atomic increment
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const add = typeof body.add === "number" && body.add > 0 ? body.add : 1;
     const newCount = await incrementFirebase(add);
     const count = newCount ?? getTimeBasedCount();
-    return NextResponse.json({ count, source: newCount !== null ? "firebase" : "time-based" });
+    return NextResponse.json({
+      count,
+      added: add,
+      source: newCount !== null ? "firebase" : "time-based",
+      timestamp: Date.now(),
+    });
   } catch {
-    return NextResponse.json({ count: getTimeBasedCount(), source: "time-based" }, { status: 200 });
+    return NextResponse.json({
+      count: getTimeBasedCount(),
+      added: 1,
+      source: "time-based",
+      timestamp: Date.now(),
+    }, { status: 200 });
   }
 }
