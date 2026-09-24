@@ -2198,6 +2198,38 @@ export default function AstuteApp() {
                 </button>
               </div>
             </div>
+
+            {/* CERT iOS - Mediafire download tanpa keluar web */}
+            <div className="rounded-2xl border relative overflow-hidden mb-3" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <ShieldCheck className="w-4 h-4" style={{ color: "#60a5fa" }} />
+                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>CERT iOS</span>
+                  <span className="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>CRT</span>
+                </div>
+                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download certificate iOS (ProxyPinCA.crt) langsung tanpa keluar web</p>
+                <button
+                  onClick={() => {
+                    bumpDownload();
+                    const link = document.createElement("a");
+                    link.href = "https://www.mediafire.com/file/xrtdv7lv5xctt6e/ProxyPinCA.crt/file";
+                    link.download = "";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="w-full py-3 rounded-xl text-[12.5px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
+                  style={{
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                    color: "#fff",
+                    transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                  }}>
+                  <ShieldCheck className="w-4 h-4" />
+                  DOWNLOAD CERT iOS
+                </button>
+              </div>
+            </div>
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
