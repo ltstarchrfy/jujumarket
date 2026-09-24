@@ -2172,13 +2172,35 @@ export default function AstuteApp() {
               <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Download</span>
             </div>
-            <LinkBox
-              title="FF MAX ORIGINAL NEW"
-              url="https://play.google.com/store/apps/details?id=com.dts.freefiremax"
-              desc="Download Free Fire MAX Original dari Google Play Store"
-              icon={<Download className="w-5 h-5 text-white" />}
-              onLinkClick={bumpDownload}
-            />
+            {/* FF MAX ORIGINAL NEW - dengan gambar */}
+            <a
+              href="https://play.google.com/store/apps/details?id=com.dts.freefiremax"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={bumpDownload}
+              className="block rounded-2xl border relative overflow-hidden mb-3 cursor-pointer active:scale-[0.98] no-underline"
+              style={{
+                background: "var(--ast-bg2)",
+                borderColor: "rgba(37,99,235,0.2)",
+                transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+              }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+              <div className="relative" style={{ height: "140px", background: "#000" }}>
+                <img
+                  src="/ff-max-image.jpg"
+                  alt="Free Fire MAX"
+                  className="w-full h-full object-cover block"
+                />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)" }} />
+                <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between gap-2">
+                  <div>
+                    <div className="text-[14px] font-bold mb-0.5" style={{ color: "#fff", textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>FF MAX ORIGINAL NEW</div>
+                    <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.85)" }}>Download dari Google Play Store</div>
+                  </div>
+                  <span className="px-2 py-1 rounded-full text-[8px] font-bold shrink-0" style={{ background: "rgba(37,99,235,0.3)", color: "#93c5fd", border: "1px solid rgba(96,165,250,0.5)", backdropFilter: "blur(4px)" }}>PLAY STORE</span>
+                </div>
+              </div>
+            </a>
             <LinkBox
               title="FF ORIGINAL NEW"
               url="https://play.google.com/store/apps/details?id=com.dts.freefireth"
