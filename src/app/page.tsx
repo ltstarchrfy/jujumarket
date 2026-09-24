@@ -1383,8 +1383,9 @@ export default function AstuteApp() {
   const [downloadingFile, setDownloadingFile] = useState<string | null>(null);
 
   // Download from Mediafire WITHOUT leaving web
-  // Strategy: Get direct URL via scraping, then trigger download with download attribute
-  // For large files (APK), use iframe with direct URL — Mediafire direct URLs allow direct download
+  // Strategy: Get direct URL via scraping, then redirect browser to direct URL
+  // Mediafire direct URLs (downloadXXX.mediafire.com) return file with download headers
+  // Browser will start download and stay on current page
   const downloadFromMediafire = useCallback(async (mediafireUrl: string, fileLabel: string) => {
     try {
       // 1. Increment counter immediately (works on all devices via Firebase)
@@ -1400,46 +1401,54 @@ export default function AstuteApp() {
       const data = await res.json();
 
       if (data.success && data.directUrl) {
-        // 4. Use hidden iframe with direct URL — triggers download without navigating
-        // Direct URL from Mediafire (downloadXXX.mediafire.com) returns file with proper headers
-        const iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.src = data.directUrl;
-        document.body.appendChild(iframe);
-
-        // Remove iframe after 60 seconds (cleanup, allows large file to start)
+        // 4. Create invisible anchor with download attribute, click it
+        // This is the most reliable cross-browser way to trigger download
+        const link = document.createElement("a");
+        link.href = data.directUrl;
+        link.download = data.filename || fileLabel;
+        link.rel = "noopener noreferrer";
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        // Keep link in DOM for 1 second to ensure download starts
         setTimeout(() => {
-          if (document.body.contains(iframe)) {
-            document.body.removeChild(iframe);
+          if (document.body.contains(link)) {
+            document.body.removeChild(link);
           }
-        }, 60000);
+        }, 1000);
 
         showToast(`Download dimulai: ${data.filename || fileLabel}`);
       } else {
-        // Fallback: try streaming API (works for small files)
+        // Fallback: try server-side streaming (works for small files)
         const streamApiUrl = `/api/mediafire-download?url=${encodeURIComponent(mediafireUrl)}`;
-        const iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.src = streamApiUrl;
-        document.body.appendChild(iframe);
+        const link = document.createElement("a");
+        link.href = streamApiUrl;
+        link.download = fileLabel;
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
         setTimeout(() => {
-          if (document.body.contains(iframe)) {
-            document.body.removeChild(iframe);
+          if (document.body.contains(link)) {
+            document.body.removeChild(link);
           }
-        }, 60000);
+        }, 1000);
         showToast(`Download dimulai: ${fileLabel}`);
       }
     } catch (e) {
       console.warn("Download error:", e);
-      // Final fallback: open in new tab
-      const link = document.createElement("a");
-      link.href = mediafireUrl;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showToast("Download dibuka di tab baru");
+      // Final fallback: open Mediafire page in new tab
+      try {
+        const link = document.createElement("a");
+        link.href = mediafireUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast("Download dibuka di tab baru");
+      } catch {
+        showToast("Gagal download, coba lagi");
+      }
     } finally {
       setTimeout(() => setDownloadingFile(null), 3000);
     }
