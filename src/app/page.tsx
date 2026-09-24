@@ -2088,34 +2088,134 @@ export default function AstuteApp() {
               <Download className="w-3 h-3" style={{ color: "var(--ast-blue)" }} />
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Download</span>
             </div>
-            <LinkBox
-              title="FF MAX ORIGINAL NEW"
-              url="https://play.google.com/store/apps/details?id=com.dts.freefiremax"
-              desc="Download Free Fire MAX Original dari Google Play Store"
-              icon={<Download className="w-5 h-5 text-white" />}
-              onLinkClick={bumpDownload}
-            />
-            <LinkBox
-              title="FF BIASA ORIGINAL NEW"
-              url="https://play.google.com/store/apps/details?id=com.dts.freefireth"
-              desc="Download Free Fire Original dari Google Play Store"
-              icon={<Download className="w-5 h-5 text-white" />}
-              onLinkClick={bumpDownload}
-            />
-            <LinkBox
-              title="JSON ASTUTE"
-              url="https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file"
-              desc="Download file config JSON"
-              icon={<FileArchive className="w-5 h-5 text-white" />}
-              onLinkClick={bumpDownload}
-            />
-            <LinkBox
-              title="SCRIPT iOS"
-              url="https://www.mediafire.com/file/crl6iuhbn5saqli/FFASTUTECH_FREE-VIP.json/file"
-              desc="Download script iOS (iPhone 11 - baru)"
-              icon={<Smartphone className="w-5 h-5 text-white" />}
-              onLinkClick={bumpDownload}
-            />
+
+            {/* FF BIASA ORIGINAL NEW - Mediafire */}
+            <div className="rounded-2xl border relative overflow-hidden mb-3" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Download className="w-4 h-4" style={{ color: "#60a5fa" }} />
+                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>FF BIASA ORIGINAL NEW</span>
+                  <span className="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>APK</span>
+                </div>
+                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download Free Fire Original ASTUTE OB55 (arm32 + arm64)</p>
+                <button
+                  onClick={() => {
+                    bumpDownload();
+                    const link = document.createElement("a");
+                    link.href = "https://www.mediafire.com/file/j7ywjtchqot65fi/ASTUTE_BETA_OB55_v2_%2528arm32%252Barm64%2529.apk/file?dkey=z8ng50z928a&r=774";
+                    link.download = "";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="w-full py-3 rounded-xl text-[12.5px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
+                  style={{
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                    color: "#fff",
+                    transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                  }}>
+                  <Download className="w-4 h-4" />
+                  DOWNLOAD APK
+                </button>
+              </div>
+            </div>
+
+            {/* FF MAX ORIGINAL NEW - Play Store */}
+            <div className="rounded-2xl border relative overflow-hidden mb-3" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Download className="w-4 h-4" style={{ color: "#60a5fa" }} />
+                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>FF MAX ORIGINAL NEW</span>
+                  <span className="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>PLAY STORE</span>
+                </div>
+                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download Free Fire MAX Original dari Google Play Store</p>
+                <button
+                  onClick={() => {
+                    bumpDownload();
+                    const link = document.createElement("a");
+                    link.href = "https://play.google.com/store/apps/details?id=com.dts.freefiremax";
+                    link.download = "";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="w-full py-3 rounded-xl text-[12.5px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
+                  style={{
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                    color: "#fff",
+                    transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                  }}>
+                  <Download className="w-4 h-4" />
+                  DOWNLOAD FF MAX
+                </button>
+              </div>
+            </div>
+
+            {/* JSON ASTUTE - Mediafire */}
+            <div className="rounded-2xl border relative overflow-hidden mb-3" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <FileArchive className="w-4 h-4" style={{ color: "#60a5fa" }} />
+                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>JSON ASTUTE</span>
+                  <span className="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>JSON</span>
+                </div>
+                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download file config JSON ASTUTE</p>
+                <button
+                  onClick={() => {
+                    bumpDownload();
+                    const link = document.createElement("a");
+                    link.href = "https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file";
+                    link.download = "";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="w-full py-3 rounded-xl text-[12.5px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
+                  style={{
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                    color: "#fff",
+                    transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                  }}>
+                  <FileArchive className="w-4 h-4" />
+                  DOWNLOAD JSON
+                </button>
+              </div>
+            </div>
+
+            {/* SCRIPT iOS - Mediafire */}
+            <div className="rounded-2xl border relative overflow-hidden mb-3" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Smartphone className="w-4 h-4" style={{ color: "#60a5fa" }} />
+                  <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>SCRIPT iOS</span>
+                  <span className="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>iOS</span>
+                </div>
+                <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download script iOS (iPhone 11 - baru)</p>
+                <button
+                  onClick={() => {
+                    bumpDownload();
+                    const link = document.createElement("a");
+                    link.href = "https://www.mediafire.com/file/crl6iuhbn5saqli/FFASTUTECH_FREE-VIP.json/file";
+                    link.download = "";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="w-full py-3 rounded-xl text-[12.5px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
+                  style={{
+                    background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
+                    color: "#fff",
+                    transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                  }}>
+                  <Smartphone className="w-4 h-4" />
+                  DOWNLOAD SCRIPT iOS
+                </button>
+              </div>
+            </div>
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-6">
