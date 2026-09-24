@@ -2096,9 +2096,16 @@ export default function AstuteApp() {
               onLinkClick={bumpDownload}
             />
             <LinkBox
-              title="FF BIASA ORIGINAL NEW"
+              title="FF ORIGINAL NEW"
               url="https://play.google.com/store/apps/details?id=com.dts.freefireth"
               desc="Download Free Fire Original dari Google Play Store"
+              icon={<Download className="w-5 h-5 text-white" />}
+              onLinkClick={bumpDownload}
+            />
+            <LinkBox
+              title="FF MOD ASTUTE BETA V2"
+              url="https://play.google.com/store/apps/details?id=com.dts.freefireth"
+              desc="Download FF MOD ASTUTE BETA V2"
               icon={<Download className="w-5 h-5 text-white" />}
               onLinkClick={bumpDownload}
             />
