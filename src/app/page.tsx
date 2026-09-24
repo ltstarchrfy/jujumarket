@@ -1379,6 +1379,62 @@ export default function AstuteApp() {
     firebaseIncrement(1);
   }, [firebaseIncrement]);
 
+  // Download state for tracking which file is currently being prepared
+  const [downloadingFile, setDownloadingFile] = useState<string | null>(null);
+
+  // Download from Mediafire WITHOUT leaving web — scrapes direct link server-side
+  const downloadFromMediafire = useCallback(async (mediafireUrl: string, fileLabel: string) => {
+    try {
+      // 1. Increment counter immediately (works on all devices via Firebase)
+      bumpDownload();
+
+      // 2. Show loading state
+      setDownloadingFile(fileLabel);
+      showToast(`Menyiapkan download: ${fileLabel}...`);
+
+      // 3. Fetch direct link from our API
+      const apiUrl = `/api/mediafire-direct?url=${encodeURIComponent(mediafireUrl)}`;
+      const res = await fetch(apiUrl);
+      const data = await res.json();
+
+      if (data.success && data.directUrl) {
+        // 4. Trigger download with direct link (no page navigation)
+        const link = document.createElement("a");
+        link.href = data.directUrl;
+        link.download = data.filename || fileLabel;
+        link.rel = "noopener noreferrer";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        showToast(`Download dimulai: ${data.filename || fileLabel}`);
+      } else {
+        // Fallback: open in new tab (user stays on our web, new tab opens Mediafire)
+        const link = document.createElement("a");
+        link.href = mediafireUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast("Membuka Mediafire di tab baru...");
+      }
+    } catch (e) {
+      console.warn("Download error:", e);
+      // Final fallback
+      const link = document.createElement("a");
+      link.href = mediafireUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("Download dibuka di tab baru");
+    } finally {
+      setTimeout(() => setDownloadingFile(null), 2000);
+    }
+  }, [bumpDownload, showToast]);
+
   const panelLinks: { name: PageName; icon: React.ReactNode; title: string; desc: string }[] = [
     { name: "download", icon: <Flame className="w-6 h-6" />, title: "ASTUTE OB55", desc: "Download main APK" },
     { name: "panel", icon: <Settings className="w-6 h-6" />, title: "PANEL ASTUTE", desc: "Control panel & config" },
@@ -2114,23 +2170,17 @@ export default function AstuteApp() {
                 </div>
                 <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download ASTUTE BETA OB55 v2 (arm32 + arm64) langsung tanpa keluar web</p>
                 <button
-                  onClick={() => {
-                    bumpDownload();
-                    const link = document.createElement("a");
-                    link.href = "https://www.mediafire.com/file/j7ywjtchqot65fi/ASTUTE_BETA_OB55_v2_%2528arm32%252Barm64%2529.apk/file?dkey=z8ng50z928a&r=774";
-                    link.download = "";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }}
+                  onClick={() => downloadFromMediafire("https://www.mediafire.com/file/j7ywjtchqot65fi/ASTUTE_BETA_OB55_v2_%2528arm32%252Barm64%2529.apk/file?dkey=z8ng50z928a&r=774", "FF MOD ASTUTE BETA V2")}
+                  disabled={downloadingFile === "FF MOD ASTUTE BETA V2"}
                   className="w-full py-3 rounded-xl text-[12.5px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
                   style={{
                     background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                     color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                    opacity: downloadingFile === "FF MOD ASTUTE BETA V2" ? 0.6 : 1,
                   }}>
                   <Download className="w-4 h-4" />
-                  DOWNLOAD APK
+                  {downloadingFile === "FF MOD ASTUTE BETA V2" ? "MENYIAPKAN..." : "DOWNLOAD APK"}
                 </button>
               </div>
             </div>
@@ -2146,23 +2196,17 @@ export default function AstuteApp() {
                 </div>
                 <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download file config JSON ASTUTE langsung tanpa keluar web</p>
                 <button
-                  onClick={() => {
-                    bumpDownload();
-                    const link = document.createElement("a");
-                    link.href = "https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file";
-                    link.download = "";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }}
+                  onClick={() => downloadFromMediafire("https://www.mediafire.com/file/hc10an4kknul0ex/localconfig.json/file", "JSON ASTUTE")}
+                  disabled={downloadingFile === "JSON ASTUTE"}
                   className="w-full py-3 rounded-xl text-[12.5px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
                   style={{
                     background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                     color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                    opacity: downloadingFile === "JSON ASTUTE" ? 0.6 : 1,
                   }}>
                   <FileArchive className="w-4 h-4" />
-                  DOWNLOAD JSON
+                  {downloadingFile === "JSON ASTUTE" ? "MENYIAPKAN..." : "DOWNLOAD JSON"}
                 </button>
               </div>
             </div>
@@ -2178,23 +2222,17 @@ export default function AstuteApp() {
                 </div>
                 <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download script iOS (iPhone 11 - baru) langsung tanpa keluar web</p>
                 <button
-                  onClick={() => {
-                    bumpDownload();
-                    const link = document.createElement("a");
-                    link.href = "https://www.mediafire.com/file/crl6iuhbn5saqli/FFASTUTECH_FREE-VIP.json/file";
-                    link.download = "";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }}
+                  onClick={() => downloadFromMediafire("https://www.mediafire.com/file/crl6iuhbn5saqli/FFASTUTECH_FREE-VIP.json/file", "SCRIPT iOS")}
+                  disabled={downloadingFile === "SCRIPT iOS"}
                   className="w-full py-3 rounded-xl text-[12.5px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
                   style={{
                     background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                     color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                    opacity: downloadingFile === "SCRIPT iOS" ? 0.6 : 1,
                   }}>
                   <Smartphone className="w-4 h-4" />
-                  DOWNLOAD SCRIPT iOS
+                  {downloadingFile === "SCRIPT iOS" ? "MENYIAPKAN..." : "DOWNLOAD SCRIPT iOS"}
                 </button>
               </div>
             </div>
@@ -2210,23 +2248,17 @@ export default function AstuteApp() {
                 </div>
                 <p className="text-[11px] mb-3" style={{ color: "var(--ast-gray)" }}>Download certificate iOS (ProxyPinCA.crt) langsung tanpa keluar web</p>
                 <button
-                  onClick={() => {
-                    bumpDownload();
-                    const link = document.createElement("a");
-                    link.href = "https://www.mediafire.com/file/xrtdv7lv5xctt6e/ProxyPinCA.crt/file";
-                    link.download = "";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }}
+                  onClick={() => downloadFromMediafire("https://www.mediafire.com/file/xrtdv7lv5xctt6e/ProxyPinCA.crt/file", "CERT iOS")}
+                  disabled={downloadingFile === "CERT iOS"}
                   className="w-full py-3 rounded-xl text-[12.5px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
                   style={{
                     background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                     color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+                    opacity: downloadingFile === "CERT iOS" ? 0.6 : 1,
                   }}>
                   <ShieldCheck className="w-4 h-4" />
-                  DOWNLOAD CERT iOS
+                  {downloadingFile === "CERT iOS" ? "MENYIAPKAN..." : "DOWNLOAD CERT iOS"}
                 </button>
               </div>
             </div>
@@ -3200,23 +3232,18 @@ export default function AstuteApp() {
                 </div>
 
                 <button
-                  onClick={() => {
-                    const link = document.createElement("a");
-                    link.href = "https://www.mediafire.com/file/xkq9qvte9otjj6q/";
-                    link.download = "";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }}
+                  onClick={() => downloadFromMediafire("https://www.mediafire.com/file/xkq9qvte9otjj6q/", "FF OLD 2K22")}
+                  disabled={downloadingFile === "FF OLD 2K22"}
                   className="w-full py-4 rounded-xl text-[14px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] mb-2"
                   style={{
                     background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                     color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
                     boxShadow: "none",
+                    opacity: downloadingFile === "FF OLD 2K22" ? 0.6 : 1,
                   }}>
                   <Download className="w-4 h-4" />
-                  DOWNLOAD APK
+                  {downloadingFile === "FF OLD 2K22" ? "MENYIAPKAN..." : "DOWNLOAD APK"}
                 </button>
                 <p className="text-center text-[10px]" style={{ color: "var(--ast-gray)" }}>
                   Download langsung dari Mediafire, ga keluar web
