@@ -1,126 +1,153 @@
 import { NextResponse } from "next/server";
 
-// ─── Download Counter API ──────────────────────────────────────────────
-// Uses Firebase Realtime Database REST API with conditional update (transaction)
-// Falls back to time-based mock if Firebase fails
+// ─── Download Counter API (Firebase Realtime Database) ─────────────────
+// Uses Firebase REST API with conditional update (transaction-safe)
+// Works on Vercel (no admin SDK needed, no filesystem)
 
 const FIREBASE_DB_URL = "https://jujumarket-default-rtdb.asia-southeast1.firebasedatabase.app";
 const COUNT_PATH = `${FIREBASE_DB_URL}/downloadCount.json`;
 
 const START_COUNT = 2000;
-const ANCHOR_MS = 1784451994147;
-const INCREMENT_INTERVAL_MS = 8000;
-
-function getTimeBasedCount(): number {
-  const now = Date.now();
-  return START_COUNT + Math.floor((now - ANCHOR_MS) / INCREMENT_INTERVAL_MS);
-}
 
 async function getFirebaseCount(): Promise<number | null> {
   try {
     const res = await fetch(COUNT_PATH, { cache: "no-store" });
     if (!res.ok) return null;
     const data = await res.json();
-    if (typeof data === "number") return data;
-    return null;
+    return typeof data === "number" ? data : null;
   } catch {
     return null;
   }
 }
 
-// Atomic increment using Firebase conditional PUT (ETag-based transaction)
-// This prevents race conditions when multiple users click at the same time
+// Atomic increment using Firebase REST conditional update with ETag
+// This prevents race conditions when multiple users click simultaneously
 async function incrementFirebase(add: number): Promise<number | null> {
-  try {
-    // Step 1: GET with ETag header
-    const getRes = await fetch(COUNT_PATH, {
-      cache: "no-store",
-      headers: { "X-Firebase-ETag": "true" },
-    });
-    if (!getRes.ok) {
-      // Path doesn't exist yet, create it
-      const initRes = await fetch(COUNT_PATH, {
+  const MAX_RETRIES = 3;
+
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    try {
+      // Step 1: GET with ETag
+      const getRes = await fetch(COUNT_PATH, {
+        cache: "no-store",
+        headers: { "X-Firebase-ETag": "true" },
+      });
+
+      let currentVal: number;
+      let etag: string;
+
+      if (getRes.status === 200) {
+        const data = await getRes.json();
+        if (typeof data !== "number") {
+          // Path exists but not a number — overwrite
+          currentVal = START_COUNT;
+        } else {
+          currentVal = data;
+        }
+        etag = getRes.headers.get("etag") || "";
+      } else if (getRes.status === 404) {
+        // Path doesn't exist — create it
+        const initRes = await fetch(COUNT_PATH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(START_COUNT + add),
+          cache: "no-store",
+        });
+        if (initRes.ok) return START_COUNT + add;
+        continue;
+      } else {
+        continue;
+      }
+
+      const newValue = currentVal + add;
+
+      // Step 2: Conditional PUT (only if ETag matches)
+      const putRes = await fetch(COUNT_PATH, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(START_COUNT + add),
+        headers: {
+          "Content-Type": "application/json",
+          "if-match": etag,
+        },
+        body: JSON.stringify(newValue),
         cache: "no-store",
       });
-      if (!initRes.ok) return null;
-      return START_COUNT + add;
-    }
 
-    const etag = getRes.headers.get("etag") || "";
-    const currentVal = await getRes.json();
-    const current = typeof currentVal === "number" ? currentVal : START_COUNT;
-    const newValue = current + add;
+      if (putRes.ok) {
+        return newValue;
+      }
 
-    // Step 2: Conditional PUT with if-match
-    const putRes = await fetch(COUNT_PATH, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "if-match": etag,
-      },
-      body: JSON.stringify(newValue),
-      cache: "no-store",
-    });
+      // 412 = precondition failed (someone else updated first), retry
+      if (putRes.status === 412) {
+        continue;
+      }
 
-    if (putRes.ok) {
-      return newValue;
-    }
-
-    // If conflict (412), retry once with fresh GET
-    if (putRes.status === 412) {
-      const retryGet = await fetch(COUNT_PATH, { cache: "no-store" });
-      if (!retryGet.ok) return null;
-      const retryVal = await retryGet.json();
-      const retryCurrent = typeof retryVal === "number" ? retryVal : START_COUNT;
-      const retryNew = retryCurrent + add;
-      const retryPut = await fetch(COUNT_PATH, {
+      // Other error — try plain PUT without condition
+      const plainPut = await fetch(COUNT_PATH, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(retryNew),
+        body: JSON.stringify(newValue),
         cache: "no-store",
       });
-      if (retryPut.ok) return retryNew;
-      return null;
+      if (plainPut.ok) return newValue;
+      break;
+    } catch (e) {
+      console.warn(`Increment attempt ${attempt + 1} failed:`, e);
+      // Wait a bit before retry
+      await new Promise(resolve => setTimeout(resolve, 100 * (attempt + 1)));
     }
-
-    return null;
-  } catch {
-    return null;
   }
+
+  return null;
 }
 
-// GET /api/count — returns current count
+// GET /api/count — returns current Firebase count
 export async function GET() {
-  const fbCount = await getFirebaseCount();
-  const count = fbCount ?? getTimeBasedCount();
+  const count = await getFirebaseCount();
+  if (count !== null) {
+    return NextResponse.json({
+      count,
+      source: "firebase",
+      timestamp: Date.now(),
+    });
+  }
+  // Fallback to START_COUNT if Firebase unavailable
   return NextResponse.json({
-    count,
-    source: fbCount !== null ? "firebase" : "time-based",
+    count: START_COUNT,
+    source: "fallback",
     timestamp: Date.now(),
   });
 }
 
-// POST /api/count — atomic increment
+// POST /api/count — atomic increment via Firebase REST
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const add = typeof body.add === "number" && body.add > 0 ? body.add : 1;
+
     const newCount = await incrementFirebase(add);
-    const count = newCount ?? getTimeBasedCount();
+    if (newCount !== null) {
+      return NextResponse.json({
+        count: newCount,
+        added: add,
+        source: "firebase",
+        timestamp: Date.now(),
+      });
+    }
+
+    // Fallback: at least return current count
+    const currentCount = await getFirebaseCount();
     return NextResponse.json({
-      count,
+      count: currentCount ?? START_COUNT,
       added: add,
-      source: newCount !== null ? "firebase" : "time-based",
+      source: currentCount !== null ? "firebase-read-only" : "fallback",
       timestamp: Date.now(),
     });
-  } catch {
+  } catch (e) {
     return NextResponse.json({
-      count: getTimeBasedCount(),
+      count: START_COUNT,
       added: 1,
-      source: "time-based",
+      source: "error",
+      error: String(e),
       timestamp: Date.now(),
     }, { status: 200 });
   }
