@@ -1382,7 +1382,9 @@ export default function AstuteApp() {
   // Download state for tracking which file is currently being prepared
   const [downloadingFile, setDownloadingFile] = useState<string | null>(null);
 
-  // Download from Mediafire WITHOUT leaving web — scrapes direct link server-side
+  // Download from Mediafire WITHOUT leaving web
+  // Strategy: Get direct URL via scraping, then trigger download with download attribute
+  // For large files (APK), use iframe with direct URL — Mediafire direct URLs allow direct download
   const downloadFromMediafire = useCallback(async (mediafireUrl: string, fileLabel: string) => {
     try {
       // 1. Increment counter immediately (works on all devices via Firebase)
@@ -1392,36 +1394,44 @@ export default function AstuteApp() {
       setDownloadingFile(fileLabel);
       showToast(`Menyiapkan download: ${fileLabel}...`);
 
-      // 3. Fetch direct link from our API
-      const apiUrl = `/api/mediafire-direct?url=${encodeURIComponent(mediafireUrl)}`;
-      const res = await fetch(apiUrl);
+      // 3. Get direct URL from scraping API
+      const scrapeApiUrl = `/api/mediafire-direct?url=${encodeURIComponent(mediafireUrl)}`;
+      const res = await fetch(scrapeApiUrl);
       const data = await res.json();
 
       if (data.success && data.directUrl) {
-        // 4. Trigger download with direct link (no page navigation)
-        const link = document.createElement("a");
-        link.href = data.directUrl;
-        link.download = data.filename || fileLabel;
-        link.rel = "noopener noreferrer";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // 4. Use hidden iframe with direct URL — triggers download without navigating
+        // Direct URL from Mediafire (downloadXXX.mediafire.com) returns file with proper headers
+        const iframe = document.createElement("iframe");
+        iframe.style.display = "none";
+        iframe.src = data.directUrl;
+        document.body.appendChild(iframe);
+
+        // Remove iframe after 60 seconds (cleanup, allows large file to start)
+        setTimeout(() => {
+          if (document.body.contains(iframe)) {
+            document.body.removeChild(iframe);
+          }
+        }, 60000);
 
         showToast(`Download dimulai: ${data.filename || fileLabel}`);
       } else {
-        // Fallback: open in new tab (user stays on our web, new tab opens Mediafire)
-        const link = document.createElement("a");
-        link.href = mediafireUrl;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        showToast("Membuka Mediafire di tab baru...");
+        // Fallback: try streaming API (works for small files)
+        const streamApiUrl = `/api/mediafire-download?url=${encodeURIComponent(mediafireUrl)}`;
+        const iframe = document.createElement("iframe");
+        iframe.style.display = "none";
+        iframe.src = streamApiUrl;
+        document.body.appendChild(iframe);
+        setTimeout(() => {
+          if (document.body.contains(iframe)) {
+            document.body.removeChild(iframe);
+          }
+        }, 60000);
+        showToast(`Download dimulai: ${fileLabel}`);
       }
     } catch (e) {
       console.warn("Download error:", e);
-      // Final fallback
+      // Final fallback: open in new tab
       const link = document.createElement("a");
       link.href = mediafireUrl;
       link.target = "_blank";
@@ -1431,7 +1441,7 @@ export default function AstuteApp() {
       document.body.removeChild(link);
       showToast("Download dibuka di tab baru");
     } finally {
-      setTimeout(() => setDownloadingFile(null), 2000);
+      setTimeout(() => setDownloadingFile(null), 3000);
     }
   }, [bumpDownload, showToast]);
 
