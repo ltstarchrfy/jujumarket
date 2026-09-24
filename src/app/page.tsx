@@ -2231,10 +2231,14 @@ export default function AstuteApp() {
               </div>
             </a>
 
-            {/* FF MOD ASTUTE BETA V2 - Mediafire download tanpa keluar web */}
+            {/* FF MOD ASTUTE BETA V2 - Mediafire download */}
             <div className="rounded-2xl border relative overflow-hidden mt-3 mb-3" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
-              <div className="p-4">
+              <div className="relative" style={{ height: "100px", background: "#000" }}>
+                <img src="/mediafire-banner.jpg" alt="Mediafire" className="w-full h-full object-cover block" />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--ast-bg2) 0%, transparent 70%)" }} />
+              </div>
+              <div className="p-4 pt-2">
                 <div className="flex items-center gap-2 mb-2">
                   <Download className="w-4 h-4" style={{ color: "#60a5fa" }} />
                   <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>FF MOD ASTUTE BETA V2</span>
@@ -2257,10 +2261,14 @@ export default function AstuteApp() {
               </div>
             </div>
 
-            {/* JSON ASTUTE - Mediafire download tanpa keluar web */}
+            {/* JSON ASTUTE - Mediafire download */}
             <div className="rounded-2xl border relative overflow-hidden mb-3" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
-              <div className="p-4">
+              <div className="relative" style={{ height: "100px", background: "#000" }}>
+                <img src="/mediafire-banner.jpg" alt="Mediafire" className="w-full h-full object-cover block" />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--ast-bg2) 0%, transparent 70%)" }} />
+              </div>
+              <div className="p-4 pt-2">
                 <div className="flex items-center gap-2 mb-2">
                   <FileArchive className="w-4 h-4" style={{ color: "#60a5fa" }} />
                   <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>JSON ASTUTE</span>
@@ -2283,10 +2291,14 @@ export default function AstuteApp() {
               </div>
             </div>
 
-            {/* SCRIPT iOS - Mediafire download tanpa keluar web */}
+            {/* SCRIPT iOS - Mediafire download */}
             <div className="rounded-2xl border relative overflow-hidden mb-3" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
-              <div className="p-4">
+              <div className="relative" style={{ height: "100px", background: "#000" }}>
+                <img src="/mediafire-banner.jpg" alt="Mediafire" className="w-full h-full object-cover block" />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--ast-bg2) 0%, transparent 70%)" }} />
+              </div>
+              <div className="p-4 pt-2">
                 <div className="flex items-center gap-2 mb-2">
                   <AppleIcon className="w-4 h-4" style={{ color: "#60a5fa" }} />
                   <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>SCRIPT iOS</span>
@@ -2309,10 +2321,14 @@ export default function AstuteApp() {
               </div>
             </div>
 
-            {/* CERT iOS - Mediafire download tanpa keluar web */}
+            {/* CERT iOS - Mediafire download */}
             <div className="rounded-2xl border relative overflow-hidden mb-3" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
-              <div className="p-4">
+              <div className="relative" style={{ height: "100px", background: "#000" }}>
+                <img src="/mediafire-banner.jpg" alt="Mediafire" className="w-full h-full object-cover block" />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--ast-bg2) 0%, transparent 70%)" }} />
+              </div>
+              <div className="p-4 pt-2">
                 <div className="flex items-center gap-2 mb-2">
                   <AppleIcon className="w-4 h-4" style={{ color: "#60a5fa" }} />
                   <span className="text-[13px] font-bold" style={{ color: "var(--ast-white)" }}>CERT iOS</span>
@@ -3317,9 +3333,6 @@ export default function AstuteApp() {
                   <Download className="w-4 h-4" />
                   {downloadingFile === "FF OLD 2K22" ? "MENYIAPKAN..." : "DOWNLOAD APK"}
                 </button>
-                <p className="text-center text-[10px]" style={{ color: "var(--ast-gray)" }}>
-                  Download dari Mediafire
-                </p>
               </div>
             </div>
           </Reveal>
