@@ -1308,6 +1308,10 @@ export default function AstuteApp() {
 
   // Download counter — Firebase handles real-time sync automatically
 
+  // Single increment guard ref — prevents double counting
+  // Shares key "download" across ALL buttons (visit + download boxes)
+  const lastIncrementRef = useRef<{ key: string; time: number } | null>(null);
+
   // Firebase atomic increment helper (with API fallback)
   const firebaseIncrement = useCallback((add: number) => {
     try {
@@ -1340,7 +1344,23 @@ export default function AstuteApp() {
     }
   }, []);
 
+  // Single increment guard — prevents double counting from React double-render or double-click
+  // Shares key "download" across ALL buttons (visit + download boxes)
+  // Only +1 per 5 seconds per key, prevents user clicking multiple things = +1 only
+  const safeIncrement = useCallback((key: string) => {
+    const now = Date.now();
+    const last = lastIncrementRef.current;
+    // Block duplicate increments within 5 seconds for the same key
+    if (last && last.key === key && (now - last.time) < 5000) {
+      return; // Skip — already incremented recently
+    }
+    lastIncrementRef.current = { key, time: now };
+    firebaseIncrement(1);
+  }, [firebaseIncrement]);
+
   // Page navigation - smooth page transition
+  // Increment counter +1 when user VISITS download page or FF OLD 2K22 page
+  // (only once per 5 seconds — safeIncrement handles cooldown)
   const goPage = useCallback((name: PageName) => {
     try {
       playClickSound();
@@ -1349,13 +1369,15 @@ export default function AstuteApp() {
       try {
         window.history.pushState({ page: name }, "", url);
       } catch {}
-      // NOTE: Counter increment is handled by the calling button (bumpDownload)
-      // Don't increment here to avoid double-counting
+      // +1 when entering download page or FF OLD 2K22 page (single increment, anti-double)
+      if (name === "download" || name === "ff-old-2k22") {
+        safeIncrement("download");
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (e) {
       console.warn("goPage error:", e);
     }
-  }, [playClickSound]);
+  }, [playClickSound, safeIncrement]);
 
   // Handle browser back/forward buttons — sync page with URL
   useEffect(() => {
@@ -1402,21 +1424,6 @@ export default function AstuteApp() {
 
   // Download state for tracking which file is currently being prepared
   const [downloadingFile, setDownloadingFile] = useState<string | null>(null);
-  const lastIncrementRef = useRef<{ key: string; time: number } | null>(null);
-
-  // Single increment guard — prevents double counting from React double-render or double-click
-  // Shares key "download" across ALL download buttons so user clicking multiple boxes
-  // only counts as 1 download per 5 seconds
-  const safeIncrement = useCallback((key: string) => {
-    const now = Date.now();
-    const last = lastIncrementRef.current;
-    // Block duplicate increments within 5 seconds for the same key
-    if (last && last.key === key && (now - last.time) < 5000) {
-      return; // Skip — already incremented recently
-    }
-    lastIncrementRef.current = { key, time: now };
-    firebaseIncrement(1);
-  }, [firebaseIncrement]);
 
   // Bump download counter — safe (only +1 per click)
   const bumpDownload = useCallback(() => {
