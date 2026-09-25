@@ -1340,7 +1340,7 @@ export default function AstuteApp() {
     }
   }, []);
 
-  // Page navigation - smooth, +1 counter via Firebase when visiting ASTUTE OB55 download page
+  // Page navigation - smooth page transition
   const goPage = useCallback((name: PageName) => {
     try {
       playClickSound();
@@ -1349,14 +1349,13 @@ export default function AstuteApp() {
       try {
         window.history.pushState({ page: name }, "", url);
       } catch {}
-      if (name === "download") {
-        firebaseIncrement(1);
-      }
+      // NOTE: Counter increment is handled by the calling button (bumpDownload)
+      // Don't increment here to avoid double-counting
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (e) {
       console.warn("goPage error:", e);
     }
-  }, [playClickSound, firebaseIncrement]);
+  }, [playClickSound]);
 
   // Handle browser back/forward buttons — sync page with URL
   useEffect(() => {
@@ -1382,11 +1381,6 @@ export default function AstuteApp() {
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     toastTimerRef.current = setTimeout(() => setToastVisible(false), 2400);
   }, []);
-
-  const handleDownload = useCallback((name: string) => {
-    showToast(`Preparing: ${name}...`);
-    firebaseIncrement(3);
-  }, [showToast, firebaseIncrement]);
 
   const togglePanel = useCallback(() => {
     playClickSound();
