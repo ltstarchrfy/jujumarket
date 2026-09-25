@@ -1400,13 +1400,26 @@ export default function AstuteApp() {
 
   const formattedCount = downloadCount.toLocaleString("en-US");
 
-  // Increment download count via Firebase when any download link is clicked
-  const bumpDownload = useCallback(() => {
+  // Download state for tracking which file is currently being prepared
+  const [downloadingFile, setDownloadingFile] = useState<string | null>(null);
+  const lastIncrementRef = useRef<{ key: string; time: number } | null>(null);
+
+  // Single increment guard — prevents double counting from React double-render or double-click
+  const safeIncrement = useCallback((key: string) => {
+    const now = Date.now();
+    const last = lastIncrementRef.current;
+    // Block duplicate increments within 2 seconds for the same key
+    if (last && last.key === key && (now - last.time) < 2000) {
+      return; // Skip — already incremented recently
+    }
+    lastIncrementRef.current = { key, time: now };
     firebaseIncrement(1);
   }, [firebaseIncrement]);
 
-  // Download state for tracking which file is currently being prepared
-  const [downloadingFile, setDownloadingFile] = useState<string | null>(null);
+  // Bump download counter — safe (only +1 per click)
+  const bumpDownload = useCallback(() => {
+    safeIncrement("download");
+  }, [safeIncrement]);
 
   // Download from Mediafire WITHOUT leaving web
   // Strategy: Get direct URL via scraping, then redirect browser to direct URL
@@ -1414,8 +1427,8 @@ export default function AstuteApp() {
   // Browser will start download and stay on current page
   const downloadFromMediafire = useCallback(async (mediafireUrl: string, fileLabel: string) => {
     try {
-      // 1. Increment counter immediately (works on all devices via Firebase)
-      bumpDownload();
+      // 1. Increment counter ONCE (guarded against double-click)
+      safeIncrement(`mediafire-${fileLabel}`);
 
       // 2. Show loading state
       setDownloadingFile(fileLabel);
