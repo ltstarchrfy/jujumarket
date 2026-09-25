@@ -1996,7 +1996,7 @@ export default function AstuteApp() {
               <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase text-center" style={{ color: "var(--ast-gray)" }}>Download</span>
             </div>
             <div className="flex flex-col gap-3.5 mb-5">
-              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB55" desc="Main APK" newBadge onClick={() => { bumpDownload(); goPage("download"); }} />
+              <AppBar icon={<Flame className="w-[18px] h-[18px]" />} text="ASTUTE OB55" desc="Main APK" newBadge onClick={() => goPage("download")} />
               <AppBar icon={<Settings className="w-[18px] h-[18px]" />} text="PANEL ASTUTE" desc="Control panel" onClick={() => goPage("panel")} />
               <AppBar icon={<ShieldCheck className="w-[18px] h-[18px]" />} text="VERIF MANUAL" desc="Bypass verif" onClick={() => goPage("verif")} />
             </div>
@@ -2209,7 +2209,6 @@ export default function AstuteApp() {
               href="https://play.google.com/store/apps/details?id=com.dts.freefiremax"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={bumpDownload}
               className="block rounded-2xl border relative overflow-hidden mb-3 cursor-pointer active:scale-[0.98] no-underline"
               style={{
                 background: "var(--ast-bg2)",
@@ -2238,7 +2237,6 @@ export default function AstuteApp() {
               href="https://play.google.com/store/apps/details?id=com.dts.freefireth"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={bumpDownload}
               className="block rounded-2xl border relative overflow-hidden mb-3 cursor-pointer active:scale-[0.98] no-underline"
               style={{
                 background: "var(--ast-bg2)",
