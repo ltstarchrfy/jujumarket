@@ -11,7 +11,7 @@ const LOG_PATH = `${FIREBASE_DB_URL}/downloadLog.json`;
 
 const START_COUNT = 5000;
 const MAX_RETRIES = 5;
-const COOLDOWN_MS = 2000; // 2 seconds between increments per device
+const COOLDOWN_MS = 5000; // 5 seconds between increments per device (anti-spam)
 
 async function getFirebaseValue(path: string): Promise<{ value: any; etag: string | null }> {
   try {

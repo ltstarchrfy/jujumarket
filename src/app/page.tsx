@@ -1405,11 +1405,13 @@ export default function AstuteApp() {
   const lastIncrementRef = useRef<{ key: string; time: number } | null>(null);
 
   // Single increment guard — prevents double counting from React double-render or double-click
+  // Shares key "download" across ALL download buttons so user clicking multiple boxes
+  // only counts as 1 download per 5 seconds
   const safeIncrement = useCallback((key: string) => {
     const now = Date.now();
     const last = lastIncrementRef.current;
-    // Block duplicate increments within 2 seconds for the same key
-    if (last && last.key === key && (now - last.time) < 2000) {
+    // Block duplicate increments within 5 seconds for the same key
+    if (last && last.key === key && (now - last.time) < 5000) {
       return; // Skip — already incremented recently
     }
     lastIncrementRef.current = { key, time: now };
@@ -1427,8 +1429,9 @@ export default function AstuteApp() {
   // Browser will start download and stay on current page
   const downloadFromMediafire = useCallback(async (mediafireUrl: string, fileLabel: string) => {
     try {
-      // 1. Increment counter ONCE (guarded against double-click)
-      safeIncrement(`mediafire-${fileLabel}`);
+      // 1. Increment counter ONCE — share key "download" with all buttons
+      // (so user clicking multiple boxes only counts as 1 download per 2s cooldown)
+      safeIncrement("download");
 
       // 2. Show loading state
       setDownloadingFile(fileLabel);
