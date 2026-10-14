@@ -1689,7 +1689,7 @@ export default function AstuteApp() {
           </div>
         </div>
         <div className="flex items-center gap-2 relative z-[1]">
-          <a href="https://whatsapp.com/channel/0029VbBxPsuDeONChEGz5D1Q" target="_blank" rel="noopener noreferrer"
+          <a href="https://whatsapp.com/channel/0029Vb7jsS48PgsBYKSnPB1V" target="_blank" rel="noopener noreferrer"
             className="flex items-center gap-1.5 py-[5px] px-3 rounded-full"
             style={{
               background: "rgba(120,130,160,0.1)",
