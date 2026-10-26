@@ -24,6 +24,8 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
           rel="stylesheet"
         />
+        {/* Monetag verification */}
+        <meta name="monetag" content="ba97e2d4c98334eb41ce9ba40bb34201" />
         {/* Google AdSense */}
         <script
           async
