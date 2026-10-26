@@ -3320,82 +3320,59 @@ export default function AstuteApp() {
         <PageWrapper pageName="barbosa" currentPage={currentPage}>
           <Reveal>
             <button onClick={() => goPage("home")} type="button"
-              className="flex items-center gap-2 mb-6 text-[12px] font-semibold transition cursor-pointer"
+              className="flex items-center gap-2 mb-8 text-[12px] font-semibold transition cursor-pointer"
               style={{ color: "var(--ast-gray)" }}>
               <ArrowLeft className="w-4 h-4" /> Kembali ke Beranda
             </button>
           </Reveal>
 
           <Reveal delay={70}>
-            <div className="text-center mb-7 relative">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider mb-3" style={{ background: "rgba(37,99,235,0.12)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.25)" }}>
+            <div className="text-center mb-10 relative">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wider mb-4" style={{ background: "rgba(37,99,235,0.12)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.25)" }}>
                 <Flame className="w-3 h-3" /> NEW MOD
               </div>
-              <h2 className="text-[24px] font-extrabold tracking-tight mb-2" style={{
+              <h2 className="text-[28px] font-extrabold tracking-tight mb-3" style={{
                 background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 filter: "none",
+                letterSpacing: "-0.02em",
               }}>BARBOSA PROJECT</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
-                Mod Free Fire terbaru dari Barbosa Project. Wajib daftar via Discord sebelum download.
+                Mod Free Fire terbaru dari Barbosa Project
               </p>
             </div>
           </Reveal>
 
-          <Reveal delay={140}>
-            <div className="rounded-2xl border p-5 mb-4" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.2)" }}>
-              <h3 className="font-bold text-[15px] mb-3 flex items-center gap-2" style={{ color: "var(--ast-white)" }}>
-                <Info className="w-4 h-4" style={{ color: "#60a5fa" }} /> Baca Dulu Sebelum Download
-              </h3>
-              <div className="space-y-3 text-[12.5px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
-                <p>
-                  Oke sebelum download, ada beberapa hal yang harus lu tau. Mod ini dari Barbosa Project, dan wajib daftar dulu lewat Discord buat dapet akses. Tanpa daftar, lu ga bakal bisa login.
-                </p>
-                <div className="rounded-xl p-3" style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.15)" }}>
-                  <p className="font-semibold mb-1.5" style={{ color: "#60a5fa" }}>🔧 Cara Pake (Penting!)</p>
-                  <p className="mb-2">
-                    Pertama, <strong className="text-white">klik tombol DAFTAR DISCORD</strong> di bawah. Lu bakal diarahin ke halaman daftar Barbosa. Isi data lu, verifikasi akun Discord, tunggu approval.
-                  </p>
-                  <p>
-                    Setelah dapet approval, <strong className="text-white">download APK-nya</strong>, install, login pakai akun yang udah lu daftarin tadi. Insyaallah work.
-                  </p>
-                </div>
-                <p>
-                  Catatan: ga daftar = ga bisa login. Jangan skip step daftar ya, nanti bakal bingung sendiri pas mau masuk game.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
           {/* Daftar Discord Box */}
-          <Reveal delay={210}>
+          <Reveal delay={140}>
             <a
               href="https://keys.barbosasmobile.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="block rounded-2xl border relative overflow-hidden mb-4 cursor-pointer active:scale-[0.98] no-underline"
               style={{
-                background: "linear-gradient(135deg, rgba(88,101,242,0.15), rgba(67,82,222,0.08))",
-                borderColor: "rgba(88,101,242,0.35)",
+                background: "linear-gradient(135deg, rgba(88,101,242,0.18), rgba(67,82,222,0.10))",
+                borderColor: "rgba(88,101,242,0.45)",
                 transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
               }}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #5865F2, #4752c4)" }} />
-              <div className="p-4 relative z-[1]">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, #5865F2, #4752c4)" }}>
-                    <DiscordIcon className="w-5 h-5 text-white" />
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #5865F2, #4752c4, #5865F2)" }} />
+              <div className="p-5 relative z-[1]">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, #5865F2, #4752c4)", boxShadow: "0 4px 12px rgba(88,101,242,0.3)" }}>
+                    <DiscordIcon className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[14px] font-bold" style={{ color: "#fff" }}>DAFTAR DISCORD</div>
-                    <div className="text-[11px]" style={{ color: "rgba(255,255,255,0.7)" }}>Wajib daftar sebelum download APK</div>
+                    <div className="text-[15px] font-bold" style={{ color: "#fff" }}>DAFTAR DISCORD</div>
+                    <div className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,0.7)" }}>Wajib daftar dulu sebelum download APK</div>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(88,101,242,0.2)", color: "#a5b4fc", border: "1px solid rgba(88,101,242,0.4)" }}>WAJIB</span>
+                  <span className="px-2.5 py-1 rounded-full text-[8px] font-bold shrink-0" style={{ background: "rgba(88,101,242,0.25)", color: "#c7d2fe", border: "1px solid rgba(88,101,242,0.5)" }}>WAJIB</span>
                 </div>
-                <div className="text-center mt-3 py-2.5 rounded-xl text-[12.5px] font-bold" style={{
+                <div className="text-center mt-4 py-3 rounded-xl text-[13px] font-bold tracking-wide" style={{
                   background: "linear-gradient(135deg, #5865F2, #4752c4)",
                   color: "#fff",
+                  boxShadow: "0 4px 12px rgba(88,101,242,0.25)",
                 }}>
                   BUKA LINK DAFTAR →
                 </div>
@@ -3403,14 +3380,20 @@ export default function AstuteApp() {
             </a>
           </Reveal>
 
+          {/* Download APK Box */}
           <Reveal delay={210}>
-            <div className="rounded-2xl border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.25)" }}>
+            <div className="rounded-2xl border relative overflow-hidden" style={{ background: "var(--ast-bg2)", borderColor: "rgba(37,99,235,0.3)" }}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
 
-              <div className="p-5">
-                {/* Icon kotak seperti Play Store */}
-                <div className="flex justify-center mb-4">
-                  <div className="rounded-2xl overflow-hidden" style={{ width: "100px", height: "100px", border: "2px solid rgba(37,99,235,0.3)", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}>
+              <div className="p-6 text-center">
+                {/* Icon kotak */}
+                <div className="flex justify-center mb-5">
+                  <div className="rounded-2xl overflow-hidden" style={{
+                    width: "110px",
+                    height: "110px",
+                    border: "2px solid rgba(37,99,235,0.4)",
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(37,99,235,0.1)",
+                  }}>
                     <img
                       src="/ff-old-icon.jpg"
                       alt="BARBOSA PROJECT"
@@ -3419,80 +3402,23 @@ export default function AstuteApp() {
                   </div>
                 </div>
 
-                <div className="text-center mb-4">
-                  <div className="text-[15px] font-bold mb-1" style={{ color: "var(--ast-white)" }}>BARBOSA PROJECT APK</div>
-                  <div className="text-[11px]" style={{ color: "var(--ast-gray)" }}>Klik tombol di bawah buat mulai download</div>
-                </div>
+                <div className="text-[17px] font-bold mb-1" style={{ color: "var(--ast-white)" }}>BARBOSA PROJECT APK</div>
+                <div className="text-[11px] mb-5" style={{ color: "var(--ast-gray)" }}>Klik tombol di bawah untuk download</div>
 
                 <button
                   onClick={() => downloadFromMediafire("https://www.mediafire.com/file/wefr17mhq4gmwth/Barbosa_Project_2023.apk/file?dkey=q7ff8f0lzbu&r=598", "BARBOSA PROJECT")}
                   disabled={downloadingFile === "BARBOSA PROJECT"}
-                  className="w-full py-4 rounded-xl text-[14px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] mb-2"
+                  className="w-full py-4 rounded-xl text-[14px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
                   style={{
                     background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                     color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-                    boxShadow: "none",
+                    boxShadow: "0 4px 16px rgba(37,99,235,0.3)",
                     opacity: downloadingFile === "BARBOSA PROJECT" ? 0.6 : 1,
                   }}>
-                  <Download className="w-4 h-4" />
+                  <Download className="w-5 h-5" />
                   {downloadingFile === "BARBOSA PROJECT" ? "MENYIAPKAN..." : "DOWNLOAD APK"}
                 </button>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* ─── Video Tutorial Boxes (Horizontal Scroll) ─── */}
-          <Reveal delay={250}>
-            <div className="mt-5">
-              <div className="flex items-center gap-2 mb-3 px-1">
-                <PlayCircle className="w-3.5 h-3.5" style={{ color: "#60a5fa" }} />
-                <span className="font-mono text-[9px] font-bold tracking-[0.14em] uppercase" style={{ color: "var(--ast-gray)" }}>Video Tutorial</span>
-                <span className="ml-auto text-[9px]" style={{ color: "var(--ast-gray)" }}>← geser →</span>
-              </div>
-              <div
-                className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1"
-                style={{
-                  scrollbarWidth: "thin",
-                  scrollbarColor: "rgba(37,99,235,0.3) transparent",
-                  scrollSnapType: "x mandatory",
-                  WebkitOverflowScrolling: "touch",
-                }}
-              >
-                {[
-                  { title: "VIDEO 1", url: "" },
-                  { title: "VIDEO 2", url: "" },
-                ].map((vid, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => {
-                      if (vid.url) {
-                        setActiveVideo({ title: vid.title, url: vid.url });
-                        setVideoPopupOpen(true);
-                      } else {
-                        showToast("Video belum diupload, tunggu ya!");
-                      }
-                    }}
-                    className="shrink-0 rounded-2xl border relative overflow-hidden cursor-pointer active:scale-[0.97]"
-                    style={{
-                      width: "260px",
-                      height: "180px",
-                      background: "linear-gradient(135deg, rgba(30,58,95,0.4), rgba(29,78,216,0.15))",
-                      borderColor: "rgba(37,99,235,0.25)",
-                      scrollSnapAlign: "start",
-                      transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-                    }}
-                  >
-                    <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ background: "rgba(37,99,235,0.2)", border: "1px solid rgba(37,99,235,0.4)" }}>
-                        <PlayCircle className="w-6 h-6" style={{ color: "#60a5fa" }} />
-                      </div>
-                      <div className="text-[13px] font-bold text-center" style={{ color: "var(--ast-white)" }}>{vid.title}</div>
-                      <div className="text-[10px] mt-1" style={{ color: "var(--ast-gray)" }}>{vid.url ? "Klik untuk putar" : "Tunggu video diupload"}</div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </Reveal>
