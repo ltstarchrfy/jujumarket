@@ -1216,17 +1216,59 @@ export default function AstuteApp() {
   }, []);
 
   // ─── Click Sound (MP3 file) ────────────────────────────────────────────────
+  // Preload audio on first user interaction (mobile browsers require this)
   const clickAudioRef = useRef<HTMLAudioElement | null>(null);
+  const audioInitializedRef = useRef(false);
+
+  const initAudio = useCallback(() => {
+    if (audioInitializedRef.current) return;
+    audioInitializedRef.current = true;
+    try {
+      if (!clickAudioRef.current) {
+        clickAudioRef.current = new Audio("/click.mp3");
+        clickAudioRef.current.volume = 0.4;
+        clickAudioRef.current.preload = "auto";
+      }
+      // Try to load metadata
+      clickAudioRef.current.load();
+    } catch {}
+  }, []);
+
   const playClickSound = useCallback(() => {
     try {
       if (!clickAudioRef.current) {
         clickAudioRef.current = new Audio("/click.mp3");
         clickAudioRef.current.volume = 0.4;
+        clickAudioRef.current.preload = "auto";
       }
       clickAudioRef.current.currentTime = 0;
-      clickAudioRef.current.play().catch(() => {});
+      const playPromise = clickAudioRef.current.play();
+      if (playPromise) {
+        playPromise.catch((e) => {
+          console.warn("Click sound play failed (will retry next interaction):", e);
+        });
+      }
     } catch {}
   }, []);
+
+  // Initialize audio on ANY first user interaction (mobile-friendly)
+  useEffect(() => {
+    const initOnInteraction = () => {
+      initAudio();
+      // Remove listeners after first interaction
+      document.removeEventListener("click", initOnInteraction);
+      document.removeEventListener("touchstart", initOnInteraction);
+      document.removeEventListener("keydown", initOnInteraction);
+    };
+    document.addEventListener("click", initOnInteraction, { once: true });
+    document.addEventListener("touchstart", initOnInteraction, { once: true });
+    document.addEventListener("keydown", initOnInteraction, { once: true });
+    return () => {
+      document.removeEventListener("click", initOnInteraction);
+      document.removeEventListener("touchstart", initOnInteraction);
+      document.removeEventListener("keydown", initOnInteraction);
+    };
+  }, [initAudio]);
 
   // ─── Background Music (MP3) ─────────────────────────────────────────────────
   const startMusic = useCallback(() => {

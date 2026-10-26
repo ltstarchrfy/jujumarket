@@ -21,9 +21,71 @@
   NEXT_PUBLIC_FB_MESSAGING_SENDER_ID = "909104969540"
   NEXT_PUBLIC_FB_APP_ID = "1:909104969540:web:bcbcdc4de7c25a6e9ac911"
   NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Static files in /public should be served directly without going through Next.js
+[[redirects]]
+  from = "/avatar.jpg"
+  to = "/avatar.jpg"
+  status = 200
+
+[[redirects]]
+  from = "/QRIS.png"
+  to = "/QRIS.png"
+  status = 200
+
+[[redirects]]
+  from = "/click.mp3"
+  to = "/click.mp3"
+  status = 200
+
+[[redirects]]
+  from = "/flip.mp3"
+  to = "/flip.mp3"
+  status = 200
+
+[[redirects]]
+  from = "/music.mp3"
+  to = "/music.mp3"
+  status = 200
+
+[[redirects]]
+  from = "/vip-popup.png"
+  to = "/vip-popup.png"
+  status = 200
+
+[[redirects]]
+  from = "/vip-popup.jpg"
+  to = "/vip-popup.jpg"
+  status = 200
+
+[[redirects]]
+  from = "/ff-max-image.jpg"
+  to = "/ff-max-image.jpg"
+  status = 200
+
+[[redirects]]
+  from = "/ff-original-image.jpg"
+  to = "/ff-original-image.jpg"
+  status = 200
+
+[[redirects]]
+  from = "/ff-old-icon.jpg"
+  to = "/ff-old-icon.jpg"
+  status = 200
+
+[[redirects]]
+  from = "/banner.png"
+  to = "/banner.png"
+  status = 200
+
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/favicon.ico"
+  status = 200
 
 # Redirects for SPA routes (each page accessible via /pagename)
-# Netlify will serve index.html for all these routes
 [[redirects]]
   from = "/download"
   to = "/"
@@ -84,23 +146,29 @@
   for = "/avatar.jpg"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+    Access-Control-Allow-Origin = "*"
 
 [[headers]]
   for = "/QRIS.png"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+    Access-Control-Allow-Origin = "*"
 
 [[headers]]
   for = "/*.mp3"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+    Access-Control-Allow-Origin = "*"
 
 [[headers]]
   for = "/*.png"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+    Access-Control-Allow-Origin = "*"
 
 [[headers]]
   for = "/*.jpg"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+    Access-Control-Allow-Origin = "*"
+
