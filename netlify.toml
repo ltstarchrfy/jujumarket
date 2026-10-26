@@ -136,6 +136,11 @@
   to = "/"
   status = 200
 
+[[redirects]]
+  from = "/barbosa"
+  to = "/"
+  status = 200
+
 # Headers for static assets (long cache)
 [[headers]]
   for = "/_next/static/*"

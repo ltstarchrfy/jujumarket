@@ -44,10 +44,10 @@ type PageName =
   | "changelog"
   | "vip"
   | "qris"
-  | "ff-old-2k22";
+  | "barbosa";
 
 // Valid pages for URL routing (internal page name)
-const VALID_PAGES: PageName[] = ["home", "download", "panel", "verif", "discord", "tutorial", "changelog", "vip", "qris", "ff-old-2k22"];
+const VALID_PAGES: PageName[] = ["home", "download", "panel", "verif", "discord", "tutorial", "changelog", "vip", "qris", "barbosa"];
 
 // Map URL path → internal page name (for new public URLs)
 const URL_TO_PAGE: Record<string, PageName> = {
@@ -60,7 +60,7 @@ const URL_TO_PAGE: Record<string, PageName> = {
   "changelog": "changelog",
   "Buyvip": "vip",
   "qris": "qris",
-  "ff-old-2k22": "ff-old-2k22",
+  "barbosa": "barbosa",
 };
 
 // Map internal page name → URL path (for pushState)
@@ -74,7 +74,7 @@ const PAGE_TO_URL: Record<PageName, string> = {
   changelog: "/changelog",
   vip: "/Buyvip",
   qris: "/qris",
-  "ff-old-2k22": "/ff-old-2k22",
+  "barbosa": "/barbosa",
 };
 
 // Read current page from URL pathname (case-sensitive, must match exactly)
@@ -1401,7 +1401,7 @@ export default function AstuteApp() {
   }, [firebaseIncrement]);
 
   // Page navigation - smooth page transition
-  // Increment counter +1 when user VISITS download page or FF OLD 2K22 page
+  // Increment counter +1 when user VISITS download page or BARBOSA page
   // (only once per 5 seconds — safeIncrement handles cooldown)
   const goPage = useCallback((name: PageName) => {
     try {
@@ -1411,8 +1411,8 @@ export default function AstuteApp() {
       try {
         window.history.pushState({ page: name }, "", url);
       } catch {}
-      // +1 when entering download page or FF OLD 2K22 page (single increment, anti-double)
-      if (name === "download" || name === "ff-old-2k22") {
+      // +1 when entering download page or BARBOSA page
+      if (name === "download" || name === "barbosa") {
         safeIncrement("download");
       }
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2051,7 +2051,7 @@ export default function AstuteApp() {
             </div>
           </Reveal>
 
-          {/* ─── FF OLD 2K22 Box ─── */}
+          {/* ─── BARBOSA PROJECT Box ─── */}
           <Reveal delay={280}>
             <div className="mt-4 relative overflow-hidden rounded-2xl border cursor-pointer active:scale-[0.98]"
               style={{
@@ -2059,7 +2059,7 @@ export default function AstuteApp() {
                 borderColor: "rgba(37,99,235,0.25)",
                 transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
               }}
-              onClick={() => goPage("ff-old-2k22")}>
+              onClick={() => goPage("barbosa")}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)" }} />
               <div className="p-4 relative z-[1] flex items-center gap-3">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -2068,10 +2068,10 @@ export default function AstuteApp() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[14px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>FF OLD 2K22</span>
-                    <span className="px-1.5 py-[1px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>OLD</span>
+                    <span className="text-[14px] font-bold tracking-wide" style={{ color: "var(--ast-white)" }}>BARBOSA PROJECT</span>
+                    <span className="px-1.5 py-[1px] rounded-full text-[8px] font-bold tracking-wider" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.3)" }}>NEW</span>
                   </div>
-                  <div className="text-[11px]" style={{ color: "var(--ast-gray)" }}>Versi jadul, login FB + Discord</div>
+                  <div className="text-[11px]" style={{ color: "var(--ast-gray)" }}>Mod FF terbaru, daftar via Discord</div>
                 </div>
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--ast-gray)" }}>
                   <polyline points="9 18 15 12 9 6" />
@@ -3316,8 +3316,8 @@ export default function AstuteApp() {
           </Reveal>
         </PageWrapper>
 
-        {/* ═══ FF OLD 2K22 PAGE ═══ */}
-        <PageWrapper pageName="ff-old-2k22" currentPage={currentPage}>
+        {/* ═══ BARBOSA PROJECT PAGE ═══ */}
+        <PageWrapper pageName="barbosa" currentPage={currentPage}>
           <Reveal>
             <button onClick={() => goPage("home")} type="button"
               className="flex items-center gap-2 mb-6 text-[12px] font-semibold transition cursor-pointer"
@@ -3329,7 +3329,7 @@ export default function AstuteApp() {
           <Reveal delay={70}>
             <div className="text-center mb-7 relative">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider mb-3" style={{ background: "rgba(37,99,235,0.12)", color: "#60a5fa", border: "1px solid rgba(37,99,235,0.25)" }}>
-                <Flame className="w-3 h-3" /> OLD VERSION
+                <Flame className="w-3 h-3" /> NEW MOD
               </div>
               <h2 className="text-[24px] font-extrabold tracking-tight mb-2" style={{
                 background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
@@ -3337,9 +3337,9 @@ export default function AstuteApp() {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 filter: "none",
-              }}>FF OLD 2K22</h2>
+              }}>BARBOSA PROJECT</h2>
               <p className="text-[13px] leading-relaxed max-w-[340px] mx-auto" style={{ color: "var(--ast-gray)" }}>
-                Versi Free Fire lama tahun 2022 — buat yang mau nostalgia atau butuh versi lawas buat akun tertentu
+                Mod Free Fire terbaru dari Barbosa Project. Wajib daftar via Discord sebelum download.
               </p>
             </div>
           </Reveal>
@@ -3351,22 +3351,56 @@ export default function AstuteApp() {
               </h3>
               <div className="space-y-3 text-[12.5px] leading-relaxed" style={{ color: "var(--ast-gray)" }}>
                 <p>
-                  Oke sebelum download, ada beberapa hal yang harus lu tau biar nanti ga bingung pas mau masuk. Versi ini lumayan jadul tapi masih work buat login pake akun lama. Buat yang punya akun FB atau Discord, ada cara khususnya.
+                  Oke sebelum download, ada beberapa hal yang harus lu tau. Mod ini dari Barbosa Project, dan wajib daftar dulu lewat Discord buat dapet akses. Tanpa daftar, lu ga bakal bisa login.
                 </p>
                 <div className="rounded-xl p-3" style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.15)" }}>
-                  <p className="font-semibold mb-1.5" style={{ color: "#60a5fa" }}>🔧 Cara Login (Penting!)</p>
+                  <p className="font-semibold mb-1.5" style={{ color: "#60a5fa" }}>🔧 Cara Pake (Penting!)</p>
                   <p className="mb-2">
-                    Waktu lu buka FFnya, nanti muncul pilihan login. Pilih yang <strong className="text-white">Facebook</strong>. Kalau di HP lu ada app Discord kebuka pas mau login, <strong className="text-white">langsung login aja sekali pencet</strong>, terus <strong className="text-white">tutup Discord-nya cepet</strong>.
+                    Pertama, <strong className="text-white">klik tombol DAFTAR DISCORD</strong> di bawah. Lu bakal diarahin ke halaman daftar Barbosa. Isi data lu, verifikasi akun Discord, tunggu approval.
                   </p>
                   <p>
-                    Abis itu balik buka Free Fire lu, lanjut login lagi pake Facebook. Insyaallah masuk. Ini udah dites sama beberapa orang, work kok.
+                    Setelah dapet approval, <strong className="text-white">download APK-nya</strong>, install, login pakai akun yang udah lu daftarin tadi. Insyaallah work.
                   </p>
                 </div>
                 <p>
-                  Catatan: jangan langsung login Discord terus diem aja, nanti ganggu proses login-nya. Pencet, tutup, balik ke FF — gitu doang.
+                  Catatan: ga daftar = ga bisa login. Jangan skip step daftar ya, nanti bakal bingung sendiri pas mau masuk game.
                 </p>
               </div>
             </div>
+          </Reveal>
+
+          {/* Daftar Discord Box */}
+          <Reveal delay={210}>
+            <a
+              href="https://keys.barbosasmobile.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-2xl border relative overflow-hidden mb-4 cursor-pointer active:scale-[0.98] no-underline"
+              style={{
+                background: "linear-gradient(135deg, rgba(88,101,242,0.15), rgba(67,82,222,0.08))",
+                borderColor: "rgba(88,101,242,0.35)",
+                transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+              }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #5865F2, #4752c4)" }} />
+              <div className="p-4 relative z-[1]">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, #5865F2, #4752c4)" }}>
+                    <DiscordIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[14px] font-bold" style={{ color: "#fff" }}>DAFTAR DISCORD</div>
+                    <div className="text-[11px]" style={{ color: "rgba(255,255,255,0.7)" }}>Wajib daftar sebelum download APK</div>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full text-[8px] font-bold" style={{ background: "rgba(88,101,242,0.2)", color: "#a5b4fc", border: "1px solid rgba(88,101,242,0.4)" }}>WAJIB</span>
+                </div>
+                <div className="text-center mt-3 py-2.5 rounded-xl text-[12.5px] font-bold" style={{
+                  background: "linear-gradient(135deg, #5865F2, #4752c4)",
+                  color: "#fff",
+                }}>
+                  BUKA LINK DAFTAR →
+                </div>
+              </div>
+            </a>
           </Reveal>
 
           <Reveal delay={210}>
@@ -3379,30 +3413,30 @@ export default function AstuteApp() {
                   <div className="rounded-2xl overflow-hidden" style={{ width: "100px", height: "100px", border: "2px solid rgba(37,99,235,0.3)", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}>
                     <img
                       src="/ff-old-icon.jpg"
-                      alt="FF OLD 2K22"
+                      alt="BARBOSA PROJECT"
                       className="w-full h-full object-cover block"
                     />
                   </div>
                 </div>
 
                 <div className="text-center mb-4">
-                  <div className="text-[15px] font-bold mb-1" style={{ color: "var(--ast-white)" }}>FF OLD 2K22 APK</div>
+                  <div className="text-[15px] font-bold mb-1" style={{ color: "var(--ast-white)" }}>BARBOSA PROJECT APK</div>
                   <div className="text-[11px]" style={{ color: "var(--ast-gray)" }}>Klik tombol di bawah buat mulai download</div>
                 </div>
 
                 <button
-                  onClick={() => downloadFromMediafire("https://www.mediafire.com/file/xkq9qvte9otjj6q/", "FF OLD 2K22")}
-                  disabled={downloadingFile === "FF OLD 2K22"}
+                  onClick={() => downloadFromMediafire("https://www.mediafire.com/file/wefr17mhq4gmwth/Barbosa_Project_2023.apk/file?dkey=q7ff8f0lzbu&r=598", "BARBOSA PROJECT")}
+                  disabled={downloadingFile === "BARBOSA PROJECT"}
                   className="w-full py-4 rounded-xl text-[14px] font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] mb-2"
                   style={{
                     background: "linear-gradient(135deg, #0c2d5a, #1d4ed8, #60a5fa, #93c5fd)",
                     color: "#fff",
                     transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
                     boxShadow: "none",
-                    opacity: downloadingFile === "FF OLD 2K22" ? 0.6 : 1,
+                    opacity: downloadingFile === "BARBOSA PROJECT" ? 0.6 : 1,
                   }}>
                   <Download className="w-4 h-4" />
-                  {downloadingFile === "FF OLD 2K22" ? "MENYIAPKAN..." : "DOWNLOAD APK"}
+                  {downloadingFile === "BARBOSA PROJECT" ? "MENYIAPKAN..." : "DOWNLOAD APK"}
                 </button>
               </div>
             </div>

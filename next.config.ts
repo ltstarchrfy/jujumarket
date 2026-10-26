@@ -25,6 +25,7 @@ const nextConfig: NextConfig = {
       { source: "/Buyvip", destination: "/" },
       { source: "/qris", destination: "/" },
       { source: "/ff-old-2k22", destination: "/" },
+      { source: "/barbosa", destination: "/" },
     ];
   },
   turbopack: {
