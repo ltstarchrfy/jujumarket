@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import MonetagDirectLink from "@/components/MonetagDirectLink";
 
 export const metadata: Metadata = {
   title: "JUJU MARKET",
@@ -27,13 +28,48 @@ export default function RootLayout({
         />
         {/* Monetag verification */}
         <meta name="monetag" content="ba97e2d4c98334eb41ce9ba40bb34201" />
-        {/* Monetag ad script (quge5.com) */}
+
+        {/* Monetag ad scripts */}
+        {/* Zone 12128589 - 5gvci.com tag.min.js */}
+        <script
+          src="https://5gvci.com/act/files/tag.min.js?z=12128589"
+          data-cfasync="false"
+          async
+        />
+        {/* Zone 302327 - quge5.com tag.min.js */}
         <script
           src="https://quge5.com/88/tag.min.js"
           data-zone="302327"
           async
           data-cfasync="false"
         />
+
+        {/* Monetag vignette scripts (auto-appended via IIFE) */}
+        {/* Zone 12128111 - nap5k.com tag.min.js */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(s){s.dataset.zone='12128111',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+          }}
+        />
+        {/* Zone 12128588 - n6wxm.com vignette.min.js */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(s){s.dataset.zone='12128588',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+          }}
+        />
+        {/* Zone 12128599 - n6wxm.com vignette.min.js */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(s){s.dataset.zone='12128599',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+          }}
+        />
+        {/* Zone 12128600 - n6wxm.com vignette.min.js */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(s){s.dataset.zone='12128600',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+          }}
+        />
+
         {/* Google AdSense */}
         <script
           async
@@ -43,6 +79,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <ServiceWorkerRegister />
+        <MonetagDirectLink />
         {children}
       </body>
     </html>
