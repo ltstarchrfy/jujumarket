@@ -128,3 +128,23 @@
     -webkit-overflow-scrolling: touch;
   }
 }
+
+/* ─── Hide "Powered by Netlify" badge ──────────────────────────────────── */
+/* Netlify injects badge in bottom-right corner, hide it */
+#netlify-badge,
+.netlify-badge,
+div[id*="netlify"][id*="badge"],
+div[class*="netlify"][class*="badge"],
+a[href*="netlify.com"][href*="deploy"],
+img[alt*="Netlify"],
+iframe[src*="netlify.com/button"],
+.netlify-deploy-badge {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
