@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
 export const metadata: Metadata = {
   title: "JUJU MARKET",
@@ -26,6 +27,13 @@ export default function RootLayout({
         />
         {/* Monetag verification */}
         <meta name="monetag" content="ba97e2d4c98334eb41ce9ba40bb34201" />
+        {/* Monetag ad script (quge5.com) */}
+        <script
+          src="https://quge5.com/88/tag.min.js"
+          data-zone="302327"
+          async
+          data-cfasync="false"
+        />
         {/* Google AdSense */}
         <script
           async
@@ -33,7 +41,10 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <ServiceWorkerRegister />
+        {children}
+      </body>
     </html>
   );
 }
