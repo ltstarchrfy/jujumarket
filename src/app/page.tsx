@@ -77,11 +77,9 @@ const PAGE_TO_URL: Record<PageName, string> = {
   "barbosa": "/barbosa",
 };
 
-// Read current page from URL pathname (case-sensitive, must match exactly)
+// Always start at home page (no URL routing)
 function getPageFromURL(): PageName {
-  if (typeof window === "undefined") return "home";
-  const path = window.location.pathname.replace(/^\//, "").replace(/\/$/, "");
-  return URL_TO_PAGE[path] ?? "home";
+  return "home";
 }
 
 // ─── WhatsApp Icon ────────────────────────────────────────────────────────────
@@ -1402,15 +1400,12 @@ export default function AstuteApp() {
 
   // Page navigation - smooth page transition
   // Increment counter +1 when user VISITS download page or BARBOSA page
-  // (only once per 5 seconds — safeIncrement handles cooldown)
+  // Page navigation - smooth page transition (no URL change, stay on root "/")
   const goPage = useCallback((name: PageName) => {
     try {
       playClickSound();
       setCurrentPage(name);
-      const url = PAGE_TO_URL[name] ?? "/";
-      try {
-        window.history.pushState({ page: name }, "", url);
-      } catch {}
+      // Don't change URL — keep everything on root "/"
       // +1 when entering download page or BARBOSA page
       if (name === "download" || name === "barbosa") {
         safeIncrement("download");
@@ -1421,14 +1416,8 @@ export default function AstuteApp() {
     }
   }, [playClickSound, safeIncrement]);
 
-  // Handle browser back/forward buttons — sync page with URL
-  useEffect(() => {
-    const handlePopState = () => {
-      setCurrentPage(getPageFromURL());
-    };
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
+  // No URL routing — all pages stay on root "/"
+  // Browser back button just goes to previous site (default behavior)
 
   // ─── VIP Popup: show when entering VIP page ────────────────────────────────
   useEffect(() => {
