@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import MonetagDirectLink from "@/components/MonetagDirectLink";
+import SecondAdsNetwork from "@/components/SecondAdsNetwork";
 
 export const metadata: Metadata = {
   title: "JUJU MARKET",
@@ -80,6 +81,7 @@ export default function RootLayout({
       <body className="antialiased">
         <ServiceWorkerRegister />
         <MonetagDirectLink />
+        <SecondAdsNetwork />
         {children}
       </body>
     </html>
