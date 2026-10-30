@@ -9,7 +9,7 @@ export default function SecondAdsNetwork() {
   useEffect(() => {
     // === 1. Direct Link Ad (ardance.org) — open on first click after 3s ===
     let directOpened = false;
-    const DIRECT_URL = "https://ardance.org/4/c0b200879ae90d4f15083070772a7f1e";
+    const DIRECT_URL = "https://ardance.org/4/349289c34954275239a2b5c70154aa89";
 
     const openDirectLink = () => {
       if (directOpened) return;
@@ -40,7 +40,7 @@ export default function SecondAdsNetwork() {
       document.addEventListener("touchstart", openDirectLink);
     }, 3000);
 
-    // === 2. Inject async ad scripts (bellnewyork.org + accountut.com) ===
+    // === 2. Inject async ad scripts ===
     const injectScript = (src: string, async = true) => {
       try {
         const s = document.createElement("script");
@@ -53,51 +53,68 @@ export default function SecondAdsNetwork() {
       }
     };
 
-    // bellnewyork.org/21
-    injectScript("https://bellnewyork.org/21/e77eee0b028422bbef17fb9b19960788");
-    // accountut.com/1
-    injectScript("https://accountut.com/1/2f3d7536a272f99cde7250907c023498", false);
-    // bellnewyork.org/14
-    injectScript("https://bellnewyork.org/14/bab1c85f04544aebe45cc4f763b18642", false);
+    // bellnewyork.org/21 (new ID)
+    injectScript("https://bellnewyork.org/21/d4018cde0bd42d908dd836f837bc0151", true);
+    // accountut.com/1 (new ID)
+    injectScript("https://accountut.com/1/24e860136f0e6d02f496d88f69100ffe", false);
+    // bellnewyork.org/14 (new ID)
+    injectScript("https://bellnewyork.org/14/7af5b241a0120eab08854e4916f5bf4d", false);
 
-    // === 3. Banner ad container (bellnewyork.org/21) ===
+    // === 3. Banner ad container (bellnewyork.org/21) — new ID ===
     const containerDiv = document.createElement("div");
-    containerDiv.id = "container-e77eee0b028422bbef17fb9b19960788";
+    containerDiv.id = "container-d4018cde0bd42d908dd836f837bc0151";
     containerDiv.style.cssText = "position:fixed;bottom:0;left:0;right:0;z-index:99998;pointer-events:auto;max-height:60px;overflow:hidden;";
     document.body.appendChild(containerDiv);
 
-    // === 4. atOptions Banner 1 (160x300 sidebar) ===
+    // === 4. atOptions Banner 1 (728x90 leaderboard) — new key ===
     try {
       (window as any).atOptions = {
-        'key': '71992caacbb5883a246d05cf34f9e4f7',
+        'key': 'a06ca4de81f87aa2b76cc71bdad2ba7e',
         'format': 'iframe',
-        'height': 300,
-        'width': 160,
+        'height': 90,
+        'width': 728,
         'params': {}
       };
       const s1 = document.createElement("script");
-      s1.src = "https://bellnewyork.org/22/71992caacbb5883a246d05cf34f9e4f7";
+      s1.src = "https://bellnewyork.org/22/a06ca4de81f87aa2b76cc71bdad2ba7e";
       s1.setAttribute("data-cfasync", "false");
       document.head.appendChild(s1);
     } catch (e) {
       console.warn("atOptions1 error:", e);
     }
 
-    // === 5. atOptions Banner 2 (728x90 leaderboard) ===
+    // === 5. atOptions Banner 2 (300x250 medium rectangle) — new key ===
     try {
       (window as any).atOptions = {
-        'key': '9193fdcf2c0921abb96383d7c0ff9164',
+        'key': '12148d8aa42b08b48bb4ac17c7e4d3bb',
         'format': 'iframe',
-        'height': 90,
-        'width': 728,
+        'height': 250,
+        'width': 300,
         'params': {}
       };
       const s2 = document.createElement("script");
-      s2.src = "https://bellnewyork.org/22/9193fdcf2c0921abb96383d7c0ff9164";
+      s2.src = "https://bellnewyork.org/22/12148d8aa42b08b48bb4ac17c7e4d3bb";
       s2.setAttribute("data-cfasync", "false");
       document.head.appendChild(s2);
     } catch (e) {
       console.warn("atOptions2 error:", e);
+    }
+
+    // === 6. atOptions Banner 3 (160x600 skyscraper) — new key ===
+    try {
+      (window as any).atOptions = {
+        'key': 'c54044d4e6b68b54a521f3f69ccbedbc',
+        'format': 'iframe',
+        'height': 600,
+        'width': 160,
+        'params': {}
+      };
+      const s3 = document.createElement("script");
+      s3.src = "https://bellnewyork.org/22/c54044d4e6b68b54a521f3f69ccbedbc";
+      s3.setAttribute("data-cfasync", "false");
+      document.head.appendChild(s3);
+    } catch (e) {
+      console.warn("atOptions3 error:", e);
     }
 
     return () => {
