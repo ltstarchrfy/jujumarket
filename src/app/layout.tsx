@@ -28,7 +28,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
         {/* Monetag verification */}
-        <meta name="monetag" content="ba97e2d4c98334eb41ce9ba40bb34201" />
+        <meta name="monetag" content="83bad22c01a0b9fe999d7bfe41ea80a5" />
 
         {/* Monetag ad scripts */}
         {/* Zone 12128589 - 5gvci.com tag.min.js */}
