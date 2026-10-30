@@ -30,44 +30,45 @@ export default function RootLayout({
         {/* Monetag verification */}
         <meta name="monetag" content="83bad22c01a0b9fe999d7bfe41ea80a5" />
 
-        {/* Monetag ad scripts */}
-        {/* Zone 12128589 - 5gvci.com tag.min.js */}
+        {/* === NEW Monetag ad scripts (replaced old zones) === */}
+
+        {/* Zone 12154478 - 5gvci.com tag.min.js */}
         <script
-          src="https://5gvci.com/act/files/tag.min.js?z=12128589"
+          src="https://5gvci.com/act/files/tag.min.js?z=12154478"
           data-cfasync="false"
           async
         />
-        {/* Zone 302327 - quge5.com tag.min.js */}
+        {/* Zone 12154468 - 5gvci.com tag.min.js */}
+        <script
+          src="https://5gvci.com/act/files/tag.min.js?z=12154468"
+          data-cfasync="false"
+          async
+        />
+        {/* Zone 303630 - quge5.com tag.min.js */}
         <script
           src="https://quge5.com/88/tag.min.js"
-          data-zone="302327"
+          data-zone="303630"
           async
           data-cfasync="false"
         />
 
-        {/* Monetag vignette scripts (auto-appended via IIFE) */}
-        {/* Zone 12128111 - nap5k.com tag.min.js */}
+        {/* Monetag vignette + tag scripts (auto-appended via IIFE) */}
+        {/* Zone 12154471 - n6wxm.com vignette.min.js */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(s){s.dataset.zone='12128111',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+            __html: `(function(s){s.dataset.zone='12154471',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
           }}
         />
-        {/* Zone 12128588 - n6wxm.com vignette.min.js */}
+        {/* Zone 12154470 - nap5k.com tag.min.js */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(s){s.dataset.zone='12128588',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+            __html: `(function(s){s.dataset.zone='12154470',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
           }}
         />
-        {/* Zone 12128599 - n6wxm.com vignette.min.js */}
+        {/* Zone 12154466 - al5sm.com tag.min.js */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(s){s.dataset.zone='12128599',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
-          }}
-        />
-        {/* Zone 12128600 - n6wxm.com vignette.min.js */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(s){s.dataset.zone='12128600',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+            __html: `(function(s){s.dataset.zone='12154466',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
           }}
         />
 

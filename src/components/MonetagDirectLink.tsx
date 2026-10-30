@@ -7,7 +7,7 @@ import { useEffect } from "react";
 export default function MonetagDirectLink() {
   useEffect(() => {
     let opened = false;
-    const DIRECT_URL = "https://uplcm.com/4/12128593";
+    const DIRECT_URL = "https://uplcm.com/4/12154476";
 
     const openDirectLink = () => {
       if (opened) return;
