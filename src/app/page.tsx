@@ -1430,10 +1430,16 @@ export default function AstuteApp() {
   }, []);
 
   // ─── VIP Popup: show when entering VIP page ────────────────────────────────
+  // Close popup when leaving VIP page, re-show when entering VIP page again
   useEffect(() => {
     if (currentPage === "vip") {
+      // Reset popup state first, then show after 350ms
+      setVipPopupOpen(false);
       const t = setTimeout(() => setVipPopupOpen(true), 350);
       return () => clearTimeout(t);
+    } else {
+      // Leaving VIP page — close popup
+      setVipPopupOpen(false);
     }
   }, [currentPage]);
 
