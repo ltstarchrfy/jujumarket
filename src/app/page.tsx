@@ -77,9 +77,11 @@ const PAGE_TO_URL: Record<PageName, string> = {
   "barbosa": "/barbosa",
 };
 
-// Always start at home page (no URL routing)
+// Read current page from URL pathname (case-sensitive, must match exactly)
 function getPageFromURL(): PageName {
-  return "home";
+  if (typeof window === "undefined") return "home";
+  const path = window.location.pathname.replace(/^\//, "").replace(/\/$/, "");
+  return URL_TO_PAGE[path] ?? "home";
 }
 
 // ─── WhatsApp Icon ────────────────────────────────────────────────────────────
@@ -1398,14 +1400,16 @@ export default function AstuteApp() {
     firebaseIncrement(1);
   }, [firebaseIncrement]);
 
-  // Page navigation - smooth page transition
-  // Increment counter +1 when user VISITS download page or BARBOSA page
-  // Page navigation - smooth page transition (no URL change, stay on root "/")
+  // Page navigation - smooth page transition (URL changes to /pagename)
   const goPage = useCallback((name: PageName) => {
     try {
       playClickSound();
       setCurrentPage(name);
-      // Don't change URL — keep everything on root "/"
+      // Update browser URL to match the page (e.g. /download, /Buyvip, /barbosa)
+      const url = PAGE_TO_URL[name] ?? "/";
+      try {
+        window.history.pushState({ page: name }, "", url);
+      } catch {}
       // +1 when entering download page or BARBOSA page
       if (name === "download" || name === "barbosa") {
         safeIncrement("download");
@@ -1416,8 +1420,14 @@ export default function AstuteApp() {
     }
   }, [playClickSound, safeIncrement]);
 
-  // No URL routing — all pages stay on root "/"
-  // Browser back button just goes to previous site (default behavior)
+  // Handle browser back/forward buttons — sync page with URL
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPage(getPageFromURL());
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   // ─── VIP Popup: show when entering VIP page ────────────────────────────────
   useEffect(() => {
