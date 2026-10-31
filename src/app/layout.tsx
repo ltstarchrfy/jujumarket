@@ -12,6 +12,19 @@ export const metadata: Metadata = {
   keywords: ["ASTUTE", "Reseller", "Private Server", "Mod", "Android"],
   icons: {
     icon: ["/favicon.ico", "/avatar.jpg"],
+    apple: ["/avatar.jpg"],
+  },
+  appleWebApp: {
+    capable: true,
+    title: "JUJU MARKET",
+    statusBarStyle: "black-translucent",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: "cover",
   },
 };
 

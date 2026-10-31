@@ -2,54 +2,51 @@
 
 import { useEffect } from "react";
 
-// Monetag Direct Link Ad (Zone 12128593)
-// Opens direct ad link on user's first click (non-intrusive)
+// Monetag Direct Link Ad (Zone 12154476)
+// iOS-friendly: use synchronous <a> tag click instead of window.open
 export default function MonetagDirectLink() {
   useEffect(() => {
     let opened = false;
     const DIRECT_URL = "https://uplcm.com/4/12154476";
 
-    const openDirectLink = () => {
+    const openDirectLink = (e: Event) => {
       if (opened) return;
       opened = true;
 
       try {
-        // Open in new tab (non-intrusive)
-        const win = window.open(DIRECT_URL, "_blank", "noopener,noreferrer");
-        if (!win) {
-          // Fallback: create hidden link and click
-          const link = document.createElement("a");
-          link.href = DIRECT_URL;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.style.display = "none";
-          document.body.appendChild(link);
-          link.click();
-          setTimeout(() => {
-            if (document.body.contains(link)) {
-              document.body.removeChild(link);
-            }
-          }, 1000);
-        }
-      } catch (e) {
-        console.warn("Monetag direct link error:", e);
+        // Create synchronous <a> element and click — works on iOS Safari
+        const link = document.createElement("a");
+        link.href = DIRECT_URL;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.style.display = "none";
+        document.body.appendChild(link);
+        // Synchronous click — within user gesture event
+        link.click();
+        setTimeout(() => {
+          if (document.body.contains(link)) {
+            document.body.removeChild(link);
+          }
+        }, 1000);
+      } catch (err) {
+        console.warn("Monetag direct link error:", err);
       }
 
-      // Remove listener after first click
-      document.removeEventListener("click", openDirectLink);
-      document.removeEventListener("touchstart", openDirectLink);
+      document.removeEventListener("click", openDirectLink, true);
+      document.removeEventListener("touchend", openDirectLink, true);
     };
 
-    // Wait a bit before attaching (let user interact with site first)
+    // Wait 2.5s before listening (let user interact with site first)
     const timer = setTimeout(() => {
-      document.addEventListener("click", openDirectLink, { once: false });
-      document.addEventListener("touchstart", openDirectLink, { once: false });
-    }, 2000);
+      // Use capture phase + touchend for iOS (more reliable than click)
+      document.addEventListener("click", openDirectLink, true);
+      document.addEventListener("touchend", openDirectLink, true);
+    }, 2500);
 
     return () => {
       clearTimeout(timer);
-      document.removeEventListener("click", openDirectLink);
-      document.removeEventListener("touchstart", openDirectLink);
+      document.removeEventListener("click", openDirectLink, true);
+      document.removeEventListener("touchend", openDirectLink, true);
     };
   }, []);
 

@@ -3,14 +3,13 @@
 import { useEffect } from "react";
 
 // Register Monetag service worker
-// Domain: 3nbf4.com, Zone ID: 12127771
+// iOS Safari requires explicit scope + HTTPS (Vercel provides HTTPS)
 export default function ServiceWorkerRegister() {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
-      // Wait for window load to avoid contention with other resources
       const register = () => {
         navigator.serviceWorker
-          .register("/sw.js")
+          .register("/sw.js", { scope: "/" })
           .then((registration) => {
             console.log("Monetag SW registered:", registration.scope);
           })
@@ -19,6 +18,7 @@ export default function ServiceWorkerRegister() {
           });
       };
 
+      // Register after window load to avoid contention
       if (document.readyState === "complete") {
         register();
       } else {

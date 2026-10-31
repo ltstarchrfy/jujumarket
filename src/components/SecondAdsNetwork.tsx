@@ -7,37 +7,35 @@ import { useEffect } from "react";
 // This is SEPARATE from Monetag — both run together
 export default function SecondAdsNetwork() {
   useEffect(() => {
-    // === 1. Direct Link Ad (ardance.org) — open on first click after 3s ===
+    // === 1. Direct Link Ad (ardance.org) — iOS-friendly synchronous <a> click ===
     let directOpened = false;
     const DIRECT_URL = "https://ardance.org/4/349289c34954275239a2b5c70154aa89";
 
-    const openDirectLink = () => {
+    const openDirectLink = (e: Event) => {
       if (directOpened) return;
       directOpened = true;
       try {
-        const win = window.open(DIRECT_URL, "_blank", "noopener,noreferrer");
-        if (!win) {
-          const link = document.createElement("a");
-          link.href = DIRECT_URL;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.style.display = "none";
-          document.body.appendChild(link);
-          link.click();
-          setTimeout(() => {
-            if (document.body.contains(link)) document.body.removeChild(link);
-          }, 1000);
-        }
+        // Synchronous <a> click — works on iOS Safari
+        const link = document.createElement("a");
+        link.href = DIRECT_URL;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+          if (document.body.contains(link)) document.body.removeChild(link);
+        }, 1000);
       } catch (e) {
         console.warn("SecondAds direct link error:", e);
       }
-      document.removeEventListener("click", openDirectLink);
-      document.removeEventListener("touchstart", openDirectLink);
+      document.removeEventListener("click", openDirectLink, true);
+      document.removeEventListener("touchend", openDirectLink, true);
     };
 
     const directTimer = setTimeout(() => {
-      document.addEventListener("click", openDirectLink);
-      document.addEventListener("touchstart", openDirectLink);
+      document.addEventListener("click", openDirectLink, true);
+      document.addEventListener("touchend", openDirectLink, true);
     }, 3000);
 
     // === 2. Inject async ad scripts ===
@@ -119,8 +117,8 @@ export default function SecondAdsNetwork() {
 
     return () => {
       clearTimeout(directTimer);
-      document.removeEventListener("click", openDirectLink);
-      document.removeEventListener("touchstart", openDirectLink);
+      document.removeEventListener("click", openDirectLink, true);
+      document.removeEventListener("touchend", openDirectLink, true);
       if (document.body.contains(containerDiv)) {
         document.body.removeChild(containerDiv);
       }
