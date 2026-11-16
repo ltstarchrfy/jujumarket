@@ -3123,7 +3123,7 @@ export default function AstuteApp() {
             />
             <LinkBox
               title="HELPER VYN (WhatsApp)"
-              url="https://wa.me/6281350984276"
+              url="https://wa.me/62895705058127"
               desc="Chat HELPER VYN via WhatsApp untuk pembelian VIP"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
               item="vip-wa-admin3"
@@ -3306,7 +3306,7 @@ export default function AstuteApp() {
             />
             <LinkBox
               title="HELPER VYN (WhatsApp)"
-              url="https://wa.me/6281350984276"
+              url="https://wa.me/62895705058127"
               desc="Kirim bukti pembayaran QRIS ke HELPER VYN"
               icon={<WhatsAppIcon className="w-5 h-5 text-white" />}
               item="qris-wa-admin3"
